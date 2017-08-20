@@ -17,7 +17,7 @@ public class UserDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final String SQL_GET_USER_BY_id = " select * from user where id = ? ";
+    private static final String SQL_GET_USER_BY_id = " select * from hs_user where id = ? ";
 
     public User getUserById(Integer id) {
         final User user = new User();
@@ -26,8 +26,8 @@ public class UserDao {
             user.setName(resultSet.getString("name"));
             user.setPassword(resultSet.getString("password"));
             user.setCredit(resultSet.getInt("credit"));
-            user.setCreatedAt(resultSet.getTimestamp("created_at"));
-            user.setUpdatedAt(resultSet.getTimestamp("updated_at"));
+            user.setCreatedAt(resultSet.getDate("created_at"));
+            user.setUpdatedAt(resultSet.getDate("updated_at"));
         });
         return user;
     }
