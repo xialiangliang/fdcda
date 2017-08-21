@@ -9,18 +9,22 @@ import java.util.Date;
 public class User implements Serializable {
     static final long serialVersionUID = 1L;
 
-    private Integer id;
+    private Long id;
     private String name;
     private String password;
-    private Integer credit;
+    private Long credit;
     private Date createdAt;
     private Date updatedAt;
+    
+    public User() {
+        
+    }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -40,11 +44,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Integer getCredit() {
+    public Long getCredit() {
         return credit;
     }
 
-    public void setCredit(Integer credit) {
+    public void setCredit(Long credit) {
         this.credit = credit;
     }
 
