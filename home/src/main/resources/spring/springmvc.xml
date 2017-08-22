@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is used to put beans related to spring MVC. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"  xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-4.0.xsd
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+            http://www.springframework.org/schema/security  http://www.springframework.org/schema/security/spring-security-3.0.xsd
+            http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+
+
+	<!--<bean id="multipartResolver"-->
+		<!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />-->
+
+	<!--&lt;!&ndash; 指定自己定义的validator &ndash;&gt;-->
+	<!--<mvc:annotation-driven validator="validator"  >-->
+		<!--<mvc:async-support default-timeout="30000"/>-->
+	<!--</mvc:annotation-driven>-->
+	<mvc:annotation-driven />
+	<!-- <context:annotation-config /> -->
+	<context:component-scan base-package="com.keyou.**.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<mvc:resources mapping="/home/static/upload/**" location="/home/static/upload/" />
+	<mvc:resources mapping="/ueditor/**" location="/WEB-INF/static/ueditor/" />
+	<mvc:resources mapping="/css/**" location="/WEB-INF/static/css/" />
+	<mvc:resources mapping="/js/**" location="/WEB-INF/static/js/" />
+	<mvc:resources mapping="/fonts/**" location="/WEB-INF/static/font/" />
+	<mvc:resources mapping="/avatars/**" location="/WEB-INF/static/avatars/" />
+	
+	<bean id="conversion-service"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+	
+</beans>

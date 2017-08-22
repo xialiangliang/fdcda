@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd"
+	 >
+
+	
+	<!-- 强制使用CGLIB代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<!-- 慢sql记录,缺省3000即3秒 -->
+		<property name="slowSqlMillis" value="3000" />
+		<property name="logSlowSql" value="true" />
+		<!-- 参数化SQL(多个语句相同,参数不同)合并 -->
+		<property name="mergeSql" value="false" />
+	</bean>
+	
+	<!-- WallFilter基于SQL语义分析来实现防御SQL注入攻击. 把logViolation设置为true，而throwException设置为false。就可以观察是否存在违规的情况，同时不影响业务运行。 -->
+	<bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+		<property name="dbType" value="mysql" />
+		<!-- 对被认为是攻击的SQL进行LOG.error输出 -->
+		<property name="logViolation" value="true" />
+		<!-- 对被认为是攻击的SQL抛出SQLExcepton -->
+		<property name="throwException" value="false" />
+	</bean>
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="file:/opt/config/dbConfig.properties"/>
+	</bean>
+	
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+		<property name="resultSetLogEnabled" value="false" />
+		<!-- 输出可执行的SQL log4j里设置log4j.logger.druid.sql.Statement=DEBUG,生产环境设置为false,log级别设置为ERROR -->
+		<property name="statementExecutableSqlLogEnable" value="true" />
+		<property name="connectionConnectAfterLogEnabled" value="false" />
+		<property name="statementLogEnabled" value="false" />
+		<property name="statementCloseAfterLogEnabled" value="false" />
+		<property name="statementParameterSetLogEnabled" value="false" />
+		<property name="statementPrepareAfterLogEnabled" value="false" />
+		<property name="statementExecuteAfterLogEnabled" value="false" />
+		<property name="resultSetCloseAfterLogEnabled" value="false" />
+	</bean>
+	<!-- 数据源配置,https://github.com/alibaba/druid/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		
+		<!-- 使用zookeeper环境：如测试、预发、线上运行-->
+		<!--<property name="driverClassName" value="${jdbc.driver}"/>-->
+		<!--<property name="url" value="${jdbc.url}"/>-->
+		<!--<property name="username" value="${jdbc.username}"/>-->
+		<!--<property name="password" value="${jdbc.password}"/>-->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@61.153.254.69:3521:orcl"/>
+		<property name="username" value="user_dev"/>
+		<property name="password" value="user_dev"/>
+		<!--<property name="connectionProperties" value="clientEncoding=UTF-8;config.decrypt=true;config.decrypt.key=#{dbConfig['decrypt.key']}" /> -->
+		
+		<!-- 用于统计监控信息 ,StatFilter的几种配置方式: 
+			1、proxyFilters属性自定义 
+			2、StatFilter简化配置方式，通过filters属性value="mergeStat" 
+			3、可以通过connectProperties属性来打开mergeSql功能druid.stat.mergeSql=true 
+			4、通过JVM参数:-Ddruid.stat.mergeSql=true 
+		-->
+		
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="1" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="1" />
+		<!-- 连接池最大使用连接数 leopard -->
+		<property name="maxActive" value="30" />
+
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<!-- 连接属性 -->
+		<!--<property name="validationQuery" value="SELECT 'x'" />-->
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 .mysql可以配置为false。分库分表较多的数据库，建议配置为false-->
+		<property name="poolPreparedStatements" value="false" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+		<!-- 合并多个DruidDataSource的监控数据 -->
+		<property name="useGlobalDataSourceStat" value="true" />
+		<!-- 自动清除无用连接 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 清除无用连接的等待时间1800秒，也就是30分钟.关闭长时间不使用的连接 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" />
+		<!-- filters和proxyFilters是组合关系 -->
+		<property name="filters" value="config" />
+		
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="log-filter" />
+				<ref bean="wall-filter" />
+			</list>
+		</property>
+	</bean>
+
+	<!--事务管理DataSourceTransactionManager -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 使用annotation定义事务 -->
+	<!--<tx:annotation-driven transaction-manager="transactionManager" mode="aspectj"-->
+		<!--proxy-target-class="true" />-->
+
+	<!-- Spring myBatis SqlMapClient -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<array>
+				<!--<value>classpath*:/com/keyou/entitys/leopard/system/*.xml</value>-->
+				<value>classpath*:mappers/**/*Mapper.xml</value>
+			</array>
+		</property>
+	</bean>
+
+	<!-- 自动扫描mapper配置和dao映射，无需写mybatis-config.xml -->
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.keyou.fdcda.app.dao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+
+
+
+</beans>
