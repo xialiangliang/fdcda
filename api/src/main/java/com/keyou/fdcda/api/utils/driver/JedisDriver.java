@@ -12,7 +12,7 @@ import redis.clients.jedis.JedisPool;
  * Created by zzq on 2017-08-23.
  */
 public class JedisDriver implements RedisService {
-    private final static Logger logger = LoggerFactory.getLogger(GsonUtil.class);
+    private final static Logger logger = LoggerFactory.getLogger(JedisDriver.class);
     @Autowired
     private JedisPool jedisPool;
 
