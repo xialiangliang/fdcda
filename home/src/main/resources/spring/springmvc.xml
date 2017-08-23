@@ -12,7 +12,7 @@
             http://www.springframework.org/schema/security  http://www.springframework.org/schema/security/spring-security-3.0.xsd
             http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-
+	<import resource="redis-context.xml"/>
 
 	<!--<bean id="multipartResolver"-->
 		<!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />-->
@@ -29,6 +29,11 @@
 			expression="org.springframework.stereotype.Controller" />
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
+
+	<!--<mvc:interceptors>-->
+		<!--<bean class="com.home.interceptor.AuthorityAnnotationInterceptor" />-->
+		<!--<bean class="com.home.interceptor.LogOperationInterceptor" />-->
+	<!--</mvc:interceptors>-->
 
 	<mvc:resources mapping="/home/static/upload/**" location="/home/static/upload/" />
 	<mvc:resources mapping="/ueditor/**" location="/WEB-INF/static/ueditor/" />

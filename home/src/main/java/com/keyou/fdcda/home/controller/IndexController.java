@@ -1,5 +1,7 @@
 package com.keyou.fdcda.home.controller;
 
+import com.keyou.fdcda.api.model.User;
+import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,19 +16,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Wataru on 2017-07-08.
+ * Created by zzq on 2017-07-08.
  */
 @Controller
 @RequestMapping("/")
 public class IndexController {
     private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private RedisService redisService;
 
     @RequestMapping("")
     public String index(Model model) {
         logger.info("logback");
-        model.addAttribute("info", userService.test());
+        User user = userService.test();
+        model.addAttribute("info", user);
+        redisService.set("111", user, 5000);
         return "index";
     }
     @RequestMapping("/index")
@@ -34,7 +40,7 @@ public class IndexController {
     public Map<String, Object> index2() {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", "Success");
-        map.put("data", userService.test());
+        map.put("data", redisService.get("111", User.class));
         return map;
     }
 }
