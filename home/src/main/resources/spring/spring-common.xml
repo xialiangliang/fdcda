@@ -30,32 +30,7 @@
 		<property name="properties" ref="staticUrlConfig" />
 	</bean>
 	<bean id="urlConfig" class="com.keyou.fdcda.api.utils.config.UrlConfig"/>
-
-
-	<!--&lt;!&ndash; freemarker的配置 &ndash;&gt;-->
-	<!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">-->
-		<!--<property name="templateLoaderPath" value="/WEB-INF/template" />-->
-		<!--<property name="defaultEncoding" value="utf-8" />-->
-		<!--<property name="freemarkerSettings">-->
-			<!--<props>-->
-				<!--<prop key="template_update_delay">10</prop>-->
-				<!--<prop key="locale">zh_CN</prop>-->
-				<!--<prop key="datetime_format">yyyy-MM-dd HH-mm-ss</prop>-->
-				<!--<prop key="date_format">yyyy-MM-dd</prop>-->
-				<!--<prop key="number_format">#.##</prop>-->
-			<!--</props>-->
-		<!--</property>-->
-	<!--</bean>-->
-	<!---->
-	<!--&lt;!&ndash; FreeMarker视图解析 如返回student。。在这里配置后缀名ftl和视图解析器。。 &ndash;&gt;-->
-	<!--<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">-->
-		<!--<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>-->
-		<!--<property name="suffix" value=".ftl" />-->
-		<!--<property name="contentType" value="text/html;charset=utf-8" />-->
-		<!--<property name="exposeRequestAttributes" value="true" />-->
-		<!--<property name="exposeSessionAttributes" value="true" />-->
-		<!--<property name="exposeSpringMacroHelpers" value="true" />-->
-	<!--</bean>-->
+	
 
 	<!-- 配置velocity引擎 -->
 	<bean id="velocityConfigurer"
