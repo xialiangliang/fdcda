@@ -3,6 +3,7 @@ package com.keyou.fdcda.home.controller;
 import com.keyou.fdcda.api.model.User;
 import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.UserService;
+import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,18 @@ public class IndexController {
     private UserService userService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private UrlConfig urlConfig;
 
-    @RequestMapping("")
+    @RequestMapping
     public String index(Model model) {
-        logger.info("logback");
+        logger.info(urlConfig.getWebPath());
         User user = userService.test();
         model.addAttribute("info", user);
         redisService.set("111", user, 5000);
-        return "index";
+        return "/page/index";
     }
+    
     @RequestMapping("/index")
     @ResponseBody
     public Map<String, Object> index2() {

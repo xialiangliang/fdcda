@@ -14,8 +14,11 @@
     redis.port=6379
     redis.password=
     redis.maxIdle=300
-    redis.maxTotal =600
+    redis.maxTotal=600
     redis.MaxWaitMillis=2000
     redis.timeout=2000
     redis.testOnBorrow=true
     redis.db.index=0
+    
+###### 添加 /opt/config/urlConfig.properties 文件，内容如下(test)
+    url.web_address=http://localhost

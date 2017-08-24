@@ -30,15 +30,16 @@
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
 
-	<!--<mvc:interceptors>-->
-		<!--<bean class="com.home.interceptor.AuthorityAnnotationInterceptor" />-->
-		<!--<bean class="com.home.interceptor.LogOperationInterceptor" />-->
-	<!--</mvc:interceptors>-->
+	<mvc:interceptors>
+		<bean class="com.keyou.fdcda.home.interceptor.ContextInterceptor" />
+		<!--<bean class="com.keyou.fdcda.home.interceptor.LogOperationInterceptor" />-->
+	</mvc:interceptors>
 
 	<mvc:resources mapping="/home/static/upload/**" location="/home/static/upload/" />
 	<mvc:resources mapping="/ueditor/**" location="/WEB-INF/static/ueditor/" />
 	<mvc:resources mapping="/css/**" location="/WEB-INF/static/css/" />
 	<mvc:resources mapping="/js/**" location="/WEB-INF/static/js/" />
+	<mvc:resources mapping="/bootstrap/**" location="/WEB-INF/static/bootstrap/" />
 	<mvc:resources mapping="/fonts/**" location="/WEB-INF/static/font/" />
 	<mvc:resources mapping="/avatars/**" location="/WEB-INF/static/avatars/" />
 	
