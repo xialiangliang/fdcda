@@ -55,14 +55,14 @@
 		init-method="init" destroy-method="close">
 		
 		<!-- 使用zookeeper环境：如测试、预发、线上运行-->
-		<!--<property name="driverClassName" value="${jdbc.driver}"/>-->
-		<!--<property name="url" value="${jdbc.url}"/>-->
-		<!--<property name="username" value="${jdbc.username}"/>-->
-		<!--<property name="password" value="${jdbc.password}"/>-->
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@61.153.254.69:3521:orcl"/>
-		<property name="username" value="user_dev"/>
-		<property name="password" value="user_dev"/>
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<!--<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>-->
+		<!--<property name="url" value="jdbc:oracle:thin:@61.153.254.69:3521:orcl"/>-->
+		<!--<property name="username" value="user_dev"/>-->
+		<!--<property name="password" value="user_dev"/>-->
 		<!--<property name="connectionProperties" value="clientEncoding=UTF-8;config.decrypt=true;config.decrypt.key=#{dbConfig['decrypt.key']}" /> -->
 		
 		<!-- 用于统计监控信息 ,StatFilter的几种配置方式: 
@@ -135,9 +135,16 @@
 	</bean>
 
 	<!-- 自动扫描mapper配置和dao映射，无需写mybatis-config.xml -->
+	<!--<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+		<!--<property name="basePackage" value="com.keyou.fdcda.app.dao" />-->
+		<!--<property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
+	<!--</bean>-->
+	
+	<!--spring+mybatis使用MapperScannerConfigurer引起的PropertyPlaceholderConfigurer无效问题处理方法-->
+	<!--http://blog.csdn.net/huiwenjie168/article/details/51722290-->
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.keyou.fdcda.app.dao" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
 
