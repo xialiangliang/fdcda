@@ -27,6 +27,10 @@
         <param-value>30</param-value>
     </context-param>
 
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
 
     <!--WebStatFilter用于采集web-jdbc关联监控的数据 -->
     <filter>

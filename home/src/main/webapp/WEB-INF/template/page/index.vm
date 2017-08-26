@@ -4,5 +4,5 @@
 #set($page_title = "后台管理系统")
 
 <div id="main-show">
-    this is main-show
+    <h1><p class="text-center">后台管理系统</p></h1>
 </div>

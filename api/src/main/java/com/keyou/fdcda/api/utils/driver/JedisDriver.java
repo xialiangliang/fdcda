@@ -16,6 +16,14 @@ public class JedisDriver implements RedisService {
     @Autowired
     private JedisPool jedisPool;
 
+    public JedisPool getJedisPool() {
+        return jedisPool;
+    }
+
+    public void setJedisPool(JedisPool jedisPool) {
+        this.jedisPool = jedisPool;
+    }
+
     /**
      * 设置缓存对象
      * @param key
@@ -24,7 +32,7 @@ public class JedisDriver implements RedisService {
     public void set(String key, Object value){
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = this.getJedisPool().getResource();
             String json = GsonUtil.serialize(value);
             jedis.set(key, json);
         } catch (Exception e) {
@@ -39,7 +47,7 @@ public class JedisDriver implements RedisService {
     public void set(String key, Object value, long millionseconds){
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = this.getJedisPool().getResource();
             String json = GsonUtil.serialize(value);
             jedis.psetex(key, millionseconds, json);
         } catch (Exception e) {
@@ -60,7 +68,7 @@ public class JedisDriver implements RedisService {
         Object result = null;
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = this.getJedisPool().getResource();
             result = GsonUtil.unserialize(jedis.get(key), clazz);
         } catch (Exception e) {
             logger.error("redis异常", e);
@@ -77,7 +85,7 @@ public class JedisDriver implements RedisService {
         Boolean result = Boolean.FALSE;
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = this.getJedisPool().getResource();
             String json = GsonUtil.serialize(value);
             result = jedis.setnx(key, json).equals(1);
         } catch (Exception e) {
@@ -95,7 +103,7 @@ public class JedisDriver implements RedisService {
         Boolean result = Boolean.FALSE;
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = this.getJedisPool().getResource();
             String json = GsonUtil.serialize(value);
             Long nr = jedis.setnx(key, json);
             if (nr.equals(1)) {
@@ -119,7 +127,7 @@ public class JedisDriver implements RedisService {
     public void del(String key){
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
+            jedis = this.getJedisPool().getResource();
             jedis.del(key);
         } catch (Exception e) {
             logger.error("redis异常", e);
