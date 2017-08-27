@@ -55,42 +55,12 @@ public class ContextInterceptor extends HandlerInterceptorAdapter {
     }
 
 
-    public void postHandle(HttpServletRequest req, HttpServletResponse response, Object handler, ModelAndView mav) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mav) throws Exception {
         if(null == mav) {
-            this.processTime(req);
+            this.processTime(request);
         } else {
             String viewName = mav.getViewName();
             logger.info("{} to location :{}", StringUtil.startsWith(viewName, "redirect:")?"redirect":"forward", viewName);
-
-            String uri = req.getRequestURI().replace(req.getContextPath(), "");
-            SysUser user = sysManagerService.getUserByPhone("13300000222");
-            mav.addObject("user", user);
-            redisService.set("111", user, 5000);
-            List<SysResource> topResource = sysManagerService.getTopResource(user.getId());
-            mav.addObject("topResource", topResource);
-            
-            Long current_top_id = (Long) redisService.get("resource_parent_id_" + uri, Long.class);
-            Long current_sub_id = (Long) redisService.get("resource_sub_id_" + uri, Long.class);
-            if (current_top_id == null) {
-                boolean end = false;
-                for (SysResource sysResource : topResource) {
-                    for (SysResource subSysResource : sysResource.getSubResource()) {
-                        if (subSysResource.getUrl().equals(uri)) {
-                            current_top_id = subSysResource.getParentId();
-                            current_sub_id = subSysResource.getId();
-                            redisService.set("resource_parent_id_" + uri, current_top_id);
-                            redisService.set("resource_sub_id_" + uri, current_sub_id);
-                            end = true;
-                            break;
-                        }
-                    }
-                    if (end) {
-                        break;
-                    }
-                }
-            }
-            mav.addObject("current_top_id", current_top_id);
-            mav.addObject("current_sub_id", current_sub_id);
         }
     }
 

@@ -37,8 +37,10 @@
         #end
     </div>
 </div>
+#if(${topResource.size()} > 0 && ${topResource[0].id} == $!{current_top_id})
 <script>
     $(function () {
         $('#topTab li:eq(0) a').tab('show');
     });
 </script>
+#end

@@ -2,10 +2,8 @@ package com.keyou.fdcda.home.controller;
 
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysUser;
-import com.keyou.fdcda.api.model.User;
 import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysManagerService;
-import com.keyou.fdcda.api.service.UserService;
 import com.keyou.fdcda.api.utils.SessionUtil;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.slf4j.Logger;

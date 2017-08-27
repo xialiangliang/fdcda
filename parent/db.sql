@@ -158,7 +158,7 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIM
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
     VALUES (SEQ_SYS_RESOURCE.nextval, 1, '商品管理', '/sys_goods', 1, 4, '商品管理', sysdate, sysdate);
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 1, '平台使用情况', '/sysplatform', 1, 5, '平台使用情况', sysdate, sysdate);
+    VALUES (SEQ_SYS_RESOURCE.nextval, 1, '平台使用情况', '/sys_platform', 1, 5, '平台使用情况', sysdate, sysdate);
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
     VALUES (SEQ_SYS_RESOURCE.nextval, 2, '统计报表', '/analysis_report', 1, 1, '人员管理', sysdate, sysdate);

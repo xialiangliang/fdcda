@@ -6,7 +6,6 @@ import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysManagerService;
-import com.keyou.fdcda.api.service.UserService;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +26,6 @@ import java.util.Map;
 @RequestMapping("/sys_user")
 public class SysUserController {
     private final static Logger logger = LoggerFactory.getLogger(SysUserController.class);
-    @Autowired
-    private UserService userService;
     @Autowired
     private RedisService redisService;
     @Autowired
