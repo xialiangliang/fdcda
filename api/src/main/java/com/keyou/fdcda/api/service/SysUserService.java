@@ -5,5 +5,5 @@ import com.keyou.fdcda.api.service.base.BaseService;
 
 
 public interface SysUserService extends BaseService<SysUser, Long> {
-
+    SysUser getUserByPhone(String phone);
 }

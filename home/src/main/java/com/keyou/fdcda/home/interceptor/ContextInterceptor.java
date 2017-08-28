@@ -3,7 +3,6 @@ package com.keyou.fdcda.home.interceptor;
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.service.RedisService;
-import com.keyou.fdcda.api.service.SysManagerService;
 import com.keyou.fdcda.api.utils.HttpUtil;
 import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
@@ -33,8 +32,6 @@ public class ContextInterceptor extends HandlerInterceptorAdapter {
     
     @Autowired
     private RedisService redisService;
-    @Autowired
-    private SysManagerService sysManagerService;
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

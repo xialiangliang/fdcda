@@ -4,7 +4,7 @@ import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.service.RedisService;
-import com.keyou.fdcda.api.service.SysManagerService;
+import com.keyou.fdcda.api.service.SysResourceService;
 import com.keyou.fdcda.api.utils.HttpUtil;
 import com.keyou.fdcda.api.utils.StringUtil;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private RedisService redisService;
     @Autowired
-    private SysManagerService sysManagerService;
+    private SysResourceService sysResourceService;
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -60,7 +60,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (user != null && user.getId() > 0) {
             mav.addObject("user", user);
             redisService.set("111", user, 5000);
-            List<SysResource> topResource = sysManagerService.getTopResource(user.getId());
+            List<SysResource> topResource = sysResourceService.getTopResource(user.getId());
             mav.addObject("topResource", topResource);
 
             Long current_top_id = (Long) redisService.get("resource_parent_id_" + uri, Long.class);

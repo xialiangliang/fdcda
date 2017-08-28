@@ -63,4 +63,9 @@ public class SysUserServiceImpl implements SysUserService {
     public List<SysUser> findAllPage(Map<String, Object> map) {
         return sysUserMapper.findAllPage(map);
     }
+    
+    @Override
+    public SysUser getUserByPhone(String phone) {
+        return sysUserMapper.getUserByPhone(phone);
+    }
 }

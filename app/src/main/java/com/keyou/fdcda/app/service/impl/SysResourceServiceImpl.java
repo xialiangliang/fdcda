@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,5 +63,31 @@ public class SysResourceServiceImpl implements SysResourceService {
     @Override
     public List<SysResource> findAllPage(Map<String, Object> map) {
         return sysResourceMapper.findAllPage(map);
+    }
+
+    @Override
+    public List<SysResource> getTopResource(Long userId) {
+        List<Long> idList = sysResourceMapper.findTopResourceId(userId);
+        List<SysResource> topSourceList;
+        if (idList.contains(0L)) { // all resource
+            Map<String, Object> query = new HashMap<>();
+            query.put("parentId", "0");
+            topSourceList = sysResourceMapper.findAllPage(query);
+            topSourceList.forEach(sysResource -> {
+                Map<String, Object> query1 = new HashMap<>();
+                query1.put("parentId", sysResource.getId().toString());
+                List<SysResource> subResource = sysResourceMapper.findAllPage(query1);
+                sysResource.setSubResource(subResource);
+            });
+        } else {
+            topSourceList = sysResourceMapper.findByIds(idList);
+            topSourceList.forEach(sysResource -> {
+                Map<String, Object> query1 = new HashMap<>();
+                query1.put("parentId", sysResource.getId().toString());
+                List<SysResource> subResource = sysResourceMapper.findSubResource(query1);
+                sysResource.setSubResource(subResource);
+            });
+        }
+        return topSourceList;
     }
 }

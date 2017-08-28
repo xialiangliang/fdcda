@@ -3,9 +3,9 @@ package com.keyou.fdcda.home.controller;
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.service.RedisService;
-import com.keyou.fdcda.api.service.SysManagerService;
 import com.keyou.fdcda.api.utils.SessionUtil;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
+import com.keyou.fdcda.home.controller.base.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +21,17 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/")
-public class IndexController {
+public class IndexController extends BaseController {
     private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
     @Autowired
     private RedisService redisService;
     @Autowired
     private UrlConfig urlConfig;
-    @Autowired
-    private SysManagerService sysManagerService;
 
 
     @RequestMapping
     public String index(Model model) {
         
         return "/page/index";
-    }
-    
-    @RequestMapping("/index")
-    @ResponseBody
-    public Map<String, Object> index2() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("msg", "Success");
-        map.put("data", redisService.get("111", SysUser.class));
-        return map;
     }
 }

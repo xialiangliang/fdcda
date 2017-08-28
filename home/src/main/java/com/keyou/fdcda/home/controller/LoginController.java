@@ -3,7 +3,7 @@ package com.keyou.fdcda.home.controller;
 import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.service.RedisService;
-import com.keyou.fdcda.api.service.SysManagerService;
+import com.keyou.fdcda.api.service.SysUserService;
 import com.keyou.fdcda.api.utils.EncodeUtil;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public class LoginController {
     @Autowired
     private UrlConfig urlConfig;
     @Autowired
-    private SysManagerService sysManagerService;
+    private SysUserService sysUserService;
 
 
     @RequestMapping
@@ -59,7 +59,7 @@ public class LoginController {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         if (phone != null && phone.length() == 11) {
-            SysUser user = sysManagerService.getUserByPhone(phone);
+            SysUser user = sysUserService.getUserByPhone(phone);
             try {
                 String token = (String) request.getSession().getAttribute(Constants.SESSION_LOGIN_TOKEN);
                 String dbPwd = EncodeUtil.md5(user.getLoginpwd() + token);
