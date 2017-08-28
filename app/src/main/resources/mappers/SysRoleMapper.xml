@@ -15,17 +15,17 @@
 	</sql>
 	
 	<insert id="save" parameterType="com.keyou.fdcda.api.model.SysRole" useGeneratedKeys="true" keyProperty="id">
-		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
-	      SELECT SEQ_SYS_ROLE.nextval AS id
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_SYS_ROLE.nextval AS id from dual
 	    </selectKey>
 	<![CDATA[
 		INSERT INTO SYS_ROLE (
-			ID,
+        	ID ,
         	NAME ,
         	CREATE_TIME ,
         	MODIFY_TIME 
 		) VALUES (
-			id,
+        	#{id,jdbcType=DECIMAL} ,
         	#{name,jdbcType=VARCHAR} ,
         	#{createTime,jdbcType=DATE} ,
         	#{modifyTime,jdbcType=DATE} 
@@ -50,14 +50,14 @@
 	        ID = #{id,jdbcType=DECIMAL} 
 	</update>
 
-	<delete id="deleteById" parameterType="java.lang.Integer">
+	<delete id="deleteById" parameterType="java.lang.Long">
 	<![CDATA[
 		DELETE FROM SYS_ROLE WHERE
         ID = #{id} 
 	]]>
 	</delete>
     
-	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
 	    SELECT <include refid="columns"/> 
 	<![CDATA[
 		FROM SYS_ROLE 
@@ -66,18 +66,19 @@
 	]]>
 	</select>
 	 
-	<select id="findPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
     	select count(*) from SYS_ROLE where 1=1
 		<include refid="queryWhere"/>
 	</select>
     
 	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
-		select <include refid="columns"/> from (
-			select <include refid="columns"/>  from SYS_ROLE where 1=1
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from SYS_ROLE where 1=1
 			<include refid="queryWhere"/> 
-			and rownum > ${startRecord}
+			and rownum &lt;= (${startRecord} + ${endRecord})
 			ORDER BY id DESC
-		) where rownum &lt;= ${endRecord}
+		) where rn > ${startRecord}
 	</select>
 
 	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">

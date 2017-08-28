@@ -1,5 +1,6 @@
 package com.keyou.fdcda.home.controller;
 
+import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.base.PageResult;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,20 +37,12 @@ public class SysUserController {
 
 
     @RequestMapping
-    public String index(Model model, PaginationQuery query) {
-        SysUser user = sysManagerService.getUserByPhone("13300000222");
-        model.addAttribute("user", user);
-        redisService.set("111", user, 5000);
+    public String index(HttpServletRequest request, Model model, PaginationQuery query) {
+        SysUser user = (SysUser) request.getSession().getAttribute(Constants.SESSION_USER);
         List<SysResource> topResource = sysManagerService.getTopResource(user.getId());
         model.addAttribute("topResource", topResource);
         PageResult<SysUser> userPage = sysManagerService.findUserPage(query);
         model.addAttribute("page", userPage);
-        return "/page/sys_user";
-    }
-
-    @RequestMapping("test")
-    public String index2(Model model, PaginationQuery query) {
-        sysManagerService.test();
         return "/page/sys_user";
     }
 }

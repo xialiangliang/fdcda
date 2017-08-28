@@ -8,36 +8,36 @@ public class SysRole implements Serializable {
     /**
      * 主键id
      */ 	
-	private Long id;
+	private java.lang.Long id;
     /**
      * 角色名称
      */ 	
-	private String name;
+	private java.lang.String name;
     /**
      * 创建时间
      */ 	
 	private java.util.Date createTime;
-	private String createTimeStr;
+	private java.lang.String createTimeStr;
     /**
      * 修改时间
      */ 	
 	private java.util.Date modifyTime;
-	private String modifyTimeStr;
+	private java.lang.String modifyTimeStr;
 
 	
-	public void setId(Long value) {
+	public void setId(java.lang.Long value) {
 		this.id = value;
 	}
 	
-	public Long getId() {
+	public java.lang.Long getId() {
 		return this.id;
 	}
 	
-	public void setName(String value) {
+	public void setName(java.lang.String value) {
 		this.name = value;
 	}
 	
-	public String getName() {
+	public java.lang.String getName() {
 		return this.name;
 	}
 	
@@ -50,7 +50,7 @@ public class SysRole implements Serializable {
 		return this.createTime;
 	}
 	
-	public String getCreateTimeStr() {
+	public java.lang.String getCreateTimeStr() {
 		return this.createTimeStr;
 	}
 	
@@ -63,7 +63,7 @@ public class SysRole implements Serializable {
 		return this.modifyTime;
 	}
 	
-	public String getModifyTimeStr() {
+	public java.lang.String getModifyTimeStr() {
 		return this.modifyTimeStr;
 	}
 

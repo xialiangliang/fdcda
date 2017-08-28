@@ -3,7 +3,6 @@ package com.keyou.fdcda.app.service.impl;
 import com.google.common.collect.Maps;
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysRole;
-import com.keyou.fdcda.api.model.SysTest;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
@@ -31,8 +30,6 @@ public class SysManagerServiceImpl implements SysManagerService {
     private SysRoleinfoMapper sysRoleinfoMapper;
     @Autowired
     private SysUserMapper sysUserMapper;
-    @Autowired
-    private SysTestMapper sysTestMapper;
     
     @Override
     public List<SysResource> getTopResource(Long userId) {
@@ -75,34 +72,5 @@ public class SysManagerServiceImpl implements SysManagerService {
             list = sysUserMapper.findPage(query.getQueryData());
         }
         return new PageResult<>(list, query, count);
-    }
-    
-    @Override
-    public void test() {
-        Map<String, Object> map = Maps.newHashMap();
-        //map.put("user_id", "6");
-        map.put("content", "11112221");
-        map.put("startRecord", 5);
-        map.put("endRecord", 3);
-        SysTest test = new SysTest();
-        test.setContent("2211");
-        test.setCreateTime(new Date());
-        test.setRoleId(110L);
-        test.setUserId(120L);
-        Object a;
-        a = sysTestMapper.findById(23L);
-        a = sysTestMapper.findPageCount(map);
-        a = sysTestMapper.findPage(map);
-        a = sysTestMapper.findAllPage(map);
-        sysTestMapper.deleteById(25L);
-        a = sysTestMapper.save(test);
-        test = new SysTest();
-        test.setId(53l);
-        test.setRoleId(88l);
-        a = sysTestMapper.update(test);
-        test.setId(1113l);
-        test.setRoleId(88l);
-        a = sysTestMapper.update(test);
-        a = 1;
     }
 }

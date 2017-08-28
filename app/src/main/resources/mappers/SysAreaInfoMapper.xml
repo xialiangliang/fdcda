@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.SysAreaInfoMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysAreaInfo">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="code" jdbcType="VARCHAR" column="CODE"/>
+		<result property="areaname" jdbcType="VARCHAR" column="AREANAME"/>
+		<result property="sort" jdbcType="DECIMAL" column="SORT"/>
+		<result property="vaild" jdbcType="DECIMAL" column="VAILD"/>
+		<result property="parentcode" jdbcType="VARCHAR" column="PARENTCODE"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,CODE ,AREANAME ,SORT ,VAILD ,PARENTCODE 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.SysAreaInfo" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_SYS_AREA_INFO.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO SYS_AREA_INFO (
+        	ID ,
+        	CODE ,
+        	AREANAME ,
+        	SORT ,
+        	VAILD ,
+        	PARENTCODE 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{code,jdbcType=VARCHAR} ,
+        	#{areaname,jdbcType=VARCHAR} ,
+        	#{sort,jdbcType=DECIMAL} ,
+        	#{vaild,jdbcType=DECIMAL} ,
+        	#{parentcode,jdbcType=VARCHAR} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.SysAreaInfo">
+		UPDATE SYS_AREA_INFO
+		<set>
+			<if test="code != null">
+	        CODE = #{code,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="areaname != null">
+	        AREANAME = #{areaname,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="sort != null">
+	        SORT = #{sort,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="vaild != null">
+	        VAILD = #{vaild,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="parentcode != null">
+	        PARENTCODE = #{parentcode,jdbcType=VARCHAR} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM SYS_AREA_INFO WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM SYS_AREA_INFO 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from SYS_AREA_INFO where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from SYS_AREA_INFO where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+			ORDER BY id DESC
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SYS_AREA_INFO where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="code != null and code.trim() != ''">
+		and CODE = #{code}
+		</if>
+		<if test="areaname != null and areaname.trim() != ''">
+		and AREANAME = #{areaname}
+		</if>
+		<if test="sort != null and sort.trim() != ''">
+		and SORT = #{sort}
+		</if>
+		<if test="vaild != null and vaild.trim() != ''">
+		and VAILD = #{vaild}
+		</if>
+		<if test="parentcode != null and parentcode.trim() != ''">
+		and PARENTCODE = #{parentcode}
+		</if>
+	</sql>
+</mapper>
+
+

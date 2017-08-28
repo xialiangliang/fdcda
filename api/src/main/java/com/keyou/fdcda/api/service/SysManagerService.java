@@ -18,6 +18,4 @@ public interface SysManagerService {
     SysUser getUserByPhone(String phone);
     
     PageResult<SysUser> findUserPage(PaginationQuery query);
-    
-    void test();
 }
