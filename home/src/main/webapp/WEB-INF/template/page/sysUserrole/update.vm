@@ -1,0 +1,46 @@
+#set($layout = "/layout/default2.htm")
+#set($pageTitle = "title")
+#set($pageFootCode = '<script>seajs.use("page/SysUserrole/new-update")</script>')
+<div class="main-content">
+    <div class="page-content">
+        <form action="${www}/sysUserrole/update"  method="post" class="form-horizontal" id="inputForm_sysUserrole">
+             <input type="hidden" name="id" value="$!{param.id}" />
+            <table class="alt-table">
+	                 <tr>
+	                    <td class="table-tit">主键id</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="id" name="id" value="$!{param.id}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">用户id</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="userId" name="userId" value="$!{param.userId}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">角色id</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="roleId" name="roleId" value="$!{param.roleId}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">创建时间</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="createTime" name="createTime" value="$!{param.createTime}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">修改时间</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" />
+                        </td>
+	                 </tr>      
+           </table>
+           <div class="fix-actions">
+           		<button class="btn btn-cancel" type="button">取消</button>
+           		<button class="btn btn-submit" type="submit">提交</button>
+           </div>
+        </form>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->

@@ -17,44 +17,44 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 		
 import com.keyou.fdcda.api.constants.Constants;
-import com.keyou.fdcda.api.model.SysRole;
+import com.keyou.fdcda.api.model.SysAreaInfo;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
-import com.keyou.fdcda.api.service.SysRoleService;
+import com.keyou.fdcda.api.service.SysAreaInfoService;
 import com.keyou.fdcda.home.controller.base.BaseController;
 
 @Controller
-@RequestMapping("/sysRole")
-public class SysRoleController extends BaseController {
-	private static Logger logger = LoggerFactory.getLogger(SysRoleController.class);
+@RequestMapping("/sysAreaInfo")
+public class SysAreaInfoController extends BaseController {
+	private static Logger logger = LoggerFactory.getLogger(SysAreaInfoController.class);
 	
 	@Autowired
-	private SysRoleService sysRoleService;
+	private SysAreaInfoService sysAreaInfoService;
 	
 	@RequestMapping(value="/new")
 	public String add() throws Exception {		
-		return "/page/sysRole/new";
+		return "/page/sysAreaInfo/new";
 	}
 	
 	@RequestMapping(value="/find")	
 	public String find(Long id, Model model){
 		try {	
-			SysRole sysRole = sysRoleService.findById(id);
-			model.addAttribute("param", sysRole);
+			SysAreaInfo sysAreaInfo = sysAreaInfoService.findById(id);
+			model.addAttribute("param", sysAreaInfo);
 			model.addAttribute(Constants.SUCCESS, true);
-			return "/page/sysRole/update";
+			return "/page/sysAreaInfo/update";
 		} catch (Exception e) {
 			commonError(logger, e, "修改跳转异常", model);
-			return "/page/sysRole/update";
+			return "/page/sysAreaInfo/update";
 		}
 	}
 	
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, Object> save(@ModelAttribute("sysRole") SysRole sysRole,Model model) {		
+	public Map<String, Object> save(@ModelAttribute("sysAreaInfo") SysAreaInfo sysAreaInfo,Model model) {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			sysRoleService.save(sysRole);
+			sysAreaInfoService.save(sysAreaInfo);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "添加成功");
@@ -67,10 +67,10 @@ public class SysRoleController extends BaseController {
 	
 	@RequestMapping(value="/update")
 	@ResponseBody
-	public Map<String, Object> update(@ModelAttribute("sysRole") SysRole sysRole,Model model) throws Exception {		
+	public Map<String, Object> update(@ModelAttribute("sysAreaInfo") SysAreaInfo sysAreaInfo,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			sysRoleService.update(sysRole);
+			sysAreaInfoService.update(sysAreaInfo);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "修改成功");
@@ -85,7 +85,7 @@ public class SysRoleController extends BaseController {
 	public Map<String, Object> delete(Long id,Model model) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			sysRoleService.deleteById(id);
+			sysAreaInfoService.deleteById(id);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "删除成功");
 		} catch (Exception e) {
@@ -96,10 +96,10 @@ public class SysRoleController extends BaseController {
 	
 	@RequestMapping
 	public String list(PaginationQuery query,Model model) throws Exception{		
-		PageResult<SysRole> pageList = sysRoleService.findPage(query);
+		PageResult<SysAreaInfo> pageList = sysAreaInfoService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
-		return "/page/sysRole/list";
+		return "/page/sysAreaInfo/list";
 	}
 	
 }

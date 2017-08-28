@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by zzq on 2017-08-27.
  */
 @Controller
-@RequestMapping("/sys_goods")
+@RequestMapping("/sysGoods")
 public class SysGoodsController {
     private final static Logger logger = LoggerFactory.getLogger(SysGoodsController.class);
 

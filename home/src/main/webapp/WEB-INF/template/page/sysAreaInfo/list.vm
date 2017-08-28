@@ -1,0 +1,63 @@
+<div class="main-content">
+	 <div class="breadcrumbs">
+        <ul class="breadcrumb">
+            <li class="active"><h4>SysAreaInfo列表</h4></li>
+        </ul>
+    </div>
+	<div class="page-content">
+        <div class="sc-where-bar">
+            <div class="col-sm-11">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="vcName" value="$!{query.vcName}">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary btn-search" type="submit">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-1 text-right">
+                <a href="#" class="btn btn-success btn-add j_new-btn">添加</a>
+            </div>
+        </div>
+
+	        <table class="table table-striped table-bordered table-hover dataTable">
+	            <thead>
+	            <tr>
+	                <th>id主键</th>
+	                <th>区域code</th>
+	                <th>区域名</th>
+	                <th>排序</th>
+	                <th>是否有效1有效2无效</th>
+	                <th>父区域code</th>
+	             
+	                <th class="action-cl">操作</th>
+	               
+	            </tr>
+	            </thead>
+	            <tbody>
+	                #foreach($row in $result.rows)
+	                <tr>
+	                	<td> $!{row.id} </td>
+	                	<td> $!{row.code} </td>
+	                	<td> $!{row.areaname} </td>
+	                	<td> $!{row.sort} </td>
+	                	<td> $!{row.vaild} </td>
+	                	<td> $!{row.parentcode} </td>
+		                <td class="action-cl">
+	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a><span class="arr">|</span>
+	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
+	                    </td>
+	                </tr>
+	                #end
+	            </tbody>
+	       	</table>
+	        <div class="dataTables_wrapper f-mt2">
+	            <ul class="pagination">
+	           		#set($pageRequestURL="$!{www}/sysAreaInfo?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
+	            </ul>
+            </div>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->

@@ -1,0 +1,81 @@
+#set($layout = "/layout/default2.htm")
+#set($pageTitle = "title")
+#set($pageFootCode = '<script>seajs.use("page/SysUser/new-update")</script>')
+<div class="main-content">
+    <div class="page-content">
+        <form action="${www}/sysUser/save"  method="post" class="form-horizontal" id="inputForm_sysUser">
+            <table class="alt-table">
+	                 <tr>
+	                    <td class="table-tit">主键id</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="id" name="id" value="$!{param.id}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">用户登录名</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="loginname" name="loginname" value="$!{param.loginname}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">登录密码，加密后</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="loginpwd" name="loginpwd" value="$!{param.loginpwd}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">用户名</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="username" name="username" value="$!{param.username}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">手机号</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="phone" name="phone" value="$!{param.phone}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">固定电话</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="telephone" name="telephone" value="$!{param.telephone}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">邮件地址</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="email" name="email" value="$!{param.email}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">地址</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="address" name="address" value="$!{param.address}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">备注</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="valid" name="valid" value="$!{param.valid}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">创建时间</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="createTime" name="createTime" value="$!{param.createTime}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">修改时间</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" />
+                        </td>
+	                 </tr>      
+           </table>
+           <div class="fix-actions">
+           		<button class="btn btn-cancel" type="button">取消</button>
+           		<button class="btn btn-submit" type="submit">提交</button>
+           </div>
+        </form>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->

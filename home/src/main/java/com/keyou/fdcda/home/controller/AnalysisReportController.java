@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by zzq on 2017-08-26.
  */
 @Controller
-@RequestMapping("/analysis_report")
+@RequestMapping("/analysisReport")
 public class AnalysisReportController {
     private final static Logger logger = LoggerFactory.getLogger(AnalysisReportController.class);
 

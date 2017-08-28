@@ -1,0 +1,70 @@
+#set($layout = "/layout/default2.htm")
+#set($pageTitle = "title")
+#set($pageFootCode = '<script>seajs.use("page/SysResource/new-update")</script>')
+<div class="main-content">
+    <div class="page-content">
+        <form action="${www}/sysResource/update"  method="post" class="form-horizontal" id="inputForm_sysResource">
+             <input type="hidden" name="id" value="$!{param.id}" />
+            <table class="alt-table">
+	                 <tr>
+	                    <td class="table-tit">主键id</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="id" name="id" value="$!{param.id}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">父资源id</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="parentId" name="parentId" value="$!{param.parentId}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">资源名称</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="name" name="name" value="$!{param.name}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">资源路径</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="url" name="url" value="$!{param.url}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">类型 1-菜单 2-按钮</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="type" name="type" value="$!{param.type}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">排序</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="sort" name="sort" value="$!{param.sort}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">备注</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="memo" name="memo" value="$!{param.memo}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">创建时间</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="createTime" name="createTime" value="$!{param.createTime}" />
+                        </td>
+	                 </tr>      
+	                 <tr>
+	                    <td class="table-tit">修改时间</td>
+	                    <td>
+                        	<input type="text" class="col-sm-10" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" />
+                        </td>
+	                 </tr>      
+           </table>
+           <div class="fix-actions">
+           		<button class="btn btn-cancel" type="button">取消</button>
+           		<button class="btn btn-submit" type="submit">提交</button>
+           </div>
+        </form>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->
