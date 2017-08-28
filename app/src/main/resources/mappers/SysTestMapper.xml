@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.SysTestMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysTest">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="userId" jdbcType="DECIMAL" column="USER_ID"/>
+		<result property="roleId" jdbcType="DECIMAL" column="ROLE_ID"/>
+		<result property="content" jdbcType="VARCHAR" column="CONTENT"/>
+		<result property="createTime" jdbcType="DATE" column="CREATE_TIME"/>
+		<result property="modifyTime" jdbcType="DATE" column="MODIFY_TIME"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,USER_ID ,ROLE_ID ,CONTENT ,CREATE_TIME ,MODIFY_TIME 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.SysTest" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_SYS_TEST.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO SYS_TEST (
+        	ID ,
+        	USER_ID ,
+        	ROLE_ID ,
+        	CONTENT ,
+        	CREATE_TIME ,
+        	MODIFY_TIME 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{userId,jdbcType=DECIMAL} ,
+        	#{roleId,jdbcType=DECIMAL} ,
+        	#{content,jdbcType=VARCHAR} ,
+        	#{createTime,jdbcType=DATE} ,
+        	#{modifyTime,jdbcType=DATE} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.SysTest">
+		UPDATE SYS_TEST
+		<set>
+			<if test="userId != null">
+	        USER_ID = #{userId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="roleId != null">
+	        ROLE_ID = #{roleId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="content != null">
+	        CONTENT = #{content,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="createTime != null">
+	        CREATE_TIME = #{createTime,jdbcType=DATE} ,
+	        </if>
+			<if test="modifyTime != null">
+	        MODIFY_TIME = #{modifyTime,jdbcType=DATE} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM SYS_TEST WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM SYS_TEST 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from SYS_TEST where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from SYS_TEST where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+			ORDER BY id DESC
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SYS_TEST where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="userId != null and userId.trim() != ''">
+		and USER_ID = #{userId}
+		</if>
+		<if test="roleId != null and roleId.trim() != ''">
+		and ROLE_ID = #{roleId}
+		</if>
+		<if test="content != null and content.trim() != ''">
+		and CONTENT = #{content}
+		</if>
+		<if test="createTimeBegin != null and createTimeBegin.trim() != ''">
+		and CREATE_TIME >= #{createTimeBegin}
+		</if>
+		<if test="createTimeEnd != null and createTimeEnd.trim() != ''">
+		and CREATE_TIME &lt;= #{createTimeEnd}
+		</if>
+		<if test="modifyTimeBegin != null and modifyTimeBegin.trim() != ''">
+		and MODIFY_TIME >= #{modifyTimeBegin}
+		</if>
+		<if test="modifyTimeEnd != null and modifyTimeEnd.trim() != ''">
+		and MODIFY_TIME &lt;= #{modifyTimeEnd}
+		</if>
+	</sql>
+</mapper>
+
+

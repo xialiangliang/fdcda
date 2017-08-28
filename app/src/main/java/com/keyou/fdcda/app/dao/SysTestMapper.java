@@ -1,10 +1,10 @@
 package com.keyou.fdcda.app.dao;
 
 import com.keyou.fdcda.app.dao.base.BaseMapper;
-import com.keyou.fdcda.api.model.SysRole;
+import com.keyou.fdcda.api.model.SysTest;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SysRoleMapper extends BaseMapper<SysRole, Long> {	
+public interface SysTestMapper extends BaseMapper<SysTest, Long> {	
 
 }

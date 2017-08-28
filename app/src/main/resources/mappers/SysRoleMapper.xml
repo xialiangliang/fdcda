@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.SysRoleMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysRole">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="name" jdbcType="VARCHAR" column="NAME"/>
+		<result property="createTime" jdbcType="DATE" column="CREATE_TIME"/>
+		<result property="modifyTime" jdbcType="DATE" column="MODIFY_TIME"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,NAME ,CREATE_TIME ,MODIFY_TIME 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.SysRole" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+	      SELECT SEQ_SYS_ROLE.nextval AS id
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO SYS_ROLE (
+			ID,
+        	NAME ,
+        	CREATE_TIME ,
+        	MODIFY_TIME 
+		) VALUES (
+			id,
+        	#{name,jdbcType=VARCHAR} ,
+        	#{createTime,jdbcType=DATE} ,
+        	#{modifyTime,jdbcType=DATE} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.SysRole">
+		UPDATE SYS_ROLE
+		<set>
+			<if test="name != null">
+	        NAME = #{name,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="createTime != null">
+	        CREATE_TIME = #{createTime,jdbcType=DATE} ,
+	        </if>
+			<if test="modifyTime != null">
+	        MODIFY_TIME = #{modifyTime,jdbcType=DATE} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Integer">
+	<![CDATA[
+		DELETE FROM SYS_ROLE WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM SYS_ROLE 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    	select count(*) from SYS_ROLE where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/> from (
+			select <include refid="columns"/>  from SYS_ROLE where 1=1
+			<include refid="queryWhere"/> 
+			and rownum > ${startRecord}
+			ORDER BY id DESC
+		) where rownum &lt;= ${endRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SYS_ROLE where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="name != null and name.trim() != ''">
+		and NAME = #{name}
+		</if>
+		<if test="createTimeBegin != null and createTimeBegin.trim() != ''">
+		and CREATE_TIME >= #{createTimeBegin}
+		</if>
+		<if test="createTimeEnd != null and createTimeEnd.trim() != ''">
+		and CREATE_TIME &lt;= #{createTimeEnd}
+		</if>
+		<if test="modifyTimeBegin != null and modifyTimeBegin.trim() != ''">
+		and MODIFY_TIME >= #{modifyTimeBegin}
+		</if>
+		<if test="modifyTimeEnd != null and modifyTimeEnd.trim() != ''">
+		and MODIFY_TIME &lt;= #{modifyTimeEnd}
+		</if>
+	</sql>
+</mapper>
+
+

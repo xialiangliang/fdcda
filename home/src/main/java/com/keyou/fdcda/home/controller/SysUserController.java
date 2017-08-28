@@ -45,4 +45,10 @@ public class SysUserController {
         model.addAttribute("page", userPage);
         return "/page/sys_user";
     }
+
+    @RequestMapping("test")
+    public String index2(Model model, PaginationQuery query) {
+        sysManagerService.test();
+        return "/page/sys_user";
+    }
 }

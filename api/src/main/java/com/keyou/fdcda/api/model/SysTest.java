@@ -3,23 +3,31 @@ package com.keyou.fdcda.api.model;
 import java.io.Serializable;
 import com.keyou.fdcda.api.utils.DateUtil;
 
-public class SysRole implements Serializable {
+public class SysTest implements Serializable {
 	private static final long serialVersionUID = 1L;
     /**
-     * 主键id
+     * id
      */ 	
 	private Long id;
     /**
-     * 角色名称
+     * userId
      */ 	
-	private String name;
+	private Long userId;
     /**
-     * 创建时间
+     * roleId
+     */ 	
+	private Long roleId;
+    /**
+     * content
+     */ 	
+	private String content;
+    /**
+     * createTime
      */ 	
 	private java.util.Date createTime;
 	private String createTimeStr;
     /**
-     * 修改时间
+     * modifyTime
      */ 	
 	private java.util.Date modifyTime;
 	private String modifyTimeStr;
@@ -33,12 +41,28 @@ public class SysRole implements Serializable {
 		return this.id;
 	}
 	
-	public void setName(String value) {
-		this.name = value;
+	public void setUserId(Long value) {
+		this.userId = value;
 	}
 	
-	public String getName() {
-		return this.name;
+	public Long getUserId() {
+		return this.userId;
+	}
+	
+	public void setRoleId(Long value) {
+		this.roleId = value;
+	}
+	
+	public Long getRoleId() {
+		return this.roleId;
+	}
+	
+	public void setContent(String value) {
+		this.content = value;
+	}
+	
+	public String getContent() {
+		return this.content;
 	}
 	
 	public void setCreateTime(java.util.Date value) {
