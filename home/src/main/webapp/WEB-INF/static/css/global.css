@@ -121,3 +121,18 @@ li {
     border: 1px solid transparent;
     border-radius: 5px;
 }
+
+.dataTables_wrapper {
+    text-align:right;
+}
+
+.sc-where-bar {
+    padding-bottom: 40px;
+}
+
+.breadcrumb {
+    margin-bottom: 5px;
+}
+.action-cl > a {
+    color: #2e6da4;
+}

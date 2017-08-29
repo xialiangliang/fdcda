@@ -8,68 +8,107 @@ import java.util.Map;
  * Created by zzq on 2017-08-26.
  */
 public class PageResult<T> implements Serializable {
-    private static final Integer DEFAULT_ROWS_PER_PAGE = 15;
-    private Integer pageIndex;
-    private Integer rowsPerPage;
-    private Long rowCount;
-    private Integer pageSize;
+    private static final long serialVersionUID = 1L;
+    private int rowCount;
     private List<T> rows;
-    private PaginationQuery query;
-    
-    public PageResult(List<T> rows, PaginationQuery query, Long rowCount) {
-        this.pageIndex = query.getPageIndex();
-        this.rowsPerPage = query.getRowsPerPage() == null ? DEFAULT_ROWS_PER_PAGE : query.getRowsPerPage();
-        this.rowCount = rowCount;
-        this.pageSize = (rowCount > 0 ? rowCount.intValue() - 1 : 1) / this.pageIndex;
+    private int pageSize;
+    private int rowsPerPage = 15;
+    private int curPageNum = 1;
+    private String queryParameters;
+
+    public PageResult() {
+    }
+
+    public PageResult(List<T> rows, int rowCount, PaginationQuery query) {
         this.rows = rows;
-        this.query = query;
-    }
-
-    public Integer getPageIndex() {
-        return pageIndex;
-    }
-
-    public void setPageIndex(Integer pageIndex) {
-        this.pageIndex = pageIndex;
-    }
-
-    public Integer getRowsPerPage() {
-        return rowsPerPage;
-    }
-
-    public void setRowsPerPage(Integer rowsPerPage) {
-        this.rowsPerPage = rowsPerPage;
-    }
-
-    public Long getRowCount() {
-        return rowCount;
-    }
-
-    public void setRowCount(Long rowCount) {
         this.rowCount = rowCount;
+        this.rowsPerPage = query.getRowsPerPage();
+        this.curPageNum = query.getPageIndex();
+        this.queryParameters = query.getQueryParameters();
+        this.countPageSize();
     }
 
-    public Integer getPageSize() {
-        return pageSize;
+    public Paginator getPaginator() {
+        return new Paginator(this.curPageNum, this.rowsPerPage, this.rowCount);
     }
 
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
+    public int getCurPageNum() {
+        return this.curPageNum;
+    }
+
+    public void setCurPageNum(int curPageNum) {
+        this.curPageNum = curPageNum;
+    }
+
+    public int getRowCount() {
+        return this.rowCount;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
+        this.countPageSize();
     }
 
     public List<T> getRows() {
-        return rows;
+        return this.rows;
     }
 
     public void setRows(List<T> rows) {
         this.rows = rows;
     }
 
-    public PaginationQuery getQuery() {
-        return query;
+    private void countPageSize() {
+        if(this.rowsPerPage == 0) {
+            this.rowsPerPage = 15;
+        }
+
+        if(this.rowCount % this.rowsPerPage == 0) {
+            this.pageSize = this.rowCount / this.rowsPerPage;
+        } else {
+            this.pageSize = this.rowCount / this.rowsPerPage + 1;
+        }
+
+        if(this.curPageNum > this.pageSize) {
+            this.curPageNum = this.pageSize;
+        }
+
+        if(this.curPageNum < 1) {
+            this.curPageNum = 1;
+        }
+
     }
 
-    public void setQuery(PaginationQuery query) {
-        this.query = query;
+    public int getPageSize() {
+        return this.pageSize;
     }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getRowsPerPage() {
+        return this.rowsPerPage;
+    }
+
+    public void setRowsPerPage(int rowsPerPage) {
+        this.rowsPerPage = rowsPerPage;
+    }
+
+    public String getQueryParameters() {
+        return this.queryParameters;
+    }
+
+    public void setQueryParameters(String queryParameters) {
+        this.queryParameters = queryParameters;
+    }
+
+    public static boolean isNotNull(PageResult page) {
+        boolean result = false;
+        if(page != null && page.getRows() != null && page.getRows().size() > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
 }

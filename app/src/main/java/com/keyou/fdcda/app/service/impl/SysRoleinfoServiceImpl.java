@@ -56,7 +56,7 @@ public class SysRoleinfoServiceImpl implements SysRoleinfoService {
             query.addQueryData("endRecord", query.getRowsPerPage());
             list = sysRoleinfoMapper.findPage(query.getQueryData());
         }
-        return new PageResult<>(list, query, count);
+        return new PageResult<>(list, count.intValue(), query);
     }
 
     @Override

@@ -4,8 +4,8 @@
 	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysRole">
 		<result property="id" jdbcType="DECIMAL" column="ID"/>
 		<result property="name" jdbcType="VARCHAR" column="NAME"/>
-		<result property="createTime" jdbcType="DATE" column="CREATE_TIME"/>
-		<result property="modifyTime" jdbcType="DATE" column="MODIFY_TIME"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
+		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
     </resultMap>
 	
 	<sql id="columns">
@@ -27,8 +27,8 @@
 		) VALUES (
         	#{id,jdbcType=DECIMAL} ,
         	#{name,jdbcType=VARCHAR} ,
-        	#{createTime,jdbcType=DATE} ,
-        	#{modifyTime,jdbcType=DATE} 
+        	#{createTime,jdbcType=TIMESTAMP} ,
+        	#{modifyTime,jdbcType=TIMESTAMP} 
 		)
 	]]>
 	</insert>
@@ -40,10 +40,10 @@
 	        NAME = #{name,jdbcType=VARCHAR} ,
 	        </if>
 			<if test="createTime != null">
-	        CREATE_TIME = #{createTime,jdbcType=DATE} ,
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} ,
 	        </if>
 			<if test="modifyTime != null">
-	        MODIFY_TIME = #{modifyTime,jdbcType=DATE} 
+	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} 
 	        </if>
 	    </set>
 		WHERE 

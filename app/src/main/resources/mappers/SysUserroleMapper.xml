@@ -5,8 +5,8 @@
 		<result property="id" jdbcType="DECIMAL" column="ID"/>
 		<result property="userId" jdbcType="DECIMAL" column="USER_ID"/>
 		<result property="roleId" jdbcType="DECIMAL" column="ROLE_ID"/>
-		<result property="createTime" jdbcType="DATE" column="CREATE_TIME"/>
-		<result property="modifyTime" jdbcType="DATE" column="MODIFY_TIME"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
+		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
     </resultMap>
 	
 	<sql id="columns">
@@ -30,8 +30,8 @@
         	#{id,jdbcType=DECIMAL} ,
         	#{userId,jdbcType=DECIMAL} ,
         	#{roleId,jdbcType=DECIMAL} ,
-        	#{createTime,jdbcType=DATE} ,
-        	#{modifyTime,jdbcType=DATE} 
+        	#{createTime,jdbcType=TIMESTAMP} ,
+        	#{modifyTime,jdbcType=TIMESTAMP} 
 		)
 	]]>
 	</insert>
@@ -46,10 +46,10 @@
 	        ROLE_ID = #{roleId,jdbcType=DECIMAL} ,
 	        </if>
 			<if test="createTime != null">
-	        CREATE_TIME = #{createTime,jdbcType=DATE} ,
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} ,
 	        </if>
 			<if test="modifyTime != null">
-	        MODIFY_TIME = #{modifyTime,jdbcType=DATE} 
+	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} 
 	        </if>
 	    </set>
 		WHERE 

@@ -56,7 +56,7 @@ public class SysUserServiceImpl implements SysUserService {
             query.addQueryData("endRecord", query.getRowsPerPage());
             list = sysUserMapper.findPage(query.getQueryData());
         }
-        return new PageResult<>(list, query, count);
+        return new PageResult<SysUser>(list, count.intValue(), query);
     }
 
     @Override

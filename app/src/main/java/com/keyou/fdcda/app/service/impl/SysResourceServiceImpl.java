@@ -57,7 +57,7 @@ public class SysResourceServiceImpl implements SysResourceService {
             query.addQueryData("endRecord", query.getRowsPerPage());
             list = sysResourceMapper.findPage(query.getQueryData());
         }
-        return new PageResult<>(list, query, count);
+        return new PageResult<>(list, count.intValue(), query);
     }
 
     @Override

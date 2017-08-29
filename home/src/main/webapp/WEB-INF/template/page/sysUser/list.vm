@@ -54,10 +54,11 @@
 	                	<td> $!{row.email} </td>
 	                	<td> $!{row.address} </td>
 	                	<td> $!{row.valid} </td>
-	                	<td> $!{row.createTime} </td>
-	                	<td> $!{row.modifyTime} </td>
+	                	<td> $!{row.createTimeStr} </td>
+	                	<td> $!{row.modifyTimeStr} </td>
 		                <td class="action-cl">
-	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a><span class="arr">|</span>
+	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
+							<span class="arr">|</span>
 	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
 	                    </td>
 	                </tr>
@@ -66,7 +67,7 @@
 	       	</table>
 	        <div class="dataTables_wrapper f-mt2">
 	            <ul class="pagination">
-	           		#set($pageRequestURL="$!{www}/sysUser?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
+	           		#set($pageRequestURL="/sysUser?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
 	            </ul>
             </div>
     </div><!-- /.page-content -->

@@ -56,7 +56,7 @@ public class SysUserroleServiceImpl implements SysUserroleService {
             query.addQueryData("endRecord", query.getRowsPerPage());
             list = sysUserroleMapper.findPage(query.getQueryData());
         }
-        return new PageResult<>(list, query, count);
+        return new PageResult<>(list, count.intValue(), query);
     }
 
     @Override

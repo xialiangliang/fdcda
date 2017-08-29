@@ -1,5 +1,5 @@
 
-<div class="view">
+##    <div class="panel panel-primary">
     <ul id="topTab" class="nav nav-tabs">
         <div class="col-sm-2"></div>
         #foreach($item in $topResource)
@@ -21,10 +21,10 @@
 ##            </ul>
 ##        </li>
     </ul>
-    <div id="myTabContent" class="tab-content">
+    <div id="myTabContent" class="tab-content col-sm-2">
         #foreach($item in $topResource)
         <div class="tab-pane fade #if (${item.id} == $!{current_top_id}) in active #end" id="${item.name}">
-            <div class="span2 col-sm-2">
+            <div class="span2">
                 <ul class="nav nav-pills nav-stacked">
                     #foreach($subItem in $item.subResource)
                     <li class="#if (${subItem.id} == $!{current_sub_id}) active #end">
@@ -36,7 +36,6 @@
         </div>
         #end
     </div>
-</div>
 #if(${topResource.size()} > 0 && ${topResource[0].id} == $!{current_top_id})
 <script>
     $(function () {
