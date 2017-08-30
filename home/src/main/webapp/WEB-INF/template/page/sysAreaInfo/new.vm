@@ -1,51 +1,47 @@
-#set($layout = "/layout/default2.htm")
+#set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($pageFootCode = '<script>seajs.use("page/SysAreaInfo/new-update")</script>')
-<div class="main-content">
-    <div class="page-content">
-        <form action="${www}/sysAreaInfo/save"  method="post" class="form-horizontal" id="inputForm_sysAreaInfo">
-            <table class="alt-table">
-	                 <tr>
-	                    <td class="table-tit">id主键</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="id" name="id" value="$!{param.id}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">区域code</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="code" name="code" value="$!{param.code}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">区域名</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="areaname" name="areaname" value="$!{param.areaname}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">排序</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="sort" name="sort" value="$!{param.sort}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">是否有效1有效2无效</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="vaild" name="vaild" value="$!{param.vaild}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">父区域code</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="parentcode" name="parentcode" value="$!{param.parentcode}" />
-                        </td>
-	                 </tr>      
-           </table>
-           <div class="fix-actions">
-           		<button class="btn btn-cancel" type="button">取消</button>
-           		<button class="btn btn-submit" type="submit">提交</button>
-           </div>
-        </form>
-    </div><!-- /.page-content -->
-</div><!-- /.main-content -->
+#set($JS = ["/js/page/sysAreaInfo/new-update.js"])
+<div class="col-sm-12">
+    <form action="${www}/sysAreaInfo/save"  method="post" class="form-horizontal" id="inputForm_sysAreaInfo">
+        <div class="form-group">
+            <label for="id" class="col-sm-2 control-label">id主键</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="id" name="id" value="$!{param.id}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="code" class="col-sm-2 control-label">区域code</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="code" name="code" value="$!{param.code}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="areaname" class="col-sm-2 control-label">区域名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="areaname" name="areaname" value="$!{param.areaname}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="sort" class="col-sm-2 control-label">排序</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="sort" name="sort" value="$!{param.sort}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="vaild" class="col-sm-2 control-label">是否有效1有效2无效</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="vaild" name="vaild" value="$!{param.vaild}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="parentcode" class="col-sm-2 control-label">父区域code</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="parentcode" name="parentcode" value="$!{param.parentcode}" >
+            </div>
+        </div>    
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+    </form>
+</div>

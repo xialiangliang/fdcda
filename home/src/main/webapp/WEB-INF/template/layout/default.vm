@@ -14,16 +14,21 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/jQuery-Paging/1.2.0/jquery.paging.min.js"></script>
 
+    <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+##    <link href="/css/jquery-ui.css" rel="stylesheet">
+##    <script src="/js/jquery-ui.js"></script>
+
     <link rel="stylesheet" href="/css/global.css">
     
     #if($!{CSS})
         #foreach($_css in ${CSS})
-            <link type="text/css" rel="stylesheet" href="${ContextPath}/$_css">
+            <link type="text/css" rel="stylesheet" href="{$_css}">
         #end
     #end
     #if($!JS)
         #foreach($_js in $JS)
-        <script type="text/javascript" src="${CntextPath}/${_js}">
+            <script type="text/javascript" src="${_js}"></script>
         #end
     #end
 

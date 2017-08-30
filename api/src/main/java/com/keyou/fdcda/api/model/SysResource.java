@@ -21,12 +21,16 @@ public class SysResource implements Serializable {
 	private java.lang.String name;
     /**
      * 资源路径
-     */ 	
+     */ 		
 	private java.lang.String url;
     /**
      * 类型 1-菜单 2-按钮
      */ 	
 	private Integer type;
+	/**
+	 * 资源路径
+	 */
+	private java.lang.String icon;
     /**
      * 排序
      */ 	
@@ -88,7 +92,15 @@ public class SysResource implements Serializable {
 	public Integer getType() {
 		return this.type;
 	}
-	
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
 	public void setSort(java.lang.Integer value) {
 		this.sort = value;
 	}

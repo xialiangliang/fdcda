@@ -7,6 +7,7 @@
 		<result property="name" jdbcType="VARCHAR" column="NAME"/>
 		<result property="url" jdbcType="VARCHAR" column="URL"/>
 		<result property="type" jdbcType="DECIMAL" column="TYPE"/>
+		<result property="icon" jdbcType="VARCHAR" column="ICON"/>
 		<result property="sort" jdbcType="DECIMAL" column="SORT"/>
 		<result property="memo" jdbcType="VARCHAR" column="MEMO"/>
 		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
@@ -15,7 +16,7 @@
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,PARENT_ID ,NAME ,URL ,TYPE ,SORT ,MEMO ,CREATE_TIME ,MODIFY_TIME 
+        ID ,PARENT_ID ,NAME ,URL ,TYPE ,ICON ,SORT ,MEMO ,CREATE_TIME ,MODIFY_TIME 
 	    ]]>
 	</sql>
 	
@@ -30,6 +31,7 @@
         	NAME ,
         	URL ,
         	TYPE ,
+        	ICON ,
         	SORT ,
         	MEMO ,
         	CREATE_TIME ,
@@ -40,6 +42,7 @@
         	#{name,jdbcType=VARCHAR} ,
         	#{url,jdbcType=VARCHAR} ,
         	#{type,jdbcType=DECIMAL} ,
+        	#{icon,jdbcType=VARCHAR} ,
         	#{sort,jdbcType=DECIMAL} ,
         	#{memo,jdbcType=VARCHAR} ,
         	#{createTime,jdbcType=TIMESTAMP} ,
@@ -63,6 +66,9 @@
 			<if test="type != null">
 	        TYPE = #{type,jdbcType=DECIMAL} ,
 	        </if>
+			<if test="icon != null">
+			ICON = #{icon,jdbcType=VARCHAR} ,
+			</if>
 			<if test="sort != null">
 	        SORT = #{sort,jdbcType=DECIMAL} ,
 	        </if>
@@ -159,6 +165,9 @@
 		</if>
 		<if test="type != null and type.trim() != ''">
 		and TYPE = #{type}
+		</if>
+		<if test="icon != null and icon.trim() != ''">
+		and ICON = #{icon}
 		</if>
 		<if test="sort != null and sort.trim() != ''">
 		and SORT = #{sort}

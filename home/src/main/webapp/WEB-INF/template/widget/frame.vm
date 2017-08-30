@@ -5,7 +5,7 @@
         #foreach($item in $topResource)
             <li class="#if (${item.id} == $!{current_top_id}) active #end">
                 <a href="#${item.name}" data-toggle="tab">
-                    $item.name
+                    <span class="glyphicon ${item.icon}"></span>$item.name
                 </a>
             </li>
         #end
@@ -28,7 +28,7 @@
                 <ul class="nav nav-pills nav-stacked">
                     #foreach($subItem in $item.subResource)
                     <li class="#if (${subItem.id} == $!{current_sub_id}) active #end">
-                        <a href="$subItem.url">$subItem.name</a>
+                        <a href="$subItem.url"><span class="glyphicon ${subItem.icon}"></span>$subItem.name</a>
                     </li>
                     #end
                 </ul>

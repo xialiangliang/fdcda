@@ -1,3 +1,4 @@
+#set($JS = ["/js/page/sysResource/list.js"])
 <div class="main-content">
 	 <div class="breadcrumbs">
         <ul class="breadcrumb">
@@ -35,6 +36,7 @@
 	                <th>备注</th>
 	                <th>创建时间</th>
 	                <th>修改时间</th>
+	                <th>icon</th>
 	             
 	                <th class="action-cl">操作</th>
 	               
@@ -52,8 +54,10 @@
 	                	<td> $!{row.memo} </td>
 	                	<td> $!{row.createTime} </td>
 	                	<td> $!{row.modifyTime} </td>
+	                	<td> $!{row.icon} </td>
 		                <td class="action-cl">
-	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a><span class="arr">|</span>
+	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
+	                    	<span class="arr">|</span>
 	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
 	                    </td>
 	                </tr>

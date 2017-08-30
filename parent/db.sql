@@ -6,6 +6,7 @@ create table sys_resource
   name VARCHAR2(255),
   url VARCHAR2(255),
   type NUMBER(3),
+  icon VARCHAR2(64),
   sort NUMBER(5),
   memo VARCHAR2(255),
   create_time DATE,
@@ -17,6 +18,7 @@ comment on column sys_resource.parent_id is '父资源id';
 comment on column sys_resource.name is '资源名称';
 comment on column sys_resource.url is '资源路径';
 comment on column sys_resource.type is '类型 1-菜单 2-按钮';
+comment on column sys_resource.icon is '图标';
 comment on column sys_resource.sort is '排序';
 comment on column sys_resource.memo is '备注';
 comment on column sys_resource.create_time is '创建时间';
@@ -134,31 +136,17 @@ NOCYCLE
 NOCACHE;
 
 
-INSERT into SYS_USER (ID, LOGINNAME, LOGINPWD, USERNAME, PHONE, TELEPHONE, EMAIL, ADDRESS, VALID, CREATE_TIME, MODIFY_TIME) 
-              VALUES (seq_sys_user.nextval, 'root', '123456', 'root', '13300000222', null, null, null, 1, sysdate, sysdate);
-INSERT INTO SYS_ROLE (ID, NAME, CREATE_TIME, MODIFY_TIME) 
-    VALUES (SEQ_SYS_ROLE.nextval, '超级管理员', sysdate, sysdate);
-INSERT INTO sys_roleinfo (id, role_id, resource_id, create_time, modify_time) 
-    VALUES (SEQ_SYS_ROLEINFO.nextval, 1, 0, sysdate, sysdate);
-INSERT INTO SYS_USERROLE (ID, USER_ID, ROLE_ID, CREATE_TIME, MODIFY_TIME) 
-    VALUES (SEQ_SYS_USERROLE.nextval, 1, 1, sysdate, sysdate);
+INSERT into SYS_USER (ID, LOGINNAME, LOGINPWD, USERNAME, PHONE, TELEPHONE, EMAIL, ADDRESS, VALID, CREATE_TIME, MODIFY_TIME) VALUES (seq_sys_user.nextval, 'root', '123456', 'root', '13300000222', null, null, null, 1, sysdate, sysdate);
+INSERT INTO SYS_ROLE (ID, NAME, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_ROLE.nextval, '超级管理员', sysdate, sysdate);
+INSERT INTO sys_roleinfo (id, role_id, resource_id, create_time, modify_time) VALUES (SEQ_SYS_ROLEINFO.nextval, 1, 0, sysdate, sysdate);
+INSERT INTO SYS_USERROLE (ID, USER_ID, ROLE_ID, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_USERROLE.nextval, 1, 1, sysdate, sysdate);
 
 
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 0, '系统管理', '/', 1, 1, '系统管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 0, '经营分析', '/', 1, 2, '经营分析', sysdate, sysdate);
-
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 1, '资源管理', '/sysResource', 1, 1, '资源管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 1, '角色管理', '/sysRole', 1, 2, '角色管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 1, '人员管理', '/sysUser', 1, 3, '人员管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 1, '商品管理', '/sysGoods', 1, 4, '商品管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 1, '平台使用情况', '/sysPlatform', 1, 5, '平台使用情况', sysdate, sysdate);
-
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, SORT, MEMO, CREATE_TIME, MODIFY_TIME)
-    VALUES (SEQ_SYS_RESOURCE.nextval, 2, '统计报表', '/analysisReport', 1, 1, '人员管理', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 0, '系统管理', '/', 1, 'glyphicon-th', 1, '系统管理', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 0, '经营分析', '/', 1, 'glyphicon-th', 2, '经营分析', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '资源管理', '/sysResource', 1, 'glyphicon-th', 1, '资源管理', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '角色管理', '/sysRole', 1, 'glyphicon-th', 2, '角色管理', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '人员管理', '/sysUser', 1, 'glyphicon-th', 3, '人员管理', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '商品管理', '/sysGoods', 1, 'glyphicon-th', 4, '商品管理', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '平台使用情况', '/sysPlatform', 1, 'glyphicon-th', 5, '平台使用情况', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 2, '统计报表', '/analysisReport', 1, 'glyphicon-th', 1, '人员管理', sysdate, sysdate);

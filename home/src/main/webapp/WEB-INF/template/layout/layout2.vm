@@ -1,0 +1,13 @@
+<div>
+#if($!{CSS})
+    #foreach($_css in ${CSS})
+        <link type="text/css" rel="stylesheet" href="/$_css">
+    #end
+#end
+#if($!JS)
+    #foreach($_js in $JS)
+        <script type="text/javascript" src="${_js}"></script>
+    #end
+#end
+$screen_content
+</div>

@@ -1,3 +1,4 @@
+#set($JS = ["/js/page/sysAreaInfo/list.js"])
 <div class="main-content">
 	 <div class="breadcrumbs">
         <ul class="breadcrumb">
@@ -47,7 +48,8 @@
 	                	<td> $!{row.vaild} </td>
 	                	<td> $!{row.parentcode} </td>
 		                <td class="action-cl">
-	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a><span class="arr">|</span>
+	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
+	                    	<span class="arr">|</span>
 	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
 	                    </td>
 	                </tr>

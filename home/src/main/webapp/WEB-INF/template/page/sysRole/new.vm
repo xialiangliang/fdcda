@@ -1,39 +1,35 @@
-#set($layout = "/layout/default2.htm")
+#set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($pageFootCode = '<script>seajs.use("page/SysRole/new-update")</script>')
-<div class="main-content">
-    <div class="page-content">
-        <form action="${www}/sysRole/save"  method="post" class="form-horizontal" id="inputForm_sysRole">
-            <table class="alt-table">
-	                 <tr>
-	                    <td class="table-tit">主键id</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="id" name="id" value="$!{param.id}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">角色名称</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="name" name="name" value="$!{param.name}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">创建时间</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="createTime" name="createTime" value="$!{param.createTime}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">修改时间</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" />
-                        </td>
-	                 </tr>      
-           </table>
-           <div class="fix-actions">
-           		<button class="btn btn-cancel" type="button">取消</button>
-           		<button class="btn btn-submit" type="submit">提交</button>
-           </div>
-        </form>
-    </div><!-- /.page-content -->
-</div><!-- /.main-content -->
+#set($JS = ["/js/page/sysRole/new-update.js"])
+<div class="col-sm-12">
+    <form action="${www}/sysRole/save"  method="post" class="form-horizontal" id="inputForm_sysRole">
+        <div class="form-group">
+            <label for="id" class="col-sm-2 control-label">主键id</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="id" name="id" value="$!{param.id}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">角色名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="name" name="name" value="$!{param.name}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="createTime" class="col-sm-2 control-label">创建时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="createTime" name="createTime" value="$!{param.createTime}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="modifyTime" class="col-sm-2 control-label">修改时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" >
+            </div>
+        </div>    
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+    </form>
+</div>

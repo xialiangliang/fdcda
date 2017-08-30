@@ -1,82 +1,78 @@
-#set($layout = "/layout/default2.htm")
+#set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($pageFootCode = '<script>seajs.use("page/SysUser/new-update")</script>')
-<div class="main-content">
-    <div class="page-content">
-        <form action="${www}/sysUser/update"  method="post" class="form-horizontal" id="inputForm_sysUser">
-             <input type="hidden" name="id" value="$!{param.id}" />
-            <table class="alt-table">
-	                 <tr>
-	                    <td class="table-tit">主键id</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="id" name="id" value="$!{param.id}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">用户登录名</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="loginname" name="loginname" value="$!{param.loginname}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">登录密码，加密后</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="loginpwd" name="loginpwd" value="$!{param.loginpwd}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">用户名</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="username" name="username" value="$!{param.username}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">手机号</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="phone" name="phone" value="$!{param.phone}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">固定电话</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="telephone" name="telephone" value="$!{param.telephone}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">邮件地址</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="email" name="email" value="$!{param.email}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">地址</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="address" name="address" value="$!{param.address}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">备注</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="valid" name="valid" value="$!{param.valid}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">创建时间</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="createTime" name="createTime" value="$!{param.createTime}" />
-                        </td>
-	                 </tr>      
-	                 <tr>
-	                    <td class="table-tit">修改时间</td>
-	                    <td>
-                        	<input type="text" class="col-sm-10" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" />
-                        </td>
-	                 </tr>      
-           </table>
-           <div class="fix-actions">
-           		<button class="btn btn-cancel" type="button">取消</button>
-           		<button class="btn btn-submit" type="submit">提交</button>
-           </div>
-        </form>
-    </div><!-- /.page-content -->
-</div><!-- /.main-content -->
+#set($JS = ["/js/page/sysUser/new-update.js"])
+<div class="col-sm-12">
+    <form action="${www}/sysUser/update"  method="post" class="form-horizontal" id="inputForm_sysUser">
+        <input type="hidden" name="id" value="$!{param.id}" />
+            <div class="form-group">
+                <label for="id" class="col-sm-2 control-label">主键id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="id" name="id" value="$!{param.id}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="loginname" class="col-sm-2 control-label">用户登录名</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="loginname" name="loginname" value="$!{param.loginname}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="loginpwd" class="col-sm-2 control-label">登录密码，加密后</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="loginpwd" name="loginpwd" value="$!{param.loginpwd}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="username" name="username" value="$!{param.username}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">手机号</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="phone" name="phone" value="$!{param.phone}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="telephone" class="col-sm-2 control-label">固定电话</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="telephone" name="telephone" value="$!{param.telephone}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">邮件地址</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="email" name="email" value="$!{param.email}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="address" class="col-sm-2 control-label">地址</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address" name="address" value="$!{param.address}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="valid" class="col-sm-2 control-label">备注</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="valid" name="valid" value="$!{param.valid}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="createTime" class="col-sm-2 control-label">创建时间</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="createTime" name="createTime" value="$!{param.createTime}" >
+                </div>
+            </div>    
+            <div class="form-group">
+                <label for="modifyTime" class="col-sm-2 control-label">修改时间</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" >
+                </div>
+            </div>    
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+    </form>
+</div>
