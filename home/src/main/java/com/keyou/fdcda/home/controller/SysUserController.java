@@ -45,13 +45,13 @@ public class SysUserController extends BaseController {
 			return "/page/sysUser/update";
 		} catch (Exception e) {
 			commonError(logger, e, "修改跳转异常", model);
-			return "/page/sysUser/update";
+			return "/page/sysUser";
 		}
 	}
 	
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, Object> save(@ModelAttribute("sysUser") SysUser sysUser,Model model) {		
+	public Map<String, Object> save(@ModelAttribute("sysUser") SysUser sysUser,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			sysUserService.save(sysUser);

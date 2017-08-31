@@ -1,9 +1,8 @@
 #set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($JS = ["/js/page/sysUser/new-update.js", "/js/jquery.form.js"])
+#set($JS = ["/js/page/sysUser/new-update.js", "/js/jquery.form.min.js"])
 <div class="col-sm-12">
     <form action="/sysUser/update"  method="post" class="form-horizontal" id="updateForm_sysUser">
-        <input type="hidden" name="id" value="$!{param.id}" />
             <div class="form-group">
                 <label for="id" class="col-sm-2 control-label">主键id</label>
                 <div class="col-sm-10">
@@ -56,18 +55,6 @@
                 <label for="valid" class="col-sm-2 control-label">备注</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="valid" name="valid" value="$!{param.valid}" >
-                </div>
-            </div>    
-            <div class="form-group">
-                <label for="createTime" class="col-sm-2 control-label">创建时间</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="createTime" name="createTime" value="$!{param.createTime}" >
-                </div>
-            </div>    
-            <div class="form-group">
-                <label for="modifyTime" class="col-sm-2 control-label">修改时间</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" >
                 </div>
             </div>    
         <div class="modal-footer">
