@@ -51,6 +51,8 @@ public class SysUser implements Serializable {
      */ 	
 	private java.util.Date modifyTime;
 	private java.lang.String modifyTimeStr;
+	
+	private String loginpwdConfirm;
 
 	
 	public void setId(java.lang.Long value) {
@@ -151,6 +153,12 @@ public class SysUser implements Serializable {
 		return this.modifyTimeStr;
 	}
 
-	
+	public String getLoginpwdConfirm() {
+		return loginpwdConfirm;
+	}
+
+	public void setLoginpwdConfirm(String loginpwdConfirm) {
+		this.loginpwdConfirm = loginpwdConfirm;
+	}
 }
 

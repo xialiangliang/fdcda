@@ -1,0 +1,54 @@
+package com.keyou.fdcda.api.utils;
+
+/**
+ * Created by zzq on 2017-08-31.
+ */
+public class Result<T> {
+    private T data;
+    private String message;
+    private Integer code;
+    private Boolean success;
+    
+    public Result() {
+        
+    }
+
+    public Result(T data, String message, Integer code, Boolean success) {
+        this.data = data;
+        this.message = message;
+        this.code = code;
+        this.success = success;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+}

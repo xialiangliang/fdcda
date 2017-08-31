@@ -12,13 +12,13 @@ import java.util.Map;
 public class BaseController {
     public void commonError(Logger logger, Exception e, String msg, Map<String, Object> map) {
         map.put(Constants.SUCCESS, false);
-        map.put(Constants.MESSAGE, msg);
+        map.put(Constants.MESSAGE, msg + ":" + e.getMessage());
         logger.error(msg, e);
     }
 
     public void commonError(Logger logger, Exception e, String msg, Model model) {
         model.addAttribute(Constants.SUCCESS, false);
-        model.addAttribute(Constants.MESSAGE, msg);
+        model.addAttribute(Constants.MESSAGE, msg + ":" + e.getMessage());
         logger.error(msg, e);
     }
 }

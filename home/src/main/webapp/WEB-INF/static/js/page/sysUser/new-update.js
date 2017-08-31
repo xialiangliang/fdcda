@@ -1,20 +1,23 @@
-$(function () {
+$(function(){
     var newForm = jQuery("#newForm_sysUser");
     var updateForm = jQuery("#updateForm_sysUser");
-    
-    function tip(msg) {
+
+    function tip(msg, reload) {
         var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
         var tip_frame = $("#tipDialogFrame");
         tip_frame.html(action_tip);
         tip_frame.dialog({
             resizable: true,
-            width: 600,
+            width: 300,
             modal: true,
             buttons: {
             }
         });
         setTimeout(function () {
             tip_frame.dialog("close");
+            if (reload) {
+                window.location.reload();
+            }
         }, 1000);
     }
 
@@ -24,9 +27,9 @@ $(function () {
         success: function (data) {
             if (data.success) {
                 dialog.dialog("close");
-                tip(data.message);
+                tip(data.message, true);
             } else {
-                tip(data.message);
+                tip(data.message, false);
             }
         }
     });
@@ -34,10 +37,13 @@ $(function () {
         success: function (data) {
             if (data.success) {
                 dialog.dialog("close");
-                tip(data.message);
+                tip(data.message, true);
             } else {
-                tip(data.message);
+                tip(data.message, false);
             }
         }
     });
+    $(".btn-close").click(function () {
+        dialog.dialog("close");
+    })
 });

@@ -1,5 +1,4 @@
-$(function () {
-
+$(function(){
     var dialog = $("#newUpdateDialogFrame");
 
     $(".j_update-btn").click(function () {

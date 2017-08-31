@@ -1,7 +1,10 @@
 $(function(){
+    var dialog = $("#newUpdateDialogFrame");
+
     $(".j_update-btn").click(function () {
-        $.get('/sysAreaInfo/find', {'id':$(this).attr("data-id")}, function(data, textStatus, object){
-            $( object.responseText ).dialog({
+        $.get('/sysAreaInfo/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
+            dialog.html(object.responseText);
+            dialog.dialog({
                 resizable: true,
                 width: 600,
                 modal: true,
@@ -9,11 +12,12 @@ $(function(){
                 }
             });
         });
-    })
-    
+    });
+
     $(".j_new-btn").click(function () {
-        $.get('/sysAreaInfo/new', {}, function(data, textStatus, object){
-            $( object.responseText ).dialog({
+        $.get('/sysAreaInfo/new', {}, function (data, textStatus, object) {
+            dialog.html(object.responseText);
+            dialog.dialog({
                 resizable: true,
                 width: 600,
                 modal: true,

@@ -31,7 +31,7 @@
 	            <tr>
 	                <th>主键id</th>
 	                <th>用户登录名</th>
-	                <th>用户名</th>
+	                <th>姓名</th>
 	                <th>手机号</th>
 	                <th>固定电话</th>
 	                <th>邮件地址</th>
@@ -57,8 +57,6 @@
 	                	<td> $!{row.createTimeStr} </td>
 		                <td class="action-cl">
 	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
-	                    	<span class="arr">|</span>
-	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
 	                    </td>
 	                </tr>
 	                #end

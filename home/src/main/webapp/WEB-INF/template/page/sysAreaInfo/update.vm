@@ -1,48 +1,50 @@
 #set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($JS = ["/js/page/sysAreaInfo/new-update.js"])
+#set($JS = ["/js/page/sysAreaInfo/new-update.js", "/js/jquery.form.min.js"])
 <div class="col-sm-12">
-    <form action="${www}/sysAreaInfo/update"  method="post" class="form-horizontal" id="inputForm_sysAreaInfo">
+    <form action="/sysAreaInfo/update"  method="post" class="form-horizontal" id="updateForm_sysAreaInfo">
         <input type="hidden" name="id" value="$!{param.id}" />
-            <div class="form-group">
-                <label for="id" class="col-sm-2 control-label">id主键</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id" name="id" value="$!{param.id}" >
-                </div>
-            </div>    
-            <div class="form-group">
-                <label for="code" class="col-sm-2 control-label">区域code</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="code" name="code" value="$!{param.code}" >
-                </div>
-            </div>    
-            <div class="form-group">
-                <label for="areaname" class="col-sm-2 control-label">区域名</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="areaname" name="areaname" value="$!{param.areaname}" >
-                </div>
-            </div>    
-            <div class="form-group">
-                <label for="sort" class="col-sm-2 control-label">排序</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="sort" name="sort" value="$!{param.sort}" >
-                </div>
-            </div>    
-            <div class="form-group">
-                <label for="vaild" class="col-sm-2 control-label">是否有效1有效2无效</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="vaild" name="vaild" value="$!{param.vaild}" >
-                </div>
-            </div>    
-            <div class="form-group">
-                <label for="parentcode" class="col-sm-2 control-label">父区域code</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="parentcode" name="parentcode" value="$!{param.parentcode}" >
-                </div>
-            </div>    
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="submit" class="btn btn-primary">提交</button>
+        <div class="form-group">
+            <label for="id" class="col-sm-2 control-label">id主键</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="id" name="id" value="$!{param.id}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="code" class="col-sm-2 control-label">区域code</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="code" name="code" value="$!{param.code}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="areaname" class="col-sm-2 control-label">区域名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="areaname" name="areaname" value="$!{param.areaname}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="sort" class="col-sm-2 control-label">排序</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="sort" name="sort" value="$!{param.sort}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="vaild" class="col-sm-2 control-label">是否有效1有效2无效</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="vaild" name="vaild" value="$!{param.vaild}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="parentcode" class="col-sm-2 control-label">父区域code</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="parentcode" name="parentcode" value="$!{param.parentcode}" >
+            </div>
+        </div>    
+        <div class="form-group" align="right">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-default btn-close">关闭</button>
+                <button type="submit" class="btn btn-primary">提交</button>
+            </div>
         </div>
     </form>
 </div>

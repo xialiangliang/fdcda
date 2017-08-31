@@ -4,6 +4,10 @@ import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.SysUserService;
+import com.keyou.fdcda.api.utils.Assert;
+import com.keyou.fdcda.api.utils.EncodeUtil;
+import com.keyou.fdcda.api.utils.Result;
+import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.app.dao.SysUserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -67,5 +72,35 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser getUserByPhone(String phone) {
         return sysUserMapper.getUserByPhone(phone);
+    }
+
+    @Override
+    public Result<SysUser> validateNewUser(SysUser user) throws Exception {
+        if (StringUtil.isBlank(user.getPhone())) {
+            return new Result<>(null, "手机号不能为空！", -1, false);
+        }
+        if (StringUtil.isBlank(user.getUsername())) {
+            return new Result<>(null, "姓名不能为空！", -1, false);
+        }
+        if (StringUtil.isBlank(user.getLoginname())) {
+            return new Result<>(null, "登录名不能为空！", -1, false);
+        }
+        if (EncodeUtil.md5("").equals(user.getLoginpwd())) {
+            return new Result<>(null, "密码不能为空！", -1, false);
+        }
+        SysUser sysUser = sysUserMapper.getUserByLoginname(user.getLoginname());
+        if (sysUser != null) {
+            return new Result<>(null, "登录名已存在！", -1, false);
+        }
+        if (StringUtil.isBlank(user.getPhone())) {
+            return new Result<>(null, "手机号不能为空！", -1, false);
+        }
+        if (!user.getLoginpwd().equals(user.getLoginpwdConfirm())) {
+            return new Result<>(null, "两次密码不相同！", -1, false);
+        }
+        user.setCreateTime(new Date());
+        user.setModifyTime(new Date());
+        user.setValid(1);
+        return new Result<>(user, "", 0, true);
     }
 }

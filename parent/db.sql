@@ -67,7 +67,7 @@ comment on column sys_userrole.user_id is '用户id';
 comment on column sys_userrole.role_id is '角色id';
 comment on column sys_userrole.create_time is '创建时间';
 comment on column sys_userrole.modify_time is '修改时间';
-create index user_id_idx on sys_userrole(user_id);
+create index user_id_sys_userrole_idx on sys_userrole(user_id);
 CREATE SEQUENCE seq_sys_userrole
 INCREMENT BY 1
 START WITH 0
@@ -114,7 +114,8 @@ create table sys_user
   create_time DATE,
   modify_time DATE
 );
-create index phone_idx on sys_user(phone);
+create unique index phone_sys_user_idx on sys_user(phone);
+create unique index loginname_sys_user_idx on sys_user(loginname);
 comment on table  sys_user is '登录账户';
 comment on column sys_user.id is '主键id';
 comment on column sys_user.loginname is '用户登录名';
@@ -149,4 +150,4 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREA
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '人员管理', '/sysUser', 1, 'glyphicon-th', 3, '人员管理', sysdate, sysdate);
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '商品管理', '/sysGoods', 1, 'glyphicon-th', 4, '商品管理', sysdate, sysdate);
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '平台使用情况', '/sysPlatform', 1, 'glyphicon-th', 5, '平台使用情况', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 2, '统计报表', '/analysisReport', 1, 'glyphicon-th', 1, '人员管理', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 2, '统计报表', '/analysisReport', 1, 'glyphicon-th', 1, '统计报表', sysdate, sysdate);

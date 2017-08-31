@@ -23,6 +23,8 @@
                 <a href="#" class="btn btn-success btn-add j_new-btn">添加</a>
             </div>
         </div>
+        <div id="newUpdateDialogFrame" class="tipDialogFrame"></div>
+        <div id="tipDialogFrame" class="tipDialogFrame"></div>
 
 	        <table class="table table-striped table-bordered table-hover dataTable">
 	            <thead>
@@ -30,7 +32,6 @@
 	                <th>主键id</th>
 	                <th>角色名称</th>
 	                <th>创建时间</th>
-	                <th>修改时间</th>
 	             
 	                <th class="action-cl">操作</th>
 	               
@@ -41,8 +42,7 @@
 	                <tr>
 	                	<td> $!{row.id} </td>
 	                	<td> $!{row.name} </td>
-	                	<td> $!{row.createTime} </td>
-	                	<td> $!{row.modifyTime} </td>
+	                	<td> $!{row.createTimeStr} </td>
 		                <td class="action-cl">
 	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
 	                    	<span class="arr">|</span>

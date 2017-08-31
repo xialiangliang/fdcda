@@ -45,13 +45,13 @@ public class SysRoleController extends BaseController {
 			return "/page/sysRole/update";
 		} catch (Exception e) {
 			commonError(logger, e, "修改跳转异常", model);
-			return "/page/sysRole/update";
+			return "/page/sysRole";
 		}
 	}
 	
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, Object> save(@ModelAttribute("sysRole") SysRole sysRole,Model model) {		
+	public Map<String, Object> save(@ModelAttribute("sysRole") SysRole sysRole,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			sysRoleService.save(sysRole);
@@ -95,7 +95,7 @@ public class SysRoleController extends BaseController {
 	}
 	
 	@RequestMapping
-	public String list(PaginationQuery query,Model model) throws Exception{		
+	public String list(PaginationQuery query,Model model) throws Exception {		
 		PageResult<SysRole> pageList = sysRoleService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());

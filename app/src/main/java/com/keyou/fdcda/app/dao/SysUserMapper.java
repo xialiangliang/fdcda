@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface SysUserMapper extends BaseMapper<SysUser, java.lang.Long> {	
 
     SysUser getUserByPhone(String phone);
+
+    SysUser getUserByLoginname(String phone);
 }

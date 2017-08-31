@@ -45,13 +45,13 @@ public class SysResourceController extends BaseController {
 			return "/page/sysResource/update";
 		} catch (Exception e) {
 			commonError(logger, e, "修改跳转异常", model);
-			return "/page/sysResource/update";
+			return "/page/sysResource";
 		}
 	}
 	
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, Object> save(@ModelAttribute("sysResource") SysResource sysResource,Model model) {		
+	public Map<String, Object> save(@ModelAttribute("sysResource") SysResource sysResource,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			sysResourceService.save(sysResource);
@@ -95,7 +95,7 @@ public class SysResourceController extends BaseController {
 	}
 	
 	@RequestMapping
-	public String list(PaginationQuery query,Model model) throws Exception{		
+	public String list(PaginationQuery query,Model model) throws Exception {		
 		PageResult<SysResource> pageList = sysResourceService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());

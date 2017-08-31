@@ -136,6 +136,14 @@
 		where phone = #{phone,jdbcType=VARCHAR}
 		and rownum &lt;=1
 	</select>
+
+	<select id="getUserByLoginname" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="columns" />
+		from SYS_USER
+		where LOGINNAME = #{loginname,jdbcType=VARCHAR}
+		and rownum &lt;=1
+	</select>
 	
 	<sql id="queryWhere">
 		<if test="id != null and id.trim() != ''">

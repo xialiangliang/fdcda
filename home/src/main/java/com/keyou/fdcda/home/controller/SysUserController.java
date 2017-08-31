@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +53,24 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value="/save")
 	@ResponseBody
 	public Map<String, Object> save(@ModelAttribute("sysUser") SysUser sysUser,Model model) throws Exception {		
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
+		map.put(Constants.SUCCESS, false);
 		try {
-			sysUserService.save(sysUser);
-			model.addAttribute(Constants.SUCCESS, true);
+			Result<SysUser> result = sysUserService.validateNewUser(sysUser);
+			if (!result.getSuccess()) {
+				map.put(Constants.MESSAGE, result.getMessage());
+				return map;
+			}
+			Integer res = sysUserService.save(sysUser);
+			if (res == 0) {
+				map.put(Constants.MESSAGE, "注册失败，请重试！");
+				return map;
+			}
 			map.put(Constants.SUCCESS, true);
-            map.put(Constants.MESSAGE, "添加成功");
+            map.put(Constants.MESSAGE, "注册成功！");
             
 		} catch (Exception e) {
-			commonError(logger, e, "添加异常",map); 
+			commonError(logger, e, "添加用户异常",map); 
 		}
 		return map;
 	}
@@ -95,7 +105,7 @@ public class SysUserController extends BaseController {
 	}
 	
 	@RequestMapping
-	public String list(PaginationQuery query,Model model) throws Exception{		
+	public String list(PaginationQuery query,Model model) throws Exception {		
 		PageResult<SysUser> pageList = sysUserService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());

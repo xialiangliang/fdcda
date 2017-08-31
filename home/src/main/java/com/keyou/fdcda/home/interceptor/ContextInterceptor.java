@@ -36,6 +36,7 @@ public class ContextInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         processStartTimeVariable.set(System.currentTimeMillis());
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         Object userName = session.getAttribute(this.getUserIdSessionKey());
         MDC.put("_sessionId", session.getId());
