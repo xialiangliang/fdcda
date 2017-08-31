@@ -57,7 +57,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         String uri = request.getRequestURI().replace(request.getContextPath(), "");
         HttpSession session = request.getSession();
         SysUser user = (SysUser) session.getAttribute(Constants.SESSION_USER);
-        if (user != null && user.getId() > 0) {
+        if (user != null && user.getId() > 0 && mav != null) {
             mav.addObject("user", user);
             redisService.set("111", user, 5000);
             List<SysResource> topResource = sysResourceService.getTopResource(user.getId());

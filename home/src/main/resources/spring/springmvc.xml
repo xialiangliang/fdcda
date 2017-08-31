@@ -30,6 +30,23 @@
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
 
+	<!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">-->
+		<!--<property name="messageConverters">-->
+			<!--<list>-->
+				<!--<ref bean="MappingJackson2HttpMessageConverter" />-->
+			<!--</list>-->
+		<!--</property>-->
+	<!--</bean>-->
+	<!---->
+	<!--<bean id="MappingJackson2HttpMessageConverter"-->
+		  <!--class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
+		<!--<property name="supportedMediaTypes">-->
+			<!--<list>-->
+				<!--<value>application/json;charset=UTF-8</value>-->
+			<!--</list>-->
+		<!--</property>-->
+	<!--</bean>-->
+
 
 	<mvc:interceptors>
 		<mvc:interceptor>

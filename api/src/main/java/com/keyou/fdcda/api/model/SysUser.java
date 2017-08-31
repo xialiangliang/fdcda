@@ -38,7 +38,7 @@ public class SysUser implements Serializable {
      */ 	
 	private java.lang.String address;
     /**
-     * 备注
+     * 状态 1-有效 2-无效
      */ 	
 	private Integer valid;
     /**

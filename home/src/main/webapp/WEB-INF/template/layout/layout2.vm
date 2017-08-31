@@ -1,4 +1,5 @@
 <div>
+##    <script src="https://cdn.bootcss.com/require.js/2.3.5/require.min.js"></script>
 #if($!{CSS})
     #foreach($_css in ${CSS})
         <link type="text/css" rel="stylesheet" href="/$_css">

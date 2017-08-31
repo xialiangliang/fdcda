@@ -124,7 +124,7 @@ comment on column sys_user.phone is '手机号';
 comment on column sys_user.telephone is '固定电话';
 comment on column sys_user.email is '邮件地址';
 comment on column sys_user.address is '地址';
-comment on column sys_user.valid is '备注';
+comment on column sys_user.valid is '状态 1-有效 2-无效';
 comment on column sys_user.create_time is '创建时间';
 comment on column sys_user.modify_time is '修改时间';
 CREATE SEQUENCE seq_sys_user
