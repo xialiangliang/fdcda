@@ -9,4 +9,6 @@ public interface SysUserService extends BaseService<SysUser, Long> {
     SysUser getUserByPhone(String phone);
     
     Result<SysUser> validateNewUser(SysUser user) throws Exception;
+
+    Result<SysUser> register(SysUser sysUser);
 }

@@ -68,7 +68,7 @@ public class SysResourceServiceImpl implements SysResourceService {
     @Override
     public List<SysResource> getTopResource(Long userId) {
         List<Long> idList = sysResourceMapper.findTopResourceId(userId);
-        List<SysResource> topSourceList;
+        List<SysResource> topSourceList = new ArrayList<>();
         if (idList.contains(0L)) { // all resource
             Map<String, Object> query = new HashMap<>();
             query.put("parentId", "0");
@@ -80,13 +80,15 @@ public class SysResourceServiceImpl implements SysResourceService {
                 sysResource.setSubResource(subResource);
             });
         } else {
-            topSourceList = sysResourceMapper.findByIds(idList);
-            topSourceList.forEach(sysResource -> {
-                Map<String, Object> query1 = new HashMap<>();
-                query1.put("parentId", sysResource.getId().toString());
-                List<SysResource> subResource = sysResourceMapper.findSubResource(query1);
-                sysResource.setSubResource(subResource);
-            });
+            if (!idList.isEmpty()) {
+                topSourceList = sysResourceMapper.findByIds(idList);
+                topSourceList.forEach(sysResource -> {
+                    Map<String, Object> query1 = new HashMap<>();
+                    query1.put("parentId", sysResource.getId().toString());
+                    List<SysResource> subResource = sysResourceMapper.findSubResource(query1);
+                    sysResource.setSubResource(subResource);
+                });
+            }
         }
         return topSourceList;
     }

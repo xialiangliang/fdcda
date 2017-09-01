@@ -5,6 +5,7 @@ import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysUserService;
 import com.keyou.fdcda.api.utils.EncodeUtil;
+import com.keyou.fdcda.api.utils.RandomUtil;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,38 +43,51 @@ public class LoginController {
     @RequestMapping
     public String index(HttpServletRequest request, Model model) {
         try {
-            String token = "123";
+            String token = RandomUtil.produceString(32);
             request.getSession().setAttribute(Constants.SESSION_LOGIN_TOKEN, token);
             model.addAttribute("token", token);
             
         } catch (Exception e) {
-            logger.error("公钥生成失败", e);
+            logger.error("服务异常", e);
         }
         return "/page/login";
     }
     
 //    @RequestMapping(value = "/index", method = RequestMethod.POST)
     @RequestMapping(value = "/confirm")
-    public String confirm(HttpServletRequest request) {
+    @ResponseBody
+    public Map<String, Object> confirm(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
+        map.put(Constants.SUCCESS, false);
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         if (phone != null && phone.length() == 11) {
             SysUser user = sysUserService.getUserByPhone(phone);
+            if (user == null) {
+                map.put(Constants.MESSAGE, "用户不存在");
+                return map;
+            }
+            if (user.getValid() != 1) {
+                map.put(Constants.MESSAGE, "无效用户");
+                return map;
+            }
             try {
                 String token = (String) request.getSession().getAttribute(Constants.SESSION_LOGIN_TOKEN);
-                String dbPwd = EncodeUtil.md5(user.getLoginpwd() + token);
-                if (dbPwd.equals(password)) {
-                    request.getSession().setAttribute(Constants.SESSION_USER, user);
-                    return "redirect:/";
+                String dbPwd = EncodeUtil.hash(user.getLoginpwd() + token, Constants.MD5);
+                if (!dbPwd.equals(password)) {
+                    map.put(Constants.MESSAGE, "密码错误");
+                    return map;
                 }
+                request.getSession().setAttribute(Constants.SESSION_USER, user);
             } catch (Exception e) {
-                logger.error("私钥解密失败", e);
+                logger.error("服务异常", e);
+                map.put(Constants.MESSAGE, "服务异常");
+                return map;
             }
         }
-        map.put("msg", "Success");
-        map.put("data", redisService.get("111", SysUser.class));
-        return "redirect:/login";
+        map.put(Constants.SUCCESS, true);
+        map.put(Constants.MESSAGE, "登录成功");
+        return map;
     }
 
     @RequestMapping(value = "/logout")

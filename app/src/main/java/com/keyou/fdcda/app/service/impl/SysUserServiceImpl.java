@@ -1,13 +1,13 @@
 package com.keyou.fdcda.app.service.impl;
 
+import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.constants.SmsConstants;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
+import com.keyou.fdcda.api.service.SmsService;
 import com.keyou.fdcda.api.service.SysUserService;
-import com.keyou.fdcda.api.utils.Assert;
-import com.keyou.fdcda.api.utils.EncodeUtil;
-import com.keyou.fdcda.api.utils.Result;
-import com.keyou.fdcda.api.utils.StringUtil;
+import com.keyou.fdcda.api.utils.*;
 import com.keyou.fdcda.app.dao.SysUserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,8 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private SmsService smsService;
 
     @Override
     public SysUser findById(Long id) {
@@ -85,8 +87,8 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtil.isBlank(user.getLoginname())) {
             return new Result<>(null, "登录名不能为空！", -1, false);
         }
-        if (EncodeUtil.md5("").equals(user.getLoginpwd())) {
-            return new Result<>(null, "密码不能为空！", -1, false);
+        if (StringUtil.isBlank(user.getLoginpwd())) {
+            user.setLoginpwd(Constants.DEFAULT_PASSWROD);
         }
         SysUser sysUser = sysUserMapper.getUserByLoginname(user.getLoginname());
         if (sysUser != null) {
@@ -95,12 +97,29 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtil.isBlank(user.getPhone())) {
             return new Result<>(null, "手机号不能为空！", -1, false);
         }
-        if (!user.getLoginpwd().equals(user.getLoginpwdConfirm())) {
-            return new Result<>(null, "两次密码不相同！", -1, false);
-        }
         user.setCreateTime(new Date());
         user.setModifyTime(new Date());
         user.setValid(1);
         return new Result<>(user, "", 0, true);
+    }
+
+    @Override
+    public Result<SysUser> register(SysUser sysUser) {
+        // Save user info
+        int res = sysUserMapper.save(sysUser);
+        if (res == 0) {
+            return new Result<>(null, "注册失败，请重试！", -1, false);
+        }
+        
+        // Generate random password
+        String randPasswd = RandomUtil.produceNumber(6);
+        SysUser vo = new SysUser();
+        vo.setId(sysUser.getId());
+        vo.setLoginpwd(EncodeUtil.hash(randPasswd, Constants.MD5));
+        sysUserMapper.update(vo);
+        
+        // Send password to user
+        smsService.sendSms(sysUser.getPhone(), SmsConstants.REGISTER_SUCCESS, new String[]{sysUser.getPhone(), randPasswd});
+        return new Result<>(sysUser, "注册成功！", 0, true);
     }
 }

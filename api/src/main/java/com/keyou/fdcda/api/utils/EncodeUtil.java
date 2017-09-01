@@ -44,6 +44,14 @@ public class EncodeUtil {
         }
     }
 
+    //hash
+    public static String hash(String str, String encode) {
+        if ("md5".equalsIgnoreCase(encode)) {
+            return md5(str);
+        }
+        return null;
+    }
+
     public static void main(String[] args) throws Exception {
         KeyPair keyPair=rsaGenKeyPair();
 

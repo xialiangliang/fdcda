@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.SmsTemplateMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SmsTemplate">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="type" jdbcType="DECIMAL" column="TYPE"/>
+		<result property="phones" jdbcType="VARCHAR" column="PHONES"/>
+		<result property="template" jdbcType="VARCHAR" column="TEMPLATE"/>
+		<result property="state" jdbcType="DECIMAL" column="STATE"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
+		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,TYPE ,PHONES ,TEMPLATE ,STATE ,CREATE_TIME ,MODIFY_TIME 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.SmsTemplate" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_SMS_TEMPLATE.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO SMS_TEMPLATE (
+        	ID ,
+        	TYPE ,
+        	PHONES ,
+        	TEMPLATE ,
+        	STATE ,
+        	CREATE_TIME ,
+        	MODIFY_TIME 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{type,jdbcType=DECIMAL} ,
+        	#{phones,jdbcType=VARCHAR} ,
+        	#{template,jdbcType=VARCHAR} ,
+        	#{state,jdbcType=DECIMAL} ,
+        	#{createTime,jdbcType=TIMESTAMP} ,
+        	#{modifyTime,jdbcType=TIMESTAMP} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.SmsTemplate">
+		UPDATE SMS_TEMPLATE
+		<set>
+			<if test="type != null">
+	        TYPE = #{type,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="phones != null">
+	        PHONES = #{phones,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="template != null">
+	        TEMPLATE = #{template,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="state != null">
+	        STATE = #{state,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="createTime != null">
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} ,
+	        </if>
+			<if test="modifyTime != null">
+	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM SMS_TEMPLATE WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM SMS_TEMPLATE 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+
+	<select id="findByType" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT <include refid="columns"/>
+		<![CDATA[
+		FROM SMS_TEMPLATE 
+		WHERE 
+        TYPE = #{type} 
+        and rownum = 1
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from SMS_TEMPLATE where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from SMS_TEMPLATE where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+			ORDER BY id DESC
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SMS_TEMPLATE where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="type != null and type.trim() != ''">
+		and TYPE = #{type}
+		</if>
+		<if test="phones != null and phones.trim() != ''">
+		and PHONES = #{phones}
+		</if>
+		<if test="template != null and template.trim() != ''">
+		and TEMPLATE = #{template}
+		</if>
+		<if test="state != null and state.trim() != ''">
+		and STATE = #{state}
+		</if>
+		<if test="createTimeBegin != null and createTimeBegin.trim() != ''">
+		and CREATE_TIME >= #{createTimeBegin}
+		</if>
+		<if test="createTimeEnd != null and createTimeEnd.trim() != ''">
+		and CREATE_TIME &lt;= #{createTimeEnd}
+		</if>
+		<if test="modifyTimeBegin != null and modifyTimeBegin.trim() != ''">
+		and MODIFY_TIME >= #{modifyTimeBegin}
+		</if>
+		<if test="modifyTimeEnd != null and modifyTimeEnd.trim() != ''">
+		and MODIFY_TIME &lt;= #{modifyTimeEnd}
+		</if>
+	</sql>
+</mapper>
+
+

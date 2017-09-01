@@ -61,16 +61,16 @@ public class SysUserController extends BaseController {
 				map.put(Constants.MESSAGE, result.getMessage());
 				return map;
 			}
-			Integer res = sysUserService.save(sysUser);
-			if (res == 0) {
-				map.put(Constants.MESSAGE, "注册失败，请重试！");
+			Result<SysUser> regResult = sysUserService.register(sysUser);
+			if (!regResult.getSuccess()) {
+				map.put(Constants.MESSAGE, regResult.getMessage());
 				return map;
 			}
 			map.put(Constants.SUCCESS, true);
-            map.put(Constants.MESSAGE, "注册成功！");
+            map.put(Constants.MESSAGE, regResult.getMessage());
             
 		} catch (Exception e) {
-			commonError(logger, e, "添加用户异常",map); 
+			commonError(logger, e, "注册异常",map); 
 		}
 		return map;
 	}

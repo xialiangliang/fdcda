@@ -137,6 +137,35 @@ NOCYCLE
 NOCACHE;
 
 
+-- 短信模板表
+create table sms_template
+(
+  id NUMBER(11) not null PRIMARY KEY,
+  type NUMBER(11),
+  phones VARCHAR2(255),
+  template VARCHAR2(255),
+  state NUMBER(3),
+  create_time DATE,
+  modify_time DATE
+);
+create unique index type_sms_template_idx on sms_template(type);
+comment on table  sms_template is '短信模板';
+comment on column sms_template.id is '主键id';
+comment on column sms_template.type is '模板号';
+comment on column sms_template.phones is '默认发送手机号';
+comment on column sms_template.template is '模板内容';
+comment on column sms_template.state is '状态 1-有效 2-无效';
+comment on column sms_template.create_time is '创建时间';
+comment on column sms_template.modify_time is '修改时间';
+CREATE SEQUENCE seq_sms_template
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+NOMAXVALUE
+NOCYCLE  
+NOCACHE;
+
+
 INSERT into SYS_USER (ID, LOGINNAME, LOGINPWD, USERNAME, PHONE, TELEPHONE, EMAIL, ADDRESS, VALID, CREATE_TIME, MODIFY_TIME) VALUES (seq_sys_user.nextval, 'root', '123456', 'root', '13300000222', null, null, null, 1, sysdate, sysdate);
 INSERT INTO SYS_ROLE (ID, NAME, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_ROLE.nextval, '超级管理员', sysdate, sysdate);
 INSERT INTO sys_roleinfo (id, role_id, resource_id, create_time, modify_time) VALUES (SEQ_SYS_ROLEINFO.nextval, 1, 0, sysdate, sysdate);
@@ -151,3 +180,5 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREA
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '商品管理', '/sysGoods', 1, 'glyphicon-th', 4, '商品管理', sysdate, sysdate);
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '平台使用情况', '/sysPlatform', 1, 'glyphicon-th', 5, '平台使用情况', sysdate, sysdate);
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 2, '统计报表', '/analysisReport', 1, 'glyphicon-th', 1, '统计报表', sysdate, sysdate);
+
+INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 1, null, '注册成功，账号%s，初始密码%s，请及时修改密码。', 1, sysdate, sysdate);

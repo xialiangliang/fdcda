@@ -62,14 +62,14 @@ li {
     border-radius: 5px;
     padding: 5px 15px;
     float: none;
-    -webkit-box-shadow: -3px 0 2px rgba(200,200,200,0.3),
-    3px 0 2px rgba(200,200,200,0.3),
-    0 -3px 2px rgba(200,200,200,0.3),
-    0 3px 2px rgba(200,200,200,0.3);
-    box-shadow: -3px 0 2px rgba(200,200,200,0.3),
-    3px 0 2px rgba(200,200,200,0.3),
-    0 -3px 2px rgba(200,200,200,0.3),
-    0 3px 2px rgba(200,200,200,0.3);
+    /*-webkit-box-shadow: -3px 0 2px rgba(200,200,200,0.3),*/
+    /*3px 0 2px rgba(200,200,200,0.3),*/
+    /*0 -3px 2px rgba(200,200,200,0.3),*/
+    /*0 3px 2px rgba(200,200,200,0.3);*/
+    /*box-shadow: -3px 0 2px rgba(200,200,200,0.3),*/
+    /*3px 0 2px rgba(200,200,200,0.3),*/
+    /*0 -3px 2px rgba(200,200,200,0.3),*/
+    /*0 3px 2px rgba(200,200,200,0.3);*/
     overflow:hidden;
     position:relative;
     z-index: 10;
