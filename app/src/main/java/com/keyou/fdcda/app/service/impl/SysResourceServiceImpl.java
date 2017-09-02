@@ -4,6 +4,7 @@ import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.SysResourceService;
+import com.keyou.fdcda.api.utils.Result;
 import com.keyou.fdcda.app.dao.SysResourceMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,5 +92,29 @@ public class SysResourceServiceImpl implements SysResourceService {
             }
         }
         return topSourceList;
+    }
+
+    @Override
+    public Result<List<SysResource>> getTopologicalResource(Map<String, Object> map) {
+        Map<String, Object> query = new HashMap<>();
+        List<SysResource> topResourceList = new ArrayList<>();
+        query.put("sortByParent", "asc");
+        List<SysResource> resourceList = sysResourceMapper.findAllPage(map);
+        Map<Long, SysResource> resMap = new HashMap<>();
+        resourceList.forEach(resource -> resMap.put(resource.getId(), resource));
+        for (SysResource sysResource : resourceList) {
+            if (sysResource.getParentId().equals(0L)) {
+                topResourceList.add(sysResource);
+            } else {
+                SysResource res = resMap.get(sysResource.getParentId());
+                if (res != null) {
+                    if (res.getSubResource() == null) {
+                        res.setSubResource(new ArrayList<>());
+                    }
+                    res.getSubResource().add(sysResource);
+                }
+            }
+        }
+        return new Result<>(topResourceList, "", 0, true);
     }
 }

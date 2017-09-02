@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.keyou.fdcda.api.utils.Result;
+import com.keyou.fdcda.api.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +81,22 @@ public class SysUserController extends BaseController {
 	@ResponseBody
 	public Map<String, Object> update(@ModelAttribute("sysUser") SysUser sysUser,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(Constants.SUCCESS, false);
 		try {
-			sysUserService.update(sysUser);
+			if (StringUtil.isNotBlank(sysUser.getPhone()) && !StringUtil.isPhone(sysUser.getPhone())) {
+				map.put(Constants.MESSAGE, "非法手机号");
+				return map;
+			}
+			if (StringUtil.isNotBlank(sysUser.getLoginname()) && !StringUtil.isLoginname(sysUser.getLoginname())) {
+				map.put(Constants.MESSAGE, "非法登录名");
+				return map;
+			}
+			try {
+				sysUserService.update(sysUser);
+			} catch (Exception e) {
+				map.put(Constants.MESSAGE, "修改失败，可能是手机号或登录名已存在");
+				return map;
+			}
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "修改成功");
@@ -105,7 +121,11 @@ public class SysUserController extends BaseController {
 	}
 	
 	@RequestMapping
-	public String list(PaginationQuery query,Model model) throws Exception {		
+	public String list(PaginationQuery query,Model model,HttpServletRequest request) throws Exception {
+		String keyword = request.getParameter("keyword");
+		if (StringUtil.isNotBlank(keyword)) {
+			query.addQueryData("keyword", keyword);
+		}
 		PageResult<SysUser> pageList = sysUserService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());

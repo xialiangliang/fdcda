@@ -1,11 +1,11 @@
 package com.keyou.fdcda.home.controller;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.service.RedisService;
+import com.keyou.fdcda.api.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,8 @@ public class SysResourceController extends BaseController {
 	
 	@Autowired
 	private SysResourceService sysResourceService;
+	@Autowired
+	private RedisService redisService;
 	
 	@RequestMapping(value="/new")
 	public String add() throws Exception {		
@@ -41,6 +43,10 @@ public class SysResourceController extends BaseController {
 		try {	
 			SysResource sysResource = sysResourceService.findById(id);
 			model.addAttribute("param", sysResource);
+			Map<String, Object> query = new HashMap<>();
+			query.put("parentId", "0");
+			List<SysResource> parentList = sysResourceService.findAllPage(query);
+			model.addAttribute("parentList", parentList);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysResource/update";
 		} catch (Exception e) {
@@ -71,6 +77,8 @@ public class SysResourceController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			sysResourceService.update(sysResource);
+			redisService.del("resource_parent_id_" + sysResource.getUrl());
+			redisService.del("resource_sub_id_" + sysResource.getUrl());
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "修改成功");
@@ -95,11 +103,19 @@ public class SysResourceController extends BaseController {
 	}
 	
 	@RequestMapping
-	public String list(PaginationQuery query,Model model) throws Exception {		
-		PageResult<SysResource> pageList = sysResourceService.findPage(query);
-		model.addAttribute("result", pageList);
-		model.addAttribute("query", query.getQueryData());
+	public String list(PaginationQuery query,Model model) throws Exception {
 		return "/page/sysResource/list";
+	}
+
+	@RequestMapping("/listMap")
+	@ResponseBody
+	public Map<String, Object> listMap() throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> query = new HashMap<>();
+		query.put("sortByParent", "asc");
+		Result<List<SysResource>> result = sysResourceService.getTopologicalResource(query);
+		map.put("result", result.getData());
+		return map;
 	}
 	
 }

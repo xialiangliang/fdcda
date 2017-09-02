@@ -52,6 +52,11 @@ public class SysResource implements Serializable {
 	
 	private List<SysResource> subResource;
 
+	/**
+	 * 是否有该权限
+	 */
+	private Boolean auth;
+
 	
 	public void setId(java.lang.Long value) {
 		this.id = value;
@@ -150,5 +155,13 @@ public class SysResource implements Serializable {
     public void setSubResource(List<SysResource> subResource) {
         this.subResource = subResource;
     }
+
+	public Boolean getAuth() {
+		return auth;
+	}
+
+	public void setAuth(Boolean auth) {
+		this.auth = auth;
+	}
 }
 

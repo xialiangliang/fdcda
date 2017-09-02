@@ -81,14 +81,17 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtil.isBlank(user.getPhone())) {
             return new Result<>(null, "手机号不能为空！", -1, false);
         }
+        if (!StringUtil.isPhone(user.getPhone())) {
+            return new Result<>(null, "手机号不合法！", -1, false);
+        }
         if (StringUtil.isBlank(user.getUsername())) {
             return new Result<>(null, "姓名不能为空！", -1, false);
         }
         if (StringUtil.isBlank(user.getLoginname())) {
             return new Result<>(null, "登录名不能为空！", -1, false);
         }
-        if (StringUtil.isBlank(user.getLoginpwd())) {
-            user.setLoginpwd(Constants.DEFAULT_PASSWROD);
+        if (!StringUtil.isLoginname(user.getLoginname())) {
+            return new Result<>(null, "登录名不合法！", -1, false);
         }
         SysUser sysUser = sysUserMapper.getUserByLoginname(user.getLoginname());
         if (sysUser != null) {
@@ -96,6 +99,10 @@ public class SysUserServiceImpl implements SysUserService {
         }
         if (StringUtil.isBlank(user.getPhone())) {
             return new Result<>(null, "手机号不能为空！", -1, false);
+        }
+        sysUser = sysUserMapper.getUserByPhone(user.getPhone());
+        if (sysUser != null) {
+            return new Result<>(null, "手机号已存在！", -1, false);
         }
         user.setCreateTime(new Date());
         user.setModifyTime(new Date());
@@ -110,16 +117,52 @@ public class SysUserServiceImpl implements SysUserService {
         if (res == 0) {
             return new Result<>(null, "注册失败，请重试！", -1, false);
         }
-        
-        // Generate random password
-        String randPasswd = RandomUtil.produceNumber(6);
+
+        String password = sysUser.getLoginpwd();
+        if (StringUtil.isBlank(password)) {
+            // Generate random password
+            password = RandomUtil.produceNumber(6);
+        }
         SysUser vo = new SysUser();
         vo.setId(sysUser.getId());
-        vo.setLoginpwd(EncodeUtil.hash(randPasswd, Constants.MD5));
+        vo.setLoginpwd(EncodeUtil.hash(password, Constants.MD5));
         sysUserMapper.update(vo);
         
         // Send password to user
-        smsService.sendSms(sysUser.getPhone(), SmsConstants.REGISTER_SUCCESS, new String[]{sysUser.getPhone(), randPasswd});
+        smsService.sendSms(sysUser.getPhone(), SmsConstants.REGISTER_SUCCESS,
+                new String[]{sysUser.getPhone(), sysUser.getLoginname(), password});
         return new Result<>(sysUser, "注册成功！", 0, true);
+    }
+
+    @Override
+    public Result<SysUser> loginByLoginname(String loginname, String password, String token) {
+        SysUser user = sysUserMapper.getUserByLoginname(loginname);
+        if (user == null) {
+            return new Result<>(null, "用户不存在", -1, false);
+        }
+        if (user.getValid() != 1) {
+            return new Result<>(null, "无效用户", -1, false);
+        }
+        String dbPwd = EncodeUtil.hash(user.getLoginpwd() + token, Constants.MD5);
+        if (!dbPwd.equals(password)) {
+            return new Result<>(null, "密码错误", -1, false);
+        }
+        return new Result<>(user, "登录成功", 0, true);
+    }
+
+    @Override
+    public Result<SysUser> loginByPhone(String phone, String password, String token) {
+        SysUser user = sysUserMapper.getUserByPhone(phone);
+        if (user == null) {
+            return new Result<>(null, "用户不存在", -1, false);
+        }
+        if (user.getValid() != 1) {
+            return new Result<>(null, "无效用户", -1, false);
+        }
+        String dbPwd = EncodeUtil.hash(user.getLoginpwd() + token, Constants.MD5);
+        if (!dbPwd.equals(password)) {
+            return new Result<>(null, "密码错误", -1, false);
+        }
+        return new Result<>(user, "登录成功", 0, true);
     }
 }

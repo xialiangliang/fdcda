@@ -6,6 +6,8 @@ import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysUserService;
 import com.keyou.fdcda.api.utils.EncodeUtil;
 import com.keyou.fdcda.api.utils.RandomUtil;
+import com.keyou.fdcda.api.utils.Result;
+import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,24 +63,23 @@ public class LoginController {
         map.put(Constants.SUCCESS, false);
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
-        if (phone != null && phone.length() == 11) {
-            SysUser user = sysUserService.getUserByPhone(phone);
-            if (user == null) {
-                map.put(Constants.MESSAGE, "用户不存在");
-                return map;
-            }
-            if (user.getValid() != 1) {
-                map.put(Constants.MESSAGE, "无效用户");
-                return map;
-            }
+        if (StringUtil.isNotBlank(phone)) {
+            String token = (String) request.getSession().getAttribute(Constants.SESSION_LOGIN_TOKEN);
+            request.getSession().removeAttribute(Constants.SESSION_LOGIN_TOKEN);
             try {
-                String token = (String) request.getSession().getAttribute(Constants.SESSION_LOGIN_TOKEN);
-                String dbPwd = EncodeUtil.hash(user.getLoginpwd() + token, Constants.MD5);
-                if (!dbPwd.equals(password)) {
-                    map.put(Constants.MESSAGE, "密码错误");
+                Result<SysUser> result;
+                if (StringUtil.isPhone(phone)) {
+                    result = sysUserService.loginByPhone(phone, password, token);
+                } else if (StringUtil.isLoginname(phone)) {
+                    result = sysUserService.loginByLoginname(phone, password, token);
+                } else {
+                    result = new Result<>(null, "用户不存在！", -1, false);
+                }
+                if (!result.getSuccess()) {
+                    map.put(Constants.MESSAGE, result.getMessage());
                     return map;
                 }
-                request.getSession().setAttribute(Constants.SESSION_USER, user);
+                request.getSession().setAttribute(Constants.SESSION_USER, result.getData());
             } catch (Exception e) {
                 logger.error("服务异常", e);
                 map.put(Constants.MESSAGE, "服务异常");

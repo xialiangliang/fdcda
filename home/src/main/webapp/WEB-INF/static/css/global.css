@@ -14,7 +14,7 @@ body {
 a {
     text-decoration: none;
     height: 100%;
-    color: #333;
+    /*color: #333;*/
 }
 
 li {
@@ -138,4 +138,22 @@ li {
 }
 .pop-con-tip {
     text-align:center;
+}
+
+
+
+/*jquery-ui style*/
+.pop-con-tip {
+    text-align:center;
+    padding-top:30px;
+    font-size: 18px;
+}
+
+.ui-dialog {
+    padding:0px;
+}
+
+.ui-dialog-titlebar {
+    border-bottom-left-radius:0px;
+    border-bottom-right-radius:0px;
 }

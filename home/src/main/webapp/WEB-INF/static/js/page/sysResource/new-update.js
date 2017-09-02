@@ -1,6 +1,6 @@
 $(function(){
-    var newForm = jQuery("#newForm_sysUser");
-    var updateForm = jQuery("#updateForm_sysUser");
+    var newForm = jQuery("#newForm_sysResource");
+    var updateForm = jQuery("#updateForm_sysResource");
 
     function tip(msg, reload) {
         var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
@@ -8,7 +8,7 @@ $(function(){
         tip_frame.html(action_tip);
         tip_frame.dialog({
             resizable: true,
-            width: 600,
+            width: 300,
             modal: true,
             buttons: {
             }

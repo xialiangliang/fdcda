@@ -185,6 +185,15 @@
 		<if test="modifyTimeEnd != null and modifyTimeEnd.trim() != ''">
 		and MODIFY_TIME &lt;= #{modifyTimeEnd}
 		</if>
+		<if test="keyword != null and keyword.trim() != ''">
+		and (PHONE like concat(concat('%', #{keyword}) , '%')
+			or ID like concat(concat('%', #{keyword}) , '%')
+			or LOGINNAME like concat(concat('%', #{keyword}) , '%')
+			or USERNAME like concat(concat('%', #{keyword}) , '%')
+			or TELEPHONE like concat(concat('%', #{keyword}) , '%')
+			or EMAIL like concat(concat('%', #{keyword}) , '%')
+			or ADDRESS like concat(concat('%', #{keyword}) , '%'))
+		</if>
 	</sql>
 </mapper>
 
