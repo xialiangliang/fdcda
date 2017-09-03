@@ -5,7 +5,8 @@ package com.keyou.fdcda.api.constants;
  */
 public enum SmsConstants {
     NULL(0L),
-    REGISTER_SUCCESS(1L);
+    REGISTER_SUCCESS(1L),
+    RESET_PASSWORD(2L);
     
     private Long type;
     

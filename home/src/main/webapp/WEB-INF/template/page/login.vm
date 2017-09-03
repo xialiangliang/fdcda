@@ -4,6 +4,7 @@
 #set($page_title = "后台管理系统")
 ##<script src="https://cdn.bootcss.com/jsencrypt/2.3.1/jsencrypt.min.js"></script>
 <script src="/js/jquery.md5.js"></script>
+<script src="https://cdn.bootcss.com/js-sha512/0.4.0/sha512.min.js"></script>
 ##<script src="https://cdn.bootcss.com/cryptico/0.0.1343522940/cryptico.min.js"></script>
 
 <div class="panel col-sm-offset-3 col-sm-6" style="width: 500px;margin-left: auto;margin-right: auto;" align="center">
@@ -15,7 +16,7 @@
     <div id="main-show" class="panel-body" style="padding-top:10px;">
         <input type="hidden" id="token" value="${token}">
         <label class="col-sm-12 control-label" align="center" style="color:red;">$!{message}</label>
-        <form id="login-form" class="form-horizontal" role="form" method="GET" action="/login/confirm" onsubmit="checkForm()">
+        <form id="login-form" class="form-horizontal" role="form" method="GET" action="/login/confirm">
             <div class="form-group">
                 <label for="phone" class="col-sm-2 control-label">账号</label>
                 <div class="col-sm-10">
@@ -28,6 +29,16 @@
                 <div class="col-sm-10">
                     <input type="password" class="form-control" id="password" name="password"
                            placeholder="请输入密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="validateCode" class="col-sm-2 control-label">验证码</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="validateCode" name="validateCode"
+                           placeholder="请输入图片验证码">
+                </div>
+                <div class="col-sm-4">
+                    <img id="validateCodeImg" onclick="changeCode();">
                 </div>
             </div>
 ##            <div class="form-group">
@@ -73,6 +84,23 @@
         
         var loginform = $("#login-form");
         loginform.ajaxForm({
+            beforeSerialize:function() {
+                var token = $('#token').val();
+                var salt = '';
+                var phone = $('#phone').val();
+                $.ajax({
+                    url :'/login/getSalt',
+                    data:{'phone': phone},
+                    async : false,
+                    success:function (data) {
+                        salt = data.salt;
+                    }
+                });
+                var password = sha512(sha512($('#password').val() + salt) + token);
+                $('#password').val(password);
+                $('#phone').attr('readonly', '');
+                $('#password').attr('readonly', '');
+            },
             success:function (data) {
                 if (data.success) {
                     window.location.href = "/";
@@ -81,12 +109,12 @@
                 }
             }
         });
+        
+        changeCode = function () {
+            var date = new Date();
+            $('#validateCodeImg').attr('src','/login/validateCode?t='+date.getTime());
+        };
+        
+        changeCode();
     });
-    function checkForm() {
-        var token = $('#token').val();
-        var password = $.md5($.md5($('#password').val()) + token);
-        $('#password').val(password);
-        $('#phone').attr('readonly', '');
-        $('#password').attr('readonly', '');
-    }
 </script>

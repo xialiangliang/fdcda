@@ -24,6 +24,21 @@ $(function(){
     var dialog = $("#newUpdateDialogFrame");
 
     newForm.ajaxForm({
+        beforeSerialize: function () {
+            var publicKey = "";
+            $.ajax({
+                url :'/sysUser/getPublicKey',
+                data:{},
+                async : false,
+                success:function (data) {
+                    publicKey = data.publicKey;
+                }
+            });
+            var encrypt = new JSEncrypt();
+            encrypt.setPublicKey(publicKey);
+            var encrypted = encrypt.encrypt($('#loginpwd').val());
+            $('#loginpwd').val(encrypted);
+        },
         success: function (data) {
             if (data.success) {
                 dialog.dialog("close");
@@ -45,5 +60,33 @@ $(function(){
     });
     $(".btn-close").click(function () {
         dialog.dialog("close");
-    })
+    });
+    
+    $(".btn-resetpwd").click(function () {
+        $( "#dialog-confirm" ).dialog({
+            resizable: false,
+            modal: true,
+            buttons: {
+                '确定': function () {
+                    $.ajax({
+                        url: '/sysUser/resetPassword',
+                        data: {'userId': $('#id').val()},
+                        async: false,
+                        success: function (data) {
+                            if (data.success) {
+                                dialog.dialog("close");
+                                tip(data.message, true);
+                            } else {
+                                tip(data.message, false);
+                            }
+                        }
+                    });
+                    $(this).dialog("close");
+                },
+                '取消': function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
 });

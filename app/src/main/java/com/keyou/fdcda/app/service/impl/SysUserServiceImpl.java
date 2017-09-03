@@ -77,6 +77,11 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    public SysUser getUserByLoginname(String phone) {
+        return sysUserMapper.getUserByLoginname(phone);
+    }
+
+    @Override
     public Result<SysUser> validateNewUser(SysUser user) throws Exception {
         if (StringUtil.isBlank(user.getPhone())) {
             return new Result<>(null, "手机号不能为空！", -1, false);
@@ -123,9 +128,11 @@ public class SysUserServiceImpl implements SysUserService {
             // Generate random password
             password = RandomUtil.produceNumber(6);
         }
+        String salt = RandomUtil.produceString(64);
+        salt = EncodeUtil.hash(salt, Constants.HASH_ENCODE);
         SysUser vo = new SysUser();
         vo.setId(sysUser.getId());
-        vo.setLoginpwd(EncodeUtil.hash(password, Constants.MD5));
+        vo.setLoginpwd(EncodeUtil.hash(password + salt, Constants.HASH_ENCODE) + Constants.PASSWORD_SALT_SPLIT + salt);
         sysUserMapper.update(vo);
         
         // Send password to user
@@ -143,7 +150,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (user.getValid() != 1) {
             return new Result<>(null, "无效用户", -1, false);
         }
-        String dbPwd = EncodeUtil.hash(user.getLoginpwd() + token, Constants.MD5);
+        String dbPwd = EncodeUtil.hash(user.getLoginpwd().split("\\" + Constants.PASSWORD_SALT_SPLIT)[0] + token, Constants.HASH_ENCODE);
         if (!dbPwd.equals(password)) {
             return new Result<>(null, "密码错误", -1, false);
         }
@@ -159,10 +166,27 @@ public class SysUserServiceImpl implements SysUserService {
         if (user.getValid() != 1) {
             return new Result<>(null, "无效用户", -1, false);
         }
-        String dbPwd = EncodeUtil.hash(user.getLoginpwd() + token, Constants.MD5);
+        String dbPwd = EncodeUtil.hash(user.getLoginpwd().split("\\" + Constants.PASSWORD_SALT_SPLIT)[0] + token, Constants.HASH_ENCODE);
         if (!dbPwd.equals(password)) {
             return new Result<>(null, "密码错误", -1, false);
         }
         return new Result<>(user, "登录成功", 0, true);
+    }
+
+    @Override
+    public Result<SysUser> resetPassword(Long userId) {
+        String password = RandomUtil.produceNumber(6);
+        String salt = RandomUtil.produceString(64);
+        salt = EncodeUtil.hash(salt, Constants.HASH_ENCODE);
+        SysUser vo = new SysUser();
+        vo.setId(userId);
+        vo.setLoginpwd(EncodeUtil.hash(password + salt, Constants.HASH_ENCODE) + Constants.PASSWORD_SALT_SPLIT + salt);
+        sysUserMapper.update(vo);
+
+        // Send password to user
+        SysUser sysUser = sysUserMapper.findById(userId);
+        smsService.sendSms(sysUser.getPhone(), SmsConstants.RESET_PASSWORD,
+                new String[]{sysUser.getPhone(), sysUser.getLoginname(), password});
+        return new Result<>(sysUser, "注册成功！", 0, true);
     }
 }

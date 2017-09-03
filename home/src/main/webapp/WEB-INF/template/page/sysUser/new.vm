@@ -1,6 +1,6 @@
 #set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($JS = ["/js/page/sysUser/new-update.js", "/js/jquery.form.min.js"])
+#set($JS = ["/js/jquery.form.min.js", "/js/page/sysUser/new-update.js"])
 <div class="col-sm-12">
     <form action="/sysUser/save"  method="post" class="form-horizontal" id="newForm_sysUser">
         <div class="form-group">

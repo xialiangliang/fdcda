@@ -1,5 +1,8 @@
 package com.keyou.fdcda.api.constants;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by zzq on 2017-08-27.
  */
@@ -8,15 +11,21 @@ public class Constants {
     public static final String MESSAGE = "message";
     public static final String REDIRECT = "redirect";
     
+    public static final List<String> URL_NO_AUTH_LIST = Arrays.asList(
+            "/login",
+            "/login/confirm",
+            "/login/getSalt",
+            "/login/validateCode");
     public static final String URL_LOGIN = "/login";
-    public static final String URL_LOGIN_CONFIRM = "/login/confirm";
     public static final String URL_INDEX = "/";
     
     public static final String SESSION_USER = "session_user";
     public static final String SESSION_PRIVATE_KEY = "session_private_key";
     public static final String SESSION_LOGIN_TOKEN = "session_login_token";
+    public static final String SESSION_LOGIN_VALIDATE_CODE = "session_login_validate_code"; // 登录图片验证码
     
-    public static final String MD5 = "md5";
+    public static final String HASH_ENCODE = "sha512";
+    public static final String PASSWORD_SALT_SPLIT = "$";
     public static final String DEFAULT_PASSWROD = "123456";
 
     /*********************** regex **********************/

@@ -4,6 +4,7 @@ import javax.crypto.Cipher;
 import java.math.BigInteger;
 import java.security.*;
 import java.util.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  * Created by zzq on 2017-08-27.
@@ -44,10 +45,17 @@ public class EncodeUtil {
         }
     }
 
+    public static String sha512(String str) {
+        String result3 = DigestUtils.sha512Hex(str);
+        return result3;
+    }
+
     //hash
     public static String hash(String str, String encode) {
         if ("md5".equalsIgnoreCase(encode)) {
             return md5(str);
+        } else if ("sha512".equalsIgnoreCase(encode)) {
+            return sha512(str);
         }
         return null;
     }
@@ -70,5 +78,8 @@ public class EncodeUtil {
         //私钥解密  
         byte[] decryptedBytes=rsaDecrypt(encryptedBytes, privateKey);
         System.out.println("解密后："+new String(decryptedBytes));
+
+        String result3 = DigestUtils.sha512Hex("123456");
+        System.out.println(result3);
     }
 }

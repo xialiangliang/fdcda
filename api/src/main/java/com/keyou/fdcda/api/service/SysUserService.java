@@ -7,6 +7,8 @@ import com.keyou.fdcda.api.utils.Result;
 
 public interface SysUserService extends BaseService<SysUser, Long> {
     SysUser getUserByPhone(String phone);
+
+    SysUser getUserByLoginname(String phone);
     
     Result<SysUser> validateNewUser(SysUser user) throws Exception;
 
@@ -15,4 +17,6 @@ public interface SysUserService extends BaseService<SysUser, Long> {
     Result<SysUser> loginByLoginname(String loginname, String password, String token);
     
     Result<SysUser> loginByPhone(String phone, String password, String token);
+
+    Result<SysUser> resetPassword(Long userId);
 }

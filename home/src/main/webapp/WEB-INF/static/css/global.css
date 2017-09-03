@@ -156,4 +156,9 @@ li {
 .ui-dialog-titlebar {
     border-bottom-left-radius:0px;
     border-bottom-right-radius:0px;
+    background:#337ab7;
+}
+
+.ui-dialog-title {
+    color:white;
 }

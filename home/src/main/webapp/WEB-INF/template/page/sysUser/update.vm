@@ -1,9 +1,9 @@
 #set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($JS = ["/js/page/sysUser/new-update.js", "/js/jquery.form.min.js"])
+#set($JS = ["/js/jquery.form.min.js", "/js/page/sysUser/new-update.js"])
 <div class="col-sm-12">
     <form action="/sysUser/update"  method="post" class="form-horizontal" id="updateForm_sysUser">
-        <input type="hidden" name="id" value="$!{param.id}" />
+        <input type="hidden" name="id" id="id" value="$!{param.id}" />
         <div class="form-group">
             <label class="col-sm-2 control-label">ID</label>
             <label class="col-sm-10 control-label" style="text-align: left;">$!{param.id}</label>
@@ -54,10 +54,16 @@
             </div>
         </div>    
         <div class="form-group" align="right">
-            <div class="col-sm-12">
+            <div class="col-sm-4" align="left">
+                <button type="button" class="btn btn-success btn-resetpwd">重置密码</button>
+            </div>
+            <div class="col-sm-8">
                 <button type="button" class="btn btn-default btn-close">关闭</button>
                 <button type="submit" class="btn btn-primary">提交</button>
             </div>
         </div>
     </form>
+    <div id="dialog-confirm" title="确认重置密码？" class="pop-con-tip" style="display: none;">
+        新密码将以短信的形式发送到用户手机，确认重置密码？
+    </div>
 </div>

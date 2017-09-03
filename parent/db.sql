@@ -104,7 +104,7 @@ create table sys_user
 (
   id NUMBER(11) not null PRIMARY KEY,
   loginname VARCHAR2(20),
-  loginpwd VARCHAR2(255),
+  loginpwd VARCHAR2(300),
   username VARCHAR2(100),
   phone VARCHAR2(11),
   telephone VARCHAR2(30),
@@ -166,7 +166,7 @@ NOCYCLE
 NOCACHE;
 
 
-INSERT into SYS_USER (ID, LOGINNAME, LOGINPWD, USERNAME, PHONE, TELEPHONE, EMAIL, ADDRESS, VALID, CREATE_TIME, MODIFY_TIME) VALUES (seq_sys_user.nextval, 'root', '123456', 'root', '13300000222', null, null, null, 1, sysdate, sysdate);
+INSERT into SYS_USER (ID, LOGINNAME, LOGINPWD, USERNAME, PHONE, TELEPHONE, EMAIL, ADDRESS, VALID, CREATE_TIME, MODIFY_TIME) VALUES (seq_sys_user.nextval, 'root', '68c892493719e46b605f9e8d976a52c44aa0c749229726fbbdfbf740a005d3d322b9cbe3a17bb8e2796fd3d891e9f5bc29811e7207121b8da7e32a96810932f4$ec5681a66aa22fcae1274f66db029c9085c5d32af3adffb58395c6e3956071ca84769f848c5990487d50e6b1b1fd87be730ee3eef73db5332223ce28a02d8083', 'root', '13300000222', null, null, null, 1, sysdate, sysdate);
 INSERT INTO SYS_ROLE (ID, NAME, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_ROLE.nextval, '超级管理员', sysdate, sysdate);
 INSERT INTO sys_roleinfo (id, role_id, resource_id, create_time, modify_time) VALUES (SEQ_SYS_ROLEINFO.nextval, 1, 0, sysdate, sysdate);
 INSERT INTO SYS_USERROLE (ID, USER_ID, ROLE_ID, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_USERROLE.nextval, 1, 1, sysdate, sysdate);
@@ -182,3 +182,4 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREA
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 2, '统计报表', '/analysisReport', 1, 'glyphicon-th', 1, '统计报表', sysdate, sysdate);
 
 INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 1, null, '注册成功，手机号%s，登录名%s，初始密码%s，请及时修改密码。', 1, sysdate, sysdate);
+INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 2, null, '密码重置成功，手机号%s，登录名%s，密码%s，请及时修改密码。', 1, sysdate, sysdate);
