@@ -8,16 +8,16 @@
 	<div class="page-content">
         <div class="sc-where-bar">
             <div class="col-sm-11">
-                <form class="form-inline" role="form">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="vcName" value="$!{query.vcName}">
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <button class="btn btn-primary btn-search" type="submit">查询</button>
-                        </div>
-                    </div>
-                </form>
+##                <form class="form-inline" role="form">
+##                    <div class="form-group">
+##                        <input type="text" class="form-control" name="vcName" value="$!{query.vcName}">
+##                    </div>
+##                    <div class="form-group">
+##                        <div class="col-sm-12">
+##                            <button class="btn btn-primary btn-search" type="submit">查询</button>
+##                        </div>
+##                    </div>
+##                </form>
             </div>
             <div class="col-sm-1 text-right">
                 <a href="#" class="btn btn-success btn-add j_new-btn">添加</a>
@@ -29,7 +29,7 @@
 	        <table class="table table-striped table-bordered table-hover dataTable">
 	            <thead>
 	            <tr>
-	                <th>主键id</th>
+	                <th>ID</th>
 	                <th>角色名称</th>
 	                <th>创建时间</th>
 	             

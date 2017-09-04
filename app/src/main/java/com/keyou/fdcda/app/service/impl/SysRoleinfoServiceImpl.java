@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service("sysRoleinfoService")
@@ -62,5 +60,29 @@ public class SysRoleinfoServiceImpl implements SysRoleinfoService {
     @Override
     public List<SysRoleinfo> findAllPage(Map<String, Object> map) {
         return sysRoleinfoMapper.findAllPage(map);
+    }
+    
+    @Override
+    public void updateByMap(Long roleId, Map<String, Object> updatedDataMap) {
+        updatedDataMap.forEach((key, value)->{
+            Long resoureId = Long.valueOf(key);
+            if (resoureId != null) {
+                Map<String, Object> query = new HashMap<>();
+                query.put("roleId", roleId.toString());
+                query.put("resourceId", resoureId.toString());
+                List<SysRoleinfo> sysRoleinfoList = sysRoleinfoMapper.findAllPage(query);
+                if (sysRoleinfoList.isEmpty() && "1".equals(value)) {
+                    SysRoleinfo sysRoleinfo = new SysRoleinfo();
+                    sysRoleinfo.setCreateTime(new Date());
+                    sysRoleinfo.setResourceId(resoureId);
+                    sysRoleinfo.setRoleId(roleId);
+                    sysRoleinfoMapper.save(sysRoleinfo);
+                } else if (!sysRoleinfoList.isEmpty() && "0".equals(value)) {
+                    sysRoleinfoList.forEach(item->{
+                        sysRoleinfoMapper.deleteById(item.getId());
+                    });
+                }
+            }
+        });
     }
 }

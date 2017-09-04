@@ -12,6 +12,7 @@
 		<result property="memo" jdbcType="VARCHAR" column="MEMO"/>
 		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
 		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
+		<result property="auth" jdbcType="DECIMAL" column="AUTH"/>
     </resultMap>
 	
 	<sql id="columns">
@@ -120,6 +121,25 @@
 	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select <include refid="columns"/>  from SYS_RESOURCE where 1=1
 		<include refid="queryWhere"/>
+		ORDER BY
+		<if test="sortByParent != null and sortByParent.trim() != ''">
+			PARENT_ID ${sortByParent},
+		</if>
+		SORT
+	</select>
+
+	<select id="findAllPageWithAuth" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, AUTH
+		from (
+		select a.* ,
+		case when a.ID in (select DISTINCT RESOURCE_ID from SYS_ROLEINFO where ROLE_ID = #{roleId})
+		then 1
+		when (select MIN (RESOURCE_ID) from SYS_ROLEINFO where ROLE_ID = #{roleId}) = 0
+		then 1
+		else 0
+		end AUTH
+		from SYS_RESOURCE a
+		)
 		ORDER BY
 		<if test="sortByParent != null and sortByParent.trim() != ''">
 			PARENT_ID ${sortByParent},

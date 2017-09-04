@@ -96,10 +96,14 @@ public class SysResourceServiceImpl implements SysResourceService {
 
     @Override
     public Result<List<SysResource>> getTopologicalResource(Map<String, Object> map) {
-        Map<String, Object> query = new HashMap<>();
         List<SysResource> topResourceList = new ArrayList<>();
-        query.put("sortByParent", "asc");
-        List<SysResource> resourceList = sysResourceMapper.findAllPage(map);
+        map.put("sortByParent", "asc");
+        List<SysResource> resourceList;
+        if (map.get("roleId") != null) {
+            resourceList = sysResourceMapper.findAllPageWithAuth(map);
+        } else {
+            resourceList = sysResourceMapper.findAllPage(map);
+        }
         Map<Long, SysResource> resMap = new HashMap<>();
         resourceList.forEach(resource -> resMap.put(resource.getId(), resource));
         for (SysResource sysResource : resourceList) {

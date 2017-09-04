@@ -141,8 +141,8 @@ public class LoginController {
         //产生image类的Graphics用于绘制操作
         Graphics g = image.getGraphics();
         //Graphics类的样式
-        g.setColor(this.getRandColor(200, 250));
-        g.setFont(new Font("Times New Roman",0,28));
+        g.setColor(this.getRandColor(220, 250));
+        g.setFont(new Font("Times New Roman",0,22));
         g.fillRect(0, 0, width, height);
         //绘制干扰线
         for(int i=0;i<80;i++){
@@ -159,7 +159,8 @@ public class LoginController {
         for(int i=0;i<4;i++){
             String rand = String.valueOf(random.nextInt(10));
             strCode = strCode + rand;
-            g.setColor(new Color(20+random.nextInt(110),20+random.nextInt(110),20+random.nextInt(110)));
+//            g.setColor(new Color(20+random.nextInt(110),20+random.nextInt(110),20+random.nextInt(110)));
+            g.setColor(this.getRandColor(80, 150));
             g.drawString(rand, 13*i+6, 28);
         }
         //将字符保存到session中用于前端的验证

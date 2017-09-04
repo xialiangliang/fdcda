@@ -17,7 +17,8 @@ $(function(){
                 + '<span style="width:10%;float:right;">' + oper_item + '</span>'
                 + '<span style="width:20%;float:right;">' + data[i].memo + '</span>'
                 + '<span style="width:5%;float:right;">' + data[i].sort + '</span>'
-                + '<span style="width:40%;float:right;">' + data[i].url + '</span>',
+                + '<span style="width:40%;float:right;">' + data[i].url + '</span>'
+                + '<span style="width:5%;float:right;">' + data[i].id + '</span>',
                 state:{
                     expanded:false
                 }
@@ -35,6 +36,7 @@ $(function(){
             {
                 name:'名称',
                 url:'资源路径',
+                id:'ID',
                 sort:'排序',
                 memo:'备注',
                 oper:'操作'
@@ -43,7 +45,9 @@ $(function(){
         parseResource(data.result, tree);
 
         $('#treeview').treeview({
-            data:tree
+            data:tree,
+            selectedColor:"black",
+            selectedBackColor:"white"
         });
     });
 

@@ -13,4 +13,6 @@ public interface SysResourceMapper extends BaseMapper<SysResource, java.lang.Lon
     List<Long> findTopResourceId(Long userId);
     List<SysResource> findSubResource(Map<String, Object> map);
     List<SysResource> findByIds(List<Long> ids);
+
+    List<SysResource> findAllPageWithAuth(Map<String, Object> map);
 }

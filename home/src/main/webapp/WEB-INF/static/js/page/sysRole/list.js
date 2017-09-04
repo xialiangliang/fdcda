@@ -6,7 +6,7 @@ $(function(){
             dialog.html(object.responseText);
             dialog.dialog({
                 resizable: true,
-                width: 600,
+                width: 800,
                 modal: true,
                 buttons: {
                 }
@@ -19,7 +19,7 @@ $(function(){
             dialog.html(object.responseText);
             dialog.dialog({
                 resizable: true,
-                width: 600,
+                width: 800,
                 modal: true,
                 buttons: {
                 }

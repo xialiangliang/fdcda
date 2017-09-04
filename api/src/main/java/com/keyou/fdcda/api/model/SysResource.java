@@ -55,7 +55,7 @@ public class SysResource implements Serializable {
 	/**
 	 * 是否有该权限
 	 */
-	private Boolean auth;
+	private Long auth;
 
 	
 	public void setId(java.lang.Long value) {
@@ -156,11 +156,11 @@ public class SysResource implements Serializable {
         this.subResource = subResource;
     }
 
-	public Boolean getAuth() {
+	public Long getAuth() {
 		return auth;
 	}
 
-	public void setAuth(Boolean auth) {
+	public void setAuth(Long auth) {
 		this.auth = auth;
 	}
 }
