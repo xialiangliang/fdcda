@@ -53,6 +53,16 @@
                 </select>
             </div>
         </div>    
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">角色</label>
+            <div class="col-sm-10">
+                #foreach($item in $roleinfoList)
+                <div class="col-sm-12">
+                    <input type="checkbox" name="roleId" #if ($item.userId) checked #end value="${item.roleId}">${item.roleName}
+                </div>
+                #end
+            </div>
+        </div>
         <div class="form-group" align="right">
             <div class="col-sm-4" align="left">
                 <button type="button" class="btn btn-success btn-resetpwd">重置密码</button>

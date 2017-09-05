@@ -7,6 +7,7 @@
 		<result property="roleId" jdbcType="DECIMAL" column="ROLE_ID"/>
 		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
 		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
+		<result property="roleName" jdbcType="VARCHAR" column="ROLE_NAME"/>
     </resultMap>
 	
 	<sql id="columns">
@@ -62,6 +63,13 @@
         ID = #{id} 
 	]]>
 	</delete>
+
+	<delete id="deleteByRoleId" parameterType="java.util.Map">
+		<![CDATA[
+		DELETE FROM SYS_USERROLE WHERE
+        ROLE_ID = #{roleId} and USER_ID = #{userId}
+	]]>
+	</delete>
     
 	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
 	    SELECT <include refid="columns"/> 
@@ -91,6 +99,14 @@
 		select <include refid="columns"/>  from SYS_USERROLE where 1=1
 		<include refid="queryWhere"/>
 		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+
+	<select id="findAllPageWithRoleName" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select ID, USER_ID, ROLE_ID, ROLE_NAME  from (
+		select MIN(a.NAME) ROLE_NAME,  MIN(b.USER_ID) USER_ID, MIN(b.ID) ID, a.ID ROLE_ID
+		from SYS_ROLE a left join SYS_USERROLE b on b.ROLE_ID = a.ID and b.USER_ID = #{userId}
+		group by a.ID)
+		<![CDATA[ ORDER BY id ASC ]]>
 	</select>
 	
 	<sql id="queryWhere">

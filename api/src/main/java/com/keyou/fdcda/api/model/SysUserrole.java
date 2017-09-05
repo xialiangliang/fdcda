@@ -27,6 +27,8 @@ public class SysUserrole implements Serializable {
      */ 	
 	private java.util.Date modifyTime;
 	private java.lang.String modifyTimeStr;
+	
+	private String roleName;
 
 	
 	public void setId(java.lang.Long value) {
@@ -79,6 +81,12 @@ public class SysUserrole implements Serializable {
 		return this.modifyTimeStr;
 	}
 
-	
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
 }
 

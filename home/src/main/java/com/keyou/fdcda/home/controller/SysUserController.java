@@ -2,14 +2,14 @@ package com.keyou.fdcda.home.controller;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.model.SysUserrole;
+import com.keyou.fdcda.api.service.SysUserroleService;
 import com.keyou.fdcda.api.utils.EncodeUtil;
 import com.keyou.fdcda.api.utils.Result;
 import com.keyou.fdcda.api.utils.StringUtil;
@@ -37,9 +37,15 @@ public class SysUserController extends BaseController {
 	
 	@Autowired
 	private SysUserService sysUserService;
+	@Autowired
+	private SysUserroleService sysUserroleService;
 	
 	@RequestMapping(value="/new")
-	public String add() throws Exception {		
+	public String add(Model model) throws Exception {
+		Map<String, Object> query = new HashMap<>();
+		query.put("userId", "0");
+		List<SysUserrole> roleinfoList = sysUserroleService.findAllPageWithRoleName(query);
+		model.addAttribute("roleinfoList", roleinfoList);	
 		return "/page/sysUser/new";
 	}
 	
@@ -48,6 +54,10 @@ public class SysUserController extends BaseController {
 		try {	
 			SysUser sysUser = sysUserService.findById(id);
 			model.addAttribute("param", sysUser);
+			Map<String, Object> query = new HashMap<>();
+			query.put("userId", sysUser.getId().toString());
+			List<SysUserrole> roleinfoList = sysUserroleService.findAllPageWithRoleName(query);
+			model.addAttribute("roleinfoList", roleinfoList);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysUser/update";
 		} catch (Exception e) {
@@ -101,6 +111,8 @@ public class SysUserController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(Constants.SUCCESS, false);
 		try {
+			String[] roles = request.getParameterValues("roleId");
+			roles = roles == null ? new String[]{} : roles;
 			if (StringUtil.isNotBlank(sysUser.getPhone()) && !StringUtil.isPhone(sysUser.getPhone())) {
 				map.put(Constants.MESSAGE, "非法手机号");
 				return map;
@@ -115,6 +127,8 @@ public class SysUserController extends BaseController {
 				map.put(Constants.MESSAGE, "修改失败，可能是手机号或登录名已存在");
 				return map;
 			}
+			List<Long> roleIds = Arrays.stream(roles).mapToLong(Long::valueOf).boxed().collect(Collectors.toList());
+			sysUserroleService.updateRolesData(sysUser.getId(), roleIds);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "修改成功");
