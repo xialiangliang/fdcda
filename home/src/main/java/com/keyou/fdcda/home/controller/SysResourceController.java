@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.constants.IconConstants;
 import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.utils.Result;
 import org.slf4j.Logger;
@@ -34,7 +35,8 @@ public class SysResourceController extends BaseController {
 	private RedisService redisService;
 	
 	@RequestMapping(value="/new")
-	public String add() throws Exception {		
+	public String add(Model model) throws Exception {
+		model.addAttribute("iconList", IconConstants.ICON_LIST);
 		return "/page/sysResource/new";
 	}
 	
@@ -47,6 +49,7 @@ public class SysResourceController extends BaseController {
 			query.put("parentId", "0");
 			List<SysResource> parentList = sysResourceService.findAllPage(query);
 			model.addAttribute("parentList", parentList);
+			model.addAttribute("iconList", IconConstants.ICON_LIST);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysResource/update";
 		} catch (Exception e) {

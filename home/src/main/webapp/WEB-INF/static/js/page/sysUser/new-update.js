@@ -45,6 +45,7 @@ $(function(){
                 tip(data.message, true);
             } else {
                 tip(data.message, false);
+                $('#loginpwd').val('');
             }
         }
     });

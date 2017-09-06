@@ -106,7 +106,7 @@
 		select MIN(a.NAME) ROLE_NAME,  MIN(b.USER_ID) USER_ID, MIN(b.ID) ID, a.ID ROLE_ID
 		from SYS_ROLE a left join SYS_USERROLE b on b.ROLE_ID = a.ID and b.USER_ID = #{userId}
 		group by a.ID)
-		<![CDATA[ ORDER BY id ASC ]]>
+		<![CDATA[ ORDER BY ROLE_ID ASC ]]>
 	</select>
 	
 	<sql id="queryWhere">

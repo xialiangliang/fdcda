@@ -83,6 +83,9 @@ public class SysUserController extends BaseController {
 		Map<String, Object> map = new HashMap<>();
 		map.put(Constants.SUCCESS, false);
 		try {
+			String[] roles = request.getParameterValues("roleId");
+			roles = roles == null ? new String[]{} : roles;
+			
 			PrivateKey privateKey = (PrivateKey) request.getSession().getAttribute("privateKey");
 			byte[] decryptedBytes = EncodeUtil.rsaDecrypt(Base64.getDecoder().decode(sysUser.getLoginpwd()), privateKey);
 			sysUser.setLoginpwd(new String(decryptedBytes));
@@ -91,11 +94,18 @@ public class SysUserController extends BaseController {
 				map.put(Constants.MESSAGE, result.getMessage());
 				return map;
 			}
+			if (roles.length <= 0) {
+				map.put(Constants.MESSAGE, "至少要选择一个角色！");
+				return map;
+			}
 			Result<SysUser> regResult = sysUserService.register(sysUser);
 			if (!regResult.getSuccess()) {
 				map.put(Constants.MESSAGE, regResult.getMessage());
 				return map;
 			}
+			// 角色设置
+			List<Long> roleIds = Arrays.stream(roles).mapToLong(Long::valueOf).boxed().collect(Collectors.toList());
+			sysUserroleService.updateRolesData(sysUser.getId(), roleIds);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, regResult.getMessage());
             
