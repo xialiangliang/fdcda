@@ -13,4 +13,6 @@ public interface SysResourceService extends BaseService<SysResource, Long> {
     List<SysResource> getTopResource(Long userId);
     
     Result<List<SysResource>> getTopologicalResource(Map<String, Object> map);
+    
+    List<SysResource> findByUrl(String url);
 }

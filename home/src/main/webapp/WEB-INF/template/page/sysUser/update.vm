@@ -74,6 +74,7 @@
         </div>
     </form>
     <div id="dialog-confirm" title="确认重置密码？" class="pop-con-tip" style="display: none;">
-        新密码将以短信的形式发送到用户手机，确认重置密码？
+##        新密码将以短信的形式发送到用户手机，
+        确认重置密码？
     </div>
 </div>

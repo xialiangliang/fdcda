@@ -42,7 +42,20 @@ $(function(){
         success: function (data) {
             if (data.success) {
                 dialog.dialog("close");
-                tip(data.message, true);
+                dialog.html('手机号：' + data.phone + '<br>'
+                    + '登录名：' + data.loginname + '<br>'
+                    + '密码：' + data.password);
+                dialog.dialog({
+                    title: '新用户',
+                    resizable: true,
+                    width: 400,
+                    modal: true,
+                    buttons: {
+                        "确定":function () {
+                            $(this).dialog('close');
+                        }
+                    }
+                });
             } else {
                 tip(data.message, false);
                 $('#loginpwd').val('');
@@ -76,7 +89,20 @@ $(function(){
                         success: function (data) {
                             if (data.success) {
                                 dialog.dialog("close");
-                                tip(data.message, true);
+                                dialog.html('手机号：' + data.phone + '<br>'
+                                    + '登录名：' + data.loginname + '<br>'
+                                    + '密码：' + data.password);
+                                dialog.dialog({
+                                    title: '新密码',
+                                    resizable: true,
+                                    width: 400,
+                                    modal: true,
+                                    buttons: {
+                                        "确定":function () {
+                                            $(this).dialog('close');
+                                        }
+                                    }
+                                });
                             } else {
                                 tip(data.message, false);
                             }

@@ -121,4 +121,9 @@ public class SysResourceServiceImpl implements SysResourceService {
         }
         return new Result<>(topResourceList, "", 0, true);
     }
+
+    @Override
+    public List<SysResource> findByUrl(String url) {
+        return sysResourceMapper.findByUrl(url);
+    }
 }

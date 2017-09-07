@@ -112,6 +112,12 @@ public class SysUserServiceImpl implements SysUserService {
         user.setCreateTime(new Date());
         user.setModifyTime(new Date());
         user.setValid(1);
+        String password = user.getLoginpwd();
+        if (StringUtil.isBlank(password)) {
+            // Generate random password
+            password = RandomUtil.produceNumber(6);
+        }
+        user.setLoginpwd(password);
         return new Result<>(user, "", 0, true);
     }
 
@@ -124,10 +130,6 @@ public class SysUserServiceImpl implements SysUserService {
         }
 
         String password = sysUser.getLoginpwd();
-        if (StringUtil.isBlank(password)) {
-            // Generate random password
-            password = RandomUtil.produceNumber(6);
-        }
         String salt = RandomUtil.produceString(64);
         salt = EncodeUtil.hash(salt, Constants.HASH_ENCODE);
         SysUser vo = new SysUser();
@@ -187,6 +189,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser sysUser = sysUserMapper.findById(userId);
         smsService.sendSms(sysUser.getPhone(), SmsConstants.RESET_PASSWORD,
                 new String[]{sysUser.getPhone(), sysUser.getLoginname(), password});
+        sysUser.setLoginpwd(password);
         return new Result<>(sysUser, "注册成功！", 0, true);
     }
 }

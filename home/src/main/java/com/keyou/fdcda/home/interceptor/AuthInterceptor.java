@@ -3,8 +3,11 @@ package com.keyou.fdcda.home.interceptor;
 import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysUser;
+import com.keyou.fdcda.api.model.SysUserrole;
 import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysResourceService;
+import com.keyou.fdcda.api.service.SysRoleinfoService;
+import com.keyou.fdcda.api.service.SysUserroleService;
 import com.keyou.fdcda.api.utils.HttpUtil;
 import com.keyou.fdcda.api.utils.StringUtil;
 import org.slf4j.Logger;
@@ -18,7 +21,13 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static java.lang.Boolean.*;
 
 /**
  * Created by zzq on 2017/8/24.
@@ -33,6 +42,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     private RedisService redisService;
     @Autowired
     private SysResourceService sysResourceService;
+    @Autowired
+    private SysUserroleService sysUserroleService;
+    @Autowired
+    private SysRoleinfoService sysRoleinfoService;
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -47,6 +60,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         } else {
             if (Constants.URL_NO_AUTH_LIST.contains(uri)) {
                 response.sendRedirect(request.getContextPath() + Constants.URL_INDEX);
+                return true;
+            } else {
+                return authCheck(uri, user.getId());
             }
         }
         return true;
@@ -94,5 +110,25 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
+    }
+    
+    Boolean authCheck(String uri, Long userId) {
+        Map<String, Object> query = new HashMap<>();
+        query.put("userId", userId.toString());
+        List<SysUserrole> userroleList = sysUserroleService.findAllPage(query);
+        List<SysResource> resourceList = sysResourceService.findByUrl(uri);
+//        Boolean res;
+//        Optional<SysResource> resource0 = resourceList.stream().filter(resource -> Arrays.asList(resource.getUrl().split(";")).contains(uri)).findFirst();
+//        resource0.ifPresent(sysResource -> userroleList.forEach(userrole -> {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("resourceId", sysResource.getId().toString());
+//            map.put("roleId", userrole.getId().toString());
+//            Long count = sysRoleinfoService.findPageCount(map);
+//            if (count > 0) {
+//                res = TRUE;
+//            }
+//        }));
+//        return FALSE;
+        return true;
     }
 }

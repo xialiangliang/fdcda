@@ -128,6 +128,12 @@
 		SORT
 	</select>
 
+	<select id="findByUrl" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SYS_RESOURCE 
+		where URL like concat(concat('%', #{url}) , '%')
+		ORDER BY ID
+	</select>
+
 	<select id="findAllPageWithAuth" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select <include refid="columns"/>, AUTH
 		from (

@@ -98,11 +98,15 @@ public class SysUserController extends BaseController {
 				map.put(Constants.MESSAGE, "至少要选择一个角色！");
 				return map;
 			}
+			String password = sysUser.getLoginpwd();
 			Result<SysUser> regResult = sysUserService.register(sysUser);
 			if (!regResult.getSuccess()) {
 				map.put(Constants.MESSAGE, regResult.getMessage());
 				return map;
 			}
+			map.put("phone", sysUser.getPhone());
+			map.put("loginname", sysUser.getLoginname());
+			map.put("password", password);
 			// 角色设置
 			List<Long> roleIds = Arrays.stream(roles).mapToLong(Long::valueOf).boxed().collect(Collectors.toList());
 			sysUserroleService.updateRolesData(sysUser.getId(), roleIds);
@@ -181,7 +185,11 @@ public class SysUserController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String userIdStr = request.getParameter("userId");
-			sysUserService.resetPassword(Long.valueOf(userIdStr));
+			Result<SysUser> result = sysUserService.resetPassword(Long.valueOf(userIdStr));
+			SysUser sysUser = result.getData();
+			map.put("phone", sysUser.getPhone());
+			map.put("loginname", sysUser.getLoginname());
+			map.put("password", sysUser.getLoginpwd());
 			map.put(Constants.SUCCESS, true);
 			map.put(Constants.MESSAGE, "重置成功");
 		} catch (Exception e) {
