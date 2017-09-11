@@ -1,8 +1,10 @@
 package com.keyou.fdcda.app.service.impl;
 
+import com.keyou.fdcda.api.constants.RedisConstants;
 import com.keyou.fdcda.api.model.SysRoleinfo;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
+import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysRoleinfoService;
 import com.keyou.fdcda.app.dao.SysRoleinfoMapper;
 import org.slf4j.Logger;
@@ -19,6 +21,8 @@ public class SysRoleinfoServiceImpl implements SysRoleinfoService {
 
     @Autowired
     private SysRoleinfoMapper sysRoleinfoMapper;
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public SysRoleinfo findById(Long id) {
@@ -82,6 +86,7 @@ public class SysRoleinfoServiceImpl implements SysRoleinfoService {
                         sysRoleinfoMapper.deleteById(item.getId());
                     });
                 }
+                redisService.del(RedisConstants.RESOURCE_ROLE + resoureId.toString());
             }
         });
     }

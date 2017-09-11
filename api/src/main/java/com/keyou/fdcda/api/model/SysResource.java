@@ -57,6 +57,11 @@ public class SysResource implements Serializable {
 	 */
 	private Long auth;
 
+	/**
+	 * 拥有该资源权限的角色id
+	 */
+	private String roleIdsStr;
+
 	
 	public void setId(java.lang.Long value) {
 		this.id = value;
@@ -162,6 +167,14 @@ public class SysResource implements Serializable {
 
 	public void setAuth(Long auth) {
 		this.auth = auth;
+	}
+
+	public String getRoleIdsStr() {
+		return roleIdsStr;
+	}
+
+	public void setRoleIdsStr(String roleIdsStr) {
+		this.roleIdsStr = roleIdsStr;
 	}
 }
 

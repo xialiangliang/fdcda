@@ -13,6 +13,7 @@
 		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
 		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
 		<result property="auth" jdbcType="DECIMAL" column="AUTH"/>
+		<result property="roleIdsStr" jdbcType="VARCHAR" column="roleIdsStr"/>
     </resultMap>
 	
 	<sql id="columns">
@@ -153,6 +154,16 @@
 		SORT
 	</select>
 
+	<select id="findListWithRole" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select a.ID ID, a.URL URL, wmsys.wm_concat(b.ROLE_ID) roleIdsStr 
+		from SYS_RESOURCE a 
+		left join SYS_ROLEINFO b 
+		on b.RESOURCE_ID = a.ID 
+		group by a.ID, a.URL
+		ORDER BY
+		a.ID
+	</select>
+
 	<select id="findTopResourceId" resultType="java.lang.Long" parameterType="java.lang.Long">
 		select DISTINCT RESOURCE_ID from SYS_ROLEINFO
 		where ROLE_ID in (
@@ -160,7 +171,7 @@
 		)
 	</select>
 
-	<select id="findSubResource" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	<select id="findSubResource" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select <include refid="columns"/> from SYS_RESOURCE
 			where PARENT_ID = #{parentId}
 			and ID in (

@@ -1,6 +1,7 @@
 package com.keyou.fdcda.home.interceptor;
 
 import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.constants.RedisConstants;
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.SysUserrole;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.Boolean.*;
 
@@ -62,6 +64,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 response.sendRedirect(request.getContextPath() + Constants.URL_INDEX);
                 return true;
             } else {
+                if (Constants.URL_LOGOUT.equals(uri)) {
+                    return true;
+                }
                 return authCheck(uri, user.getId());
             }
         }
@@ -112,23 +117,23 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     }
     
-    Boolean authCheck(String uri, Long userId) {
+    private Boolean authCheck(String uri, Long userId) {
         Map<String, Object> query = new HashMap<>();
         query.put("userId", userId.toString());
         List<SysUserrole> userroleList = sysUserroleService.findAllPage(query);
         List<SysResource> resourceList = sysResourceService.findByUrl(uri);
-//        Boolean res;
-//        Optional<SysResource> resource0 = resourceList.stream().filter(resource -> Arrays.asList(resource.getUrl().split(";")).contains(uri)).findFirst();
-//        resource0.ifPresent(sysResource -> userroleList.forEach(userrole -> {
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("resourceId", sysResource.getId().toString());
-//            map.put("roleId", userrole.getId().toString());
-//            Long count = sysRoleinfoService.findPageCount(map);
-//            if (count > 0) {
-//                res = TRUE;
-//            }
-//        }));
-//        return FALSE;
-        return true;
+        List<Long> userRoleIdList = userroleList.stream().mapToLong(SysUserrole::getRoleId).boxed().collect(Collectors.toList());
+        for (SysResource sysResource : resourceList) {
+            if (!redisService.exists(RedisConstants.RESOURCE_ROLE + sysResource.getId())) {
+                sysResourceService.findListWithRole();
+            }
+            String[] roleIdStr = ((String) redisService.get(RedisConstants.RESOURCE_ROLE + sysResource.getId(), String.class)).split(",");
+            List<Long> roleList = Arrays.asList(roleIdStr).stream().mapToLong(Long::valueOf).boxed().collect(Collectors.toList());
+            roleList.retainAll(userRoleIdList);
+            if (!roleList.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

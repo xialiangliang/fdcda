@@ -15,12 +15,6 @@
 		<!--<property name="prefix" value="/WEB-INF/template/"/>-->
 		<!--<property name="suffix" value=".jsp"/>-->
 	<!--</bean>-->
-	<!-- 启用AOP支持 -->
-	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<!--, split-->
-	<context:component-scan base-package="com.keyou.fdcda.app.service.impl">
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-	</context:component-scan>
 
 	<!--url地址配置-->
 	<bean id="staticUrlConfig" class="org.springframework.beans.factory.config.PropertiesFactoryBean">

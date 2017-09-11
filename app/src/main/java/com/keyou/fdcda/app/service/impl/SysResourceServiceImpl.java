@@ -1,20 +1,22 @@
 package com.keyou.fdcda.app.service.impl;
 
+import com.keyou.fdcda.api.constants.RedisConstants;
 import com.keyou.fdcda.api.model.SysResource;
+import com.keyou.fdcda.api.model.SysRoleinfo;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
+import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysResourceService;
 import com.keyou.fdcda.api.utils.Result;
 import com.keyou.fdcda.app.dao.SysResourceMapper;
+import com.keyou.fdcda.app.dao.SysRoleinfoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service("sysResourceService")
@@ -23,6 +25,10 @@ public class SysResourceServiceImpl implements SysResourceService {
 
     @Autowired
     private SysResourceMapper sysResourceMapper;
+    @Autowired
+    private SysRoleinfoMapper sysRoleinfoMapper;
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public SysResource findById(Long id) {
@@ -83,9 +89,11 @@ public class SysResourceServiceImpl implements SysResourceService {
         } else {
             if (!idList.isEmpty()) {
                 topSourceList = sysResourceMapper.findByIds(idList);
+                topSourceList = topSourceList.stream().filter(item-> item.getParentId().equals(0L)).collect(Collectors.toList());
                 topSourceList.forEach(sysResource -> {
                     Map<String, Object> query1 = new HashMap<>();
                     query1.put("parentId", sysResource.getId().toString());
+                    query1.put("userId", userId.toString());
                     List<SysResource> subResource = sysResourceMapper.findSubResource(query1);
                     sysResource.setSubResource(subResource);
                 });
@@ -124,6 +132,34 @@ public class SysResourceServiceImpl implements SysResourceService {
 
     @Override
     public List<SysResource> findByUrl(String url) {
-        return sysResourceMapper.findByUrl(url);
+        List<SysResource> list = sysResourceMapper.findByUrl(url);
+        return list.stream().filter(sysResource -> {
+            List<String> urlList = Arrays.asList(sysResource.getUrl().split(";"));
+            return urlList.contains(url);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SysResource> findListWithRole() {
+        Map<String, Object> map = new HashMap<>();
+        List<SysResource> list = sysResourceMapper.findListWithRole(map);
+        map = new HashMap<>();
+        map.put("resourceId", "0");
+        List<SysRoleinfo> superRoleinfoList = sysRoleinfoMapper.findAllPage(map);
+
+        list.forEach(sysResource -> {
+            String roleIdStr = sysResource.getRoleIdsStr();
+            for (SysRoleinfo sysRoleinfo : superRoleinfoList) {
+                roleIdStr = roleIdStr == null ? "" : roleIdStr;
+                if (roleIdStr.equals("")) {
+                    roleIdStr = sysRoleinfo.getRoleId().toString();
+                } else {
+                    roleIdStr = roleIdStr + "," + sysRoleinfo.getRoleId().toString();
+                }
+            }
+            sysResource.setRoleIdsStr(roleIdStr);
+            redisService.set(RedisConstants.RESOURCE_ROLE + sysResource.getId(), roleIdStr);
+        });
+        return list;
     }
 }

@@ -10,4 +10,7 @@ public class RedisConstants {
      * 短信密码redis缓存
      */
     public static final String SMS_PWD = SYS_MODULE + "sms_pwd_";
+
+
+    public static final String RESOURCE_ROLE = SYS_MODULE + "resource_role_";
 }

@@ -5,13 +5,15 @@ import com.keyou.fdcda.api.utils.GsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
  * Created by zzq on 2017-08-23.
  */
-public class JedisDriver implements RedisService {
+@Service("jedisDriver")
+public class JedisDriver {
     private final static Logger logger = LoggerFactory.getLogger(JedisDriver.class);
     @Autowired
     private JedisPool jedisPool;
@@ -80,7 +82,6 @@ public class JedisDriver implements RedisService {
         return result;
     }
 
-    @Override
     public Boolean setnx(String key, Object value) {
         Boolean result = Boolean.FALSE;
         Jedis jedis = null;
@@ -98,7 +99,6 @@ public class JedisDriver implements RedisService {
         return result;
     }
 
-    @Override
     public Boolean setnx(String key, Object value, long millionseconds) {
         Boolean result = Boolean.FALSE;
         Jedis jedis = null;
@@ -136,5 +136,21 @@ public class JedisDriver implements RedisService {
                 jedis.close();
             }
         }
+    }
+
+    public Boolean exists(String key){
+        Boolean result = Boolean.FALSE;
+        Jedis jedis = null;
+        try {
+            jedis = this.getJedisPool().getResource();
+            result = jedis.exists(key);
+        } catch (Exception e) {
+            logger.error("redis异常", e);
+        } finally{
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return result;
     }
 }

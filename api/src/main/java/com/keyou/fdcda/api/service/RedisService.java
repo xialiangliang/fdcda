@@ -48,4 +48,11 @@ public interface RedisService {
      * @param key
      */
     void del(String key);
+
+    /**
+     * 查看是否存在key
+     * @param key
+     * @return
+     */
+    Boolean exists(String key);
 }

@@ -41,6 +41,6 @@
         <constructor-arg name="database" value="${redis.db.index}" type="int" />
     </bean>
     
-    <bean id="redisService" class="com.keyou.fdcda.api.utils.driver.JedisDriver"/>
+    <bean id="jedisDriver" class="com.keyou.fdcda.api.utils.driver.JedisDriver"/>
 
 </beans>

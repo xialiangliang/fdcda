@@ -17,4 +17,6 @@ public interface SysResourceMapper extends BaseMapper<SysResource, java.lang.Lon
     List<SysResource> findAllPageWithAuth(Map<String, Object> map);
 
     List<SysResource> findByUrl(String url);
+
+    List<SysResource> findListWithRole(Map<String, Object> map);
 }
