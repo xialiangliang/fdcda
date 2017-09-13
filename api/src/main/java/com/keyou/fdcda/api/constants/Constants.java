@@ -24,6 +24,7 @@ public class Constants {
     public static final String SESSION_PRIVATE_KEY = "session_private_key";
     public static final String SESSION_LOGIN_TOKEN = "session_login_token";
     public static final String SESSION_LOGIN_VALIDATE_CODE = "session_login_validate_code"; // 登录图片验证码
+    public static final Integer LOGIN_RETRY_MINUTES = 20;
     
     public static final String HASH_ENCODE = "sha512";
     public static final String PASSWORD_SALT_SPLIT = "$";

@@ -55,4 +55,11 @@ public interface RedisService {
      * @return
      */
     Boolean exists(String key);
+
+    /**
+     * 值增加1
+     * @param key
+     * @return
+     */
+    Long incr(String key);
 }

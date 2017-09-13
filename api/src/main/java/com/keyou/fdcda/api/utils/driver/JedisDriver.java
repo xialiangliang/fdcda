@@ -124,7 +124,7 @@ public class JedisDriver {
      * 删除缓存对象
      * @param key
      */
-    public void del(String key){
+    public void del(String key) {
         Jedis jedis = null;
         try {
             jedis = this.getJedisPool().getResource();
@@ -138,12 +138,28 @@ public class JedisDriver {
         }
     }
 
-    public Boolean exists(String key){
+    public Boolean exists(String key) {
         Boolean result = Boolean.FALSE;
         Jedis jedis = null;
         try {
             jedis = this.getJedisPool().getResource();
             result = jedis.exists(key);
+        } catch (Exception e) {
+            logger.error("redis异常", e);
+        } finally{
+            if(jedis != null){
+                jedis.close();
+            }
+        }
+        return result;
+    }
+
+    public Long incr(String key) {
+        Long result = null;
+        Jedis jedis = null;
+        try {
+            jedis = this.getJedisPool().getResource();
+            result = jedis.incr(key);
         } catch (Exception e) {
             logger.error("redis异常", e);
         } finally{

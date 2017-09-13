@@ -31,6 +31,7 @@
                            placeholder="请输入密码">
                 </div>
             </div>
+            #if (${validateCodeRequire})
             <div class="form-group">
                 <label for="validateCode" class="col-sm-2 control-label">验证码</label>
                 <div class="col-sm-6">
@@ -41,6 +42,7 @@
                     <img id="validateCodeImg" onclick="changeCode();">
                 </div>
             </div>
+            #end
 ##            <div class="form-group">
 ##                <div class="col-sm-12">
 ##                    <div class="checkbox">

@@ -13,4 +13,8 @@ public class RedisConstants {
 
 
     public static final String RESOURCE_ROLE = SYS_MODULE + "resource_role_";
+    
+    public static final String LOGIN_VALIDATE_CODE_REQUIRE = SYS_MODULE + "login_validate_code_require_";
+
+    public static final String LOGIN_PWD_ERROR_TIMES = SYS_MODULE + "login_pwd_error_times_";
 }

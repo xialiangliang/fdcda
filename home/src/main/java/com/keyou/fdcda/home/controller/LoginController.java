@@ -1,6 +1,7 @@
 package com.keyou.fdcda.home.controller;
 
 import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.constants.RedisConstants;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysUserService;
@@ -46,6 +47,7 @@ public class LoginController {
     private UrlConfig urlConfig;
     @Autowired
     private SysUserService sysUserService;
+    
 
 
     @RequestMapping
@@ -54,7 +56,11 @@ public class LoginController {
             String token = RandomUtil.produceString(32);
             request.getSession().setAttribute(Constants.SESSION_LOGIN_TOKEN, token);
             model.addAttribute("token", token);
-            
+            String sessionId = request.getSession().getId();
+            Boolean validateCodeRequire = (Boolean) redisService.get(RedisConstants.LOGIN_VALIDATE_CODE_REQUIRE + sessionId, Boolean.class);
+            if (validateCodeRequire != null && validateCodeRequire) {
+                model.addAttribute("validateCodeRequire", true);
+            }
         } catch (Exception e) {
             logger.error("服务异常", e);
         }
@@ -69,11 +75,16 @@ public class LoginController {
         map.put(Constants.SUCCESS, false);
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
-        String validateCode = request.getParameter("validateCode");
-        String validateCode2 = (String) request.getSession().getAttribute(Constants.SESSION_LOGIN_VALIDATE_CODE);
-        if (!(validateCode2 != null && validateCode2.equals(validateCode))) {
-            map.put(Constants.MESSAGE, "验证码错误");
-            return map;
+        String sessionId = request.getSession().getId();
+        Boolean validateCodeRequire = (Boolean) redisService.get(RedisConstants.LOGIN_VALIDATE_CODE_REQUIRE + sessionId, Boolean.class);
+        // 校验图片验证码
+        if (validateCodeRequire != null && validateCodeRequire) {
+            String validateCode = request.getParameter("validateCode");
+            String validateCode2 = (String) request.getSession().getAttribute(Constants.SESSION_LOGIN_VALIDATE_CODE);
+            if (!(validateCode2 != null && validateCode2.equals(validateCode))) {
+                map.put(Constants.MESSAGE, "验证码错误");
+                return map;
+            }
         }
         if (StringUtil.isNotBlank(phone)) {
             String token = (String) request.getSession().getAttribute(Constants.SESSION_LOGIN_TOKEN);
@@ -88,9 +99,16 @@ public class LoginController {
                     result = new Result<>(null, "用户不存在！", -1, false);
                 }
                 if (!result.getSuccess()) {
+                    if (result.getCode().equals(-101)) {
+                        redisService.set(RedisConstants.LOGIN_VALIDATE_CODE_REQUIRE + sessionId, Boolean.TRUE, 1000 * 60 * 5);
+                        Long errorTimes = (Long) redisService.get(RedisConstants.LOGIN_PWD_ERROR_TIMES + result.getData().getId(), Long.class);
+                        errorTimes = errorTimes == null ? 1 : errorTimes + 1;
+                        redisService.set(RedisConstants.LOGIN_PWD_ERROR_TIMES + result.getData().getId(), errorTimes, 1000 * 60 * Constants.LOGIN_RETRY_MINUTES);
+                    }
                     map.put(Constants.MESSAGE, result.getMessage());
                     return map;
                 }
+                redisService.del(RedisConstants.LOGIN_PWD_ERROR_TIMES + result.getData().getId());
                 request.getSession().setAttribute(Constants.SESSION_USER, result.getData());
             } catch (Exception e) {
                 logger.error("服务异常", e);

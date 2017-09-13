@@ -1,10 +1,12 @@
 package com.keyou.fdcda.app.service.impl;
 
 import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.constants.RedisConstants;
 import com.keyou.fdcda.api.constants.SmsConstants;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
+import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SmsService;
 import com.keyou.fdcda.api.service.SysUserService;
 import com.keyou.fdcda.api.utils.*;
@@ -28,6 +30,8 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public SysUser findById(Long id) {
@@ -147,14 +151,14 @@ public class SysUserServiceImpl implements SysUserService {
     public Result<SysUser> loginByLoginname(String loginname, String password, String token) {
         SysUser user = sysUserMapper.getUserByLoginname(loginname);
         if (user == null) {
-            return new Result<>(null, "用户不存在", -1, false);
+            return new Result<>(user, "用户不存在", -1, false);
         }
         if (user.getValid() != 1) {
-            return new Result<>(null, "无效用户", -1, false);
+            return new Result<>(user, "无效用户", -1, false);
         }
         String dbPwd = EncodeUtil.hash(user.getLoginpwd().split("\\" + Constants.PASSWORD_SALT_SPLIT)[0] + token, Constants.HASH_ENCODE);
         if (!dbPwd.equals(password)) {
-            return new Result<>(null, "密码错误", -1, false);
+            return new Result<>(user, "密码错误", -101, false);
         }
         return new Result<>(user, "登录成功", 0, true);
     }
@@ -163,14 +167,18 @@ public class SysUserServiceImpl implements SysUserService {
     public Result<SysUser> loginByPhone(String phone, String password, String token) {
         SysUser user = sysUserMapper.getUserByPhone(phone);
         if (user == null) {
-            return new Result<>(null, "用户不存在", -1, false);
+            return new Result<>(user, "用户不存在", -1, false);
+        }
+        Long errorTimes = (Long) redisService.get(RedisConstants.LOGIN_PWD_ERROR_TIMES + user.getId(), Long.class);
+        if (errorTimes != null && errorTimes > 5L) {
+            return new Result<>(user, "密码错误次数过多，请在" + Constants.LOGIN_RETRY_MINUTES + "分钟之后再试！", -1, false);
         }
         if (user.getValid() != 1) {
-            return new Result<>(null, "无效用户", -1, false);
+            return new Result<>(user, "无效用户", -1, false);
         }
         String dbPwd = EncodeUtil.hash(user.getLoginpwd().split("\\" + Constants.PASSWORD_SALT_SPLIT)[0] + token, Constants.HASH_ENCODE);
         if (!dbPwd.equals(password)) {
-            return new Result<>(null, "密码错误", -1, false);
+            return new Result<>(user, "密码错误", -101, false);
         }
         return new Result<>(user, "登录成功", 0, true);
     }

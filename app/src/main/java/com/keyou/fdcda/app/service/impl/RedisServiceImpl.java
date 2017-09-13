@@ -63,4 +63,9 @@ public class RedisServiceImpl implements RedisService {
     public Boolean exists(String key) {
         return jedisDriver.exists(key);
     }
+
+    @Override
+    public Long incr(String key) {
+        return jedisDriver.incr(key);
+    }
 }
