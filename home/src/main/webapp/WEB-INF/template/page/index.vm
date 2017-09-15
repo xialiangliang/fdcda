@@ -3,6 +3,6 @@
 ###set($JS = ["scripts/js/jquery-1.11.3.js"])
 #set($page_title = "后台管理系统")
 
-<div id="main-show">
+<div class="main-content">
     <h1><p class="text-center">后台管理系统</p></h1>
 </div>

@@ -1,29 +1,8 @@
 
 ##    <div class="panel panel-primary">
-    <ul id="topTab" class="nav nav-tabs">
-        <div class="col-sm-2"></div>
+    <div id="myTabContent" class="tab-content col-xs-2 col-sm-2">
         #foreach($item in $topResource)
-            <li class="#if (${item.id} == $!{current_top_id}) active #end">
-                <a href="#${item.name}" data-toggle="tab">
-                    <span class="glyphicon ${item.icon}"></span>$item.name
-                </a>
-            </li>
-        #end
-##        <li class="dropdown pull-right">
-##            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-##                下拉 <b class="caret"></b>
-##            </a>
-##            <ul class="dropdown-menu">
-##                <li>
-##                    <a href="#">操作</a>
-##                </li>
-##                <li class="divider"></li>
-##            </ul>
-##        </li>
-    </ul>
-    <div id="myTabContent" class="tab-content col-sm-2">
-        #foreach($item in $topResource)
-        <div class="tab-pane fade #if (${item.id} == $!{current_top_id}) in active #end" id="${item.name}">
+        <div class="tabDiv tab-pane fade #if (${item.id} == $!{current_top_id}) in active #end" id="${item.name}">
             <div class="span2">
                 <ul class="nav nav-pills nav-stacked">
                     #foreach($subItem in $item.subResource)
@@ -40,6 +19,16 @@
 <script>
     $(function () {
         $('#topTab li:eq(0) a').tab('show');
+    });
+    var width = $(this).width();
+    var height = $(this).height();
+    $(window).init(function () {
+        $('.tab-content').css('width', width / 6 - 15);
+    });
+    $(window).resize(function() {
+        width = $(this).width();
+        height = $(this).height();
+        $('.tab-content').css('width', width / 6 - 5);
     });
 </script>
 #end
