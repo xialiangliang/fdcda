@@ -17,4 +17,6 @@ public class RedisConstants {
     public static final String LOGIN_VALIDATE_CODE_REQUIRE = SYS_MODULE + "login_validate_code_require_";
 
     public static final String LOGIN_PWD_ERROR_TIMES = SYS_MODULE + "login_pwd_error_times_";
+
+    public static final String MODIFY_PASSWORD_SALT = SYS_MODULE + "modify_password_salt_";
 }

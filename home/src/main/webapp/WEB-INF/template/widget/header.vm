@@ -37,7 +37,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/account/passwordPage">
+                            <a href="#" id="modifyPassword">
                                 <span class="glyphicon glyphicon-th"></span>
                                 修改密码
                             </a>
@@ -61,4 +61,24 @@
             </ul>
         </div>
     </div>
+    <div id="modifyPasswordDialog" class="tipDialogFrame"></div>
+    <div id="tipDialog" class="tipDialogFrame"></div>
 </nav>
+
+<script>
+$(function () {
+    $('#modifyPassword').click(function () {
+        $.get('/modifyPassword', {}, function (data, textStatus, object) {
+            dialog.html(object.responseText);
+            dialog.dialog({
+                title: '修改密码',
+                resizable: true,
+                width: 600,
+                modal: true,
+                buttons: {
+                }
+            });
+        });
+    });
+});
+</script>
