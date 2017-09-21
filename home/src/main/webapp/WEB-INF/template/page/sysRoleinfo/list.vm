@@ -2,7 +2,7 @@
 <div class="main-content">
 	 <div class="breadcrumbs">
         <ul class="breadcrumb">
-            <li class="active"><h4>SysRoleinfo列表</h4></li>
+            <li class="active"><h4>角色权限列表</h4></li>
         </ul>
     </div>
 	<div class="page-content">

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.SysGoodOrderDetailMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysGoodOrderDetail">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="goodOrderId" jdbcType="DECIMAL" column="GOOD_ORDER_ID"/>
+		<result property="goodId" jdbcType="DECIMAL" column="GOOD_ID"/>
+		<result property="price" jdbcType="DECIMAL" column="PRICE"/>
+		<result property="count" jdbcType="DECIMAL" column="COUNT"/>
+		<result property="state" jdbcType="DECIMAL" column="STATE"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
+		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,GOOD_ORDER_ID ,GOOD_ID ,PRICE ,COUNT ,STATE ,CREATE_TIME ,MODIFY_TIME 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.SysGoodOrderDetail" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_SYS_GOOD_ORDER_DETAIL.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO SYS_GOOD_ORDER_DETAIL (
+        	ID ,
+        	GOOD_ORDER_ID ,
+        	GOOD_ID ,
+        	PRICE ,
+        	COUNT ,
+        	STATE ,
+        	CREATE_TIME ,
+        	MODIFY_TIME 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{goodOrderId,jdbcType=DECIMAL} ,
+        	#{goodId,jdbcType=DECIMAL} ,
+        	#{price,jdbcType=DECIMAL} ,
+        	#{count,jdbcType=DECIMAL} ,
+        	#{state,jdbcType=DECIMAL} ,
+        	#{createTime,jdbcType=TIMESTAMP} ,
+        	#{modifyTime,jdbcType=TIMESTAMP} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.SysGoodOrderDetail">
+		UPDATE SYS_GOOD_ORDER_DETAIL
+		<set>
+			<if test="goodOrderId != null">
+	        GOOD_ORDER_ID = #{goodOrderId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="goodId != null">
+	        GOOD_ID = #{goodId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="price != null">
+	        PRICE = #{price,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="count != null">
+	        COUNT = #{count,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="state != null">
+	        STATE = #{state,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="createTime != null">
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} ,
+	        </if>
+			<if test="modifyTime != null">
+	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM SYS_GOOD_ORDER_DETAIL WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM SYS_GOOD_ORDER_DETAIL 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from SYS_GOOD_ORDER_DETAIL where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from SYS_GOOD_ORDER_DETAIL where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+			ORDER BY id DESC
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SYS_GOOD_ORDER_DETAIL where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="goodOrderId != null and goodOrderId.trim() != ''">
+		and GOOD_ORDER_ID = #{goodOrderId}
+		</if>
+		<if test="goodId != null and goodId.trim() != ''">
+		and GOOD_ID = #{goodId}
+		</if>
+		<if test="price != null and price.trim() != ''">
+		and PRICE = #{price}
+		</if>
+		<if test="count != null and count.trim() != ''">
+		and COUNT = #{count}
+		</if>
+		<if test="state != null and state.trim() != ''">
+		and STATE = #{state}
+		</if>
+		<if test="createTimeBegin != null and createTimeBegin.trim() != ''">
+		and CREATE_TIME >= #{createTimeBegin}
+		</if>
+		<if test="createTimeEnd != null and createTimeEnd.trim() != ''">
+		and CREATE_TIME &lt;= #{createTimeEnd}
+		</if>
+		<if test="modifyTimeBegin != null and modifyTimeBegin.trim() != ''">
+		and MODIFY_TIME >= #{modifyTimeBegin}
+		</if>
+		<if test="modifyTimeEnd != null and modifyTimeEnd.trim() != ''">
+		and MODIFY_TIME &lt;= #{modifyTimeEnd}
+		</if>
+	</sql>
+</mapper>
+
+

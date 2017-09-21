@@ -45,7 +45,7 @@
                 <select class="form-control" name="valid" id="valid">
                     #foreach($item in $iconList)
                         <option value="2" #if($!{item} == $!{param.icon}) selected #end>
-                            <span class="glyphicon glyphicon-plus">11</span>
+                            <span class="glyphicon glyphicon-plus">$!{item}</span>
                         </option>
                     #end
                 </select>

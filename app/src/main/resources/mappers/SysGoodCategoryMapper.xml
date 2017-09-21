@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.SysGoodCategoryMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysGoodCategory">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="parentId" jdbcType="DECIMAL" column="PARENT_ID"/>
+		<result property="childIdList" jdbcType="VARCHAR" column="CHILD_ID_LIST"/>
+		<result property="name" jdbcType="VARCHAR" column="NAME"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
+		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,PARENT_ID ,CHILD_ID_LIST ,NAME ,CREATE_TIME ,MODIFY_TIME 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.SysGoodCategory" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_SYS_GOOD_CATEGORY.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO SYS_GOOD_CATEGORY (
+        	ID ,
+        	PARENT_ID ,
+        	CHILD_ID_LIST ,
+        	NAME ,
+        	CREATE_TIME ,
+        	MODIFY_TIME 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{parentId,jdbcType=DECIMAL} ,
+        	#{childIdList,jdbcType=VARCHAR} ,
+        	#{name,jdbcType=VARCHAR} ,
+        	#{createTime,jdbcType=TIMESTAMP} ,
+        	#{modifyTime,jdbcType=TIMESTAMP} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.SysGoodCategory">
+		UPDATE SYS_GOOD_CATEGORY
+		<set>
+			<if test="parentId != null">
+	        PARENT_ID = #{parentId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="childIdList != null">
+	        CHILD_ID_LIST = #{childIdList,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="name != null">
+	        NAME = #{name,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="createTime != null">
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} ,
+	        </if>
+			<if test="modifyTime != null">
+	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM SYS_GOOD_CATEGORY WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM SYS_GOOD_CATEGORY 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from SYS_GOOD_CATEGORY where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from SYS_GOOD_CATEGORY where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+			ORDER BY id DESC
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SYS_GOOD_CATEGORY where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="parentId != null and parentId.trim() != ''">
+		and PARENT_ID = #{parentId}
+		</if>
+		<if test="childIdList != null and childIdList.trim() != ''">
+		and CHILD_ID_LIST = #{childIdList}
+		</if>
+		<if test="name != null and name.trim() != ''">
+		and NAME = #{name}
+		</if>
+		<if test="createTimeBegin != null and createTimeBegin.trim() != ''">
+		and CREATE_TIME >= #{createTimeBegin}
+		</if>
+		<if test="createTimeEnd != null and createTimeEnd.trim() != ''">
+		and CREATE_TIME &lt;= #{createTimeEnd}
+		</if>
+		<if test="modifyTimeBegin != null and modifyTimeBegin.trim() != ''">
+		and MODIFY_TIME >= #{modifyTimeBegin}
+		</if>
+		<if test="modifyTimeEnd != null and modifyTimeEnd.trim() != ''">
+		and MODIFY_TIME &lt;= #{modifyTimeEnd}
+		</if>
+	</sql>
+</mapper>
+
+

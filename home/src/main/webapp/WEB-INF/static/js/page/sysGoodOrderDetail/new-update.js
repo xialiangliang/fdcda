@@ -1,6 +1,6 @@
 $(function(){
-    var newForm = jQuery("#newForm_sysResource");
-    var updateForm = jQuery("#updateForm_sysResource");
+    var newForm = jQuery("#newForm_sysGoodOrderDetail");
+    var updateForm = jQuery("#updateForm_sysGoodOrderDetail");
 
     function tip(msg, reload) {
         var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";

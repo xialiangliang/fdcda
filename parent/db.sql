@@ -137,6 +137,159 @@ NOCYCLE
 NOCACHE;
 
 
+-- 登录日志表
+create table sys_loginlog
+(
+  id NUMBER(11) not null PRIMARY KEY,
+  user_id NUMBER(11),
+  ip VARCHAR2(32),
+  device VARCHAR2(32),
+  create_time DATE,
+  modify_time DATE
+);
+create unique index type_sys_loginlog_idx on sys_loginlog(type);
+comment on table  sys_loginlog is '登录日志';
+comment on column sys_loginlog.id is '主键id';
+comment on column sys_loginlog.user_id is '用户id';
+comment on column sys_loginlog.ip is 'ip地址';
+comment on column sys_loginlog.device is '登录设备';
+comment on column sys_loginlog.create_time is '创建时间';
+comment on column sys_loginlog.modify_time is '修改时间';
+CREATE SEQUENCE seq_sys_loginlog
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+NOMAXVALUE
+NOCYCLE  
+NOCACHE;
+
+
+-- 商品表
+create table sys_good
+(
+  id NUMBER(11) not null PRIMARY KEY,
+  user_id NUMBER(11),
+  name VARCHAR2(255),
+  price number(18,2),
+  good_category_id NUMBER (11),
+  description VARCHAR2(255),
+  total_count NUMBER (11),
+  remained_count NUMBER (11),
+  up_time DATE,
+  down_time DATE,
+  memo VARCHAR2(255),
+  create_time DATE,
+  modify_time DATE
+);
+create unique index user_id_sys_good_idx on sys_good(user_id);
+comment on table  sys_good is '商品';
+comment on column sys_good.id is '主键id';
+comment on column sys_good.user_id is '用户id';
+comment on column sys_good.name is '商品名称';
+comment on column sys_good.price is '单价';
+comment on column sys_good.good_category_id is '商品分类id';
+comment on column sys_good.description is '商品描述';
+comment on column sys_good.total_count is '商品总数';
+comment on column sys_good.remained_count is '商品剩余数量';
+comment on column sys_good.up_time is '上架时间';
+comment on column sys_good.down_time is '下架时间';
+comment on column sys_good.memo is '备注';
+comment on column sys_good.create_time is '创建时间';
+comment on column sys_good.modify_time is '修改时间';
+CREATE SEQUENCE seq_sys_good
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+NOMAXVALUE
+NOCYCLE  
+NOCACHE;
+
+
+
+-- 商品分类表
+create table sys_good_category
+(
+  id NUMBER(11) not null PRIMARY KEY,
+  parent_id NUMBER(11),
+  child_id_list VARCHAR2(512),
+  name VARCHAR2(64),
+  create_time DATE,
+  modify_time DATE
+);
+comment on table  sys_good_category is '商品分类';
+comment on column sys_good_category.id is '主键id';
+comment on column sys_good_category.parent_id is '上级id';
+comment on column sys_good_category.child_id_list is '所有下级id';
+comment on column sys_good_category.name is '分类名称';
+comment on column sys_good_category.create_time is '创建时间';
+comment on column sys_good_category.modify_time is '修改时间';
+CREATE SEQUENCE seq_sys_good_category
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+NOMAXVALUE
+NOCYCLE  
+NOCACHE;
+
+-- 商品订单表
+create table sys_good_order
+(
+  id NUMBER(11) not null PRIMARY KEY,
+  user_id NUMBER (11),
+  customer_id NUMBER (11),
+  state NUMBER (11),
+  memo VARCHAR2(255),
+  create_time DATE,
+  modify_time DATE
+);
+create unique index user_id_sys_good_order_idx on sys_good_order(user_id);
+create unique index customer_id_sys_good_order_idx on sys_good_order(customer_id);
+comment on table  sys_good_order is '商品订单';
+comment on column sys_good_order.id is '主键id';
+comment on column sys_good_order.user_id is '用户id';
+comment on column sys_good_order.customer_id is '采购商id';
+comment on column sys_good_order.state is '订单状态';
+comment on column sys_good_order.memo is '备注';
+comment on column sys_good_order.create_time is '创建时间';
+comment on column sys_good_order.modify_time is '修改时间';
+CREATE SEQUENCE seq_sys_good_order
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+NOMAXVALUE
+NOCYCLE  
+NOCACHE;
+
+-- 商品订单明细表
+create table sys_good_order_detail
+(
+  id NUMBER(11) not null PRIMARY KEY,
+  good_order_id NUMBER (11),
+  good_id NUMBER (11),
+  price NUMBER (11),
+  count NUMBER (11),
+  state NUMBER (11),
+  create_time DATE,
+  modify_time DATE
+);
+create unique index good_order_id_sgod_idx on sys_good_order_detail(good_order_id);
+comment on table  sys_good_order_detail is '商品订单明细';
+comment on column sys_good_order_detail.id is '主键id';
+comment on column sys_good_order_detail.good_order_id is '订单id';
+comment on column sys_good_order_detail.good_id is '商品id';
+comment on column sys_good_order_detail.price is '实际单价';
+comment on column sys_good_order_detail.count is '商品数量';
+comment on column sys_good_order_detail.state is '订单状态';
+comment on column sys_good_order_detail.create_time is '创建时间';
+comment on column sys_good_order_detail.modify_time is '修改时间';
+CREATE SEQUENCE seq_sys_good_order_detail
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+NOMAXVALUE
+NOCYCLE  
+NOCACHE;
+
 -- 短信模板表
 create table sms_template
 (
@@ -174,12 +327,17 @@ INSERT INTO SYS_USERROLE (ID, USER_ID, ROLE_ID, CREATE_TIME, MODIFY_TIME) VALUES
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 0, '系统管理', '/', 1, 'glyphicon-th', 1, '系统管理', sysdate, sysdate);
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 0, '经营分析', '/', 1, 'glyphicon-th', 2, '经营分析', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '资源管理', '/sysResource', 1, 'glyphicon-th', 1, '资源管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '角色管理', '/sysRole', 1, 'glyphicon-th', 2, '角色管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '人员管理', '/sysUser', 1, 'glyphicon-th', 3, '人员管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '商品管理', '/sysGoods', 1, 'glyphicon-th', 4, '商品管理', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 1, '平台使用情况', '/sysPlatform', 1, 'glyphicon-th', 5, '平台使用情况', sysdate, sysdate);
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 2, '统计报表', '/analysisReport', 1, 'glyphicon-th', 1, '统计报表', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 0, '访客记录', '/', 1, 'glyphicon-th', 3, '访客记录', sysdate, sysdate);
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) VALUES (SEQ_SYS_RESOURCE.nextval, 0, '采购商', '/', 1, 'glyphicon-th', 4, '采购商', sysdate, sysdate);
+
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '资源管理', '/sysResource', 1, 'glyphicon-th', 1, '资源管理', sysdate, sysdate from SYSTEM_USER where NAME = '系统管理';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '角色管理', '/sysRole', 1, 'glyphicon-th', 2, '角色管理', sysdate, sysdate from SYSTEM_USER where NAME = '系统管理';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '人员管理', '/sysUser', 1, 'glyphicon-th', 3, '人员管理', sysdate, sysdate from SYSTEM_USER where NAME = '系统管理';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '商品管理', '/sysGoods', 1, 'glyphicon-th', 4, '商品管理', sysdate, sysdate from SYSTEM_USER where NAME = '系统管理';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '平台使用情况', '/sysPlatform', 1, 'glyphicon-th', 5, '平台使用情况', sysdate, sysdate from SYSTEM_USER where NAME = '系统管理';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '统计报表', '/analysisReport', 1, 'glyphicon-th', 1, '统计报表', sysdate, sysdate from SYSTEM_USER where NAME = '经营分析';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '我的访客', '/analysisReport', 1, 'glyphicon-th', 1, '我的访客', sysdate, sysdate from SYSTEM_USER where NAME = '访客记录';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '交易记录', '/analysisReport', 1, 'glyphicon-th', 1, '交易记录', sysdate, sysdate from SYSTEM_USER where NAME = '访客记录';
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '资源管理/新增', '/sysResource/new;/sysResource/save;/sysResource/getPublicKey', 2, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysResource';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '资源管理/修改', '/sysResource/find;/sysResource/update;/sysResource/listMap', 2, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysResource';

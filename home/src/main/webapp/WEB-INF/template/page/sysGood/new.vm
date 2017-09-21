@@ -1,0 +1,91 @@
+#set($layout = "/layout/layout2.vm")
+#set($pageTitle = "title")
+#set($JS = ["/js/jquery.form.min.js", "/js/page/sysGood/new-update.js"])
+<div class="col-sm-12">
+    <form action="/sysGood/save"  method="post" class="form-horizontal" id="newForm_sysGood">
+        <div class="form-group">
+            <label for="id" class="col-sm-2 control-label">主键id</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="id" name="id" value="$!{param.id}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="userId" class="col-sm-2 control-label">用户id</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="userId" name="userId" value="$!{param.userId}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">商品名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="name" name="name" value="$!{param.name}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="price" class="col-sm-2 control-label">单价</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="price" name="price" value="$!{param.price}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="goodCategoryId" class="col-sm-2 control-label">商品分类id</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="goodCategoryId" name="goodCategoryId" value="$!{param.goodCategoryId}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="description" class="col-sm-2 control-label">商品描述</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="description" name="description" value="$!{param.description}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="totalCount" class="col-sm-2 control-label">商品总数</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="totalCount" name="totalCount" value="$!{param.totalCount}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="remainedCount" class="col-sm-2 control-label">商品剩余数量</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="remainedCount" name="remainedCount" value="$!{param.remainedCount}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="upTime" class="col-sm-2 control-label">上架时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="upTime" name="upTime" value="$!{param.upTime}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="downTime" class="col-sm-2 control-label">下架时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="downTime" name="downTime" value="$!{param.downTime}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="memo" class="col-sm-2 control-label">备注</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="memo" name="memo" value="$!{param.memo}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="createTime" class="col-sm-2 control-label">创建时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="createTime" name="createTime" value="$!{param.createTime}" >
+            </div>
+        </div>    
+        <div class="form-group">
+            <label for="modifyTime" class="col-sm-2 control-label">修改时间</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" >
+            </div>
+        </div>    
+        <div class="form-group" align="right">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-default btn-close">关闭</button>
+                <button type="submit" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
