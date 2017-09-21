@@ -32,6 +32,10 @@ li {
     margin-right: auto;
 }
 
+.container-fluid {
+    padding-left: 0px;
+}
+
 .div-ellipse {
     white-space:nowrap;
     text-overflow:ellipsis;
@@ -74,6 +78,12 @@ li {
     position:relative;
     z-index: 10;
     background: white;
+}
+
+.navbar {
+    border-radius: 0px;
+    /*background-color: #488dfc;*/
+    color: white;
 }
 
 .panel-blank {
@@ -132,6 +142,7 @@ li {
 
 .breadcrumb {
     margin-bottom: 5px;
+    background-color: white;
 }
 .action-cl > a {
     color: #2e6da4;
@@ -140,7 +151,65 @@ li {
     text-align:center;
 }
 
+.tab-content {
+    /*position:absolute;*/
+    margin-left: 0px;
+    /*position: fixed;*/
+    width: 150px;
+    height:100%;
+    top:0px;
+    left:0px;
+    padding-left: 0px;
+    /*background-color: grey;*/
+}
 
+.tab-content:before {
+    position: fixed;
+    width: 1000px;
+    margin-left: 0px;
+    margin-top:0px;
+    background: #f5f5f5;
+    top: 0;
+    bottom:0px;
+    content:" ";
+    z-index: -3;
+}
+
+.main-content:before {
+    position: fixed;
+    width: 1000px;
+    margin-left: -15px;
+    margin-top:0px;
+    background: white;
+    top: 0;
+    bottom:0px;
+    content:" ";
+    z-index: -3;
+}
+
+.main_bg {
+    /*overflow-x:hidden;*/
+}
+
+.main {
+    background-color: white;
+    padding-bottom:100px;
+}
+
+.topTab {
+    /*background-color: white;*/
+    /*margin-top:0px;*/
+    /*margin-bottom:0px;*/
+    margin-top:15px;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+
+.tabDiv {
+    padding-left:20px;
+}
 
 /*jquery-ui style*/
 .pop-con-tip {
