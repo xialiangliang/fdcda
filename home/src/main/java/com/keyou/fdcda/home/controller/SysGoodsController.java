@@ -18,6 +18,6 @@ public class SysGoodsController {
 
     @RequestMapping
     public String index(Model model, PaginationQuery query) {
-        return "/page/sys_goods";
+        return "/page/sysGood/tab";
     }
 }

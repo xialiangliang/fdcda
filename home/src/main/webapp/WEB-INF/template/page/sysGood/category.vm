@@ -1,0 +1,10 @@
+#set($layout = "/layout/layout2.vm")
+#set($pageTitle = "title")
+#set($JS = ["/js/jquery.form.min.js", "/js/page/sysGood/category.js"])
+<div class="col-sm-12">
+    <div class="col-sm-12">
+        <div id="treeview">
+        </div>
+    </div>
+    <div id="newUpdateSubDialogFrame" class="tipDialogFrame"></div>
+</div>

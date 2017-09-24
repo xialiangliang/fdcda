@@ -7,7 +7,7 @@
     </div>
 	<div class="page-content">
         <div class="sc-where-bar">
-            <div class="col-sm-11">
+            <div class="col-sm-9">
                 <form class="form-inline" role="form">
                     <div class="form-group">
                         <input type="text" class="form-control" name="vcName" value="$!{query.vcName}">
@@ -19,6 +19,9 @@
                     </div>
                 </form>
             </div>
+            <div class="col-sm-2 text-right">
+                <a href="#" class="btn btn-success j_category-btn">分类管理</a>
+            </div>
             <div class="col-sm-1 text-right">
                 <a href="#" class="btn btn-success btn-add j_new-btn">添加</a>
             </div>
@@ -29,8 +32,6 @@
 	        <table class="table table-striped table-bordered table-hover dataTable">
 	            <thead>
 	            <tr>
-	                <th>主键id</th>
-	                <th>用户id</th>
 	                <th>商品名称</th>
 	                <th>单价</th>
 	                <th>商品分类id</th>
@@ -40,8 +41,6 @@
 	                <th>上架时间</th>
 	                <th>下架时间</th>
 	                <th>备注</th>
-	                <th>创建时间</th>
-	                <th>修改时间</th>
 	             
 	                <th class="action-cl">操作</th>
 	               
@@ -50,19 +49,15 @@
 	            <tbody>
 	                #foreach($row in $result.rows)
 	                <tr>
-	                	<td> $!{row.id} </td>
-	                	<td> $!{row.userId} </td>
 	                	<td> $!{row.name} </td>
 	                	<td> $!{row.price} </td>
 	                	<td> $!{row.goodCategoryId} </td>
 	                	<td> $!{row.description} </td>
 	                	<td> $!{row.totalCount} </td>
 	                	<td> $!{row.remainedCount} </td>
-	                	<td> $!{row.upTime} </td>
-	                	<td> $!{row.downTime} </td>
+	                	<td> $!{row.upTimeStr} </td>
+	                	<td> $!{row.downTimeStr} </td>
 	                	<td> $!{row.memo} </td>
-	                	<td> $!{row.createTime} </td>
-	                	<td> $!{row.modifyTime} </td>
 		                <td class="action-cl">
 	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
 	                    	<span class="arr">|</span>

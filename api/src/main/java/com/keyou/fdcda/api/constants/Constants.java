@@ -16,6 +16,10 @@ public class Constants {
             "/login/confirm",
             "/login/getSalt",
             "/login/validateCode");
+
+    public static final List<String> URL_NO_AUTH_LIST2 = Arrays.asList(
+            "/modifyPassword",
+            "/modifyPassword/confirm");
     public static final String URL_LOGIN = "/login";
     public static final String URL_LOGOUT = "/login/logout";
     public static final String URL_INDEX = "/";

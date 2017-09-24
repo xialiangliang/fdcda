@@ -19,7 +19,7 @@ $(function(){
             dialog.html(object.responseText);
             dialog.dialog({
                 resizable: true,
-                width: 800,
+                width: 400,
                 modal: true,
                 buttons: {
                 }

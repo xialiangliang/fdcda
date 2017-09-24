@@ -151,19 +151,24 @@ li {
     text-align:center;
 }
 
-.tab-content {
+#myTabContent {
+    margin-top:10px;
+}
+
+.tab-content-main {
     /*position:absolute;*/
     margin-left: 0px;
     /*position: fixed;*/
-    width: 150px;
+    width: 180px;
     height:100%;
     top:0px;
     left:0px;
     padding-left: 0px;
+    /*transition:1s;*/
     /*background-color: grey;*/
 }
 
-.tab-content:before {
+.tab-content-main:before {
     position: fixed;
     width: 1000px;
     margin-left: 0px;
@@ -209,6 +214,10 @@ li {
 
 .tabDiv {
     padding-left:20px;
+}
+
+.nav-tabs {
+    border-bottom:none;
 }
 
 /*jquery-ui style*/

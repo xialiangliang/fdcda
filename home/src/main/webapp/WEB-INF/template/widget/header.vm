@@ -69,11 +69,11 @@
 $(function () {
     $('#modifyPassword').click(function () {
         $.get('/modifyPassword', {}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
+            $('#modifyPasswordDialog').html(object.responseText);
+            $('#modifyPasswordDialog').dialog({
                 title: '修改密码',
                 resizable: true,
-                width: 600,
+                width: 400,
                 modal: true,
                 buttons: {
                 }

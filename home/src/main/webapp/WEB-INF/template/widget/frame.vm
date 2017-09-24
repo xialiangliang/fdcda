@@ -1,6 +1,6 @@
 
 ##    <div class="panel panel-primary">
-    <div id="myTabContent" class="tab-content col-xs-2 col-sm-2">
+    <div id="myTabContent" class="tab-content tab-content-main col-xs-2 col-sm-2">
         #foreach($item in $topResource)
         <div class="tabDiv tab-pane fade #if (${item.id} == $!{current_top_id}) in active #end" id="${item.name}">
             <div class="span2">
@@ -23,12 +23,20 @@
     var width = $(this).width();
     var height = $(this).height();
     $(window).init(function () {
-        $('.tab-content').css('width', width / 6 - 15);
+        var cwidth = $('.tab-content-main').width();
+        if (width < 1170) {
+            $('.tab-content-main').css('width', width / 6 - 15);
+        }
     });
     $(window).resize(function() {
         width = $(this).width();
         height = $(this).height();
-        $('.tab-content').css('width', width / 6 - 5);
+        var cwidth = $('.tab-content-main').width();
+        if (width < 1170) {
+            $('.tab-content-main').css('width', width / 6 - 15);
+        } else {
+            $('.tab-content-main').css('width', 180);
+        }
     });
 </script>
 #end

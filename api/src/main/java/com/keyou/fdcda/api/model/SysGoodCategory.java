@@ -1,6 +1,8 @@
 package com.keyou.fdcda.api.model; 
 
 import java.io.Serializable;
+import java.util.List;
+
 import com.keyou.fdcda.api.utils.DateUtil;
 
 public class SysGoodCategory implements Serializable {
@@ -31,6 +33,8 @@ public class SysGoodCategory implements Serializable {
      */ 	
 	private java.util.Date modifyTime;
 	private String modifyTimeStr;
+	
+	public List<SysGoodCategory> subCategory;
 
 	
 	public void setId(Long value) {
@@ -91,6 +95,12 @@ public class SysGoodCategory implements Serializable {
 		return this.modifyTimeStr;
 	}
 
-	
+	public List<SysGoodCategory> getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(List<SysGoodCategory> subCategory) {
+		this.subCategory = subCategory;
+	}
 }
 

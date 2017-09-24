@@ -67,6 +67,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 if (Constants.URL_LOGOUT.equals(uri)) {
                     return true;
                 }
+                if (Constants.URL_NO_AUTH_LIST2.contains(uri)) {
+                    return true;
+                }
                 return authCheck(uri, user.getId());
             }
         }

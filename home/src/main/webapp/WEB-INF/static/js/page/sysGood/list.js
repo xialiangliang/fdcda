@@ -26,4 +26,19 @@ $(function(){
             });
         });
     });
+    
+    $(".j_category-btn").click(function () {
+        $.get('/sysGood/category', {}, function (data, textStatus, object) {
+            dialog.html(object.responseText);
+            dialog.dialog({
+                resizable: true,
+                width: 600,
+                height:600,
+                modal: true,
+                title:'分类',
+                buttons: {
+                }
+            });
+        });
+    });
 });
