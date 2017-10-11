@@ -19,9 +19,6 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-1 text-right">
-                <a href="#" class="btn btn-success btn-add j_new-btn">添加</a>
-            </div>
         </div>
         <div id="newUpdateDialogFrame" class="tipDialogFrame"></div>
         <div id="tipDialogFrame" class="tipDialogFrame"></div>
