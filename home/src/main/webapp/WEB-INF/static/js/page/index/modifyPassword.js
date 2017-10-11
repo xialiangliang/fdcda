@@ -22,23 +22,47 @@ $(function(){
 
     var dialog = $("#modifyPasswordDialog");
 
+    var publicKey = '';
+
+    var encrypt = new JSEncrypt();
     form_modifyfPassword.ajaxForm({
         beforeSerialize:function() {
-            var token = $('#token').val();
-            var salt = $();
-            var phone = $('#phone').val();
             $.ajax({
-                url :'/login/getSalt',
-                data:{'phone': phone},
+                url :'/sysUser/getPublicKey',
+                data:{},
                 async : false,
                 success:function (data) {
-                    salt = data.salt;
+                    publicKey = data.publicKey;
                 }
             });
-            var password = sha512(sha512($('#password').val() + salt) + token);
-            $('#password').val(password);
-            $('#phone').attr('readonly', '');
-            $('#password').attr('readonly', '');
+        },
+        data: {
+            'originPwd':function() {
+                var token = $('#token').val();
+                var phone = $('#phone').val();
+                var salt = '';
+                $.ajax({
+                    url :'/login/getSalt',
+                    data:{'phone': phone},
+                    async : false,
+                    success:function (data) {
+                        salt = data.salt;
+                    }
+                });
+                // 校验原密码
+                var password = sha512(sha512($('#originPwd').val() + salt) + token);
+                return password;
+            },
+            'newPwd': function () {
+                encrypt.setPublicKey(publicKey);
+                var encrypted = encrypt.encrypt($('#newPwd').val());
+                return encrypted;
+            },
+            'confirmNewPwd': function () {
+                encrypt.setPublicKey(publicKey);
+                var encrypted2 = encrypt.encrypt($('#confirmNewPwd').val());
+                return encrypted2;
+            }
         },
         success: function (data) {
             if (data.success) {

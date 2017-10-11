@@ -31,6 +31,10 @@ public class SysLoginlog implements Serializable {
      */ 	
 	private java.util.Date modifyTime;
 	private String modifyTimeStr;
+	
+	private String name;
+
+	private String loginName;
 
 	
 	public void setId(Long value) {
@@ -91,6 +95,20 @@ public class SysLoginlog implements Serializable {
 		return this.modifyTimeStr;
 	}
 
-	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
 }
 

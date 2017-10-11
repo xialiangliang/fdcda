@@ -147,7 +147,7 @@ create table sys_loginlog
   create_time DATE,
   modify_time DATE
 );
-create unique index type_sys_loginlog_idx on sys_loginlog(type);
+create index user_id_sys_loginlog_idx on sys_loginlog(user_id);
 comment on table  sys_loginlog is '登录日志';
 comment on column sys_loginlog.id is '主键id';
 comment on column sys_loginlog.user_id is '用户id';
@@ -181,7 +181,7 @@ create table sys_good
   create_time DATE,
   modify_time DATE
 );
-create unique index user_id_sys_good_idx on sys_good(user_id);
+create index user_id_sys_good_idx on sys_good(user_id);
 comment on table  sys_good is '商品';
 comment on column sys_good.id is '主键id';
 comment on column sys_good.user_id is '用户id';
@@ -242,8 +242,8 @@ create table sys_good_order
   create_time DATE,
   modify_time DATE
 );
-create unique index user_id_sys_good_order_idx on sys_good_order(user_id);
-create unique index customer_id_sys_good_order_idx on sys_good_order(customer_id);
+create index user_id_sys_good_order_idx on sys_good_order(user_id);
+create index customer_id_sys_good_order_idx on sys_good_order(customer_id);
 comment on table  sys_good_order is '商品订单';
 comment on column sys_good_order.id is '主键id';
 comment on column sys_good_order.user_id is '用户id';
@@ -272,7 +272,7 @@ create table sys_good_order_detail
   create_time DATE,
   modify_time DATE
 );
-create unique index good_order_id_sgod_idx on sys_good_order_detail(good_order_id);
+create index good_order_id_sgod_idx on sys_good_order_detail(good_order_id);
 comment on table  sys_good_order_detail is '商品订单明细';
 comment on column sys_good_order_detail.id is '主键id';
 comment on column sys_good_order_detail.good_order_id is '订单id';

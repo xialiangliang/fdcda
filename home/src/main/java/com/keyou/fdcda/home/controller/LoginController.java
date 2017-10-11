@@ -92,9 +92,9 @@ public class LoginController {
             try {
                 Result<SysUser> result;
                 if (StringUtil.isPhone(phone)) {
-                    result = sysUserService.loginByPhone(phone, password, token);
+                    result = sysUserService.loginByPhone(phone, password, token, request);
                 } else if (StringUtil.isLoginname(phone)) {
-                    result = sysUserService.loginByLoginname(phone, password, token);
+                    result = sysUserService.loginByLoginname(phone, password, token, request);
                 } else {
                     result = new Result<>(null, "用户不存在！", -1, false);
                 }
@@ -126,6 +126,9 @@ public class LoginController {
     public Map<String, Object> getSalt(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         String phone = request.getParameter("phone");
+        if (StringUtil.isBlank(phone)) {
+            phone = ((SysUser)request.getSession().getAttribute(Constants.SESSION_USER)).getPhone();
+        }
         SysUser sysUser;
         if (StringUtil.isPhone(phone)) {
             sysUser = sysUserService.getUserByPhone(phone);

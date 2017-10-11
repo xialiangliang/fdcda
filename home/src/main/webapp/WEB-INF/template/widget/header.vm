@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">后台管理系统</a>
+            <a class="navbar-brand" href="/">&nbsp;&nbsp;&nbsp;后台管理系统</a>
         </div>
         <div>
 
@@ -11,7 +11,7 @@
                 #foreach($item in $topResource)
                     <li class="#if (${item.id} == $!{current_top_id}) active #end">
                         <a href="#${item.name}" data-toggle="tab">
-                            <span class="glyphicon ${item.icon}"></span>$item.name
+                            <span class="glyphicon ${item.icon}"></span>&nbsp;$item.name
                         </a>
                     </li>
                 #end

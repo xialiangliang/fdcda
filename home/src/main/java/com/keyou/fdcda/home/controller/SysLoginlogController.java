@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.model.SysUser;
+import com.keyou.fdcda.api.service.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class SysLoginlogController extends BaseController {
 	
 	@Autowired
 	private SysLoginlogService sysLoginlogService;
+	@Autowired
+	private SysUserService sysUserService;
 	
 	@RequestMapping(value="/new")
 	public String add() throws Exception {		
@@ -97,6 +101,13 @@ public class SysLoginlogController extends BaseController {
 	@RequestMapping
 	public String list(PaginationQuery query,Model model) throws Exception {		
 		PageResult<SysLoginlog> pageList = sysLoginlogService.findPage(query);
+		if (pageList.getRowCount() > 0) {
+			pageList.getRows().forEach(sysLoginlog -> {
+				SysUser user = sysUserService.findById(sysLoginlog.getUserId());
+				sysLoginlog.setName(user.getUsername());
+				sysLoginlog.setLoginName(user.getLoginname());
+			});
+		}
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
 		return "/page/sysLoginlog/list";

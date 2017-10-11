@@ -10,6 +10,10 @@ public class Constants {
     public static final String SUCCESS = "success";
     public static final String MESSAGE = "message";
     public static final String REDIRECT = "redirect";
+
+    public static final List<String> URL_AUTH_ALL_LIST = Arrays.asList(
+            "/login/getSalt",
+            "/login/getPublickKey");
     
     public static final List<String> URL_NO_AUTH_LIST = Arrays.asList(
             "/login",

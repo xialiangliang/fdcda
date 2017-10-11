@@ -55,11 +55,17 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         String uri = request.getRequestURI().replace(request.getContextPath(), "");
         SysUser user = (SysUser) session.getAttribute(Constants.SESSION_USER);
         if (user == null || user.getId() <= 0) {
+            if (Constants.URL_AUTH_ALL_LIST.contains(uri)) {
+                return true;
+            }
             if (!(Constants.URL_NO_AUTH_LIST.contains(uri))) {
                 response.sendRedirect(request.getContextPath() + Constants.URL_LOGIN);
                 return false;
             }
         } else {
+            if (Constants.URL_AUTH_ALL_LIST.contains(uri)) {
+                return true;
+            }
             if (Constants.URL_NO_AUTH_LIST.contains(uri)) {
                 response.sendRedirect(request.getContextPath() + Constants.URL_INDEX);
                 return true;

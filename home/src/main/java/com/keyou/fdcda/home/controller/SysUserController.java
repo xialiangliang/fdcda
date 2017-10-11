@@ -87,6 +87,7 @@ public class SysUserController extends BaseController {
 			roles = roles == null ? new String[]{} : roles;
 			
 			PrivateKey privateKey = (PrivateKey) request.getSession().getAttribute("privateKey");
+			request.removeAttribute("privateKey");
 			byte[] decryptedBytes = EncodeUtil.rsaDecrypt(Base64.getDecoder().decode(sysUser.getLoginpwd()), privateKey);
 			sysUser.setLoginpwd(new String(decryptedBytes));
 			Result<SysUser> result = sysUserService.validateNewUser(sysUser);

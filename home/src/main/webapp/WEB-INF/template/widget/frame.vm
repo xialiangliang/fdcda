@@ -7,7 +7,7 @@
                 <ul class="nav nav-pills nav-stacked">
                     #foreach($subItem in $item.subResource)
                     <li class="#if (${subItem.id} == $!{current_sub_id}) active #end">
-                        <a href="$subItem.url"><span class="glyphicon ${subItem.icon}"></span>$subItem.name</a>
+                        <a href="$subItem.url"><span class="glyphicon ${subItem.icon}"></span>&nbsp;$subItem.name</a>
                     </li>
                     #end
                 </ul>

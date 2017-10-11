@@ -24,20 +24,25 @@ $(function(){
     var dialog = $("#newUpdateDialogFrame");
 
     newForm.ajaxForm({
-        beforeSerialize: function () {
-            var publicKey = "";
-            $.ajax({
-                url :'/sysUser/getPublicKey',
-                data:{},
-                async : false,
-                success:function (data) {
-                    publicKey = data.publicKey;
-                }
-            });
-            var encrypt = new JSEncrypt();
-            encrypt.setPublicKey(publicKey);
-            var encrypted = encrypt.encrypt($('#loginpwd').val());
-            $('#loginpwd').val(encrypted);
+        beforeSerialize:function () {
+            
+        },
+        data: {
+            'loginpwd': function () {
+                var publicKey = "";
+                $.ajax({
+                    url :'/sysUser/getPublicKey',
+                    data:{},
+                    async : false,
+                    success:function (data) {
+                        publicKey = data.publicKey;
+                    }
+                });
+                var encrypt = new JSEncrypt();
+                encrypt.setPublicKey(publicKey);
+                var encrypted = encrypt.encrypt($('#loginpwd').val());
+                return encrypted;
+            }
         },
         success: function (data) {
             if (data.success) {

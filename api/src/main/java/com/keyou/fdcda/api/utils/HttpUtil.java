@@ -13,33 +13,33 @@ public class HttpUtil extends WebUtils {
         String ip = req.getHeader("X-Forwarded-For");
 
         try {
-            if(StringUtil.isNotBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
-                int index = ip.indexOf(44);
-                if(index != -1) {
-                    ip.substring(0, index);
-                }
-            } else {
-                ip = req.getHeader("X-Real-IP");
-                if(StringUtil.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-                    if(StringUtil.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-                        ip = req.getHeader("Proxy-Client-IP");
-                    }
-
-                    if(StringUtil.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-                        ip = req.getHeader("WL-Proxy-Client-IP");
-                    }
-
-                    if(StringUtil.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-                        ip = req.getHeader("host");
-                    }
-
-                    if(StringUtil.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
-                        ip = req.getRemoteAddr();
-                    }
-                }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = req.getHeader("x-forwarded-for");
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = req.getHeader("Proxy-Client-IP");
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = req.getHeader("WL-Proxy-Client-IP");
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = req.getHeader("HTTP_CLIENT_IP");
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = req.getHeader("HTTP_X_FORWARDED_FOR");
+            }
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+                ip = req.getRemoteAddr();
             }
         } finally {
-            return StringUtil.substringBefore(StringUtil.substringBefore(ip, ","), ":");
+            String tmp1 = StringUtil.substringBefore(ip, ",");
+            long cnt = tmp1.chars().filter(c->c==':').count();
+            if (cnt == 1) {
+                ip = StringUtil.substringBefore(tmp1, ":");
+            } else {
+                ip = tmp1;
+            }
         }
+        return ip;
     }
 }

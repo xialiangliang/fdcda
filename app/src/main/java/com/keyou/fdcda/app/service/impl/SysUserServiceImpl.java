@@ -3,6 +3,7 @@ package com.keyou.fdcda.app.service.impl;
 import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.constants.RedisConstants;
 import com.keyou.fdcda.api.constants.SmsConstants;
+import com.keyou.fdcda.api.model.SysLoginlog;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
@@ -10,12 +11,14 @@ import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SmsService;
 import com.keyou.fdcda.api.service.SysUserService;
 import com.keyou.fdcda.api.utils.*;
+import com.keyou.fdcda.app.dao.SysLoginlogMapper;
 import com.keyou.fdcda.app.dao.SysUserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +35,8 @@ public class SysUserServiceImpl implements SysUserService {
     private SmsService smsService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private SysLoginlogMapper sysLoginlogMapper;
 
     @Override
     public SysUser findById(Long id) {
@@ -134,8 +139,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
 
         String password = sysUser.getLoginpwd();
-        String salt = RandomUtil.produceString(64);
-        salt = EncodeUtil.hash(salt, Constants.HASH_ENCODE);
+        String salt = this.generatSalt().getData();
         SysUser vo = new SysUser();
         vo.setId(sysUser.getId());
         vo.setLoginpwd(EncodeUtil.hash(password + salt, Constants.HASH_ENCODE) + Constants.PASSWORD_SALT_SPLIT + salt);
@@ -148,7 +152,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Result<SysUser> loginByLoginname(String loginname, String password, String token) {
+    public Result<SysUser> loginByLoginname(String loginname, String password, String token, HttpServletRequest request) {
         SysUser user = sysUserMapper.getUserByLoginname(loginname);
         if (user == null) {
             return new Result<>(user, "用户不存在", -1, false);
@@ -160,11 +164,17 @@ public class SysUserServiceImpl implements SysUserService {
         if (!dbPwd.equals(password)) {
             return new Result<>(user, "密码错误", -101, false);
         }
+        SysLoginlog loginlog = new SysLoginlog();
+        loginlog.setCreateTime(new Date());
+        loginlog.setDevice("pc");
+        loginlog.setIp(HttpUtil.getIpAddr(request));
+        loginlog.setUserId(user.getId());
+        sysLoginlogMapper.save(loginlog);
         return new Result<>(user, "登录成功", 0, true);
     }
 
     @Override
-    public Result<SysUser> loginByPhone(String phone, String password, String token) {
+    public Result<SysUser> loginByPhone(String phone, String password, String token, HttpServletRequest request) {
         SysUser user = sysUserMapper.getUserByPhone(phone);
         if (user == null) {
             return new Result<>(user, "用户不存在", -1, false);
@@ -180,14 +190,19 @@ public class SysUserServiceImpl implements SysUserService {
         if (!dbPwd.equals(password)) {
             return new Result<>(user, "密码错误", -101, false);
         }
+        SysLoginlog loginlog = new SysLoginlog();
+        loginlog.setCreateTime(new Date());
+        loginlog.setDevice("pc");
+        loginlog.setIp(HttpUtil.getIpAddr(request));
+        loginlog.setUserId(user.getId());
+        sysLoginlogMapper.save(loginlog);
         return new Result<>(user, "登录成功", 0, true);
     }
 
     @Override
     public Result<SysUser> resetPassword(Long userId) {
         String password = RandomUtil.produceNumber(6);
-        String salt = RandomUtil.produceString(64);
-        salt = EncodeUtil.hash(salt, Constants.HASH_ENCODE);
+        String salt = this.generatSalt().getData();
         SysUser vo = new SysUser();
         vo.setId(userId);
         vo.setLoginpwd(EncodeUtil.hash(password + salt, Constants.HASH_ENCODE) + Constants.PASSWORD_SALT_SPLIT + salt);
@@ -199,5 +214,12 @@ public class SysUserServiceImpl implements SysUserService {
                 new String[]{sysUser.getPhone(), sysUser.getLoginname(), password});
         sysUser.setLoginpwd(password);
         return new Result<>(sysUser, "注册成功！", 0, true);
+    }
+
+    @Override
+    public Result<String> generatSalt() {
+        String salt = RandomUtil.produceString(64);
+        salt = EncodeUtil.hash(salt, Constants.HASH_ENCODE);
+        return new Result<>(salt, "", 0, true);
     }
 }

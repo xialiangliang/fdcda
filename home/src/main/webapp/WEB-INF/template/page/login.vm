@@ -6,63 +6,69 @@
 <script src="/js/jquery.md5.js"></script>
 <script src="https://cdn.bootcss.com/js-sha512/0.4.0/sha512.min.js"></script>
 ##<script src="https://cdn.bootcss.com/cryptico/0.0.1343522940/cryptico.min.js"></script>
-
-<div class="panel col-sm-offset-3 col-sm-6" style="width: 500px;margin-left: auto;margin-right: auto;" align="center">
-    <div class="panel-heading" style="margin-top: 15px; margin-bottom: 20px;">
-        <div class="panel-title">
-            <div class="col-sm-12">登录</div>
+<div class="login_pane">
+    <div class="panel col-sm-offset-3 col-sm-6" style="width: 500px;margin-left: auto;margin-right: auto;" align="center">
+        <div class="panel-heading" style="margin-top: 15px; margin-bottom: 20px;">
+            <div class="panel-title">
+                <div class="col-sm-12">登录</div>
+            </div>
         </div>
-    </div>
-    <div id="main-show" class="panel-body" style="padding-top:10px;">
-        <input type="hidden" id="token" value="${token}">
-        <label class="col-sm-12 control-label" align="center" style="color:red;">$!{message}</label>
-        <form id="login-form" class="form-horizontal" role="form" method="GET" action="/login/confirm">
-            <div class="form-group">
-                <label for="phone" class="col-sm-2 control-label">账号</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="phone" name="phone"
-                           placeholder="请输入手机号或登录名">
+        <div id="main-show" class="panel-body" style="padding-top:10px;">
+            <input type="hidden" id="token" value="${token}">
+            <label class="col-sm-12 control-label" align="center" style="color:red;">$!{message}</label>
+            <form id="login-form" class="form-horizontal" role="form" method="GET" action="/login/confirm">
+                <div class="form-group" id="d-phone" data-toggle="tooltip">
+                    <label for="phone" class="col-sm-2 control-label">账号</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="phone" name="phone"
+                               placeholder="请输入手机号或登录名">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="password" class="col-sm-2 control-label">密码</label>
-                <div class="col-sm-10">
-                    <input type="password" class="form-control" id="password" name="password"
-                           placeholder="请输入密码">
+                <div class="form-group" id="d-password" data-toggle="tooltip">
+                    <label for="password" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="password"
+                               placeholder="请输入密码">
+                    </div>
                 </div>
-            </div>
-            #if (${validateCodeRequire})
-            <div class="form-group">
-                <label for="validateCode" class="col-sm-2 control-label">验证码</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" id="validateCode" name="validateCode"
-                           placeholder="请输入图片验证码">
+                #if (${validateCodeRequire})
+                <div class="form-group" id="d-validateCode" data-toggle="tooltip">
+                    <label for="validateCode" class="col-sm-2 control-label">验证码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="validateCode" name="validateCode"
+                               placeholder="请输入图片验证码">
+                    </div>
+                    <div class="col-sm-4">
+                        <img id="validateCodeImg" onclick="changeCode();">
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <img id="validateCodeImg" onclick="changeCode();">
+                #end
+    ##            <div class="form-group">
+    ##                <div class="col-sm-12">
+    ##                    <div class="checkbox">
+    ##                        <label>
+    ##                            <input type="checkbox"> 请记住我
+    ##                        </label>
+    ##                    </div>
+    ##                </div>
+    ##            </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary login-btn">登录</button>
+                    </div>
                 </div>
-            </div>
-            #end
-##            <div class="form-group">
-##                <div class="col-sm-12">
-##                    <div class="checkbox">
-##                        <label>
-##                            <input type="checkbox"> 请记住我
-##                        </label>
-##                    </div>
-##                </div>
-##            </div>
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <button type="submit" class="btn btn-primary">登录</button>
-                </div>
-            </div>
-        </form>
-        <div id="dlg"></div>
+            </form>
+            <div id="dlg"></div>
+        </div>
     </div>
 </div>
 <script src="/js/jquery.form.min.js"></script>
 <link rel="stylesheet" href="/css/module.css">
+<style>
+.login-btn {
+    width:100px;
+}
+</style>
 <script>
     $(function () {
         function tip(msg, reload) {
@@ -86,22 +92,42 @@
         
         var loginform = $("#login-form");
         loginform.ajaxForm({
-            beforeSerialize:function() {
-                var token = $('#token').val();
-                var salt = '';
+            beforeSerialize:function () {
                 var phone = $('#phone').val();
-                $.ajax({
-                    url :'/login/getSalt',
-                    data:{'phone': phone},
-                    async : false,
-                    success:function (data) {
-                        salt = data.salt;
-                    }
-                });
-                var password = sha512(sha512($('#password').val() + salt) + token);
-                $('#password').val(password);
-                $('#phone').attr('readonly', '');
-                $('#password').attr('readonly', '');
+                if (phone === '') {
+                    var ctl = $('#d-phone');
+                    ctl.addClass('has-error');
+                    ctl.attr('title', '不能为空');
+                    ctl.tooltip('show');
+                    return false;
+                }
+                var password = $('#password').val();
+                if (password === '') {
+                    var ctl = $('#d-password');
+                    ctl.addClass('has-error');
+                    ctl.attr('title', '不能为空');
+                    ctl.tooltip('show');
+                    return false;
+                }
+                $('.login-btn').html('登录中...');
+            },
+            data:{
+                'password':function () {
+                    var token = $('#token').val();
+                    var salt = '';
+                    var phone = $('#phone').val();
+                    $.ajax({
+                        url :'/login/getSalt',
+                        data:{'phone': phone},
+                        async : false,
+                        success:function (data) {
+                            salt = data.salt;
+                        }
+                    });
+                    var password = sha512(sha512($('#password').val() + salt) + token);
+                    $(this).clearForm();
+                    return password;
+                }
             },
             success:function (data) {
                 if (data.success) {
