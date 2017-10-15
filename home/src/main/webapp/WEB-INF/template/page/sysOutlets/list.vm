@@ -1,8 +1,8 @@
-#set($JS = ["/js/page/sysLoginlog/list.js"])
+#set($JS = ["/js/page/sysOutlets/list.js"])
 <div class="main-content">
 	 <div class="breadcrumbs">
         <ul class="breadcrumb">
-            <li class="active"><h4>登录日志</h4></li>
+            <li class="active"><h4>门店</h4></li>
         </ul>
     </div>
 	<div class="page-content">
@@ -19,6 +19,9 @@
                     </div>
                 </form>
             </div>
+            <div class="col-sm-1 text-right">
+                <a href="#" class="btn btn-success btn-add j_new-btn">添加</a>
+            </div>
         </div>
         <div id="newUpdateDialogFrame" class="tipDialogFrame"></div>
         <div id="tipDialogFrame" class="tipDialogFrame"></div>
@@ -27,11 +30,10 @@
 	            <thead>
 	            <tr>
 	                <th>用户id</th>
-                    <th>用户姓名</th>
-                    <th>登录账号</th>
-	                <th>ip地址</th>
-	                <th>登录设备</th>
-	                <th>登录时间</th>
+	                <th>门店名</th>
+	                <th>地址</th>
+	             
+	                <th class="action-cl">操作</th>
 	               
 	            </tr>
 	            </thead>
@@ -39,18 +41,18 @@
 	                #foreach($row in $result.rows)
 	                <tr>
 	                	<td> $!{row.userId} </td>
-                        <td> $!{row.name} </td>
-                        <td> $!{row.loginName} </td>
-	                	<td> $!{row.ip} </td>
-	                	<td> $!{row.device} </td>
-	                	<td> $!{row.createTimeStr} </td>
+	                	<td> $!{row.name} </td>
+	                	<td> $!{row.address} </td>
+		                <td class="action-cl">
+                            <a href="#" class="j_device-btn" data-id="$!{row.id}">设备详情</a>
+	                    </td>
 	                </tr>
 	                #end
 	            </tbody>
 	       	</table>
 	        <div class="dataTables_wrapper f-mt2">
 	            <ul class="pagination">
-	           		#set($pageRequestURL="$!{www}/sysPlatform?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
+	           		#set($pageRequestURL="$!{www}/sysOutlets?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
 	            </ul>
             </div>
     </div><!-- /.page-content -->

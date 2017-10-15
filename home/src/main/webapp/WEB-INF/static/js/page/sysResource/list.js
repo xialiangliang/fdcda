@@ -10,6 +10,10 @@ $(function(){
             } else {
                 oper_item = '<a href="#" class="j_update-btn" onclick="update_resource(' + data[i].id + ')">修改</a>';
             }
+            var url = data[i].url;
+            if (url.length > 50) {
+                url = url.substring(0, 50) + '...';
+            }
             var map = {
                 text: ''
                 // + '<span class="icon check-icon glyphicon glyphicon-unchecked"></span>'
@@ -17,7 +21,7 @@ $(function(){
                 + '<span style="width:10%;float:right;">' + oper_item + '</span>'
                 + '<span style="width:20%;float:right;">' + data[i].memo + '</span>'
                 + '<span style="width:5%;float:right;">' + data[i].sort + '</span>'
-                + '<span style="width:40%;float:right;">' + data[i].url + '</span>'
+                + '<span style="width:40%;float:right;">' + url + '</span>'
                 + '<span style="width:5%;float:right;">' + data[i].id + '</span>',
                 state:{
                     expanded:false
