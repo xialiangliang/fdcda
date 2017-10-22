@@ -45,11 +45,15 @@
 	                	<td> $!{row.address} </td>
 		                <td class="action-cl">
                             <a href="#" class="j_device-btn" data-id="$!{row.id}">设备详情</a>
+                            <span class="arr">|</span>
+                            <a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
 	                    </td>
 	                </tr>
 	                #end
 	            </tbody>
 	       	</table>
+			<div id="dialog-confirm" class="pop-con-tip" style="display: none;">
+			</div>
 	        <div class="dataTables_wrapper f-mt2">
 	            <ul class="pagination">
 	           		#set($pageRequestURL="$!{www}/sysOutlets?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)

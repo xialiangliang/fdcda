@@ -11,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service("sysGoodCategoryService")
@@ -88,5 +85,26 @@ public class SysGoodCategoryServiceImpl implements SysGoodCategoryService {
             }
         }
         return new Result<>(topCategoryList, "", 0, true);
+    }
+
+    @Override
+    public Result<List<SysGoodCategory>> findListForSelect(Map<String, Object> map) {
+        List<SysGoodCategory> categoryMapList = this.getTopologicalCategory(map).getData();
+        List<SysGoodCategory> categoryList = new ArrayList<>();
+        for (SysGoodCategory sub : categoryMapList) {
+            this.parseCategoryMap(categoryList, sub, "");
+        }
+        return new Result<>(categoryList, "", 0, true);
+    }
+    
+    private void parseCategoryMap(List<SysGoodCategory> categoryList, SysGoodCategory category, String prefix) {
+        category.setName(prefix + category.getName());
+        categoryList.add(category);
+        prefix += "&nbsp;&nbsp;&nbsp;&nbsp;";
+        if (category.getSubCategory() != null) {
+            for (SysGoodCategory sub : category.getSubCategory()) {
+                parseCategoryMap(categoryList, sub, prefix);
+            }
+        }
     }
 }

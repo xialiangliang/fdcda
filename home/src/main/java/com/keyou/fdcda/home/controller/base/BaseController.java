@@ -1,9 +1,11 @@
 package com.keyou.fdcda.home.controller.base;
 
 import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.model.SysUser;
 import org.slf4j.Logger;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -20,5 +22,9 @@ public class BaseController {
         model.addAttribute(Constants.SUCCESS, false);
         model.addAttribute(Constants.MESSAGE, msg + ":" + e.getMessage());
         logger.error(msg, e);
+    }
+    
+    public SysUser getUser(HttpServletRequest request) {
+        return (SysUser) request.getSession().getAttribute(Constants.SESSION_USER);
     }
 }

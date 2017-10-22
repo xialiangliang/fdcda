@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.keyou.fdcda.api.model.SysGoodCategory;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.service.SysGoodCategoryService;
+import com.keyou.fdcda.api.utils.Assert;
 import com.keyou.fdcda.api.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,15 +41,25 @@ public class SysGoodController extends BaseController {
 	private SysGoodCategoryService sysGoodCategoryService;
 	
 	@RequestMapping(value="/new")
-	public String add() throws Exception {		
+	public String add(Model model) throws Exception {
+		Map<String, Object> query = new HashMap<>();
+		query.put("sortByParent", "asc");
+		Result<List<SysGoodCategory>> result = sysGoodCategoryService.findListForSelect(query);
+		model.addAttribute("category", result.getData());
 		return "/page/sysGood/new";
 	}
 	
 	@RequestMapping(value="/find")	
-	public String find(Long id, Model model){
-		try {	
+	public String find(Long id, Model model, HttpServletRequest request){
+		try {
 			SysGood sysGood = sysGoodService.findById(id);
 			model.addAttribute("param", sysGood);
+			
+			Map<String, Object> query = new HashMap<>();
+			query.put("sortByParent", "asc");
+			Result<List<SysGoodCategory>> result = sysGoodCategoryService.findListForSelect(query);
+			model.addAttribute("category", result.getData());
+			
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysGood/update";
 		} catch (Exception e) {
@@ -59,9 +70,12 @@ public class SysGoodController extends BaseController {
 	
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, Object> save(@ModelAttribute("sysGood") SysGood sysGood,Model model) throws Exception {		
+	public Map<String, Object> save(@ModelAttribute("sysGood") SysGood sysGood,Model model,HttpServletRequest request) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			sysGood.setState(2L);
+			sysGood.setRemainedCount(sysGood.getTotalCount());
+			sysGood.setCreateTime(new Date());
 			sysGoodService.save(sysGood);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
@@ -75,9 +89,10 @@ public class SysGoodController extends BaseController {
 	
 	@RequestMapping(value="/update")
 	@ResponseBody
-	public Map<String, Object> update(@ModelAttribute("sysGood") SysGood sysGood,Model model) throws Exception {		
+	public Map<String, Object> update(@ModelAttribute("sysGood") SysGood sysGood,Model model,HttpServletRequest request) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			sysGood.setModifyTime(new Date());
 			sysGoodService.update(sysGood);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
@@ -87,10 +102,47 @@ public class SysGoodController extends BaseController {
 		}
 		return map;
 	}
+
+	@RequestMapping(value="/on")
+	@ResponseBody
+	public Map<String, Object> on(Long id, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			SysGood sysGood = sysGoodService.findById(id);
+			sysGood.setModifyTime(new Date());
+			sysGood.setUpTime(new Date());
+			sysGood.setState(1L);
+			sysGoodService.update(sysGood);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "上架成功");
+		} catch (Exception e) {
+			commonError(logger, e,"上架异常",map);
+		}
+		return map;
+	}
+
+	@RequestMapping(value="/off")
+	@ResponseBody
+	public Map<String, Object> off(Long id, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			SysGood sysGood = sysGoodService.findById(id);
+			SysUser user = getUser(request);
+			sysGood.setModifyTime(new Date());
+			sysGood.setDownTime(new Date());
+			sysGood.setState(2L);
+			sysGoodService.update(sysGood);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "下架成功");
+		} catch (Exception e) {
+			commonError(logger, e,"下架异常",map);
+		}
+		return map;
+	}
 	
 	@RequestMapping(value="/delete")
 	@ResponseBody
-	public Map<String, Object> delete(Long id,Model model) throws Exception {
+	public Map<String, Object> delete(Long id,Model model,HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			sysGoodService.deleteById(id);
@@ -104,8 +156,7 @@ public class SysGoodController extends BaseController {
 	
 	@RequestMapping
 	public String list(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
-		Long userId = ((SysUser)request.getSession().getAttribute(Constants.SESSION_USER)).getId();
-		query.addQueryData("userId", userId.toString());
+		query.addQueryData("name", request.getParameter("name"));
 		PageResult<SysGood> pageList = sysGoodService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
@@ -183,6 +234,21 @@ public class SysGoodController extends BaseController {
 			map.put(Constants.MESSAGE, "修改成功");
 		} catch (Exception e) {
 			commonError(logger, e,"修改异常",map);
+		}
+		return map;
+	}
+
+	@RequestMapping(value="/category/delete")
+	@ResponseBody
+	public Map<String, Object> categoryDelete(Long id) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			sysGoodCategoryService.deleteById(id);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "删除成功");
+
+		} catch (Exception e) {
+			commonError(logger, e, "删除异常",map);
 		}
 		return map;
 	}

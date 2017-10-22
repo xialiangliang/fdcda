@@ -39,6 +39,10 @@ public class SysGood implements Serializable {
      * 商品剩余数量
      */ 	
 	private Long remainedCount;
+	/**
+	 * 商品状态1-上架2-下架
+	 */
+	private Long state;
     /**
      * 上架时间
      */ 	
@@ -189,6 +193,12 @@ public class SysGood implements Serializable {
 		return this.modifyTimeStr;
 	}
 
-	
+	public Long getState() {
+		return state;
+	}
+
+	public void setState(Long state) {
+		this.state = state;
+	}
 }
 

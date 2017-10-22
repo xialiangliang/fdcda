@@ -11,4 +11,6 @@ import java.util.Map;
 public interface SysGoodCategoryService extends BaseService<SysGoodCategory, Long> {
 
     Result<List<SysGoodCategory>> getTopologicalCategory(Map<String, Object> map);
+    
+    Result<List<SysGoodCategory>> findListForSelect(Map<String, Object> map);
 }

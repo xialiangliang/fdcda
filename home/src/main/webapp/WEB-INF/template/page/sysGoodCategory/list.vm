@@ -10,7 +10,7 @@
             <div class="col-sm-11">
                 <form class="form-inline" role="form">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="vcName" value="$!{query.vcName}">
+                        <input type="text" class="form-control" name="name" value="$!{query.name}">
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">

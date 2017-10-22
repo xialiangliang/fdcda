@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.keyou.fdcda.api.model.SysDevice;
@@ -43,7 +44,7 @@ public class SysOutletsController extends BaseController {
 	}
 	
 	@RequestMapping(value="/find")	
-	public String find(Long id, Model model){
+	public String find(Long id, Model model, HttpServletRequest request){
 		try {	
 			SysOutlets sysOutlets = sysOutletsService.findById(id);
 			model.addAttribute("param", sysOutlets);
@@ -74,7 +75,7 @@ public class SysOutletsController extends BaseController {
 	
 	@RequestMapping(value="/update")
 	@ResponseBody
-	public Map<String, Object> update(@ModelAttribute("sysOutlets") SysOutlets sysOutlets,Model model) throws Exception {		
+	public Map<String, Object> update(@ModelAttribute("sysOutlets") SysOutlets sysOutlets,Model model,HttpServletRequest request) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			sysOutlets.setModifyTime(new Date());
@@ -90,7 +91,7 @@ public class SysOutletsController extends BaseController {
 	
 	@RequestMapping(value="/delete")
 	@ResponseBody
-	public Map<String, Object> delete(Long id,Model model) throws Exception {
+	public Map<String, Object> delete(Long id,Model model,HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			sysOutletsService.deleteById(id);
@@ -103,8 +104,9 @@ public class SysOutletsController extends BaseController {
 	}
 	
 	@RequestMapping
-	public String list(PaginationQuery query,Model model) throws Exception {		
+	public String list(PaginationQuery query,Model model,HttpServletRequest request) throws Exception {		
 		PageResult<SysOutlets> pageList = sysOutletsService.findPage(query);
+		query.addQueryData("userId", getUser(request).getId().toString());
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
 		return "/page/sysOutlets/list";
@@ -112,7 +114,7 @@ public class SysOutletsController extends BaseController {
 
 
 	@RequestMapping("/sysDevice/list")
-	public String deviceList(PaginationQuery query,Model model,Long outletsId) throws Exception {
+	public String deviceList(PaginationQuery query,Model model,Long outletsId, HttpServletRequest request) throws Exception {
 		query.addQueryData("outletsId", outletsId.toString());
 		PageResult<SysDevice> pageList = sysDeviceService.findPage(query);
 		model.addAttribute("result", pageList);
@@ -128,7 +130,7 @@ public class SysOutletsController extends BaseController {
 	}
 
 	@RequestMapping(value="/sysDevice/find")
-	public String sysDeviceFind(Long id, Model model){
+	public String sysDeviceFind(Long id, Model model, HttpServletRequest request){
 		try {
 			SysDevice sysDevice = sysDeviceService.findById(id);
 			model.addAttribute("param", sysDevice);
@@ -160,10 +162,13 @@ public class SysOutletsController extends BaseController {
 
 	@RequestMapping(value="/sysDevice/update")
 	@ResponseBody
-	public Map<String, Object> sysDeviceUpdate(@ModelAttribute("sysDevice") SysDevice sysDevice,Model model) throws Exception {
+	public Map<String, Object> sysDeviceUpdate(@ModelAttribute("sysDevice") SysDevice sysDevice,Model model,HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			Assert.isTrue(StringUtil.isBlank(sysDevice.getSeqno()), "设备序列号不能为空");
+			SysDevice sysDevice1 = sysDeviceService.findById(sysDevice.getId());
+			SysOutlets sysOutlets = sysOutletsService.findById(sysDevice1.getOutletsId());
+			Assert.isTrue(!getUser(request).getId().equals(sysOutlets.getUserId()), "违规操作");
 			sysDevice.setModifyTime(new Date());
 			sysDeviceService.update(sysDevice);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -177,9 +182,12 @@ public class SysOutletsController extends BaseController {
 
 	@RequestMapping(value="/sysDevice/delete")
 	@ResponseBody
-	public Map<String, Object> sysDeviceDelete(Long id,Model model) throws Exception {
+	public Map<String, Object> sysDeviceDelete(Long id,Model model,HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			SysDevice sysDevice = sysDeviceService.findById(id);
+			SysOutlets sysOutlets = sysOutletsService.findById(sysDevice.getOutletsId());
+			Assert.isTrue(!getUser(request).getId().equals(sysOutlets.getUserId()), "违规操作");
 			sysDeviceService.deleteById(id);
 			map.put(Constants.SUCCESS, true);
 			map.put(Constants.MESSAGE, "删除成功");

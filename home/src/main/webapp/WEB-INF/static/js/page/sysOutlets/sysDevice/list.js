@@ -1,7 +1,7 @@
 $(function(){
     var dialog = $("#newUpdateDialogFrameDev");
 
-    $(".j_update-btn").click(function () {
+    $(".j_update-dev-btn").click(function () {
         $.get('/sysOutlets/sysDevice/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
             dialog.html(object.responseText);
             dialog.dialog({
@@ -15,7 +15,7 @@ $(function(){
         });
     });
 
-    $(".j_new-btn").click(function () {
+    $(".j_new-dev-btn").click(function () {
         $.get('/sysOutlets/sysDevice/new', {'outletsId':$(this).attr("data-id")}, function (data, textStatus, object) {
             dialog.html(object.responseText);
             dialog.dialog({
@@ -49,7 +49,7 @@ $(function(){
             }
         }, 1000);
     }
-    $(".j_delete-btn").click(function () {
+    $(".j_delete-dev-btn").click(function () {
         var id = $(this).attr("data-id");
         $( "#dialog-confirm" ).dialog({
             resizable: false,

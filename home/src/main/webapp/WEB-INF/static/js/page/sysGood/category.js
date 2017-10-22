@@ -28,6 +28,7 @@ $(function(){
                 oper_item = '<a href="#" class="btn j_new-btn col-sm-6"  style="color: #333;padding:1px;width:20px;margin-left:3px;border:1px solid #333;" onclick="newCategory(0)">+</a>';
             } else {
                 oper_item = '<a href="#" class="btn j_new-btn col-sm-6"  style="color: #333;padding:1px;width:20px;margin-left:3px;border:1px solid #333;" onclick="newCategory(' + data[i].id + ')">+</a>';
+                oper_item = oper_item + '<a href="#" class="btn j_new-btn col-sm-6"  style="color: #333;padding:1px;width:20px;margin-left:3px;border:1px solid #333;" onclick="delCategory(' + data[i].id + ')">-</a>';
                 oper_item = oper_item + '<a href="#" class="btn j_update-btn col-sm-6"  style="color: #333;padding:1px;width:20px;margin-left:3px;border:1px solid #333;" onclick="updateCategory(' + data[i].id + ')">...</a>';
             }
             if (data[i].subCategory) {
@@ -92,6 +93,36 @@ $(function(){
                 }
             });
         });
+    };
+
+    delCategory = function(id) {        
+        $( "#dialog-confirm-cat" ).dialog({
+            resizable: false,
+            modal: true,
+            title:'删除',
+            buttons: {
+                '确定': function () {
+                    $.ajax({
+                        url: '/sysGood/category/delete',
+                        data: {'id': id},
+                        async: false,
+                        success: function (data) {
+                            if (data.success) {
+                                tip(data.message, true);
+                            } else {
+                                tip(data.message, false);
+                            }
+                        }
+                    });
+                    $(this).dialog("close");
+                },
+                '取消': function () {
+                    $(this).dialog("close");
+                }
+            }
+        }).html('确认删除吗？');
+        
+        
     };
 
     $(".btn-close").click(function () {

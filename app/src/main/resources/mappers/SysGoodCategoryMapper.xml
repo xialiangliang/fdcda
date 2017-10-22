@@ -86,10 +86,11 @@
 	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select <include refid="columns"/>, rn from (
 			select <include refid="columns"/>, rownum as rn 
-			from SYS_GOOD_CATEGORY where 1=1
+			from (
+				select <include refid="columns"/> from SYS_GOOD_CATEGORY ORDER BY ID DESC
+			) where 1=1
 			<include refid="queryWhere"/> 
 			and rownum &lt;= (${startRecord} + ${endRecord})
-			ORDER BY id DESC
 		) where rn > ${startRecord}
 	</select>
 

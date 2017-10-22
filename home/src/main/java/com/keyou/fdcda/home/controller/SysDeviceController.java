@@ -4,8 +4,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.model.SysOutlets;
+import com.keyou.fdcda.api.service.SysOutletsService;
+import com.keyou.fdcda.api.utils.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,8 @@ public class SysDeviceController extends BaseController {
 	
 	@Autowired
 	private SysDeviceService sysDeviceService;
+	@Autowired
+	private SysOutletsService sysOutletsService;
 	
 	@RequestMapping(value="/new")
 	public String add() throws Exception {		
@@ -37,9 +43,11 @@ public class SysDeviceController extends BaseController {
 	}
 	
 	@RequestMapping(value="/find")	
-	public String find(Long id, Model model){
-		try {	
+	public String find(Long id, Model model, HttpServletRequest request){
+		try {
 			SysDevice sysDevice = sysDeviceService.findById(id);
+			SysOutlets sysOutlets = sysOutletsService.findById(sysDevice.getOutletsId());
+			Assert.isTrue(!getUser(request).getId().equals(sysOutlets.getUserId()), "违规操作");
 			model.addAttribute("param", sysDevice);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysDevice/update";
@@ -54,6 +62,7 @@ public class SysDeviceController extends BaseController {
 	public Map<String, Object> save(@ModelAttribute("sysDevice") SysDevice sysDevice,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			sysDevice.setCreateTime(new Date());
 			sysDeviceService.save(sysDevice);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
@@ -67,9 +76,10 @@ public class SysDeviceController extends BaseController {
 	
 	@RequestMapping(value="/update")
 	@ResponseBody
-	public Map<String, Object> update(@ModelAttribute("sysDevice") SysDevice sysDevice,Model model) throws Exception {		
+	public Map<String, Object> update(@ModelAttribute("sysDevice") SysDevice sysDevice,Model model,HttpServletRequest request) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			sysDevice.setModifyTime(new Date());
 			sysDeviceService.update(sysDevice);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
@@ -82,9 +92,10 @@ public class SysDeviceController extends BaseController {
 	
 	@RequestMapping(value="/delete")
 	@ResponseBody
-	public Map<String, Object> delete(Long id,Model model) throws Exception {
+	public Map<String, Object> delete(Long id,Model model,HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			SysDevice sysDevice = sysDeviceService.findById(id);
 			sysDeviceService.deleteById(id);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "删除成功");

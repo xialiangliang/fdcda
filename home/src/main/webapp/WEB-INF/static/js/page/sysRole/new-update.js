@@ -27,12 +27,16 @@ $(function(){
     var tree = [];
     function parseResource(data, tree) {
         for (i in data) {
+            var url = data[i].url;
+            if (url.length > 50) {
+                url = url.substring(0, 50) + '...';
+            }
             var map = {
                 text: ''
                 + data[i].name
                 + '<span style="width:20%;float:right;">' + data[i].memo + '</span>'
                 + '<span style="width:5%;float:right;">' + data[i].sort + '</span>'
-                + '<span style="width:40%;float:right;">' + data[i].url + '</span>'
+                + '<span style="width:40%;float:right;">' + url + '</span>'
                 + '<span style="width:5%;float:right;">' + data[i].id + '</span>',
                 state:{
                     expanded:false,

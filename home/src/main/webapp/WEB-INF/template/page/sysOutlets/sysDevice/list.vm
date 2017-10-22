@@ -17,7 +17,7 @@
 ##                </form>
             </div>
             <div class="col-sm-2 text-right">
-                <button class="btn btn-success btn-add j_new-btn" data-id="$!{outletsId}">添加</button>
+                <button class="btn btn-success btn-add j_new-dev-btn" data-id="$!{outletsId}">添加</button>
             </div>
         </div>
         <div id="newUpdateDialogFrameDev" class="tipDialogFrame"></div>
@@ -41,16 +41,15 @@
 	                	<td> $!{row.outletsId} </td>
 	                	<td> $!{row.createTimeStr} </td>
 		                <td class="action-cl">
-	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
+	                    	<a href="#" class="j_update-dev-btn" data-id="$!{row.id}">修改</a>
 	                    	<span class="arr">|</span>
-	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
+	                    	<a href="#" class="j_delete-dev-btn" data-id="$!{row.id}">删除</a>
 	                    </td>
 	                </tr>
 	                #end
 	            </tbody>
 	       	</table>
 			<div id="dialog-confirm" title="删除" class="pop-con-tip" style="display: none;">
-			##        新密码将以短信的形式发送到用户手机，
 				确认删除？
 			</div>
 	        <div class="dataTables_wrapper f-mt2">

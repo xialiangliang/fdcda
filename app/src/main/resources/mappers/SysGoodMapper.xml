@@ -6,6 +6,7 @@
 		<result property="userId" jdbcType="DECIMAL" column="USER_ID"/>
 		<result property="name" jdbcType="VARCHAR" column="NAME"/>
 		<result property="price" jdbcType="DECIMAL" column="PRICE"/>
+		<result property="state" jdbcType="DECIMAL" column="STATE"/>
 		<result property="goodCategoryId" jdbcType="DECIMAL" column="GOOD_CATEGORY_ID"/>
 		<result property="description" jdbcType="VARCHAR" column="DESCRIPTION"/>
 		<result property="totalCount" jdbcType="DECIMAL" column="TOTAL_COUNT"/>
@@ -19,7 +20,7 @@
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,USER_ID ,NAME ,PRICE ,GOOD_CATEGORY_ID ,DESCRIPTION ,TOTAL_COUNT ,REMAINED_COUNT ,UP_TIME ,DOWN_TIME ,MEMO ,CREATE_TIME ,MODIFY_TIME 
+        ID ,USER_ID ,NAME ,PRICE ,STATE ,GOOD_CATEGORY_ID ,DESCRIPTION ,TOTAL_COUNT ,REMAINED_COUNT ,UP_TIME ,DOWN_TIME ,MEMO ,CREATE_TIME ,MODIFY_TIME 
 	    ]]>
 	</sql>
 	
@@ -33,6 +34,7 @@
         	USER_ID ,
         	NAME ,
         	PRICE ,
+        	STATE ,
         	GOOD_CATEGORY_ID ,
         	DESCRIPTION ,
         	TOTAL_COUNT ,
@@ -47,6 +49,7 @@
         	#{userId,jdbcType=DECIMAL} ,
         	#{name,jdbcType=VARCHAR} ,
         	#{price,jdbcType=DECIMAL} ,
+        	#{state,jdbcType=DECIMAL} ,
         	#{goodCategoryId,jdbcType=DECIMAL} ,
         	#{description,jdbcType=VARCHAR} ,
         	#{totalCount,jdbcType=DECIMAL} ,
@@ -72,6 +75,9 @@
 			<if test="price != null">
 	        PRICE = #{price,jdbcType=DECIMAL} ,
 	        </if>
+			<if test="state != null">
+			STATE = #{state,jdbcType=DECIMAL} ,
+			</if>
 			<if test="goodCategoryId != null">
 	        GOOD_CATEGORY_ID = #{goodCategoryId,jdbcType=DECIMAL} ,
 	        </if>
@@ -128,10 +134,11 @@
 	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select <include refid="columns"/>, rn from (
 			select <include refid="columns"/>, rownum as rn 
-			from SYS_GOOD where 1=1
+			from (
+				select <include refid="columns"/> from SYS_GOOD ORDER BY ID DESC
+			) where 1=1
 			<include refid="queryWhere"/> 
 			and rownum &lt;= (${startRecord} + ${endRecord})
-			ORDER BY id DESC
 		) where rn > ${startRecord}
 	</select>
 
@@ -153,6 +160,9 @@
 		</if>
 		<if test="price != null and price.trim() != ''">
 		and PRICE = #{price}
+		</if>
+		<if test="state != null and state.trim() != ''">
+		and STATE = #{state}
 		</if>
 		<if test="goodCategoryId != null and goodCategoryId.trim() != ''">
 		and GOOD_CATEGORY_ID = #{goodCategoryId}

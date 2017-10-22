@@ -36,12 +36,14 @@ create table sys_role
 (
   id NUMBER(11) not null PRIMARY KEY,
   name VARCHAR2(255),
+  type NUMBER(11),
   create_time DATE,
   modify_time DATE
 );
 comment on table  sys_role is '角色';
 comment on column sys_role.id is '主键id';
 comment on column sys_role.name is '角色名称';
+comment on column sys_role.type is '角色类型 1-管理员 2-普通用户';
 comment on column sys_role.create_time is '创建时间';
 comment on column sys_role.modify_time is '修改时间';
 CREATE SEQUENCE seq_sys_role
@@ -223,6 +225,7 @@ create table sys_good
   user_id NUMBER(11),
   name VARCHAR2(255),
   price number(18,2),
+  state number(11),
   good_category_id NUMBER (11),
   description VARCHAR2(255),
   total_count NUMBER (11),
@@ -239,6 +242,7 @@ comment on column sys_good.id is '主键id';
 comment on column sys_good.user_id is '用户id';
 comment on column sys_good.name is '商品名称';
 comment on column sys_good.price is '单价';
+comment on column sys_good.state is '商品状态1-上架2-下架';
 comment on column sys_good.good_category_id is '商品分类id';
 comment on column sys_good.description is '商品描述';
 comment on column sys_good.total_count is '商品总数';
@@ -397,20 +401,24 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREA
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '角色管理/新增', '/sysRole/new;/sysRole/save;/sysRole/getResourceWithAuth', 2, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysRole';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '角色管理/修改', '/sysRole/find;/sysRole/update;/sysRole/getResourceWithAuth', 2, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysRole';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '角色管理/删除', '/sysRole/delete', 2, 'glyphicon-th', 3, '删除', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysRole';
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '人员管理/新增', '/sysUser/new;/sysUser/save;/sysUser/getPublicKey', 2, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysUser';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '人员管理/修改', '/sysUser/find;/sysUser/update;/sysUser/getPublicKey;/sysUser/resetPassword', 2, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysUser';
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '门店管理/新增', '/sysOutlets/new;/sysOutlets/save', 2, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysOutlets';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '门店管理/修改', '/sysOutlets/find;/sysOutlets/update', 2, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysOutlets';
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '门店管理/设备管理', '/sysOutlets/sysDevice/list', 2, 'glyphicon-th', 3, '设备管理', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysOutlets';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '门店管理/删除', '/sysOutlets/delete', 2, 'glyphicon-th', 3, '删除', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysOutlets';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '门店管理/设备管理', '/sysOutlets/sysDevice/list', 2, 'glyphicon-th', 4, '设备管理', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysOutlets';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '设备管理/新增', '/sysOutlets/sysDevice/new;/sysOutlets/sysDevice/save', 2, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysOutlets/sysDevice/list';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '设备管理/修改', '/sysOutlets/sysDevice/find;/sysOutlets/sysDevice/update', 2, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysOutlets/sysDevice/list';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '设备管理/删除', '/sysOutlets/sysDevice/delete', 2, 'glyphicon-th', 3, '删除', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysOutlets/sysDevice/list';
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '商品管理/新增', '/sysGood/new;/sysGood/save', 2, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysGood';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '商品管理/修改', '/sysGood/find;/sysUser/update', 2, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysGood';
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '商品管理/分类管理', '/sysGood/category;/sysGood/category/listMap;/sysGood/category/new;/sysGood/category/save;/sysGood/category/update;/sysGood/category/find', 2, 'glyphicon-th', 3, '分类管理', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysGood';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '商品管理/上架&下架', '/sysGood/on;/sysGood/off', 2, 'glyphicon-th', 3, '上架&下架', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysGood';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '商品管理/删除', '/sysGood/delete', 2, 'glyphicon-th', 4, '删除', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysGood';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '商品管理/分类管理', '/sysGood/category;/sysGood/category/listMap;/sysGood/category/new;/sysGood/category/save;/sysGood/category/update;/sysGood/category/find;/sysGood/category/delete', 2, 'glyphicon-th', 3, '分类管理', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysGood';
 
 INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 1, null, '注册成功，手机号%s，登录名%s，初始密码%s，请及时修改密码。', 1, sysdate, sysdate);
 INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 2, null, '密码重置成功，手机号%s，登录名%s，密码%s，请及时修改密码。', 1, sysdate, sysdate);
