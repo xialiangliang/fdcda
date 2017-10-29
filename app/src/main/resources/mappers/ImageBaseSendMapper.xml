@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.ImageBaseSendMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.ImageBaseSend">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="userRowId" jdbcType="DECIMAL" column="USER_ROW_ID"/>
+		<result property="imageUrl" jdbcType="VARCHAR" column="IMAGE_URL"/>
+		<result property="imageStatus" jdbcType="DECIMAL" column="IMAGE_STATUS"/>
+		<result property="createDate" jdbcType="TIMESTAMP" column="CREATE_DATE"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,USER_ROW_ID ,IMAGE_URL ,IMAGE_STATUS ,CREATE_DATE 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.ImageBaseSend" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_IMAGE_BASE_SEND.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO IMAGE_BASE_SEND (
+        	ID ,
+        	USER_ROW_ID ,
+        	IMAGE_URL ,
+        	IMAGE_STATUS ,
+        	CREATE_DATE 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{userRowId,jdbcType=DECIMAL} ,
+        	#{imageUrl,jdbcType=VARCHAR} ,
+        	#{imageStatus,jdbcType=DECIMAL} ,
+        	#{createDate,jdbcType=TIMESTAMP} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.ImageBaseSend">
+		UPDATE IMAGE_BASE_SEND
+		<set>
+			<if test="userRowId != null">
+	        USER_ROW_ID = #{userRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="imageUrl != null">
+	        IMAGE_URL = #{imageUrl,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="imageStatus != null">
+	        IMAGE_STATUS = #{imageStatus,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="createDate != null">
+	        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM IMAGE_BASE_SEND WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM IMAGE_BASE_SEND 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from IMAGE_BASE_SEND where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from (
+				select <include refid="columns"/> from IMAGE_BASE_SEND ORDER BY ID DESC
+			) where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from IMAGE_BASE_SEND where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="userRowId != null and userRowId.trim() != ''">
+		and USER_ROW_ID = #{userRowId}
+		</if>
+		<if test="imageUrl != null and imageUrl.trim() != ''">
+		and IMAGE_URL = #{imageUrl}
+		</if>
+		<if test="imageStatus != null and imageStatus.trim() != ''">
+		and IMAGE_STATUS = #{imageStatus}
+		</if>
+		<if test="createDateBegin != null and createDateBegin.trim() != ''">
+		and CREATE_DATE >= #{createDateBegin}
+		</if>
+		<if test="createDateEnd != null and createDateEnd.trim() != ''">
+		and CREATE_DATE &lt;= #{createDateEnd}
+		</if>
+	</sql>
+</mapper>
+
+

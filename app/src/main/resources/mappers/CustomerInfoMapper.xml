@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.CustomerInfoMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.CustomerInfo">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="name" jdbcType="VARCHAR" column="NAME"/>
+		<result property="phone" jdbcType="VARCHAR" column="PHONE"/>
+		<result property="gender" jdbcType="DECIMAL" column="GENDER"/>
+		<result property="nationality" jdbcType="DECIMAL" column="NATIONALITY"/>
+		<result property="province" jdbcType="DECIMAL" column="PROVINCE"/>
+		<result property="city" jdbcType="DECIMAL" column="CITY"/>
+		<result property="companyid" jdbcType="DECIMAL" column="COMPANYID"/>
+		<result property="address" jdbcType="VARCHAR" column="ADDRESS"/>
+		<result property="imageUrl" jdbcType="VARCHAR" column="IMAGE_URL"/>
+		<result property="validFlag" jdbcType="DECIMAL" column="VALID_FLAG"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
+		<result property="qq" jdbcType="VARCHAR" column="QQ"/>
+		<result property="weixin" jdbcType="VARCHAR" column="WEIXIN"/>
+		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
+		<result property="userRowId" jdbcType="DECIMAL" column="USER_ROW_ID"/>
+		<result property="isBlack" jdbcType="DECIMAL" column="IS_BLACK"/>
+		<result property="isVip" jdbcType="DECIMAL" column="IS_VIP"/>
+		<result property="source" jdbcType="DECIMAL" column="SOURCE"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,NAME ,PHONE ,GENDER ,NATIONALITY ,PROVINCE ,CITY ,COMPANYID ,ADDRESS ,IMAGE_URL ,VALID_FLAG ,CREATE_TIME ,QQ ,WEIXIN ,MODIFY_TIME ,USER_ROW_ID ,IS_BLACK ,IS_VIP ,SOURCE 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.CustomerInfo" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_CUSTOMER_INFO.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO CUSTOMER_INFO (
+        	ID ,
+        	NAME ,
+        	PHONE ,
+        	GENDER ,
+        	NATIONALITY ,
+        	PROVINCE ,
+        	CITY ,
+        	COMPANYID ,
+        	ADDRESS ,
+        	IMAGE_URL ,
+        	VALID_FLAG ,
+        	CREATE_TIME ,
+        	QQ ,
+        	WEIXIN ,
+        	MODIFY_TIME ,
+        	USER_ROW_ID ,
+        	IS_BLACK ,
+        	IS_VIP ,
+        	SOURCE 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{name,jdbcType=VARCHAR} ,
+        	#{phone,jdbcType=VARCHAR} ,
+        	#{gender,jdbcType=DECIMAL} ,
+        	#{nationality,jdbcType=DECIMAL} ,
+        	#{province,jdbcType=DECIMAL} ,
+        	#{city,jdbcType=DECIMAL} ,
+        	#{companyid,jdbcType=DECIMAL} ,
+        	#{address,jdbcType=VARCHAR} ,
+        	#{imageUrl,jdbcType=VARCHAR} ,
+        	#{validFlag,jdbcType=DECIMAL} ,
+        	#{createTime,jdbcType=TIMESTAMP} ,
+        	#{qq,jdbcType=VARCHAR} ,
+        	#{weixin,jdbcType=VARCHAR} ,
+        	#{modifyTime,jdbcType=TIMESTAMP} ,
+        	#{userRowId,jdbcType=DECIMAL} ,
+        	#{isBlack,jdbcType=DECIMAL} ,
+        	#{isVip,jdbcType=DECIMAL} ,
+        	#{source,jdbcType=DECIMAL} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.CustomerInfo">
+		UPDATE CUSTOMER_INFO
+		<set>
+			<if test="name != null">
+	        NAME = #{name,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="phone != null">
+	        PHONE = #{phone,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="gender != null">
+	        GENDER = #{gender,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="nationality != null">
+	        NATIONALITY = #{nationality,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="province != null">
+	        PROVINCE = #{province,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="city != null">
+	        CITY = #{city,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="companyid != null">
+	        COMPANYID = #{companyid,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="address != null">
+	        ADDRESS = #{address,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="imageUrl != null">
+	        IMAGE_URL = #{imageUrl,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="validFlag != null">
+	        VALID_FLAG = #{validFlag,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="createTime != null">
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} ,
+	        </if>
+			<if test="qq != null">
+	        QQ = #{qq,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="weixin != null">
+	        WEIXIN = #{weixin,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="modifyTime != null">
+	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} ,
+	        </if>
+			<if test="userRowId != null">
+	        USER_ROW_ID = #{userRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="isBlack != null">
+	        IS_BLACK = #{isBlack,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="isVip != null">
+	        IS_VIP = #{isVip,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="source != null">
+	        SOURCE = #{source,jdbcType=DECIMAL} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM CUSTOMER_INFO WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM CUSTOMER_INFO 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from CUSTOMER_INFO where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from (
+				select <include refid="columns"/> from CUSTOMER_INFO ORDER BY ID DESC
+			) where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from CUSTOMER_INFO where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="name != null and name.trim() != ''">
+		and NAME = #{name}
+		</if>
+		<if test="phone != null and phone.trim() != ''">
+		and PHONE = #{phone}
+		</if>
+		<if test="gender != null and gender.trim() != ''">
+		and GENDER = #{gender}
+		</if>
+		<if test="nationality != null and nationality.trim() != ''">
+		and NATIONALITY = #{nationality}
+		</if>
+		<if test="province != null and province.trim() != ''">
+		and PROVINCE = #{province}
+		</if>
+		<if test="city != null and city.trim() != ''">
+		and CITY = #{city}
+		</if>
+		<if test="companyid != null and companyid.trim() != ''">
+		and COMPANYID = #{companyid}
+		</if>
+		<if test="address != null and address.trim() != ''">
+		and ADDRESS = #{address}
+		</if>
+		<if test="imageUrl != null and imageUrl.trim() != ''">
+		and IMAGE_URL = #{imageUrl}
+		</if>
+		<if test="validFlag != null and validFlag.trim() != ''">
+		and VALID_FLAG = #{validFlag}
+		</if>
+		<if test="createTimeBegin != null and createTimeBegin.trim() != ''">
+		and CREATE_TIME >= #{createTimeBegin}
+		</if>
+		<if test="createTimeEnd != null and createTimeEnd.trim() != ''">
+		and CREATE_TIME &lt;= #{createTimeEnd}
+		</if>
+		<if test="qq != null and qq.trim() != ''">
+		and QQ = #{qq}
+		</if>
+		<if test="weixin != null and weixin.trim() != ''">
+		and WEIXIN = #{weixin}
+		</if>
+		<if test="modifyTimeBegin != null and modifyTimeBegin.trim() != ''">
+		and MODIFY_TIME >= #{modifyTimeBegin}
+		</if>
+		<if test="modifyTimeEnd != null and modifyTimeEnd.trim() != ''">
+		and MODIFY_TIME &lt;= #{modifyTimeEnd}
+		</if>
+		<if test="userRowId != null and userRowId.trim() != ''">
+		and USER_ROW_ID = #{userRowId}
+		</if>
+		<if test="isBlack != null and isBlack.trim() != ''">
+		and IS_BLACK = #{isBlack}
+		</if>
+		<if test="isVip != null and isVip.trim() != ''">
+		and IS_VIP = #{isVip}
+		</if>
+		<if test="source != null and source.trim() != ''">
+		and SOURCE = #{source}
+		</if>
+	</sql>
+</mapper>
+
+

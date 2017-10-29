@@ -1,0 +1,95 @@
+#set($JS = ["/js/page/customerInfo/list.js"])
+<div class="main-content">
+	 <div class="breadcrumbs">
+        <ul class="breadcrumb">
+            <li class="active"><h4>CustomerInfo列表</h4></li>
+        </ul>
+    </div>
+	<div class="page-content">
+        <div class="sc-where-bar">
+            <div class="col-sm-11">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="vcName" value="$!{query.vcName}">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary btn-search" type="submit">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-1 text-right">
+                <a href="#" class="btn btn-success btn-add j_new-btn">添加</a>
+            </div>
+        </div>
+        <div id="newUpdateDialogFrame" class="tipDialogFrame"></div>
+        <div id="tipDialogFrame" class="tipDialogFrame"></div>
+
+	        <table class="table table-striped table-bordered table-hover dataTable">
+	            <thead>
+	            <tr>
+	                <th>主键d</th>
+	                <th>采购商姓名</th>
+	                <th>手机号</th>
+	                <th>性别：0男1女</th>
+	                <th>国籍：1中国</th>
+	                <th>省份</th>
+	                <th>地市</th>
+	                <th>单位</th>
+	                <th>联系地址</th>
+	                <th>图像url</th>
+	                <th>是否有效：0无效1有效</th>
+	                <th>记录创建时间</th>
+	                <th>联系qq</th>
+	                <th>微信号</th>
+	                <th>记录修改时间</th>
+	                <th>经营户用户id(系统黑名单时为空)</th>
+	                <th>0不是1用户黑名单2系统黑名单</th>
+	                <th>0不是1是</th>
+	                <th>0信息录入1etl</th>
+	             
+	                <th class="action-cl">操作</th>
+	               
+	            </tr>
+	            </thead>
+	            <tbody>
+	                #foreach($row in $result.rows)
+	                <tr>
+	                	<td> $!{row.id} </td>
+	                	<td> $!{row.name} </td>
+	                	<td> $!{row.phone} </td>
+	                	<td> $!{row.gender} </td>
+	                	<td> $!{row.nationality} </td>
+	                	<td> $!{row.province} </td>
+	                	<td> $!{row.city} </td>
+	                	<td> $!{row.companyid} </td>
+	                	<td> $!{row.address} </td>
+	                	<td> $!{row.imageUrl} </td>
+	                	<td> $!{row.validFlag} </td>
+	                	<td> $!{row.createTime} </td>
+	                	<td> $!{row.qq} </td>
+	                	<td> $!{row.weixin} </td>
+	                	<td> $!{row.modifyTime} </td>
+	                	<td> $!{row.userRowId} </td>
+	                	<td> $!{row.isBlack} </td>
+	                	<td> $!{row.isVip} </td>
+	                	<td> $!{row.source} </td>
+		                <td class="action-cl">
+	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
+	                    	<span class="arr">|</span>
+	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
+	                    </td>
+	                </tr>
+	                #end
+	            </tbody>
+	       	</table>
+			<div id="dialog-confirm" title="" class="pop-con-tip" style="display: none;">
+			</div>
+	        <div class="dataTables_wrapper f-mt2">
+	            <ul class="pagination">
+	           		#set($pageRequestURL="$!{www}/customerInfo?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
+	            </ul>
+            </div>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->

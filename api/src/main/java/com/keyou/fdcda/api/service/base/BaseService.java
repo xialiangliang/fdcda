@@ -1,7 +1,5 @@
 package com.keyou.fdcda.api.service.base;
 
-import com.keyou.fdcda.api.model.SysResource;
-import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 
