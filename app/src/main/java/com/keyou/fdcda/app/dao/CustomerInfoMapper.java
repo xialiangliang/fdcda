@@ -5,6 +5,6 @@ import com.keyou.fdcda.api.model.CustomerInfo;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerInfoMapper extends BaseMapper<CustomerInfo, BigDecimal> {	
+public interface CustomerInfoMapper extends BaseMapper<CustomerInfo, Long> {	
 
 }

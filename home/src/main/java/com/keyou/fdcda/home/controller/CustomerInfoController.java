@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.utils.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +39,11 @@ public class CustomerInfoController extends BaseController {
 	}
 	
 	@RequestMapping(value="/find")	
-	public String find(Long id, Model model){
+	public String find(Long id, Model model, HttpServletRequest request){
 		try {	
 			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 			model.addAttribute("param", customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/customerInfo/update";
@@ -51,9 +55,10 @@ public class CustomerInfoController extends BaseController {
 	
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, Object> save(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model) throws Exception {		
+	public Map<String, Object> save(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model, HttpServletRequest request) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			customerInfo.setUserRowId(getUser(request).getId());
 			customerInfo.setCreateTime(new Date());
 			customerInfoService.save(customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -68,9 +73,12 @@ public class CustomerInfoController extends BaseController {
 	
 	@RequestMapping(value="/update")
 	@ResponseBody
-	public Map<String, Object> update(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model) throws Exception {		
+	public Map<String, Object> update(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model, HttpServletRequest request) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			CustomerInfo customerInfo1 = customerInfoService.findById(customerInfo.getId());
+			Assert.isTrue(customerInfo1.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo1.getUserRowId()), "非法操作");
 			customerInfo.setModifyTime(new Date());
 			customerInfoService.update(customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -84,9 +92,12 @@ public class CustomerInfoController extends BaseController {
 	
 	@RequestMapping(value="/delete")
 	@ResponseBody
-	public Map<String, Object> delete(Long id,Model model) throws Exception {
+	public Map<String, Object> delete(Long id,Model model, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			CustomerInfo customerInfo1 = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo1.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo1.getUserRowId()), "非法操作");
 			customerInfoService.deleteById(id);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "删除成功");
@@ -97,7 +108,8 @@ public class CustomerInfoController extends BaseController {
 	}
 	
 	@RequestMapping
-	public String list(PaginationQuery query,Model model) throws Exception {		
+	public String list(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
+		query.addQueryData("userRowId", getUser(request).getId().toString());
 		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());

@@ -1,6 +1,8 @@
 package com.keyou.fdcda.api.model; 
 
 import java.io.Serializable;
+
+import com.keyou.fdcda.api.constants.AreaConstants;
 import com.keyou.fdcda.api.utils.DateUtil;
 
 public class CustomerInfo implements Serializable {
@@ -8,7 +10,7 @@ public class CustomerInfo implements Serializable {
     /**
      * 主键d
      */ 	
-	private BigDecimal id;
+	private Long id;
     /**
      * 采购商姓名
      */ 	
@@ -25,18 +27,21 @@ public class CustomerInfo implements Serializable {
      * 国籍：1中国
      */ 	
 	private Long nationality;
+    private String nationalityStr;
     /**
      * 省份
      */ 	
 	private Long province;
+    private String provinceStr;
     /**
      * 地市
      */ 	
 	private Long city;
+	private String cityStr;
     /**
      * 单位
      */ 	
-	private BigDecimal companyid;
+	private Long companyid;
     /**
      * 联系地址
      */ 	
@@ -70,7 +75,7 @@ public class CustomerInfo implements Serializable {
     /**
      * 经营户用户id(系统黑名单时为空)
      */ 	
-	private BigDecimal userRowId;
+	private Long userRowId;
     /**
      * 0不是1用户黑名单2系统黑名单
      */ 	
@@ -85,11 +90,11 @@ public class CustomerInfo implements Serializable {
 	private Integer source;
 
 	
-	public void setId(BigDecimal value) {
+	public void setId(Long value) {
 		this.id = value;
 	}
 	
-	public BigDecimal getId() {
+	public Long getId() {
 		return this.id;
 	}
 	
@@ -119,6 +124,7 @@ public class CustomerInfo implements Serializable {
 	
 	public void setNationality(Long value) {
 		this.nationality = value;
+        this.nationalityStr = AreaConstants.countryMap.get(value);
 	}
 	
 	public Long getNationality() {
@@ -127,6 +133,7 @@ public class CustomerInfo implements Serializable {
 	
 	public void setProvince(Long value) {
 		this.province = value;
+		this.provinceStr = AreaConstants.provinceMap.get(value);
 	}
 	
 	public Long getProvince() {
@@ -135,17 +142,18 @@ public class CustomerInfo implements Serializable {
 	
 	public void setCity(Long value) {
 		this.city = value;
+		this.cityStr = AreaConstants.cityMap.get(value);
 	}
 	
 	public Long getCity() {
 		return this.city;
 	}
 	
-	public void setCompanyid(BigDecimal value) {
+	public void setCompanyid(Long value) {
 		this.companyid = value;
 	}
 	
-	public BigDecimal getCompanyid() {
+	public Long getCompanyid() {
 		return this.companyid;
 	}
 	
@@ -215,11 +223,11 @@ public class CustomerInfo implements Serializable {
 		return this.modifyTimeStr;
 	}
 	
-	public void setUserRowId(BigDecimal value) {
+	public void setUserRowId(Long value) {
 		this.userRowId = value;
 	}
 	
-	public BigDecimal getUserRowId() {
+	public Long getUserRowId() {
 		return this.userRowId;
 	}
 	
@@ -247,6 +255,28 @@ public class CustomerInfo implements Serializable {
 		return this.source;
 	}
 
-	
+	public String getNationalityStr() {
+		return nationalityStr;
+	}
+
+	public void setNationalityStr(String nationalityStr) {
+		this.nationalityStr = nationalityStr;
+	}
+
+	public String getProvinceStr() {
+		return provinceStr;
+	}
+
+	public void setProvinceStr(String provinceStr) {
+		this.provinceStr = provinceStr;
+	}
+
+	public String getCityStr() {
+		return cityStr;
+	}
+
+	public void setCityStr(String cityStr) {
+		this.cityStr = cityStr;
+	}
 }
 

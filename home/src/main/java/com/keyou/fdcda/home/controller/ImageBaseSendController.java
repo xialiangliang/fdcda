@@ -54,7 +54,7 @@ public class ImageBaseSendController extends BaseController {
 	public Map<String, Object> save(@ModelAttribute("imageBaseSend") ImageBaseSend imageBaseSend,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			imageBaseSend.setCreateTime(new Date());
+			imageBaseSend.setCreateDate(new Date());
 			imageBaseSendService.save(imageBaseSend);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
@@ -71,7 +71,6 @@ public class ImageBaseSendController extends BaseController {
 	public Map<String, Object> update(@ModelAttribute("imageBaseSend") ImageBaseSend imageBaseSend,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			imageBaseSend.setModifyTime(new Date());
 			imageBaseSendService.update(imageBaseSend);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
