@@ -7,7 +7,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.constants.AreaConstants;
 import com.keyou.fdcda.api.utils.Assert;
+import com.keyou.fdcda.api.utils.Result;
+import com.keyou.fdcda.api.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,10 @@ public class CustomerInfoController extends BaseController {
 	private CustomerInfoService customerInfoService;
 	
 	@RequestMapping(value="/new")
-	public String add() throws Exception {		
+	public String add(Model model) throws Exception {		
+		model.addAttribute("countryMap", AreaConstants.countryMap);
+		model.addAttribute("provinceMap", AreaConstants.provinceMap);
+		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/customerInfo/new";
 	}
 	
@@ -45,6 +51,9 @@ public class CustomerInfoController extends BaseController {
 			Assert.isTrue(customerInfo.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 			model.addAttribute("param", customerInfo);
+			model.addAttribute("countryMap", AreaConstants.countryMap);
+			model.addAttribute("provinceMap", AreaConstants.provinceMap);
+			model.addAttribute("cityMap", AreaConstants.cityMap);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/customerInfo/update";
 		} catch (Exception e) {
@@ -58,6 +67,16 @@ public class CustomerInfoController extends BaseController {
 	public Map<String, Object> save(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model, HttpServletRequest request) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			Assert.isBlank(customerInfo.getName(), "姓名不能为空");
+			Assert.isNull(customerInfo.getGender(), "性别不能为空");
+			Assert.isBlank(customerInfo.getAddress(), "地址不能为空");
+			Assert.isNull(customerInfo.getCity(), "城市不能为空");
+			Assert.isBlank(customerInfo.getImageUrl(), "图像不能为空");
+			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
+			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
+			Assert.isNull(customerInfo.getCompanyid(), "公司不能为空");
+			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
+			customerInfo.setSource(0);
 			customerInfo.setUserRowId(getUser(request).getId());
 			customerInfo.setCreateTime(new Date());
 			customerInfoService.save(customerInfo);
@@ -79,6 +98,15 @@ public class CustomerInfoController extends BaseController {
 			CustomerInfo customerInfo1 = customerInfoService.findById(customerInfo.getId());
 			Assert.isTrue(customerInfo1.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo1.getUserRowId()), "非法操作");
+			Assert.isBlank(customerInfo.getName(), "姓名不能为空");
+			Assert.isNull(customerInfo.getGender(), "性别不能为空");
+			Assert.isBlank(customerInfo.getAddress(), "地址不能为空");
+			Assert.isNull(customerInfo.getCity(), "城市不能为空");
+			Assert.isBlank(customerInfo.getImageUrl(), "图像不能为空");
+			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
+			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
+			Assert.isNull(customerInfo.getCompanyid(), "公司不能为空");
+			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setModifyTime(new Date());
 			customerInfoService.update(customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -113,6 +141,9 @@ public class CustomerInfoController extends BaseController {
 		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
+		model.addAttribute("countryMap", AreaConstants.countryMap);
+		model.addAttribute("provinceMap", AreaConstants.provinceMap);
+		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/customerInfo/list";
 	}
 	

@@ -4,13 +4,7 @@
 <div class="col-sm-12">
     <form action="/customerInfo/save"  method="post" class="form-horizontal" id="newForm_customerInfo">
         <div class="form-group">
-            <label for="id" class="col-sm-2 control-label">主键d</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="id" name="id" value="$!{param.id}" >
-            </div>
-        </div>    
-        <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">采购商姓名</label>
+            <label for="name" class="col-sm-2 control-label">姓名</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="name" name="name" value="$!{param.name}" >
             </div>
@@ -22,27 +16,42 @@
             </div>
         </div>    
         <div class="form-group">
-            <label for="gender" class="col-sm-2 control-label">性别：0男1女</label>
+            <label for="gender" class="col-sm-2 control-label">性别</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="gender" name="gender" value="$!{param.gender}" >
+                <select class="form-control" name="gender" id="gender">
+                    <option value="0" #if($!{param.gender}==0) selected #end>男</option>
+                    <option value="1" #if($!{param.gender}==1) selected #end>女</option>
+                </select>
             </div>
         </div>    
         <div class="form-group">
-            <label for="nationality" class="col-sm-2 control-label">国籍：1中国</label>
+            <label for="nationality" class="col-sm-2 control-label">国籍</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="nationality" name="nationality" value="$!{param.nationality}" >
+                <select class="form-control" name="nationality" id="nationality">
+                    #foreach($k in ${countryMap.keySet()})
+                    <option value="${k}" #if($!{param.nationality}==$k) selected #end>$countryMap.get($k)</option>
+                    #end
+                </select>
             </div>
         </div>    
         <div class="form-group">
             <label for="province" class="col-sm-2 control-label">省份</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="province" name="province" value="$!{param.province}" >
+                <select class="form-control" name="province" id="province">
+                    #foreach($k in ${provinceMap.keySet()})
+                        <option value="${k}" #if($!{param.province}==$k) selected #end>$provinceMap.get($k)</option>
+                    #end
+                </select>
             </div>
         </div>    
         <div class="form-group">
             <label for="city" class="col-sm-2 control-label">地市</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="city" name="city" value="$!{param.city}" >
+                <select class="form-control" name="city" id="city">
+                    #foreach($k in ${cityMap.keySet()})
+                        <option value="${k}" #if($!{param.city}==$k) selected #end>$cityMap.get($k)</option>
+                    #end
+                </select>
             </div>
         </div>    
         <div class="form-group">
@@ -64,15 +73,12 @@
             </div>
         </div>    
         <div class="form-group">
-            <label for="validFlag" class="col-sm-2 control-label">是否有效：0无效1有效</label>
+            <label for="validFlag" class="col-sm-2 control-label">是否有效</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="validFlag" name="validFlag" value="$!{param.validFlag}" >
-            </div>
-        </div>    
-        <div class="form-group">
-            <label for="createTime" class="col-sm-2 control-label">记录创建时间</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="createTime" name="createTime" value="$!{param.createTime}" >
+                <select class="form-control" name="validFlag" id="validFlag">
+                    <option value="1" #if($!{param.validFlag}==1) selected #end>有效</option>
+                    <option value="0" #if($!{param.validFlag}==0) selected #end>无效</option>
+                </select>
             </div>
         </div>    
         <div class="form-group">
@@ -86,35 +92,23 @@
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="weixin" name="weixin" value="$!{param.weixin}" >
             </div>
-        </div>    
+        </div>
         <div class="form-group">
-            <label for="modifyTime" class="col-sm-2 control-label">记录修改时间</label>
+            <label for="isBlack" class="col-sm-2 control-label">黑名单</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="modifyTime" name="modifyTime" value="$!{param.modifyTime}" >
+                <select class="form-control" name="isBlack" id="isBlack">
+                    <option value="0" #if($!{param.isBlack}==0) selected #end>否</option>
+                    <option value="1" #if($!{param.isBlack}==1) selected #end>是</option>
+                </select>
             </div>
-        </div>    
+        </div>
         <div class="form-group">
-            <label for="userRowId" class="col-sm-2 control-label">经营户用户id(系统黑名单时为空)</label>
+            <label for="isVip" class="col-sm-2 control-label">是否VIP</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="userRowId" name="userRowId" value="$!{param.userRowId}" >
-            </div>
-        </div>    
-        <div class="form-group">
-            <label for="isBlack" class="col-sm-2 control-label">0不是1用户黑名单2系统黑名单</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="isBlack" name="isBlack" value="$!{param.isBlack}" >
-            </div>
-        </div>    
-        <div class="form-group">
-            <label for="isVip" class="col-sm-2 control-label">0不是1是</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="isVip" name="isVip" value="$!{param.isVip}" >
-            </div>
-        </div>    
-        <div class="form-group">
-            <label for="source" class="col-sm-2 control-label">0信息录入1etl</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="source" name="source" value="$!{param.source}" >
+                <select class="form-control" name="isVip" id="isVip">
+                    <option value="0" #if($!{param.isVip}==0) selected #end>否</option>
+                    <option value="1" #if($!{param.isVip}==1) selected #end>是</option>
+                </select>
             </div>
         </div>    
         <div class="form-group" align="right">
