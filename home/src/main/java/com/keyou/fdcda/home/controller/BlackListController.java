@@ -23,10 +23,22 @@ public class BlackListController extends BaseController {
 	@Autowired
 	private CustomerInfoService customerInfoService;
 	
-	@RequestMapping
-	public String list(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
+	@RequestMapping("/user")
+	public String userList(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
 		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("isBlack", "1");
 		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
+		model.addAttribute("result", pageList);
+		model.addAttribute("query", query.getQueryData());
+		model.addAttribute("countryMap", AreaConstants.countryMap);
+		model.addAttribute("provinceMap", AreaConstants.provinceMap);
+		model.addAttribute("cityMap", AreaConstants.cityMap);
+		return "/page/customerInfo/list";
+	}
+	
+	@RequestMapping("/system")
+	public String systemList(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
+		PageResult<CustomerInfo> pageList = customerInfoService.findSystemBlackPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
 		model.addAttribute("countryMap", AreaConstants.countryMap);

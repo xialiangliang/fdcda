@@ -63,4 +63,16 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     public List<CustomerInfo> findAllPage(Map<String, Object> map) {
         return customerInfoMapper.findAllPage(map);
     }
+
+    @Override
+    public PageResult<CustomerInfo> findSystemBlackPage(PaginationQuery query) {
+        List<CustomerInfo> list = new ArrayList<>();
+        Long count = customerInfoMapper.findSystemBlackPageCount(query.getQueryData());
+        if (count > 0) {
+            query.addQueryData("startRecord", (query.getPageIndex() - 1) * query.getRowsPerPage());
+            query.addQueryData("endRecord", query.getRowsPerPage());
+            list = customerInfoMapper.findSystemBlackPage(query.getQueryData());
+        }
+        return new PageResult<>(list, count.intValue(), query);
+    }
 }

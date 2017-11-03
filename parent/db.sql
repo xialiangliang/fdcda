@@ -396,6 +396,7 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREA
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '我的访客', '/analysisReport', 1, 'glyphicon-th', 1, '我的访客', sysdate, sysdate from SYS_RESOURCE where NAME = '访客记录';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '交易记录', '/analysisReport', 1, 'glyphicon-th', 1, '交易记录', sysdate, sysdate from SYS_RESOURCE where NAME = '访客记录';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '采购商管理', '/customerInfo', 1, 'glyphicon-th', 1, '采购商管理', sysdate, sysdate from SYS_RESOURCE where NAME = '采购商';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, '黑名单管理', '/blackList/user', 1, 'glyphicon-th', 2, '黑名单管理', sysdate, sysdate from SYS_RESOURCE where NAME = '采购商';
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '资源管理/新增', '/sysResource/new;/sysResource/save;/sysResource/getPublicKey', 2, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysResource';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '资源管理/修改', '/sysResource/find;/sysResource/update;/sysResource/listMap', 2, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/sysResource';
@@ -424,6 +425,8 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREA
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '采购商管理/新增', '/customerInfo/new;/customerInfo/save', 2, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '采购商管理/修改', '/customerInfo/find;/customerInfo/update', 2, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '采购商管理/删除', '/customerInfo/delete', 2, 'glyphicon-th', 3, '删除', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
+
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '黑名单管理/系统黑名单', '/blackList/system', 2, 'glyphicon-th', 1, '系统黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/user';
 
 INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 1, null, '注册成功，手机号%s，登录名%s，初始密码%s，请及时修改密码。', 1, sysdate, sysdate);
 INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 2, null, '密码重置成功，手机号%s，登录名%s，密码%s，请及时修改密码。', 1, sysdate, sysdate);

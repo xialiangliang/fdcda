@@ -24,11 +24,6 @@ $(function(){
     var dialog = $("#newUpdateDialogFrame");
 
     newForm.ajaxForm({
-        beforeSerialize: function () {
-            if ($('#file').val() === '') {
-                tip("请选择图片", false);
-            }
-        },
         success: function (data) {
             if (data.success) {
                 dialog.dialog("close");
@@ -39,11 +34,6 @@ $(function(){
         }
     });
     updateForm.ajaxForm({
-        beforeSerialize: function () {
-            if ($('#file').val() === '') {
-                tip("请选择图片", false);
-            }
-        },
         success: function (data) {
             if (data.success) {
                 dialog.dialog("close");
