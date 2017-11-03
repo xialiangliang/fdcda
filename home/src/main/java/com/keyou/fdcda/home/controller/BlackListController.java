@@ -33,7 +33,7 @@ public class BlackListController extends BaseController {
 		model.addAttribute("countryMap", AreaConstants.countryMap);
 		model.addAttribute("provinceMap", AreaConstants.provinceMap);
 		model.addAttribute("cityMap", AreaConstants.cityMap);
-		return "/page/customerInfo/list";
+		return "/page/blackList/user/list";
 	}
 	
 	@RequestMapping("/system")
@@ -44,7 +44,7 @@ public class BlackListController extends BaseController {
 		model.addAttribute("countryMap", AreaConstants.countryMap);
 		model.addAttribute("provinceMap", AreaConstants.provinceMap);
 		model.addAttribute("cityMap", AreaConstants.cityMap);
-		return "/page/customerInfo/list";
+		return "/page/blackList/user/list";
 	}
 	
 }
