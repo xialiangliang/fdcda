@@ -75,8 +75,10 @@
 	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
 	                    	<span class="arr">|</span>
 	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
+						#if($!{row.isBlack} == 0)
                             <span class="arr">|</span>
                             <a href="#" class="j_black-btn" data-id="$!{row.id}">添加黑名单</a>
+						#end
 	                    </td>
 	                </tr>
 	                #end
