@@ -169,6 +169,25 @@ public class CustomerInfoController extends BaseController {
 		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/customerInfo/list";
 	}
+
+	@RequestMapping(value="/addToBlackList")
+	@ResponseBody
+	public Map<String, Object> addToBlackList(Long id, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			customerInfo.setIsBlack(1);
+			customerInfo.setModifyTime(new Date());
+			customerInfoService.update(customerInfo);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "添加黑名单成功");
+		} catch (Exception e) {
+			commonError(logger, e,"添加黑名单异常",map);
+		}
+		return map;
+	}
 	
 }
 

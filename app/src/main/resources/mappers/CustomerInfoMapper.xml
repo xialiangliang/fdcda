@@ -173,7 +173,7 @@
 	</select>
 
 	<select id="findSystemBlackPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
-		select count(*) from CUSTOMER_INFO where userRowId is null and isBlack = 2
+		select count(*) from CUSTOMER_INFO where USER_ROW_ID is null and IS_BLACK = 2
 		<include refid="queryWhere"/>
 	</select>
 
@@ -182,7 +182,7 @@
 		select <include refid="columns"/>, rownum as rn
 		from (
 		select <include refid="columns"/> from CUSTOMER_INFO ORDER BY ID DESC
-		) where userRowId is null and isBlack = 2
+		) where USER_ROW_ID is null and IS_BLACK = 2
 		<include refid="queryWhere"/>
 		and rownum &lt;= (${startRecord} + ${endRecord})
 		) where rn > ${startRecord}
