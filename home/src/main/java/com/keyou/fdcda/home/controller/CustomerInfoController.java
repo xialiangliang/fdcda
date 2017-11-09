@@ -82,7 +82,7 @@ public class CustomerInfoController extends BaseController {
 			}
 			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 			// 文件保存路径
-			String filePath = "/opt/file/upload/" + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+			String filePath = "/opt/file/download/" + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
 			File localFile = new File(filePath);
 			file.transferTo(localFile);
 			ImageUtil.ImageInfo imageInfo = ImageUtil.getImagePixelInfo(localFile);
@@ -124,7 +124,7 @@ public class CustomerInfoController extends BaseController {
 			}
 			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 			// 文件保存路径
-			String filePath = "/opt/file/upload/" + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+			String filePath = "/opt/file/download/" + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
 			File localFile = new File(filePath);
 			file.transferTo(localFile);
 			ImageUtil.ImageInfo imageInfo = ImageUtil.getImagePixelInfo(localFile);
