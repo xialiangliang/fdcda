@@ -62,6 +62,7 @@
 			<mvc:exclude-mapping path="/js/**"/>
 			<mvc:exclude-mapping path="/css/**"/>
 			<mvc:exclude-mapping path="/upload/**"/>
+			<mvc:exclude-mapping path="/download/**"/>
 			<bean class="com.keyou.fdcda.home.interceptor.ContextInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
@@ -69,6 +70,7 @@
 			<mvc:exclude-mapping path="/js/**"/>
 			<mvc:exclude-mapping path="/css/**"/>
 			<mvc:exclude-mapping path="/upload/**"/>
+			<mvc:exclude-mapping path="/download/**"/>
 			<bean class="com.keyou.fdcda.home.interceptor.AuthInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
@@ -79,6 +81,7 @@
 	<mvc:resources mapping="/js/**" location="/WEB-INF/static/js/" />
 	<mvc:resources mapping="/upload/**" location="/WEB-INF/static/upload/" />
 	<mvc:resources mapping="/bootstrap/**" location="/WEB-INF/static/bootstrap/" />
+	<mvc:resources mapping="/download/**" location="file:/opt/file/download/" />
 	<!--<mvc:resources mapping="/fonts/**" location="/WEB-INF/static/font/" />-->
 	<!--<mvc:resources mapping="/avatars/**" location="/WEB-INF/static/avatars/" />-->
 	
