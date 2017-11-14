@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.SysBlacklistApplyMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysBlacklistApply">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="customerId" jdbcType="DECIMAL" column="CUSTOMER_ID"/>
+		<result property="userId" jdbcType="DECIMAL" column="USER_ID"/>
+		<result property="images" jdbcType="VARCHAR" column="IMAGES"/>
+		<result property="memo" jdbcType="VARCHAR" column="MEMO"/>
+		<result property="state" jdbcType="DECIMAL" column="STATE"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
+		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,CUSTOMER_ID ,USER_ID ,IMAGES ,MEMO ,STATE ,CREATE_TIME ,MODIFY_TIME 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.SysBlacklistApply" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_SYS_BLACKLIST_APPLY.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO SYS_BLACKLIST_APPLY (
+        	ID ,
+        	CUSTOMER_ID ,
+        	USER_ID ,
+        	IMAGES ,
+        	MEMO ,
+        	STATE ,
+        	CREATE_TIME ,
+        	MODIFY_TIME 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{customerId,jdbcType=DECIMAL} ,
+        	#{userId,jdbcType=DECIMAL} ,
+        	#{images,jdbcType=VARCHAR} ,
+        	#{memo,jdbcType=VARCHAR} ,
+        	#{state,jdbcType=DECIMAL} ,
+        	#{createTime,jdbcType=TIMESTAMP} ,
+        	#{modifyTime,jdbcType=TIMESTAMP} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.SysBlacklistApply">
+		UPDATE SYS_BLACKLIST_APPLY
+		<set>
+			<if test="customerId != null">
+	        CUSTOMER_ID = #{customerId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="userId != null">
+	        USER_ID = #{userId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="images != null">
+	        IMAGES = #{images,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="memo != null">
+	        MEMO = #{memo,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="state != null">
+	        STATE = #{state,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="createTime != null">
+	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} ,
+	        </if>
+			<if test="modifyTime != null">
+	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM SYS_BLACKLIST_APPLY WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM SYS_BLACKLIST_APPLY 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from SYS_BLACKLIST_APPLY where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from (
+				select <include refid="columns"/> from SYS_BLACKLIST_APPLY ORDER BY ID DESC
+			) where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SYS_BLACKLIST_APPLY where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="customerId != null and customerId.trim() != ''">
+		and CUSTOMER_ID = #{customerId}
+		</if>
+		<if test="userId != null and userId.trim() != ''">
+		and USER_ID = #{userId}
+		</if>
+		<if test="images != null and images.trim() != ''">
+		and IMAGES = #{images}
+		</if>
+		<if test="memo != null and memo.trim() != ''">
+		and MEMO = #{memo}
+		</if>
+		<if test="state != null and state.trim() != ''">
+		and STATE = #{state}
+		</if>
+		<if test="createTimeBegin != null and createTimeBegin.trim() != ''">
+		and CREATE_TIME >= #{createTimeBegin}
+		</if>
+		<if test="createTimeEnd != null and createTimeEnd.trim() != ''">
+		and CREATE_TIME &lt;= #{createTimeEnd}
+		</if>
+		<if test="modifyTimeBegin != null and modifyTimeBegin.trim() != ''">
+		and MODIFY_TIME >= #{modifyTimeBegin}
+		</if>
+		<if test="modifyTimeEnd != null and modifyTimeEnd.trim() != ''">
+		and MODIFY_TIME &lt;= #{modifyTimeEnd}
+		</if>
+	</sql>
+</mapper>
+
+

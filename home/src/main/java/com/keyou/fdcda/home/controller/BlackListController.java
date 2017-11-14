@@ -3,9 +3,11 @@ package com.keyou.fdcda.home.controller;
 import com.keyou.fdcda.api.constants.AreaConstants;
 import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.model.CustomerInfo;
+import com.keyou.fdcda.api.model.SysBlacklistApply;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
+import com.keyou.fdcda.api.service.SysBlacklistApplyService;
 import com.keyou.fdcda.api.utils.Assert;
 import com.keyou.fdcda.home.controller.base.BaseController;
 import org.slf4j.Logger;
@@ -28,6 +30,8 @@ public class BlackListController extends BaseController {
 	
 	@Autowired
 	private CustomerInfoService customerInfoService;
+	@Autowired
+	private SysBlacklistApplyService sysBlacklistApplyService;
 
 	@RequestMapping
 	public String list() throws Exception {
@@ -75,6 +79,28 @@ public class BlackListController extends BaseController {
 		model.addAttribute("provinceMap", AreaConstants.provinceMap);
 		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/blackList/system/list";
+	}
+
+	@RequestMapping(value="/user/applySystemBlacklist")
+	@ResponseBody
+	public Map<String, Object> applySystemBlacklist(Long id, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			SysBlacklistApply sysBlacklistApply = new SysBlacklistApply();
+			sysBlacklistApply.setCreateTime(new Date());
+			sysBlacklistApply.setCustomerId(customerInfo.getId());
+			sysBlacklistApply.setState(0);
+			sysBlacklistApply.setUserId(getUser(request).getId());
+			sysBlacklistApplyService.save(sysBlacklistApply);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "等待审核");
+		} catch (Exception e) {
+			commonError(logger, e,"申请系统黑名单异常",map);
+		}
+		return map;
 	}
 	
 }

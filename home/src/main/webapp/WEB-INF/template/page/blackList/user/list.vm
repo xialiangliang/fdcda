@@ -71,6 +71,8 @@
 	                	<td> #if($!{row.source} == 0) 用户录入 #elseif($!{row.source} == 1) ETL #end </td>
 		                <td class="action-cl">
                             <a href="#" class="j_rmblack-btn" data-id="$!{row.id}">移除黑名单</a>
+                            <span class="arr">|</span>
+                            <a href="#" class="j_applysysblack-btn" data-id="$!{row.id}">添加系统黑名单</a>
 	                    </td>
 	                </tr>
 	                #end
