@@ -18,6 +18,10 @@ public class DateUtil {
     public static String getDate(Date date, String parttern) {
         return dateToString(date, parttern);
     }
+    
+    public static String getDate(String pattern) {
+        return getDate(new Date(), pattern);
+    }
 
     public static String dateToString(Date date, String pattern) {
         String dateString = null;
@@ -30,6 +34,10 @@ public class DateUtil {
         }
 
         return dateString;
+    }
+    
+    public static String getCurrentTimeStamp() {
+        return getDate(new Date(), "yyyyMMddHHmmss.SSS");
     }
 
     private static SimpleDateFormat getDateFormat(String pattern) throws RuntimeException {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/task
+      http://www.springframework.org/schema/task/spring-task-3.0.xsd
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+      http://www.springframework.org/schema/batch 
+      http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
+    <import resource="classpath:job/job-dealOriginalImages.xml"/>
+	 
+	<bean id="dealOriginalImagesInstance" class="com.keyou.fdcda.home.job.BatchJobLauncher">
+		<property name="job" ref="dealOriginalImagesJob"/>
+	</bean>
+	
+	<task:scheduled-tasks scheduler="myscheduler">
+		<!--&lt;!&ndash; 资产平台满标统计 &ndash;&gt;-->
+		<task:scheduled ref="dealOriginalImagesInstance" method="execute" cron="* 0/5 * * * ?" />
+
+	</task:scheduled-tasks>
+
+	<task:scheduler id="myscheduler" pool-size="10" /><!-- 必须需要 -->
+	
+	<!--  线程池（执行器） -->   
+	<task:executor id="taskExecutor" pool-size="5-10" queue-capacity="1024" />
+</beans> 
