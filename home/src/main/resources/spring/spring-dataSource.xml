@@ -118,6 +118,7 @@
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
+		<property name="nestedTransactionAllowed" value="true" />
 	</bean>
 	<!-- 使用annotation定义事务 -->
 	<!--<tx:annotation-driven transaction-manager="transactionManager" mode="aspectj"-->
