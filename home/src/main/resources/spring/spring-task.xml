@@ -25,7 +25,7 @@
 	
 	<task:scheduled-tasks scheduler="myscheduler">
 		<!--&lt;!&ndash; 资产平台满标统计 &ndash;&gt;-->
-		<task:scheduled ref="dealOriginalImagesInstance" method="execute" cron="* * 0/1 * * ?" />
+		<task:scheduled ref="dealOriginalImagesInstance" method="execute" cron="0 0/1 * * * ?" />
 
 	</task:scheduled-tasks>
 

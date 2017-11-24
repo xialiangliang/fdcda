@@ -54,4 +54,18 @@ public interface BaseMapper<T, K extends Serializable> {
      */
     List<T> findAllPage(Map<String, Object> map);
     
+    /**
+     * 批量插入
+     * @author:  xll 
+     * @param list
+     */
+    void insertList(List<T> list);
+    
+    /**
+     * 批量更新 
+     * @author:  xll 
+     * @param list
+     */
+    void updateList(List<T> list);
+    
 }

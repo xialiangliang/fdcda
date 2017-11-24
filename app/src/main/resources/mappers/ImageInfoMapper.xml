@@ -15,10 +15,8 @@
 	    ]]>
 	</sql>
 	
-	<insert id="save" parameterType="com.keyou.fdcda.api.model.ImageInfo" useGeneratedKeys="true" keyProperty="id">
-		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
-	      SELECT SEQ_Image_info.nextval AS id from dual
-	    </selectKey>
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.ImageInfo"  >
+		 
 	<![CDATA[
 		INSERT INTO IMAGE_INFO (
 		    ID ,
@@ -27,14 +25,41 @@
         	DEAL_FLAG ,
         	CREATE_DATE 
 		) VALUES (
-		    #{id,jdbcType=DECIMAL} ,
+		     SEQ_Image_info.nextval ,
         	#{imageUrl,jdbcType=VARCHAR} ,
         	#{cameraCode,jdbcType=VARCHAR} ,
         	#{dealFlag,jdbcType=DECIMAL} ,
-        	#{createDate,jdbcType=DATE} 
+        	#{createDate,jdbcType=TIMESTAMP} 
 		)
 	]]>
 	</insert>
+	
+	 <insert id="insertList"  parameterType="java.util.List"  >  
+	 
+		INSERT INTO IMAGE_INFO (
+		    ID ,
+        	IMAGE_URL ,
+        	CAMERA_CODE ,
+        	DEAL_FLAG ,
+        	CREATE_DATE 
+		)  
+		 <foreach  collection="list"  item="obj" index="index"  separator="union all">  
+		  select  
+			 GET_SEQ_CURR('SEQ_IMAGE_INFO')   ,
+        	#{obj.imageUrl,jdbcType=VARCHAR} ,
+        	#{obj.cameraCode,jdbcType=VARCHAR} ,
+        	#{obj.dealFlag,jdbcType=DECIMAL} ,
+        	#{obj.createDate,jdbcType=TIMESTAMP} 
+		  from dual
+		 </foreach>  
+	    
+    </insert> 
+
+	<select id="selectCallPro" statementType="CALLABLE" parameterType="java.util.HashMap" resultType="java.util.Map">  
+	    <![CDATA[ 
+	    {call prc_send_camera_image () } 
+	      ]]>  
+	</select> 
 
 	<update id="update" parameterType="com.keyou.fdcda.api.model.ImageInfo">
 		UPDATE IMAGE_INFO

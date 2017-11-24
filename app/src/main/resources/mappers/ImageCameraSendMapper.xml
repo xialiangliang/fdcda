@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.ImageCameraSendMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.ImageCameraSend">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="imageRowId" jdbcType="DECIMAL" column="IMAGE_ROW_ID"/>
+		<result property="imageUrl" jdbcType="VARCHAR" column="IMAGE_URL"/>
+		<result property="imageStatus" jdbcType="DECIMAL" column="IMAGE_STATUS"/>
+		<result property="userRowId" jdbcType="DECIMAL" column="USER_ROW_ID"/>
+		<result property="dealFlag" jdbcType="DECIMAL" column="DEAL_FLAG"/>
+		<result property="similarDegree" jdbcType="DECIMAL" column="SIMILAR_DEGREE"/>
+		<result property="modifyDate" jdbcType="DATE" column="MODIFY_DATE"/>
+		<result property="createDate" jdbcType="DATE" column="CREATE_DATE"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,IMAGE_ROW_ID ,IMAGE_URL ,IMAGE_STATUS ,USER_ROW_ID ,DEAL_FLAG ,SIMILAR_DEGREE ,MODIFY_DATE ,CREATE_DATE 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.ImageCameraSend" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+	      SELECT LAST_INSERT_ID() AS id
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO IMAGE_CAMERA_SEND (
+        	IMAGE_ROW_ID ,
+        	IMAGE_URL ,
+        	IMAGE_STATUS ,
+        	USER_ROW_ID ,
+        	DEAL_FLAG ,
+        	SIMILAR_DEGREE ,
+        	MODIFY_DATE ,
+        	CREATE_DATE 
+		) VALUES (
+        	#{imageRowId,jdbcType=DECIMAL} ,
+        	#{imageUrl,jdbcType=VARCHAR} ,
+        	#{imageStatus,jdbcType=DECIMAL} ,
+        	#{userRowId,jdbcType=DECIMAL} ,
+        	#{dealFlag,jdbcType=DECIMAL} ,
+        	#{similarDegree,jdbcType=DECIMAL} ,
+        	#{modifyDate,jdbcType=DATE} ,
+        	#{createDate,jdbcType=DATE} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.ImageCameraSend">
+		UPDATE IMAGE_CAMERA_SEND
+		<set>
+			<if test="imageRowId != null">
+	        IMAGE_ROW_ID = #{imageRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="imageUrl != null">
+	        IMAGE_URL = #{imageUrl,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="imageStatus != null">
+	        IMAGE_STATUS = #{imageStatus,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="userRowId != null">
+	        USER_ROW_ID = #{userRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="dealFlag != null">
+	        DEAL_FLAG = #{dealFlag,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="similarDegree != null">
+	        SIMILAR_DEGREE = #{similarDegree,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="modifyDate != null">
+	        MODIFY_DATE = #{modifyDate,jdbcType=DATE} ,
+	        </if>
+			<if test="createDate != null">
+	        CREATE_DATE = #{createDate,jdbcType=DATE} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Integer">
+	<![CDATA[
+		DELETE FROM IMAGE_CAMERA_SEND WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM IMAGE_CAMERA_SEND 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    	select count(*) from IMAGE_CAMERA_SEND where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from IMAGE_CAMERA_SEND where 1=1
+		<include refid="queryWhere"/> 
+	    <![CDATA[ ORDER BY id DESC ]]>
+        <![CDATA[ LIMIT ${startRecord},${endRecord} ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="imageRowId != null and imageRowId.trim() != ''">
+		and IMAGE_ROW_ID = #{imageRowId}
+		</if>
+		<if test="imageUrl != null and imageUrl.trim() != ''">
+		and IMAGE_URL = #{imageUrl}
+		</if>
+		<if test="imageStatus != null and imageStatus.trim() != ''">
+		and IMAGE_STATUS = #{imageStatus}
+		</if>
+		<if test="userRowId != null and userRowId.trim() != ''">
+		and USER_ROW_ID = #{userRowId}
+		</if>
+		<if test="dealFlag != null and dealFlag.trim() != ''">
+		and DEAL_FLAG = #{dealFlag}
+		</if>
+		<if test="similarDegree != null and similarDegree.trim() != ''">
+		and SIMILAR_DEGREE = #{similarDegree}
+		</if>
+		<if test="modifyDateBegin != null and modifyDateBegin.trim() != ''">
+		and MODIFY_DATE >= #{modifyDateBegin}
+		</if>
+		<if test="modifyDateEnd != null and modifyDateEnd.trim() != ''">
+		and MODIFY_DATE &lt;= #{modifyDateEnd}
+		</if>
+		<if test="createDateBegin != null and createDateBegin.trim() != ''">
+		and CREATE_DATE >= #{createDateBegin}
+		</if>
+		<if test="createDateEnd != null and createDateEnd.trim() != ''">
+		and CREATE_DATE &lt;= #{createDateEnd}
+		</if>
+	</sql>
+</mapper>
+
+

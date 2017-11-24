@@ -1,17 +1,12 @@
 package com.keyou.fdcda.home.controller;
 
-import com.keyou.fdcda.api.constants.Constants;
-import com.keyou.fdcda.api.constants.RedisConstants;
-import com.keyou.fdcda.api.model.SysResource;
-import com.keyou.fdcda.api.model.SysUser;
-import com.keyou.fdcda.api.service.RedisService;
-import com.keyou.fdcda.api.service.SysUserService;
-import com.keyou.fdcda.api.utils.EncodeUtil;
-import com.keyou.fdcda.api.utils.RandomUtil;
-import com.keyou.fdcda.api.utils.SessionUtil;
-import com.keyou.fdcda.api.utils.StringUtil;
-import com.keyou.fdcda.api.utils.config.UrlConfig;
-import com.keyou.fdcda.home.controller.base.BaseController;
+import java.security.PrivateKey;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.PrivateKey;
-import java.util.*;
+import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.constants.RedisConstants;
+import com.keyou.fdcda.api.model.SysUser;
+import com.keyou.fdcda.api.service.RedisService;
+import com.keyou.fdcda.api.service.SysUserService;
+import com.keyou.fdcda.api.utils.EncodeUtil;
+import com.keyou.fdcda.api.utils.RandomUtil;
+import com.keyou.fdcda.api.utils.config.UrlConfig;
+import com.keyou.fdcda.home.controller.base.BaseController;
 
 /**
  * Created by zzq on 2017-07-08.
