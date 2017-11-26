@@ -4,6 +4,7 @@ import com.keyou.fdcda.api.model.CustomerInfo;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
+import com.keyou.fdcda.app.dao.CustomerBlackVipMapper;
 import com.keyou.fdcda.app.dao.CustomerInfoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     @Autowired
     private CustomerInfoMapper customerInfoMapper;
+    
+    @Autowired
+    private CustomerBlackVipMapper customerBlackVipMapper;
 
     @Override
     public CustomerInfo findById(Long id) {

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.CustomerBlackVipMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.CustomerBlackVip">
+		<result property="customerRowId" jdbcType="DECIMAL" column="CUSTOMER_ROW_ID"/>
+		<result property="userRowId" jdbcType="DECIMAL" column="USER_ROW_ID"/>
+		<result property="blackType" jdbcType="DECIMAL" column="BLACK_TYPE"/>
+		<result property="vipType" jdbcType="DECIMAL" column="VIP_TYPE"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        CUSTOMER_ROW_ID ,USER_ROW_ID ,BLACK_TYPE ,VIP_TYPE 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.CustomerBlackVip" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+	      SELECT LAST_INSERT_ID() AS id
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO CUSTOMER_BLACK_VIP (
+        	CUSTOMER_ROW_ID ,
+        	USER_ROW_ID ,
+        	BLACK_TYPE ,
+        	VIP_TYPE 
+		) VALUES (
+        	#{customerRowId,jdbcType=DECIMAL} ,
+        	#{userRowId,jdbcType=DECIMAL} ,
+        	#{blackType,jdbcType=DECIMAL} ,
+        	#{vipType,jdbcType=DECIMAL} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.CustomerBlackVip">
+		UPDATE CUSTOMER_BLACK_VIP
+		<set>
+			<if test="customerRowId != null">
+	        CUSTOMER_ROW_ID = #{customerRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="userRowId != null">
+	        USER_ROW_ID = #{userRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="blackType != null">
+	        BLACK_TYPE = #{blackType,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="vipType != null">
+	        VIP_TYPE = #{vipType,jdbcType=DECIMAL} 
+	        </if>
+	    </set>
+		WHERE 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Integer">
+	<![CDATA[
+		DELETE FROM CUSTOMER_BLACK_VIP WHERE
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM CUSTOMER_BLACK_VIP 
+		WHERE 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    	select count(*) from CUSTOMER_BLACK_VIP where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from CUSTOMER_BLACK_VIP where 1=1
+		<include refid="queryWhere"/> 
+	    <![CDATA[ ORDER BY id DESC ]]>
+        <![CDATA[ LIMIT ${startRecord},${endRecord} ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="customerRowId != null and customerRowId.trim() != ''">
+		and CUSTOMER_ROW_ID = #{customerRowId}
+		</if>
+		<if test="userRowId != null and userRowId.trim() != ''">
+		and USER_ROW_ID = #{userRowId}
+		</if>
+		<if test="blackType != null and blackType.trim() != ''">
+		and BLACK_TYPE = #{blackType}
+		</if>
+		<if test="vipType != null and vipType.trim() != ''">
+		and VIP_TYPE = #{vipType}
+		</if>
+	</sql>
+</mapper>
+
+
