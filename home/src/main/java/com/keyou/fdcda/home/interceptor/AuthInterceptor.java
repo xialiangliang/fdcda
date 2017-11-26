@@ -9,12 +9,14 @@ import com.keyou.fdcda.api.service.RedisService;
 import com.keyou.fdcda.api.service.SysResourceService;
 import com.keyou.fdcda.api.service.SysRoleinfoService;
 import com.keyou.fdcda.api.service.SysUserroleService;
+import com.keyou.fdcda.api.utils.DateUtil;
 import com.keyou.fdcda.api.utils.HttpUtil;
 import com.keyou.fdcda.api.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -22,11 +24,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.Boolean.*;
@@ -54,6 +52,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
         String uri = request.getRequestURI().replace(request.getContextPath(), "");
         SysUser user = (SysUser) session.getAttribute(Constants.SESSION_USER);
+
+        
         if (user == null || user.getId() <= 0) {
             if (Constants.URL_AUTH_ALL_LIST.contains(uri)) {
                 return true;
@@ -63,6 +63,19 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
         } else {
+            List<SysResource> resourceList = sysResourceService.findByUrl(uri);
+            if (!CollectionUtils.isEmpty(resourceList)) {
+                SysResource sysResource = resourceList.get(0);
+                if (sysResource.getParentId().equals(0L)) {
+                    SysResource topResource = sysResourceService.getTopResource(user.getId(), sysResource.getTopId());
+                    if (CollectionUtils.isEmpty(topResource.getSubResource())) {
+                        response.sendRedirect(request.getContextPath() + Constants.URL_INDEX);
+                    } else {
+                        response.sendRedirect(request.getContextPath() + topResource.getSubResource().get(0).getUrl());
+                    }
+                    return false;
+                }
+            }
             if (Constants.URL_AUTH_ALL_LIST.contains(uri)) {
                 return true;
             }
@@ -89,34 +102,45 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         SysUser user = (SysUser) session.getAttribute(Constants.SESSION_USER);
         if (user != null && user.getId() > 0 && mav != null) {
             mav.addObject("user", user);
-            redisService.set("111", user, 5000);
-            List<SysResource> topResource = sysResourceService.getTopResource(user.getId());
-            mav.addObject("topResource", topResource);
 
-            Long current_top_id = (Long) redisService.get("resource_parent_id_" + uri, Long.class);
-            Long current_sub_id = (Long) redisService.get("resource_sub_id_" + uri, Long.class);
+            Long current_top_id = 0L;
+            Long current_sub_id = 0L;
+
+            List<SysResource> resourceList = sysResourceService.findByUrl(uri);
+            SysResource sysResource = resourceList.get(0);
+            
+            current_top_id = sysResource.getTopId();
+            if (sysResource.getType().equals(1)) {
+                current_sub_id = sysResource.getId();
+            } else {
+                current_sub_id = sysResource.getParentId();
+            }
+            
+            SysResource topResource = sysResourceService.getTopResource(user.getId(), sysResource.getTopId());
+            List<SysResource> topResourceList = sysResourceService.getTopResourceList(user.getId());
+            mav.addObject("topResource", topResource);
+            mav.addObject("topResourceList", topResourceList);
+            // 默认选中第一个标签
             if (current_top_id == null) {
-                boolean end = false;
-                for (SysResource sysResource : topResource) {
-                    for (SysResource subSysResource : sysResource.getSubResource()) {
-                        if (subSysResource.getUrl().equals(uri)) {
-                            current_top_id = subSysResource.getParentId();
-                            current_sub_id = subSysResource.getId();
-                            redisService.set("resource_parent_id_" + uri, current_top_id);
-                            redisService.set("resource_sub_id_" + uri, current_sub_id);
-                            end = true;
-                            break;
-                        }
-                    }
-                    if (end) {
-                        break;
-                    }
+                current_top_id = 0L;
+            }
+            // 当前位置
+            int cnt = 5;
+            SysResource resource = sysResource;
+            String currentPosStr = resource.getName();
+            while (true) {
+                if (resource.getParentId() == null || resource.getParentId() <= 0) {
+                    break;
+                }
+                resource = sysResourceService.findById(resource.getParentId());
+                currentPosStr = resource.getName() + " / " + currentPosStr;
+                cnt--;
+                if (cnt < 0) {
+                    break;
                 }
             }
-            // 默认选中第一个标签
-            if (current_top_id == null && !topResource.isEmpty()) {
-                current_top_id = topResource.get(0).getId();
-            }
+            mav.addObject("currentPosStr", currentPosStr);
+            mav.addObject("dateStr", DateUtil.getDate("yyyy-MM-dd"));
             mav.addObject("current_top_id", current_top_id);
             mav.addObject("current_sub_id", current_sub_id);
         }

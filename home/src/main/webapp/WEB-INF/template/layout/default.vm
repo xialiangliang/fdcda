@@ -46,36 +46,52 @@
         #end
     #end
 
+    <!--Layui-->
+    <link href="/js/layui/css/layui.css" rel="stylesheet">
+
+    <!--common-->
+    <link href="/css/style.css" rel="stylesheet">
 
 </head>
 
 <body class="main_bg">
+    #if(${user.id})
     <div class="wapper">
         <div class="header">
             #parse("/widget/header.vm")
         </div>
-        <div class="container-fluid">
             #if(${user.id})
-            #parse("/widget/frame.vm")
-            <div class="main col-xs-10 col-sm-10">
-                $screen_content
+                <!--Menu-->
+                <nav class="yw_navbar clearfix">
+                    <ul class="yw_menu">
+                        #foreach($item in $topResourceList)
+                            <li class="yw_menu__list">
+                                <a href="$!{item.url}" #if (${item.id} == $!{current_top_id}) class="active" #end>${item.name}</a>
+                            </li>
+                        #end
+                    </ul>
+                    <div class="yw_settings">
+                        <img src="/upload/img/icon_setting.png" class="img-responsive inline-block v-middle" width="22" alt="">
+                        <span class="inline-block v-middle ml-5">设置</span>
+                        <img src="/upload/img/icon_triangle.png" class="img-responsive inline-block v-middle ml-5" width="10" alt="">
+                    </div>
+                </nav>
+            <div class="yw_main">
+                #parse("/widget/frame.vm")
+                <!--Buyer Container-->
+                <div class="yw_buyerContainer">
+                    $screen_content
+                </div>
+                #end
             </div>
-            #else
-            <style type="text/css">
-            .main_bg {
-                background: url(/upload/img/bk.jpg) center top no-repeat;
-                background-attachment: fixed;
-                position: relative;
-            }
-            </style>
-            <div>
-                $screen_content
-            </div>
-            #end
         </div>
         <div class="footer">
             #parse("/widget/footer.vm")
         </div>
+#else
+    <div>
+        $screen_content
     </div>
+#end
 </body>
 </html>

@@ -106,4 +106,24 @@ public class IndexController extends BaseController {
     public String nopermit(Model model) {
         return "/nopermit"; 
     }
+
+    @RequestMapping("systemManage")
+    public String systemManage(Model model) {
+        return "/nopermit";
+    }
+
+    @RequestMapping("analysis")
+    public String analysis(Model model) {
+        return "/nopermit";
+    }
+
+    @RequestMapping("viewRecord")
+    public String viewRecord(Model model) {
+        return "/nopermit";
+    }
+
+    @RequestMapping("customer")
+    public String customer(Model model) {
+        return "/nopermit";
+    }
 }

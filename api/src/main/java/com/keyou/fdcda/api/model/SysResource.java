@@ -15,6 +15,10 @@ public class SysResource implements Serializable {
      * 父资源id
      */ 	
 	private java.lang.Long parentId;
+	/**
+	 * 顶级资源id
+	 */
+	private java.lang.Long topId;
     /**
      * 资源名称
      */ 	
@@ -27,6 +31,10 @@ public class SysResource implements Serializable {
      * 类型 1-菜单 2-按钮
      */ 	
 	private Integer type;
+	/**
+	 * 类型 1-N级菜单
+	 */
+	private Integer menuType;
 	/**
 	 * 资源路径
 	 */
@@ -78,7 +86,15 @@ public class SysResource implements Serializable {
 	public java.lang.Long getParentId() {
 		return this.parentId;
 	}
-	
+
+	public Long getTopId() {
+		return topId;
+	}
+
+	public void setTopId(Long topId) {
+		this.topId = topId;
+	}
+
 	public void setName(java.lang.String value) {
 		this.name = value;
 	}
@@ -101,6 +117,14 @@ public class SysResource implements Serializable {
 	
 	public Integer getType() {
 		return this.type;
+	}
+
+	public Integer getMenuType() {
+		return menuType;
+	}
+
+	public void setMenuType(Integer menuType) {
+		this.menuType = menuType;
 	}
 
 	public String getIcon() {

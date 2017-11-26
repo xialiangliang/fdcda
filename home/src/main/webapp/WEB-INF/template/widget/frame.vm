@@ -1,20 +1,52 @@
 
-##    <div class="panel panel-primary">
-    <div id="myTabContent" class="tab-content tab-content-main col-xs-2 col-sm-2">
-        #foreach($item in $topResource)
-        <div class="tabDiv tab-pane fade #if (${item.id} == $!{current_top_id}) in active #end" id="${item.name}">
-            <div class="span2">
-                <ul class="nav nav-pills nav-stacked">
-                    #foreach($subItem in $item.subResource)
-                    <li class="#if (${subItem.id} == $!{current_sub_id}) active #end">
-                        <a href="$subItem.url"><span class="glyphicon ${subItem.icon}"></span>&nbsp;$subItem.name</a>
-                    </li>
-                    #end
-                </ul>
-            </div>
-        </div>
-        #end
-    </div>
+    <!--Sidebar-->
+    <nav class="yw_sidebar">
+        <ul class="yw-nav">
+#foreach($item in $topResource.subResource)
+            <li class="yw-nav-item">
+                <a href="#if(!$item.subResource) $item.url #else javascript:; #end" #if (${item.id} == $!{current_sub_id}) class="active" #end>$item.name</a>
+#if($item.subResource)
+<dl class="yw-nav-child">
+    #foreach($item2 in $item.subResource)
+            <dd><a href="${item2.url}" #if (${item2.id} == $!{current_sub_id}) class="active" #end>$item2.name</a></dd>
+    #end
+</dl>
+#end
+            </li>
+#end
+##            <li class="yw-nav-item">
+##                <a href="javascript:;">
+##                    黑名单管理
+##                    <!--<span class="yw-nav-more"></span>-->
+##                </a>
+##                <dl class="yw-nav-child">
+##                    <dd><a href="./buyer_blacklist.html">用户黑名单</a></dd>
+##                    <dd><a href="javascript:;">系统黑名单</a></dd>
+##                </dl>
+##            </li>
+##            <li class="yw-nav-item">
+##                <a href="./buyer.html">黑名单升级</a>
+##            </li>
+        </ul>
+    </nav>  
+
+
+####    <div class="panel panel-primary">
+##    <div id="myTabContent" class="tab-content tab-content-main col-xs-2 col-sm-2">
+##        #foreach($item in $topResource)
+##        <div class="tabDiv tab-pane fade #if (${item.id} == $!{current_top_id}) in active #end" id="${item.name}">
+##            <div class="span2">
+##                <ul class="nav nav-pills nav-stacked">
+##                    #foreach($subItem in $item.subResource)
+##                    <li class="#if (${subItem.id} == $!{current_sub_id}) active #end">
+##                        <a href="$subItem.url"><span class="glyphicon ${subItem.icon}"></span>&nbsp;$subItem.name</a>
+##                    </li>
+##                    #end
+##                </ul>
+##            </div>
+##        </div>
+##        #end
+##    </div>
 #if(${topResource.size()} > 0 && ${topResource[0].id} == $!{current_top_id})
 <script>
     $(function () {

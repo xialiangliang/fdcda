@@ -4,9 +4,11 @@
 	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysResource">
 		<result property="id" jdbcType="DECIMAL" column="ID"/>
 		<result property="parentId" jdbcType="DECIMAL" column="PARENT_ID"/>
+		<result property="topId" jdbcType="DECIMAL" column="TOP_ID"/>
 		<result property="name" jdbcType="VARCHAR" column="NAME"/>
 		<result property="url" jdbcType="VARCHAR" column="URL"/>
 		<result property="type" jdbcType="DECIMAL" column="TYPE"/>
+		<result property="menuType" jdbcType="DECIMAL" column="MENU_TYPE"/>
 		<result property="icon" jdbcType="VARCHAR" column="ICON"/>
 		<result property="sort" jdbcType="DECIMAL" column="SORT"/>
 		<result property="memo" jdbcType="VARCHAR" column="MEMO"/>
@@ -18,7 +20,7 @@
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,PARENT_ID ,NAME ,URL ,TYPE ,ICON ,SORT ,MEMO ,CREATE_TIME ,MODIFY_TIME 
+        ID ,PARENT_ID ,TOP_ID ,NAME ,URL ,TYPE ,MENU_TYPE ,ICON ,SORT ,MEMO ,CREATE_TIME ,MODIFY_TIME 
 	    ]]>
 	</sql>
 	
@@ -30,9 +32,11 @@
 		INSERT INTO SYS_RESOURCE (
         	ID ,
         	PARENT_ID ,
+        	TOP_ID ,
         	NAME ,
         	URL ,
         	TYPE ,
+        	MENU_TYPE ,
         	ICON ,
         	SORT ,
         	MEMO ,
@@ -41,9 +45,11 @@
 		) VALUES (
         	#{id,jdbcType=DECIMAL} ,
         	#{parentId,jdbcType=DECIMAL} ,
+        	#{topId,jdbcType=DECIMAL} ,
         	#{name,jdbcType=VARCHAR} ,
         	#{url,jdbcType=VARCHAR} ,
         	#{type,jdbcType=DECIMAL} ,
+        	#{menuType,jdbcType=DECIMAL} ,
         	#{icon,jdbcType=VARCHAR} ,
         	#{sort,jdbcType=DECIMAL} ,
         	#{memo,jdbcType=VARCHAR} ,
@@ -59,6 +65,9 @@
 			<if test="parentId != null">
 	        PARENT_ID = #{parentId,jdbcType=DECIMAL} ,
 	        </if>
+			<if test="topId != null">
+				TOP_ID = #{topId,jdbcType=DECIMAL} ,
+			</if>
 			<if test="name != null">
 	        NAME = #{name,jdbcType=VARCHAR} ,
 	        </if>
@@ -68,6 +77,9 @@
 			<if test="type != null">
 	        TYPE = #{type,jdbcType=DECIMAL} ,
 	        </if>
+			<if test="menuType != null">
+				MENU_TYPE = #{menuType,jdbcType=DECIMAL} ,
+			</if>
 			<if test="icon != null">
 			ICON = #{icon,jdbcType=VARCHAR} ,
 			</if>
@@ -196,8 +208,16 @@
 		<if test="id != null and id.trim() != ''">
 		and ID = #{id}
 		</if>
+		<if test="ids != null and ids.trim() != ''">
+			<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+				and ID in #{item}
+			</foreach>
+		</if>
 		<if test="parentId != null and parentId.trim() != ''">
 		and PARENT_ID = #{parentId}
+		</if>
+		<if test="topId != null and topId.trim() != ''">
+			and TOP_ID = #{topId}
 		</if>
 		<if test="name != null and name.trim() != ''">
 		and NAME = #{name}
@@ -207,6 +227,9 @@
 		</if>
 		<if test="type != null and type.trim() != ''">
 		and TYPE = #{type}
+		</if>
+		<if test="menuType != null and menuType.trim() != ''">
+			and MENU_TYPE = #{menuType}
 		</if>
 		<if test="icon != null and icon.trim() != ''">
 		and ICON = #{icon}

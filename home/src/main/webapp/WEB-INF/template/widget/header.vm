@@ -1,69 +1,85 @@
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">&nbsp;&nbsp;&nbsp;后台管理系统</a>
-        </div>
-        <div>
-
-
-            <ul id="topTab" class="nav nav-tabs topTab col-sm-8">
-                <div class="col-xs-1 col-sm-1 topTabDiv" style="padding-right: 0px;"></div>
-                #foreach($item in $topResource)
-                    <li class="#if (${item.id} == $!{current_top_id}) active #end">
-                        <a href="#${item.name}" data-toggle="tab">
-                            <span class="glyphicon ${item.icon}"></span>&nbsp;$item.name
-                        </a>
-                    </li>
-                #end
-            ##        <li class="dropdown pull-right">
-            ##            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-            ##                下拉 <b class="caret"></b>
-            ##            </a>
-            ##            <ul class="dropdown-menu">
-            ##                <li>
-            ##                    <a href="#">操作</a>
-            ##                </li>
-            ##                <li class="divider"></li>
-            ##            </ul>
-            ##        </li>
-            </ul>
-            
-            <ul class="nav navbar-nav navbar-right">
-                #if(${user.id})
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        $!{user.loginname}
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#" id="modifyPassword">
-                                <span class="glyphicon glyphicon-th"></span>
-                                修改密码
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/login/logout">
-                                <span class="glyphicon glyphicon-off"></span>
-                                退出
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                #else
-                <li>
-                    <a href="/login">
-                        <span class="glyphicon glyphicon-log-in"></span>
-                        登录
-                    </a>
-                </li>
-                #end
-            </ul>
-        </div>
+<!--Header-->
+<div class="yw_header clearfix">
+    <div class="yw_header__left fl">
+        <img src="/upload/img/logo.png" class="inline-block v-middle logo" alt="">
+        <span class="yw_header__left__caption inline-block v-middle ml-10">义乌商城人脸识别大数据平台</span>
     </div>
-    <div id="modifyPasswordDialog" class="tipDialogFrame"></div>
-    <div id="tipDialog" class="tipDialogFrame"></div>
-</nav>
+    <div class="yw_header__right fr">
+        <span class="inline-block v-middle">您好，$!{user.loginname}</span>
+        <span class="inline-block v-middle ml-20">$!{dateStr}</span>
+        <a href="/login/logout">
+            退出
+        </a>
+    </div>
+</div>
+
+##
+##<nav class="navbar navbar-default" role="navigation">
+##    <div class="container-fluid">
+##        <div class="navbar-header">
+##            <a class="navbar-brand" href="/">&nbsp;&nbsp;&nbsp;后台管理系统</a>
+##        </div>
+##        <div>
+##
+##
+##            <ul id="topTab" class="nav nav-tabs topTab col-sm-8">
+##                <div class="col-xs-1 col-sm-1 topTabDiv" style="padding-right: 0px;"></div>
+##                #foreach($item in $topResource)
+##                    <li class="#if (${item.id} == $!{current_top_id}) active #end">
+##                        <a href="#${item.name}" data-toggle="tab">
+##                            <span class="glyphicon ${item.icon}"></span>&nbsp;$item.name
+##                        </a>
+##                    </li>
+##                #end
+##            ##        <li class="dropdown pull-right">
+##            ##            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+##            ##                下拉 <b class="caret"></b>
+##            ##            </a>
+##            ##            <ul class="dropdown-menu">
+##            ##                <li>
+##            ##                    <a href="#">操作</a>
+##            ##                </li>
+##            ##                <li class="divider"></li>
+##            ##            </ul>
+##            ##        </li>
+##            </ul>
+##            
+##            <ul class="nav navbar-nav navbar-right">
+##                #if(${user.id})
+##                <li class="dropdown">
+##                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+##                        $!{user.loginname}
+##                        <b class="caret"></b>
+##                    </a>
+##                    <ul class="dropdown-menu">
+##                        <li>
+##                            <a href="#" id="modifyPassword">
+##                                <span class="glyphicon glyphicon-th"></span>
+##                                修改密码
+##                            </a>
+##                        </li>
+##                        <li>
+##                            <a href="/login/logout">
+##                                <span class="glyphicon glyphicon-off"></span>
+##                                退出
+##                            </a>
+##                        </li>
+##                    </ul>
+##                </li>
+##                #else
+##                <li>
+##                    <a href="/login">
+##                        <span class="glyphicon glyphicon-log-in"></span>
+##                        登录
+##                    </a>
+##                </li>
+##                #end
+##            </ul>
+##        </div>
+##    </div>
+##    <div id="modifyPasswordDialog" class="tipDialogFrame"></div>
+##    <div id="tipDialog" class="tipDialogFrame"></div>
+##</nav>
 
 <script>
 $(function () {

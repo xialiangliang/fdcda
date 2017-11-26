@@ -110,6 +110,7 @@ public class LoginController {
                 }
                 redisService.del(RedisConstants.LOGIN_PWD_ERROR_TIMES + result.getData().getId());
                 request.getSession().setAttribute(Constants.SESSION_USER, result.getData());
+                redisService.del(RedisConstants.LOGIN_VALIDATE_CODE_REQUIRE + sessionId);
             } catch (Exception e) {
                 logger.error("服务异常", e);
                 map.put(Constants.MESSAGE, "服务异常");
