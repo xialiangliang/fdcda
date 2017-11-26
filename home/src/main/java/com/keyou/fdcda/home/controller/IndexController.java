@@ -42,6 +42,11 @@ public class IndexController extends BaseController {
 
 
     @RequestMapping
+    public String idx(Model model) {
+        return "redirect:/index";
+    }
+    
+    @RequestMapping("/index")
     public String index(Model model) {
         return "/page/index";
     }

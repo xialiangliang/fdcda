@@ -52,7 +52,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
         String uri = request.getRequestURI().replace(request.getContextPath(), "");
         SysUser user = (SysUser) session.getAttribute(Constants.SESSION_USER);
-
+        
+        if (uri.equalsIgnoreCase("/")) {
+            return true;
+        }
         
         if (user == null || user.getId() <= 0) {
             if (Constants.URL_AUTH_ALL_LIST.contains(uri)) {
@@ -68,12 +71,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 SysResource sysResource = resourceList.get(0);
                 if (sysResource.getParentId().equals(0L)) {
                     SysResource topResource = sysResourceService.getTopResource(user.getId(), sysResource.getTopId());
-                    if (CollectionUtils.isEmpty(topResource.getSubResource())) {
-                        response.sendRedirect(request.getContextPath() + Constants.URL_INDEX);
-                    } else {
+                    if (!CollectionUtils.isEmpty(topResource.getSubResource())) {
                         response.sendRedirect(request.getContextPath() + topResource.getSubResource().get(0).getUrl());
+                        return false;
                     }
-                    return false;
                 }
             }
             if (Constants.URL_AUTH_ALL_LIST.contains(uri)) {
@@ -107,6 +108,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             Long current_sub_id = 0L;
 
             List<SysResource> resourceList = sysResourceService.findByUrl(uri);
+            if (resourceList.size() <= 0) {
+                return;
+            }
             SysResource sysResource = resourceList.get(0);
             
             current_top_id = sysResource.getTopId();

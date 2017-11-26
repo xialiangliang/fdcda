@@ -26,7 +26,7 @@ public class Constants {
             "/modifyPassword/confirm");
     public static final String URL_LOGIN = "/login";
     public static final String URL_LOGOUT = "/login/logout";
-    public static final String URL_INDEX = "/";
+    public static final String URL_INDEX = "/index";
     
     public static final String SESSION_USER = "session_user";
     public static final String SESSION_PRIVATE_KEY = "session_private_key";
