@@ -7,10 +7,15 @@
     <div class="yw_header__right fr">
         <span class="inline-block v-middle">您好，$!{user.loginname}</span>
         <span class="inline-block v-middle ml-20">$!{dateStr}</span>
-        <a href="/login/logout">
+        <a class="inline-block v-middle" href="#" id="modifyPassword">
+            修改密码
+        </a>
+        <a class="inline-block v-middle" href="/login/logout">
             退出
         </a>
     </div>
+    <div id="modifyPasswordDialog" class="tipDialogFrame"></div>
+    <div id="tipDialog" class="tipDialogFrame"></div>
 </div>
 
 ##

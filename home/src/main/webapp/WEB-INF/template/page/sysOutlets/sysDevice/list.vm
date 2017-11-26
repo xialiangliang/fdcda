@@ -17,7 +17,7 @@
 ##                </form>
             </div>
             <div class="col-sm-2 text-right">
-                <button class="btn btn-success btn-add j_new-dev-btn" data-id="$!{outletsId}">添加</button>
+                <button class="layui-btn layui-btn-primary ml-10 btn-add j_new-dev-btn" data-id="$!{outletsId}">添加</button>
             </div>
         </div>
         <div id="newUpdateDialogFrameDev" class="tipDialogFrame"></div>

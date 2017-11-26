@@ -1,5 +1,6 @@
 
     <!--Sidebar-->
+    #if($topResource.subResource)
     <nav class="yw_sidebar">
         <ul class="yw-nav">
 #foreach($item in $topResource.subResource)
@@ -28,7 +29,8 @@
 ##                <a href="./buyer.html">黑名单升级</a>
 ##            </li>
         </ul>
-    </nav>  
+    </nav>
+    #end
 
 
 ####    <div class="panel panel-primary">
