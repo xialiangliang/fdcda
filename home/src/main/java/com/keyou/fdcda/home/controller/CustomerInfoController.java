@@ -6,24 +6,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import com.keyou.fdcda.api.constants.AreaConstants;
-import com.keyou.fdcda.api.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.keyou.fdcda.api.constants.AreaConstants;
 import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.constants.ImageInfoConstants;
 import com.keyou.fdcda.api.model.CustomerInfo;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
+import com.keyou.fdcda.api.utils.Assert;
+import com.keyou.fdcda.api.utils.EncodeUtil;
+import com.keyou.fdcda.api.utils.ImageUtil;
+import com.keyou.fdcda.api.utils.RandomUtil;
+import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.home.controller.base.BaseController;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/customerInfo")
@@ -82,7 +89,7 @@ public class CustomerInfoController extends BaseController {
 			}
 			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 			// 文件保存路径
-			String filePath = "/opt/file/download/" + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+			String filePath = ImageInfoConstants.UPLOAD_IMAGE_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
 			File localFile = new File(filePath);
 			file.transferTo(localFile);
 			ImageUtil.ImageInfo imageInfo = ImageUtil.getImagePixelInfo(localFile);
@@ -124,7 +131,7 @@ public class CustomerInfoController extends BaseController {
 			}
 			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 			// 文件保存路径
-			String filePath = "/opt/file/download/" + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+			String filePath = ImageInfoConstants.UPLOAD_IMAGE_FILE_BASE_PATH  + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
 			File localFile = new File(filePath);
 			file.transferTo(localFile);
 			ImageUtil.ImageInfo imageInfo = ImageUtil.getImagePixelInfo(localFile);
