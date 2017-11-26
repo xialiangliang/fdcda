@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.VisitRecordInfoMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.VisitRecordInfo">
+		<result property="visitRowId" jdbcType="DECIMAL" column="VISIT_ROW_ID"/>
+		<result property="imageRowId" jdbcType="DECIMAL" column="IMAGE_ROW_ID"/>
+		<result property="cameraCode" jdbcType="VARCHAR" column="CAMERA_CODE"/>
+		<result property="customerRowId" jdbcType="DECIMAL" column="CUSTOMER_ROW_ID"/>
+		<result property="userRowId" jdbcType="DECIMAL" column="USER_ROW_ID"/>
+		<result property="name" jdbcType="VARCHAR" column="NAME"/>
+		<result property="phone" jdbcType="VARCHAR" column="PHONE"/>
+		<result property="similarDegree" jdbcType="DECIMAL" column="SIMILAR_DEGREE"/>
+		<result property="createDate" jdbcType="DATE" column="CREATE_DATE"/>
+		<result property="visitType" jdbcType="DECIMAL" column="VISIT_TYPE"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        VISIT_ROW_ID ,IMAGE_ROW_ID ,CAMERA_CODE ,CUSTOMER_ROW_ID ,USER_ROW_ID ,NAME ,PHONE ,SIMILAR_DEGREE ,CREATE_DATE ,VISIT_TYPE 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.VisitRecordInfo" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+	      SELECT LAST_INSERT_ID() AS id
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO VISIT_RECORD_INFO (
+        	IMAGE_ROW_ID ,
+        	CAMERA_CODE ,
+        	CUSTOMER_ROW_ID ,
+        	USER_ROW_ID ,
+        	NAME ,
+        	PHONE ,
+        	SIMILAR_DEGREE ,
+        	CREATE_DATE ,
+        	VISIT_TYPE 
+		) VALUES (
+        	#{imageRowId,jdbcType=DECIMAL} ,
+        	#{cameraCode,jdbcType=VARCHAR} ,
+        	#{customerRowId,jdbcType=DECIMAL} ,
+        	#{userRowId,jdbcType=DECIMAL} ,
+        	#{name,jdbcType=VARCHAR} ,
+        	#{phone,jdbcType=VARCHAR} ,
+        	#{similarDegree,jdbcType=DECIMAL} ,
+        	#{createDate,jdbcType=DATE} ,
+        	#{visitType,jdbcType=DECIMAL} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.VisitRecordInfo">
+		UPDATE VISIT_RECORD_INFO
+		<set>
+			<if test="imageRowId != null">
+	        IMAGE_ROW_ID = #{imageRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="cameraCode != null">
+	        CAMERA_CODE = #{cameraCode,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="customerRowId != null">
+	        CUSTOMER_ROW_ID = #{customerRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="userRowId != null">
+	        USER_ROW_ID = #{userRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="name != null">
+	        NAME = #{name,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="phone != null">
+	        PHONE = #{phone,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="similarDegree != null">
+	        SIMILAR_DEGREE = #{similarDegree,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="createDate != null">
+	        CREATE_DATE = #{createDate,jdbcType=DATE} ,
+	        </if>
+			<if test="visitType != null">
+	        VISIT_TYPE = #{visitType,jdbcType=DECIMAL} 
+	        </if>
+	    </set>
+		WHERE 
+	        VISIT_ROW_ID = #{visitRowId,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Integer">
+	<![CDATA[
+		DELETE FROM VISIT_RECORD_INFO WHERE
+        VISIT_ROW_ID = #{visitRowId} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM VISIT_RECORD_INFO 
+		WHERE 
+        VISIT_ROW_ID = #{visitRowId} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    	select count(*) from VISIT_RECORD_INFO where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from VISIT_RECORD_INFO where 1=1
+		<include refid="queryWhere"/> 
+	    <![CDATA[ ORDER BY id DESC ]]>
+        <![CDATA[ LIMIT ${startRecord},${endRecord} ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="visitRowId != null and visitRowId.trim() != ''">
+		and VISIT_ROW_ID = #{visitRowId}
+		</if>
+		<if test="imageRowId != null and imageRowId.trim() != ''">
+		and IMAGE_ROW_ID = #{imageRowId}
+		</if>
+		<if test="cameraCode != null and cameraCode.trim() != ''">
+		and CAMERA_CODE = #{cameraCode}
+		</if>
+		<if test="customerRowId != null and customerRowId.trim() != ''">
+		and CUSTOMER_ROW_ID = #{customerRowId}
+		</if>
+		<if test="userRowId != null and userRowId.trim() != ''">
+		and USER_ROW_ID = #{userRowId}
+		</if>
+		<if test="name != null and name.trim() != ''">
+		and NAME = #{name}
+		</if>
+		<if test="phone != null and phone.trim() != ''">
+		and PHONE = #{phone}
+		</if>
+		<if test="similarDegree != null and similarDegree.trim() != ''">
+		and SIMILAR_DEGREE = #{similarDegree}
+		</if>
+		<if test="createDateBegin != null and createDateBegin.trim() != ''">
+		and CREATE_DATE >= #{createDateBegin}
+		</if>
+		<if test="createDateEnd != null and createDateEnd.trim() != ''">
+		and CREATE_DATE &lt;= #{createDateEnd}
+		</if>
+		<if test="visitType != null and visitType.trim() != ''">
+		and VISIT_TYPE = #{visitType}
+		</if>
+	</sql>
+</mapper>
+
+

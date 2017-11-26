@@ -53,8 +53,7 @@ public class BatchJobLauncher {
     /**
      * 串行化执行job 如果该job已经有实例正在执行，则不开启新job
      * @throws Exception
-     * @author:     LuoJianwei
-     * @date:       2016/12/28 11:44
+     * @author:     xll
      */
     public synchronized void executeSerial() throws Exception {
         Set<JobExecution> set = jobExplorer.findRunningJobExecutions(job.getName());
@@ -68,8 +67,7 @@ public class BatchJobLauncher {
     /**
      * 执行job
      * @throws Exception
-     * @author:     LuoJianwei
-     * @date:       2016/12/28 11:43
+     * @author:     xll
      */
     private void executeJob() throws Exception {
         if (jobParameters == null) jobParameters = new HashMap<>();
