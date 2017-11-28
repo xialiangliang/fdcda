@@ -2,60 +2,37 @@ $(function(){
     var dialog = $("#newUpdateDialogFrame");
     
     function tip(msg, reload) {
-        var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
-        var tip_frame = $("#tipDialogFrame");
-        tip_frame.html(action_tip);
-        tip_frame.dialog({
-            resizable: true,
-            width: 300,
-            modal: true,
-            buttons: {
-            }
-        });
-        setTimeout(function () {
-            tip_frame.dialog("close");
+        layer.msg(msg,{time:1000},function () {
             if (reload) {
                 window.location.reload();
             }
-        }, 1000);
+        });
     }
     $(".j_update-btn").click(function () {
         $.get('/sysGood/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 600,
-                modal: true,
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                content: object.responseText
             });
         });
     });
 
     $(".j_new-btn").click(function () {
         $.get('/sysGood/new', {}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 600,
-                modal: true,
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                title: "修改密码",
+                content: object.responseText
             });
         });
     });
     
     $(".j_category-btn").click(function () {
         $.get('/sysGood/category', {}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 600,
-                height:600,
-                modal: true,
-                title:'分类',
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                title: "分类",
+                content: object.responseText
             });
         });
     });

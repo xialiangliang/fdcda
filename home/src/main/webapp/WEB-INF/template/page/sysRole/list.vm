@@ -1,5 +1,5 @@
 #set($JS = ["/js/page/sysRole/list.js"])
-<div class="main-content">
+<div class="yw_buyerContainer">
     <div class="yw_breadcrumb">
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>

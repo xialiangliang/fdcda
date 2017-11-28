@@ -2,22 +2,11 @@ $(function(){
 
     var dialog = $("#newUpdateSubDialogFrame");
     function tip(msg, reload) {
-        var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
-        var tip_frame = $("#tipDialogFrame");
-        tip_frame.html(action_tip);
-        tip_frame.dialog({
-            resizable: true,
-            width: 300,
-            modal: true,
-            buttons: {
-            }
-        });
-        setTimeout(function () {
-            tip_frame.dialog("close");
+        layer.msg(msg,{time:1000},function () {
             if (reload) {
                 window.location.reload();
             }
-        }, 1000);
+        });
     }
 
     var tree = [];
@@ -69,28 +58,20 @@ $(function(){
 
     updateCategory = function(id) {
         $.get('/sysGood/category/find', {'id': id}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 400,
-                modal: true,
-                title:'修改',
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                title: "修改",
+                content: object.responseText
             });
         });
     };
 
     newCategory = function(id) {
         $.get('/sysGood/category/new', {'parentId': id}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 400,
-                modal: true,
-                title:'新增',
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                title: "新增",
+                content: object.responseText
             });
         });
     };
@@ -126,6 +107,6 @@ $(function(){
     };
 
     $(".btn-close").click(function () {
-        dialog.dialog("close");
+        layer.close(layer.index);
     });
 });

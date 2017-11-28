@@ -2,22 +2,11 @@ $(function(){
     var dialog = $("#newUpdateDialogFrame");
 
     function tip(msg, reload) {
-        var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
-        var tip_frame = $("#tipDialogFrame");
-        tip_frame.html(action_tip);
-        tip_frame.dialog({
-            resizable: true,
-            width: 300,
-            modal: true,
-            buttons: {
-            }
-        });
-        setTimeout(function () {
-            tip_frame.dialog("close");
+        layer.msg(msg,{time:1000},function () {
             if (reload) {
                 window.location.reload();
             }
-        }, 1000);
+        });
     }
 
     $(".j_rmblack-btn").click(function () {

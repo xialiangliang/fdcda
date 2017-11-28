@@ -3,22 +3,11 @@ $(function(){
     var updateForm = jQuery("#updateForm_sysRole");
 
     function tip(msg, reload) {
-        var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
-        var tip_frame = $("#tipDialogFrame");
-        tip_frame.html(action_tip);
-        tip_frame.dialog({
-            resizable: true,
-            width: 600,
-            modal: true,
-            buttons: {
-            }
-        });
-        setTimeout(function () {
-            tip_frame.dialog("close");
+        layer.msg(msg,{time:1000},function () {
             if (reload) {
                 window.location.reload();
             }
-        }, 1000);
+        });
     }
 
     var dialog = $("#newUpdateDialogFrame");
@@ -85,7 +74,7 @@ $(function(){
     newForm.ajaxForm({
         success: function (data) {
             if (data.success) {
-                dialog.dialog("close");
+                layer.close(layer.index);
                 tip(data.message, true);
             } else {
                 tip(data.message, false);
@@ -98,7 +87,7 @@ $(function(){
         },
         success: function (data) {
             if (data.success) {
-                dialog.dialog("close");
+                layer.close(layer.index);
                 tip(data.message, true);
             } else {
                 tip(data.message, false);
@@ -106,6 +95,6 @@ $(function(){
         }
     });
     $(".btn-close").click(function () {
-        dialog.dialog("close");
+        layer.close(layer.index);
     })
 });

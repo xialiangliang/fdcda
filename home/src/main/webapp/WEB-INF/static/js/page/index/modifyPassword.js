@@ -2,22 +2,11 @@ $(function(){
     var form_modifyfPassword = jQuery("#form_modifyfPassword");
 
     function tip(msg, reload) {
-        var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
-        var tip_frame = $("#tipDialog");
-        tip_frame.html(action_tip);
-        tip_frame.dialog({
-            resizable: true,
-            width: 300,
-            modal: true,
-            buttons: {
-            }
-        });
-        setTimeout(function () {
-            tip_frame.dialog("close");
+        layer.msg(msg,{time:1000},function () {
             if (reload) {
                 window.location.reload();
             }
-        }, 1000);
+        });
     }
 
     var dialog = $("#modifyPasswordDialog");
@@ -66,8 +55,8 @@ $(function(){
         },
         success: function (data) {
             if (data.success) {
-                dialog.dialog("close");
-                tip(data.message, true);
+                layer.close(layer.index);
+                tip(data.message, false);
             } else {
                 tip(data.message, false);
             }
@@ -75,6 +64,6 @@ $(function(){
     });
     
     $(".btn-close").click(function () {
-        dialog.dialog("close");
+        layer.close(layer.index);
     });
 });

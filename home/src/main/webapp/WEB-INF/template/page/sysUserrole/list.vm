@@ -1,9 +1,7 @@
 #set($JS = ["/js/page/sysUserrole/list.js"])
-<div class="main-content">
-	 <div class="breadcrumbs">
-        <ul class="breadcrumb">
-            <li class="active"><h4>SysUserrole列表</h4></li>
-        </ul>
+<div class="yw_buyerContainer">
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>
 	<div class="page-content">
         <div class="sc-where-bar">

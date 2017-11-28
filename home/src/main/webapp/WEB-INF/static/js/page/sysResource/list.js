@@ -57,13 +57,9 @@ $(function(){
 
     $(".j_new-btn").click(function () {
         $.get('/sysResource/new', {}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 600,
-                modal: true,
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                content: object.responseText
             });
         });
     });
@@ -72,13 +68,9 @@ $(function(){
     update_resource = function(id) {
         var dialog = $("#newUpdateDialogFrame");
         $.get('/sysResource/find', {'id': id}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 600,
-                modal: true,
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                content: object.responseText
             });
         });
     };

@@ -3,61 +3,37 @@ $(function(){
 
     $(".j_update-btn").click(function () {
         $.get('/sysOutlets/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 600,
-                modal: true,
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                content: object.responseText
             });
         });
     });
 
     $(".j_new-btn").click(function () {
         $.get('/sysOutlets/new', {}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 600,
-                modal: true,
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                content: object.responseText
             });
         });
     });
 
     $(".j_device-btn").click(function () {
         $.get('/sysOutlets/sysDevice/list', {'outletsId': $(this).attr("data-id")}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            dialog.dialog({
-                resizable: true,
-                width: 600,
-                title:"设备列表",
-                modal: true,
-                buttons: {
-                }
+            layer.open({
+                type: 1,
+                content: object.responseText
             });
         });
     });
 
     function tip(msg, reload) {
-        var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
-        var tip_frame = $("#tipDialogFrame");
-        tip_frame.html(action_tip);
-        tip_frame.dialog({
-            resizable: true,
-            width: 300,
-            modal: true,
-            buttons: {
-            }
-        });
-        setTimeout(function () {
-            tip_frame.dialog("close");
+        layer.msg(msg,{time:1000},function () {
             if (reload) {
                 window.location.reload();
             }
-        }, 1000);
+        });
     }
     $(".j_delete-btn").click(function () {
         var id = $(this).attr("data-id")

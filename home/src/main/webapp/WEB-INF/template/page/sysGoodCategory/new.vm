@@ -1,8 +1,11 @@
-#set($layout = "/layout/layout2.vm")
+###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/jquery.form.min.js", "/js/page/sysGoodCategory/new-update.js"])
+<div class="yw_breadcrumb">
+    当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+</div>
 <div class="col-sm-12">
-    <form action="/sysGoodCategory/save"  method="post" class="form-horizontal" id="newForm_sysGoodCategory">
+    <form action="/sysGoodCategory/save"  method="post" class="form-horizontal layui-form" id="newForm_sysGoodCategory">
         <div class="form-group">
             <label for="id" class="col-sm-2 control-label">主键id</label>
             <div class="col-sm-10">

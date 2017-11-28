@@ -1,121 +1,162 @@
-#set($layout = "/layout/layout2.vm")
+###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/jquery.form.min.js", "/js/page/customerInfo/new-update.js"])
+<div class="yw_breadcrumb">
+    当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+</div>
 <div class="col-sm-12">
-    <form action="/customerInfo/update"  method="post" class="form-horizontal" id="updateForm_customerInfo" enctype="multipart/form-data">
+    <form action="/customerInfo/update"  method="post" class="form-horizontal layui-form" id="updateForm_customerInfo" enctype="multipart/form-data">
         <input type="hidden" name="id" value="$!{param.id}" />
-        <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">采购商姓名</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="name" name="name" value="$!{param.name}" >
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="name" name="name" value="$!{param.name}" >
             </div>
         </div>
-        <div class="form-group">
-            <label for="phone" class="col-sm-2 control-label">手机号</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="phone" name="phone" value="$!{param.phone}" >
+        <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">手机号</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="phone" name="phone" value="$!{param.phone}" >
             </div>
         </div>
-        <div class="form-group">
-            <label for="gender" class="col-sm-2 control-label">性别</label>
-            <div class="col-sm-10">
-                <select class="form-control" name="gender" id="gender">
-                    <option value="0" #if($!{param.gender}==0) selected #end>男</option>
-                    <option value="1" #if($!{param.gender}==1) selected #end>女</option>
-                </select>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="gender" value="0" title="男" #if($!{param.gender}==0) checked="" #end>
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>男</span></div>
+                <input type="radio" name="gender" value="1" title="女" #if($!{param.gender}==1) checked="" #end>
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>女</span></div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="nationality" class="col-sm-2 control-label">国籍：1中国</label>
-            <div class="col-sm-10">
-                <select class="form-control" name="nationality" id="nationality">
-                    #foreach($k in ${countryMap.keySet()})
-                        <option value="${k}" #if($!{param.nationality}==$k) selected #end>$countryMap.get($k)</option>
-                    #end
-                </select>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">国籍</label>
+                <div class="layui-input-inline width-full">
+                    <select name="nationality" id="nationality">
+                        #foreach($k in ${countryMap.keySet()})
+                            <option value="${k}" #if($!{param.nationality}==$k) selected #end>$countryMap.get($k)</option>
+                        #end
+                    </select>
+                    <div class="layui-unselect layui-form-select">
+                        <div class="layui-select-title">
+                            <input type="text" placeholder="请选择" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i>
+                        </div>
+                        <dl class="layui-anim layui-anim-upbit" style="">
+                            <dd lay-value="" class="layui-select-tips">请选择</dd>
+                            #foreach($k in ${countryMap.keySet()})
+                                <dd lay-value="${k}">$countryMap.get($k)</dd>
+                            #end
+                        </dl>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="province" class="col-sm-2 control-label">省份</label>
-            <div class="col-sm-10">
-                <select class="form-control" name="province" id="province">
-                    #foreach($k in ${provinceMap.keySet()})
-                        <option value="${k}" #if($!{param.province}==$k) selected #end>$provinceMap.get($k)</option>
-                    #end
-                </select>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">省份</label>
+                <div class="layui-input-inline width-full">
+                    <select name="province" id="province">
+                        #foreach($k in ${provinceMap.keySet()})
+                            <option value="${k}" #if($!{param.province}==$k) selected #end>$provinceMap.get($k)</option>
+                        #end
+                    </select>
+                    <div class="layui-unselect layui-form-select">
+                        <div class="layui-select-title">
+                            <input type="text" placeholder="请选择" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i>
+                        </div>
+                        <dl class="layui-anim layui-anim-upbit" style="">
+                            <dd lay-value="" class="layui-select-tips">请选择</dd>
+                            #foreach($k in ${provinceMap.keySet()})
+                                <dd lay-value="${k}">$provinceMap.get($k)</dd>
+                            #end
+                        </dl>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="city" class="col-sm-2 control-label">地市</label>
-            <div class="col-sm-10">
-                <select class="form-control" name="city" id="city">
-                    #foreach($k in ${cityMap.keySet()})
-                        <option value="${k}" #if($!{param.city}==$k) selected #end>$cityMap.get($k)</option>
-                    #end
-                </select>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">地市</label>
+                <div class="layui-input-inline width-full">
+                    <select name="city" id="city">
+                        #foreach($k in ${cityMap.keySet()})
+                            <option value="${k}" #if($!{param.city}==$k) selected #end>$cityMap.get($k)</option>
+                        #end
+                    </select>
+                    <div class="layui-unselect layui-form-select">
+                        <div class="layui-select-title">
+                            <input type="text" placeholder="请选择" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i>
+                        </div>
+                        <dl class="layui-anim layui-anim-upbit" style="">
+                            <dd lay-value="" class="layui-select-tips">请选择</dd>
+                            #foreach($k in ${cityMap.keySet()})
+                                <dd lay-value="${k}">$cityMap.get($k)</dd>
+                            #end
+                        </dl>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="companyid" class="col-sm-2 control-label">单位</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="companyid" name="companyid" value="$!{param.companyid}" >
+        <div class="layui-form-item">
+            <label for="companyid" class="layui-form-label">单位</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="companyid" name="companyid" value="$!{param.companyid}" size="50">
             </div>
         </div>
-        <div class="form-group">
-            <label for="address" class="col-sm-2 control-label">联系地址</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="address" name="address" value="$!{param.address}" >
+        <div class="layui-form-item">
+            <label for="address" class="layui-form-label">联系地址</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="address" name="address" value="$!{param.address}" size="50">
             </div>
         </div>
-        <div class="form-group">
-            <label for="imageUrl" class="col-sm-2 control-label">图像</label>
-            <div class="col-sm-10">
+        <div class="layui-form-item">
+            <label for="imageUrl" class="layui-form-label">图像</label>
+            <div class="layui-input-block">
                 <input type="file" name="file" id="file" accept="image/png,image/jpeg">
             </div>
         </div>
-        <div class="form-group">
-            <label for="validFlag" class="col-sm-2 control-label">是否有效</label>
-            <div class="col-sm-10">
-                <select class="form-control" name="validFlag" id="validFlag">
-                    <option value="0" #if($!{param.validFlag}==0) selected #end>无效</option>
-                    <option value="1" #if($!{param.validFlag}==1) selected #end>有效</option>
-                </select>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否有效</label>
+            <div class="layui-input-block">
+                <input type="radio" name="validFlag" value="1" title="有效" #if($!{param.validFlag}==1) checked="" #end>
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>有效</span></div>
+                <input type="radio" name="validFlag" value="0" title="无效" #if($!{param.validFlag}==0) checked="" #end>
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>无效</span></div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="qq" class="col-sm-2 control-label">联系qq</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="qq" name="qq" value="$!{param.qq}" >
+        <div class="layui-form-item">
+            <label for="qq" class="layui-form-label">联系qq</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="qq" name="qq" value="$!{param.qq}" >
             </div>
         </div>
-        <div class="form-group">
-            <label for="weixin" class="col-sm-2 control-label">微信号</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="weixin" name="weixin" value="$!{param.weixin}" >
+        <div class="layui-form-item">
+            <label for="weixin" class="layui-form-label">微信号</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="weixin" name="weixin" value="$!{param.weixin}" >
             </div>
         </div>
-        <div class="form-group">
-            <label for="isBlack" class="col-sm-2 control-label">黑名单</label>
-            <div class="col-sm-10">
-                <select class="form-control" name="isBlack" id="isBlack">
-                    <option value="0" #if($!{param.isBlack}==0) selected #end>否</option>
-                    <option value="1" #if($!{param.isBlack}==1) selected #end>是</option>
-                </select>
+        <div class="layui-form-item">
+            <label class="layui-form-label">黑名单</label>
+            <div class="layui-input-block">
+                <input type="radio" name="isBlack" value="0" title="否" #if($!{param.isBlack}==0) checked="" #end>
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>否</span></div>
+                <input type="radio" name="isBlack" value="1" title="是" #if($!{param.isBlack}==1) checked="" #end>
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>是</span></div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="isVip" class="col-sm-2 control-label">是否VIP</label>
-            <div class="col-sm-10">
-                <select class="form-control" name="isVip" id="isVip">
-                    <option value="0" #if($!{param.isVip}==0) selected #end>否</option>
-                    <option value="1" #if($!{param.isVip}==1) selected #end>是</option>
-                </select>
+        <div class="layui-form-item">
+            <label class="layui-form-label">VIP</label>
+            <div class="layui-input-block">
+                <input type="radio" name="isVip" value="0" title="否" #if($!{param.isVip}==0) checked="" #end>
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>否</span></div>
+                <input type="radio" name="isVip" value="1" title="是" #if($!{param.isVip}==1) checked="" #end>
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>是</span></div>
             </div>
         </div>
-        <div class="form-group" align="right">
-            <div class="col-sm-12">
-                <button type="button" class="btn btn-default btn-close">关闭</button>
-                <button type="submit" class="btn btn-primary">提交</button>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn layui-btn-normal">更新</button>
             </div>
         </div>
     </form>

@@ -1,5 +1,5 @@
 #set($JS = ["/js/page/sysGoodOrder/list.js"])
-<div class="main-content">
+<div class="yw_buyerContainer">
 	 <div class="breadcrumbs">
         <ul class="breadcrumb">
             <li class="active"><h4>SysGoodOrder列表</h4></li>

@@ -3,22 +3,11 @@ $(function(){
     var updateForm = jQuery("#updateForm_sysUser");
 
     function tip(msg, reload) {
-        var action_tip = "<div class='pop-con-tip'>" + msg + "</div>";
-        var tip_frame = $("#tipDialogFrame");
-        tip_frame.html(action_tip);
-        tip_frame.dialog({
-            resizable: true,
-            width: 300,
-            modal: true,
-            buttons: {
-            }
-        });
-        setTimeout(function () {
-            tip_frame.dialog("close");
+        layer.msg(msg,{time:1000},function () {
             if (reload) {
                 window.location.reload();
             }
-        }, 1000);
+        });
     }
 
     var dialog = $("#newUpdateDialogFrame");
@@ -46,19 +35,17 @@ $(function(){
         },
         success: function (data) {
             if (data.success) {
-                dialog.dialog("close");
-                dialog.html('手机号：' + data.phone + '<br>'
+                layer.close(layer.index);
+                var htmlStr = '手机号：' + data.phone + '<br>'
                     + '登录名：' + data.loginname + '<br>'
-                    + '密码：' + data.password);
-                dialog.dialog({
-                    title: '新用户',
-                    resizable: true,
-                    width: 400,
-                    modal: true,
-                    buttons: {
-                        "确定":function () {
-                            $(this).dialog('close');
-                        }
+                    + '密码：' + data.password;
+                layer.open({
+                    type: 1,
+                    title: "新用户",
+                    content: htmlStr,
+                    btn: ['确定'],
+                    yes: function(index, layero){
+                        layer.close(layer.index);
                     }
                 });
             } else {
@@ -70,7 +57,7 @@ $(function(){
     updateForm.ajaxForm({
         success: function (data) {
             if (data.success) {
-                dialog.dialog("close");
+                layer.close(layer.index);
                 tip(data.message, true);
             } else {
                 tip(data.message, false);
@@ -78,7 +65,7 @@ $(function(){
         }
     });
     $(".btn-close").click(function () {
-        dialog.dialog("close");
+        layer.close(layer.index);
     });
     
     $(".btn-resetpwd").click(function () {
@@ -93,20 +80,14 @@ $(function(){
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                dialog.dialog("close");
-                                dialog.html('手机号：' + data.phone + '<br>'
+                                layer.close(layer.index);
+                                var htmlStr = '手机号：' + data.phone + '<br>'
                                     + '登录名：' + data.loginname + '<br>'
-                                    + '密码：' + data.password);
-                                dialog.dialog({
-                                    title: '新密码',
-                                    resizable: true,
-                                    width: 400,
-                                    modal: true,
-                                    buttons: {
-                                        "确定":function () {
-                                            $(this).dialog('close');
-                                        }
-                                    }
+                                    + '密码：' + data.password;
+                                layer.open({
+                                    type: 1,
+                                    title: "新密码",
+                                    content: htmlStr
                                 });
                             } else {
                                 tip(data.message, false);

@@ -1,8 +1,11 @@
-#set($layout = "/layout/layout2.vm")
+###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/page/sysAreaInfo/new-update.js", "/js/jquery.form.min.js"])
+<div class="yw_breadcrumb">
+    当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+</div>
 <div class="col-sm-12">
-    <form action="/sysAreaInfo/update"  method="post" class="form-horizontal" id="updateForm_sysAreaInfo">
+    <form action="/sysAreaInfo/update"  method="post" class="form-horizontal layui-form" id="updateForm_sysAreaInfo">
         <input type="hidden" name="id" value="$!{param.id}" />
         <div class="form-group">
             <label for="id" class="col-sm-2 control-label">id主键</label>

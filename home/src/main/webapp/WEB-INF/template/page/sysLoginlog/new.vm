@@ -1,8 +1,11 @@
-#set($layout = "/layout/layout2.vm")
+###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/jquery.form.min.js", "/js/page/sysLoginlog/new-update.js"])
+<div class="yw_breadcrumb">
+    当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+</div>
 <div class="col-sm-12">
-    <form action="/sysLoginlog/save"  method="post" class="form-horizontal" id="newForm_sysLoginlog">
+    <form action="/sysLoginlog/save"  method="post" class="form-horizontal layui-form" id="newForm_sysLoginlog">
         <div class="form-group">
             <label for="id" class="col-sm-2 control-label">主键id</label>
             <div class="col-sm-10">

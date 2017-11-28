@@ -177,6 +177,23 @@ public class CustomerInfoController extends BaseController {
 		return "/page/customerInfo/list";
 	}
 
+	@RequestMapping("/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		query.addQueryData("userRowId", getUser(request).getId().toString());
+		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		map.put("countryMap", AreaConstants.countryMap);
+		map.put("provinceMap", AreaConstants.provinceMap);
+		map.put("cityMap", AreaConstants.cityMap);
+		return map;
+	}
+
 	@RequestMapping(value="/addToBlackList")
 	@ResponseBody
 	public Map<String, Object> addToBlackList(Long id, HttpServletRequest request) throws Exception {
