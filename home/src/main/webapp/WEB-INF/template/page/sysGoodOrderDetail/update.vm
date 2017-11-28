@@ -1,6 +1,7 @@
 ###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/jquery.form.min.js", "/js/page/sysGoodOrderDetail/new-update.js"])
+<div class="yw_buyerContainer">
 <div class="yw_breadcrumb">
     当前位置：<a href="javascript:;">$!{currentPosStr}</a>
 </div>
@@ -62,4 +63,5 @@
             </div>
         </div>
     </form>
+</div>
 </div>

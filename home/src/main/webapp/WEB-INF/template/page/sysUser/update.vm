@@ -1,6 +1,7 @@
 ###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/jquery.form.min.js", "/js/page/sysUser/new-update.js"])
+<div class="yw_buyerContainer">
 <div class="yw_breadcrumb">
     当前位置：<a href="javascript:;">$!{currentPosStr}</a>
 </div>
@@ -80,4 +81,5 @@
 ##        新密码将以短信的形式发送到用户手机，
         确认重置密码？
     </div>
+</div>
 </div>

@@ -1,6 +1,7 @@
 #set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/jquery.form.min.js", "/js/page/imageBaseSend/new-update.js"])
+<div class="yw_buyerContainer">
 <div class="col-sm-12">
     <form action="/imageBaseSend/save"  method="post" class="form-horizontal" id="newForm_imageBaseSend">
         <div class="form-group">
@@ -40,4 +41,5 @@
             </div>
         </div>
     </form>
+</div>
 </div>
