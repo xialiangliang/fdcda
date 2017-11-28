@@ -5,7 +5,6 @@
 #set($JS = ["js/layui/layui.js"])
 #set($JS = ["js/common.js"])
 #set($JS = ["js/custom.js"])
- <div class="yw_main">
         <div class="yw_visitorArea yw_visitorArea-left">
             <section class="yw_visitor">
                 <div class="yw_visitor__header yw_visitor__header-vip">
@@ -232,4 +231,3 @@
                 <p class="yw_visitorDigitalMain__num c-red">5</p>
             </div>
         </div>
-    </div>
