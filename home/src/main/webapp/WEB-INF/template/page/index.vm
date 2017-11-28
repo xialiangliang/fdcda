@@ -2,7 +2,234 @@
 ###set($CSS = ["scripts/css/index.css"])
 ###set($JS = ["scripts/js/jquery-1.11.3.js"])
 #set($page_title = "后台管理系统")
+#set($JS = ["js/layui/layui.js"])
+#set($JS = ["js/common.js"])
+#set($JS = ["js/custom.js"])
+ <div class="yw_main">
+        <div class="yw_visitorArea yw_visitorArea-left">
+            <section class="yw_visitor">
+                <div class="yw_visitor__header yw_visitor__header-vip">
+                    <i class="yw_visitorIcon yw_visitorIcon-vip"></i>
+                    <span class="fl ml-10">老顾客</span>
+                    <span class="fr mr-10">32人</span>
+                </div>
+                <div class="yw_visitor__content">
+                    <ul class="yw_visitorItem clearfix">
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list ">
+                            <a href="" class="yw_visitorItem__list__thumb yw_visitorMore">
+                                 <p class="mt-40"><img src="images/icon_more.png" alt=""></p>
+                                 <p class="mt-20">查看更多</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <section class="yw_visitor mt-20">
+                <div class="yw_visitor__header yw_visitor__header-suspect">
+                    <i class="yw_visitorIcon yw_visitorIcon-suspect"></i>
+                    <span class="fl ml-10">可疑人员</span>
+                    <span class="fr mr-10">5人</span>
+                </div>
+                <div class="yw_visitor__content">
+                    <ul class="yw_visitorItem clearfix">
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list ">
+                            <a href="" class="yw_visitorItem__list__thumb yw_visitorMore">
+                                <p class="mt-40"><img src="images/icon_more.png" alt=""></p>
+                                <p class="mt-20">查看更多</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <section class="yw_visitor mt-20">
+                <div class="yw_visitor__header yw_visitor__header-primary">
+                    <i class="yw_visitorIcon yw_visitorIcon-primary"></i>
+                    <span class="fl ml-10">访客</span>
+                    <span class="fr mr-10">1070人</span>
+                </div>
+                <div class="yw_visitor__content">
+                    <ul class="yw_visitorItem clearfix">
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="images/thumb.jpg" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">张武文</p>
+                            <p class="text-center mt-5">13008972567</p>
+                        </li>
+                        <li class="yw_visitorItem__list ">
+                            <a href="" class="yw_visitorItem__list__thumb yw_visitorMore">
+                                <p class="mt-40"><img src="images/icon_more.png" alt=""></p>
+                                <p class="mt-20">查看更多</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        <div class="yw_visitorDigital ">
+            <div class="yw_visitorDigitalMain">
+                <p class="yw_visitorDigitalMain__title">今日来访人数</p>
+                <p class="yw_visitorDigitalMain__num c-blue">1070</p>
 
-<div class="main-content">
-    <h1><p class="text-center">后台管理系统</p></h1>
-</div>
+                <p class="yw_visitorDigitalMain__title mt-30">老顾客人数</p>
+                <p class="yw_visitorDigitalMain__num c-yellow">32</p>
+
+                <p class="yw_visitorDigitalMain__title mt-30">可疑人员人数</p>
+                <p class="yw_visitorDigitalMain__num c-red">5</p>
+            </div>
+        </div>
+    </div>
