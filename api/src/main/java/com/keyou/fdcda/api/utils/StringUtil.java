@@ -39,4 +39,13 @@ public class StringUtil extends StringUtils {
         }
         return Pattern.matches(Constants.REGEX_USERNAME, loginname);
     }
+    
+    public static String removeStr(String src,String rmstr) {
+        return src.replace(rmstr, "");
+    }
+    
+    public static void main(String[] args) {
+    	String src = "\\mnt\\facepics\\deal\\camera00000000101\\2017-11-24\\20171124100002.jpg";
+		System.out.println(src.substring(src.indexOf("deal") ));
+	}
 }
