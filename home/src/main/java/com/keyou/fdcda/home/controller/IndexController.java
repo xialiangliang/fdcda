@@ -48,7 +48,7 @@ public class IndexController extends BaseController {
     
     @RequestMapping("/index")
     public String index(Model model) {
-        return "/page/index";
+        return "redirect:/visitRecordInfo/visitIndex";
     }
 
     @RequestMapping("modifyPassword")

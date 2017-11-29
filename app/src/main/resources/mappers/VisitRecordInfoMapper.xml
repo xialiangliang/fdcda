@@ -12,11 +12,12 @@
 		<result property="similarDegree" jdbcType="DECIMAL" column="SIMILAR_DEGREE"/>
 		<result property="createDate" jdbcType="DATE" column="CREATE_DATE"/>
 		<result property="visitType" jdbcType="DECIMAL" column="VISIT_TYPE"/>
+		<result property="imageUrl" jdbcType="VARCHAR" column="IMAGE_URL"/>
     </resultMap>
 	
 	<sql id="columns">
 	    <![CDATA[
-        VISIT_ROW_ID ,IMAGE_ROW_ID ,CAMERA_CODE ,CUSTOMER_ROW_ID ,USER_ROW_ID ,NAME ,PHONE ,SIMILAR_DEGREE ,CREATE_DATE ,VISIT_TYPE 
+        VISIT_ROW_ID ,IMAGE_ROW_ID ,CAMERA_CODE ,CUSTOMER_ROW_ID ,USER_ROW_ID ,NAME ,PHONE ,SIMILAR_DEGREE ,CREATE_DATE ,IMAGE_URL,VISIT_TYPE 
 	    ]]>
 	</sql>
 	
@@ -34,6 +35,7 @@
         	PHONE ,
         	SIMILAR_DEGREE ,
         	CREATE_DATE ,
+        	IMAGE_URL,
         	VISIT_TYPE 
 		) VALUES (
         	#{imageRowId,jdbcType=DECIMAL} ,
@@ -44,6 +46,7 @@
         	#{phone,jdbcType=VARCHAR} ,
         	#{similarDegree,jdbcType=DECIMAL} ,
         	#{createDate,jdbcType=DATE} ,
+        	#{imageUrl,jdbcType=VARCHAR} ,
         	#{visitType,jdbcType=DECIMAL} 
 		)
 	]]>
@@ -76,6 +79,9 @@
 			<if test="createDate != null">
 	        CREATE_DATE = #{createDate,jdbcType=DATE} ,
 	        </if>
+	        <if test="imageUrl != null">
+	        IMAGE_URL = #{imageUrl,jdbcType=VARCHAR} ,
+	        </if>
 			<if test="visitType != null">
 	        VISIT_TYPE = #{visitType,jdbcType=DECIMAL} 
 	        </if>
@@ -100,7 +106,7 @@
 	]]>
 	</select>
 	 
-	<select id="findPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
     	select count(*) from VISIT_RECORD_INFO where 1=1
 		<include refid="queryWhere"/>
 	</select>
@@ -113,16 +119,16 @@
 	</select>
 	
 	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
-		select <include refid="columns"/>  from VISIT_RECORD_INFO where 1=1
+	  select * from (	select <include refid="columns"/> ,rownum rn   from VISIT_RECORD_INFO where 1=1
 		<include refid="queryWhere"/> 
-	    <![CDATA[ ORDER BY id DESC ]]>
+	    <![CDATA[ ORDER BY VISIT_ROW_ID DESC ]]>) t where t.rn &lt;= ${endRecord} and t.rn > ${startRecord}
 	</select>
 	
 	<sql id="queryWhere">
-		<if test="visitRowId != null and visitRowId.trim() != ''">
+		<if test="visitRowId != null  ">
 		and VISIT_ROW_ID = #{visitRowId}
 		</if>
-		<if test="imageRowId != null and imageRowId.trim() != ''">
+		<if test="imageRowId != null  ">
 		and IMAGE_ROW_ID = #{imageRowId}
 		</if>
 		<if test="cameraCode != null and cameraCode.trim() != ''">
@@ -131,7 +137,7 @@
 		<if test="customerRowId != null and customerRowId.trim() != ''">
 		and CUSTOMER_ROW_ID = #{customerRowId}
 		</if>
-		<if test="userRowId != null and userRowId.trim() != ''">
+		<if test="userRowId != null ">
 		and USER_ROW_ID = #{userRowId}
 		</if>
 		<if test="name != null and name.trim() != ''">
@@ -149,8 +155,12 @@
 		<if test="createDateEnd != null and createDateEnd.trim() != ''">
 		and CREATE_DATE &lt;= #{createDateEnd}
 		</if>
-		<if test="visitType != null and visitType.trim() != ''">
+		<if test="visitType != null ">
 		and VISIT_TYPE = #{visitType}
+		</if>
+		
+		<if test="visitTypeblack != null and visitTypeblack.trim() != ''">
+		and VISIT_TYPE in (3,4)
 		</if>
 		
 		<if test="createToday != null and createToday.trim() != ''">

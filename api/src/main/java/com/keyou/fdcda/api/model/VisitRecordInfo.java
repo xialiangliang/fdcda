@@ -51,6 +51,11 @@ public class VisitRecordInfo implements Serializable {
 	private Integer visitType;
 
 	
+	 /**
+     * 图片url
+     */ 	
+	private java.lang.String imageUrl;
+	
 	public void setVisitRowId(java.lang.Long value) {
 		this.visitRowId = value;
 	}
@@ -134,6 +139,14 @@ public class VisitRecordInfo implements Serializable {
 	
 	public Integer getVisitType() {
 		return this.visitType;
+	}
+
+	public java.lang.String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(java.lang.String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	
