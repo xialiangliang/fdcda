@@ -14,20 +14,19 @@ $(function(){
 
         table.render({
             elem: '#test'
-            ,url:'/customerInfo/listJson'
-            // ,where:{nameStr:#{nameStr}, phoneStr:#{nameStr}}
+            ,url:'/customerInfo/listJson?nameStr=' + $('#nameStr').val() + '&phoneStr=' + $('#phoneStr').val()
             ,height:500
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , page:true
             ,cols: [[
                 {field:'name', title: '用户名', width:160}
                 ,{field:'phone', title: '手机', width:160}
-                ,{field:'gender', title: '性别', sort: true, width:80, templet: '#genderId'}
+                ,{field:'gender', title: '性别', width:80, templet: '#genderId'}
                 // ,{field:'nationalityStr', title: '国籍', align: 'center', width:120}
                 ,{field:'provinceStr', title: '籍贯', width:120, templet: '#addrId'}
-                ,{field:'companyid', title: '单位', width:220}
+                ,{field:'companyName', title: '单位', width:220}
                 ,{field:'createTimeStr', title: '创建时间', width:220}
-                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'22%'}
+                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'20%'}
             ]]
         });
 
@@ -36,18 +35,43 @@ $(function(){
             var data = obj.data;
             if(obj.event === 'detail'){
                 //layer.msg('ID：'+ data.id + ' 的查看操作');
-                location.href = './buyer_view.html'
+                window.location.href = "/customerInfo/find?id=" + data.id;
             } else if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
+                layer.confirm('确认删除？', function(index){
                     obj.del();
+                    $.ajax({
+                        url: '/customerInfo/delete',
+                        data: {'id': data.id},
+                        async: false,
+                        success: function (data) {
+                            if (data.success) {
+                                tip(data.message, false);
+                            } else {
+                                tip(data.message, false);
+                            }
+                        }
+                    });
                     layer.close(index);
                 });
-            }else if(obj.event === 'add'){
-                // layer.alert('编辑行：<br>'+ JSON.stringify(data))
-                location.href = './buyer_add.html'
+            } else if (obj.event === 'black'){
+                layer.confirm('确认添加到黑名单？', function(index){
+                    $.ajax({
+                        url: '/customerInfo/addToBlackList',
+                        data: {'id': data.id},
+                        async: false,
+                        success: function (data) {
+                            if (data.success) {
+                                tip(data.message, false);
+                            } else {
+                                tip(data.message, false);
+                            }
+                        }
+                    });
+                    layer.close(index);
+                });
             } else if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data))
-                location.href = './buyer_edit.html'
+                window.location.href = "/customerInfo/find?id=" + data.id;
             }
         });
 

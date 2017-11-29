@@ -2,6 +2,7 @@ package com.keyou.fdcda.home.controller.base;
 
 import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.model.SysUser;
+import com.keyou.fdcda.api.model.base.PaginationQuery;
 import org.slf4j.Logger;
 import org.springframework.ui.Model;
 
@@ -26,5 +27,14 @@ public class BaseController {
     
     public SysUser getUser(HttpServletRequest request) {
         return (SysUser) request.getSession().getAttribute(Constants.SESSION_USER);
+    }
+    
+    protected void formatPageQuery(PaginationQuery query, Integer page, Integer limit) {
+        if (page != null || page > 0) {
+            query.setPageIndex(page);
+        }
+        if (limit != null || limit > 0) {
+            query.setRowsPerPage(limit);
+        }
     }
 }

@@ -9,6 +9,7 @@ import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
 import com.keyou.fdcda.api.service.SysBlacklistApplyService;
 import com.keyou.fdcda.api.utils.Assert;
+import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.home.controller.base.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +40,11 @@ public class BlackListController extends BaseController {
 	}
 	
 	@RequestMapping("/user")
-	public String userList(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
+	public String userList(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr) throws Exception {
 		query.addQueryData("userRowId", getUser(request).getId().toString());
 		query.addQueryData("isBlack", "1");
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
 		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
@@ -49,6 +52,30 @@ public class BlackListController extends BaseController {
 		model.addAttribute("provinceMap", AreaConstants.provinceMap);
 		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/blackList/user/list";
+	}
+
+	@RequestMapping("/user/listJson")
+	@ResponseBody
+	public Map<String, Object> userListJson(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("isBlack", "1");
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
+			query.addQueryData("phone", phoneStr);
+		}
+		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		map.put("countryMap", AreaConstants.countryMap);
+		map.put("provinceMap", AreaConstants.provinceMap);
+		map.put("cityMap", AreaConstants.cityMap);
+		return map;
 	}
 
 	@RequestMapping(value="/user/remove")
@@ -71,7 +98,10 @@ public class BlackListController extends BaseController {
 	}
 	
 	@RequestMapping("/system")
-	public String systemList(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
+	public String systemList(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr) throws Exception {
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		query.addQueryData("isBlack", "2");
 		PageResult<CustomerInfo> pageList = customerInfoService.findSystemBlackPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
@@ -79,6 +109,29 @@ public class BlackListController extends BaseController {
 		model.addAttribute("provinceMap", AreaConstants.provinceMap);
 		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/blackList/system/list";
+	}
+
+	@RequestMapping("/system/listJson")
+	@ResponseBody
+	public Map<String, Object> systemListJson(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		query.addQueryData("isBlack", "2");
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
+			query.addQueryData("phone", phoneStr);
+		}
+		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		map.put("countryMap", AreaConstants.countryMap);
+		map.put("provinceMap", AreaConstants.provinceMap);
+		map.put("cityMap", AreaConstants.cityMap);
+		return map;
 	}
 
 	@RequestMapping(value="/user/applySystemBlacklist")

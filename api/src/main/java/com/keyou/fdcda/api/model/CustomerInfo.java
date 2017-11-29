@@ -42,6 +42,10 @@ public class CustomerInfo implements Serializable {
      * 单位
      */ 	
 	private Long companyid;
+	/**
+	 * 单位名称
+	 */
+	private String companyName;
     /**
      * 联系地址
      */ 	
@@ -156,7 +160,15 @@ public class CustomerInfo implements Serializable {
 	public Long getCompanyid() {
 		return this.companyid;
 	}
-	
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
 	public void setAddress(String value) {
 		this.address = value;
 	}

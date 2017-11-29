@@ -10,6 +10,7 @@
 		<result property="province" jdbcType="DECIMAL" column="PROVINCE"/>
 		<result property="city" jdbcType="DECIMAL" column="CITY"/>
 		<result property="companyid" jdbcType="DECIMAL" column="COMPANYID"/>
+		<result property="companyName" jdbcType="VARCHAR" column="COMPANY_NAME"/>
 		<result property="address" jdbcType="VARCHAR" column="ADDRESS"/>
 		<result property="imageUrl" jdbcType="VARCHAR" column="IMAGE_URL"/>
 		<result property="validFlag" jdbcType="DECIMAL" column="VALID_FLAG"/>
@@ -25,7 +26,7 @@
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,NAME ,PHONE ,GENDER ,NATIONALITY ,PROVINCE ,CITY ,COMPANYID ,ADDRESS ,IMAGE_URL ,VALID_FLAG ,CREATE_TIME ,QQ ,WEIXIN ,MODIFY_TIME ,USER_ROW_ID ,IS_BLACK ,IS_VIP ,SOURCE 
+        ID ,NAME ,PHONE ,GENDER ,NATIONALITY ,PROVINCE ,CITY ,COMPANYID ,COMPANY_NAME ,ADDRESS ,IMAGE_URL ,VALID_FLAG ,CREATE_TIME ,QQ ,WEIXIN ,MODIFY_TIME ,USER_ROW_ID ,IS_BLACK ,IS_VIP ,SOURCE 
 	    ]]>
 	</sql>
 	
@@ -43,6 +44,7 @@
         	PROVINCE ,
         	CITY ,
         	COMPANYID ,
+        	COMPANY_NAME ,
         	ADDRESS ,
         	IMAGE_URL ,
         	VALID_FLAG ,
@@ -63,6 +65,7 @@
         	#{province,jdbcType=DECIMAL} ,
         	#{city,jdbcType=DECIMAL} ,
         	#{companyid,jdbcType=DECIMAL} ,
+        	#{companyName,jdbcType=VARCHAR} ,
         	#{address,jdbcType=VARCHAR} ,
         	#{imageUrl,jdbcType=VARCHAR} ,
         	#{validFlag,jdbcType=DECIMAL} ,
@@ -102,6 +105,9 @@
 			<if test="companyid != null">
 	        COMPANYID = #{companyid,jdbcType=DECIMAL} ,
 	        </if>
+			<if test="companyName != null">
+				COMPANY_NAME = #{companyName,jdbcType=VARCHAR} ,
+			</if>
 			<if test="address != null">
 	        ADDRESS = #{address,jdbcType=VARCHAR} ,
 	        </if>
@@ -219,6 +225,9 @@
 		<if test="companyid != null and companyid.trim() != ''">
 		and COMPANYID = #{companyid}
 		</if>
+		<if test="companyName != null and companyName.trim() != ''">
+			and COMPANY_NAME = #{companyName}
+		</if>
 		<if test="address != null and address.trim() != ''">
 		and ADDRESS = #{address}
 		</if>
@@ -257,6 +266,12 @@
 		</if>
 		<if test="source != null and source.trim() != ''">
 		and SOURCE = #{source}
+		</if>
+		<if test="nameStr != null and nameStr.trim() != ''">
+			and NAME like concat(concat('%', #{nameStr}) , '%')
+		</if>
+		<if test="phoneStr != null and phoneStr.trim() != ''">
+			and PHONE like concat(concat('%', #{phoneStr}) , '%')
 		</if>
 	</sql>
 </mapper>

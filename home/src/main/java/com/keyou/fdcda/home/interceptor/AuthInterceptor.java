@@ -137,7 +137,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                     break;
                 }
                 resource = sysResourceService.findById(resource.getParentId());
-                currentPosStr = resource.getName() + " / " + currentPosStr;
+                String urlStr = resource.getName();
+                if (resource.getType().equals(1)) {
+                    urlStr = "<a href=\"" + resource.getUrl() + "\">" + resource.getName() + "</a>";
+                }
+                currentPosStr = urlStr + " / " + currentPosStr;
                 cnt--;
                 if (cnt < 0) {
                     break;
