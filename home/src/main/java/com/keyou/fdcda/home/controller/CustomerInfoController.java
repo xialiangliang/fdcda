@@ -166,8 +166,13 @@ public class CustomerInfoController extends BaseController {
 	}
 	
 	@RequestMapping
-	public String list(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
+	public String list(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr) throws Exception {
 		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
+			query.addQueryData("phone", phoneStr);
+		}
 		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
@@ -179,9 +184,15 @@ public class CustomerInfoController extends BaseController {
 
 	@RequestMapping("/listJson")
 	@ResponseBody
-	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request) throws Exception {
+	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
 		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
+			query.addQueryData("phone", phoneStr);
+		}
 		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
 		map.put("data", pageList.getRows());
 		map.put("code", 0);
