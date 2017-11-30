@@ -26,18 +26,15 @@ public class CustomerInfo implements Serializable {
     /**
      * 国籍：1中国
      */ 	
-	private Long nationality;
-    private String nationalityStr;
+	private String nationality;
     /**
      * 省份
      */ 	
-	private Long province;
-    private String provinceStr;
+	private String province;
     /**
      * 地市
      */ 	
-	private Long city;
-	private String cityStr;
+	private String city;
     /**
      * 单位
      */ 	
@@ -126,30 +123,27 @@ public class CustomerInfo implements Serializable {
 		return this.gender;
 	}
 	
-	public void setNationality(Long value) {
+	public void setNationality(String value) {
 		this.nationality = value;
-        this.nationalityStr = AreaConstants.countryMap.get(value);
 	}
 	
-	public Long getNationality() {
+	public String getNationality() {
 		return this.nationality;
 	}
 	
-	public void setProvince(Long value) {
+	public void setProvince(String value) {
 		this.province = value;
-		this.provinceStr = AreaConstants.provinceMap.get(value);
 	}
 	
-	public Long getProvince() {
+	public String getProvince() {
 		return this.province;
 	}
 	
-	public void setCity(Long value) {
+	public void setCity(String value) {
 		this.city = value;
-		this.cityStr = AreaConstants.cityMap.get(value);
 	}
 	
-	public Long getCity() {
+	public String getCity() {
 		return this.city;
 	}
 	
@@ -267,28 +261,5 @@ public class CustomerInfo implements Serializable {
 		return this.source;
 	}
 
-	public String getNationalityStr() {
-		return nationalityStr;
-	}
-
-	public void setNationalityStr(String nationalityStr) {
-		this.nationalityStr = nationalityStr;
-	}
-
-	public String getProvinceStr() {
-		return provinceStr;
-	}
-
-	public void setProvinceStr(String provinceStr) {
-		this.provinceStr = provinceStr;
-	}
-
-	public String getCityStr() {
-		return cityStr;
-	}
-
-	public void setCityStr(String cityStr) {
-		this.cityStr = cityStr;
-	}
 }
 

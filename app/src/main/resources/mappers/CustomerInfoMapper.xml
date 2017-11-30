@@ -6,9 +6,9 @@
 		<result property="name" jdbcType="VARCHAR" column="NAME"/>
 		<result property="phone" jdbcType="VARCHAR" column="PHONE"/>
 		<result property="gender" jdbcType="DECIMAL" column="GENDER"/>
-		<result property="nationality" jdbcType="DECIMAL" column="NATIONALITY"/>
-		<result property="province" jdbcType="DECIMAL" column="PROVINCE"/>
-		<result property="city" jdbcType="DECIMAL" column="CITY"/>
+		<result property="nationality" jdbcType="VARCHAR" column="NATIONALITY"/>
+		<result property="province" jdbcType="VARCHAR" column="PROVINCE"/>
+		<result property="city" jdbcType="VARCHAR" column="CITY"/>
 		<result property="companyid" jdbcType="DECIMAL" column="COMPANYID"/>
 		<result property="companyName" jdbcType="VARCHAR" column="COMPANY_NAME"/>
 		<result property="address" jdbcType="VARCHAR" column="ADDRESS"/>
@@ -61,9 +61,9 @@
         	#{name,jdbcType=VARCHAR} ,
         	#{phone,jdbcType=VARCHAR} ,
         	#{gender,jdbcType=DECIMAL} ,
-        	#{nationality,jdbcType=DECIMAL} ,
-        	#{province,jdbcType=DECIMAL} ,
-        	#{city,jdbcType=DECIMAL} ,
+        	#{nationality,jdbcType=VARCHAR} ,
+        	#{province,jdbcType=VARCHAR} ,
+        	#{city,jdbcType=VARCHAR} ,
         	#{companyid,jdbcType=DECIMAL} ,
         	#{companyName,jdbcType=VARCHAR} ,
         	#{address,jdbcType=VARCHAR} ,
@@ -94,13 +94,13 @@
 	        GENDER = #{gender,jdbcType=DECIMAL} ,
 	        </if>
 			<if test="nationality != null">
-	        NATIONALITY = #{nationality,jdbcType=DECIMAL} ,
+	        NATIONALITY = #{nationality,jdbcType=VARCHAR} ,
 	        </if>
 			<if test="province != null">
-	        PROVINCE = #{province,jdbcType=DECIMAL} ,
+	        PROVINCE = #{province,jdbcType=VARCHAR} ,
 	        </if>
 			<if test="city != null">
-	        CITY = #{city,jdbcType=DECIMAL} ,
+	        CITY = #{city,jdbcType=VARCHAR} ,
 	        </if>
 			<if test="companyid != null">
 	        COMPANYID = #{companyid,jdbcType=DECIMAL} ,

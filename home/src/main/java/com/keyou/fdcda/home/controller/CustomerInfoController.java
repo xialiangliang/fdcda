@@ -45,6 +45,7 @@ public class CustomerInfoController extends BaseController {
 		model.addAttribute("countryMap", AreaConstants.countryMap);
 		model.addAttribute("provinceMap", AreaConstants.provinceMap);
 		model.addAttribute("cityMap", AreaConstants.cityMap);
+		model.addAttribute("areaMap", AreaConstants.AreaJsonStr);
 		return "/page/customerInfo/new";
 	}
 	
@@ -58,6 +59,7 @@ public class CustomerInfoController extends BaseController {
 			model.addAttribute("countryMap", AreaConstants.countryMap);
 			model.addAttribute("provinceMap", AreaConstants.provinceMap);
 			model.addAttribute("cityMap", AreaConstants.cityMap);
+			model.addAttribute("areaMap", AreaConstants.AreaJsonStr);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/customerInfo/update";
 		} catch (Exception e) {
@@ -71,31 +73,34 @@ public class CustomerInfoController extends BaseController {
 	public Map<String, Object> save(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model, HttpServletRequest request, @RequestParam("file") MultipartFile file) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			customerInfo.setValidFlag(1);
 			Assert.isBlank(customerInfo.getName(), "姓名不能为空");
 			Assert.isNull(customerInfo.getGender(), "性别不能为空");
 			Assert.isBlank(customerInfo.getAddress(), "地址不能为空");
 			Assert.isNull(customerInfo.getCity(), "城市不能为空");
 			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
 			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
-			Assert.isNull(customerInfo.getCompanyid(), "公司不能为空");
+			Assert.isBlank(customerInfo.getCompanyName(), "公司不能为空");
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setSource(0);
 			customerInfo.setUserRowId(getUser(request).getId());
 			customerInfo.setCreateTime(new Date());
-			Assert.isNull(file, "请上传图片");
-			String fileName = file.getOriginalFilename();
-			if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {
-				Assert.isTrue(true, "图片格式不正确（jpg，png）");
+//			Assert.isNull(file, "请上传图片");
+			if (file != null) {
+				String fileName = file.getOriginalFilename();
+				if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {
+					Assert.isTrue(true, "图片格式不正确（jpg，png）");
+				}
+				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+				// 文件保存路径
+				String filePath = ImageInfoConstants.UPLOAD_IMAGE_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+				File localFile = new File(filePath);
+				file.transferTo(localFile);
+				ImageUtil.ImageInfo imageInfo = ImageUtil.getImagePixelInfo(localFile);
+				Assert.isNull(imageInfo, "图片信息获取失败，请重新上传");
+				Assert.isTrue(imageInfo.getWidth() > 700 || imageInfo.getHeight() > 700, "图片长或宽不超过700像素");
+				customerInfo.setImageUrl(filePath);
 			}
-			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-			// 文件保存路径
-			String filePath = ImageInfoConstants.UPLOAD_IMAGE_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
-			File localFile = new File(filePath);
-			file.transferTo(localFile);
-			ImageUtil.ImageInfo imageInfo = ImageUtil.getImagePixelInfo(localFile);
-			Assert.isNull(imageInfo, "图片信息获取失败，请重新上传");
-			Assert.isTrue(imageInfo.getWidth() > 700 || imageInfo.getHeight() > 700, "图片长或宽不超过700像素");
-			customerInfo.setImageUrl(filePath);
 			customerInfoService.save(customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
@@ -121,23 +126,25 @@ public class CustomerInfoController extends BaseController {
 			Assert.isNull(customerInfo.getCity(), "城市不能为空");
 			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
 			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
-			Assert.isNull(customerInfo.getCompanyid(), "公司不能为空");
+			Assert.isNull(customerInfo.getCompanyName(), "公司不能为空");
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setModifyTime(new Date());
-			Assert.isNull(file, "请上传图片");
-			String fileName = file.getOriginalFilename();
-			if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {
-				Assert.isTrue(true, "图片格式不正确（jpg，png）");
+//			Assert.isNull(file, "请上传图片");
+			if (file != null) {
+				String fileName = file.getOriginalFilename();
+				if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {
+					Assert.isTrue(true, "图片格式不正确（jpg，png）");
+				}
+				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+				// 文件保存路径
+				String filePath = ImageInfoConstants.UPLOAD_IMAGE_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+				File localFile = new File(filePath);
+				file.transferTo(localFile);
+				ImageUtil.ImageInfo imageInfo = ImageUtil.getImagePixelInfo(localFile);
+				Assert.isNull(imageInfo, "图片信息获取失败，请重新上传");
+				Assert.isTrue(imageInfo.getWidth() > 700 || imageInfo.getHeight() > 700, "图片长或宽不超过700像素");
+				customerInfo.setImageUrl(filePath);
 			}
-			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-			// 文件保存路径
-			String filePath = ImageInfoConstants.UPLOAD_IMAGE_FILE_BASE_PATH  + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
-			File localFile = new File(filePath);
-			file.transferTo(localFile);
-			ImageUtil.ImageInfo imageInfo = ImageUtil.getImagePixelInfo(localFile);
-			Assert.isNull(imageInfo, "图片信息获取失败，请重新上传");
-			Assert.isTrue(imageInfo.getWidth() > 700 || imageInfo.getHeight() > 700, "图片长或宽不超过700像素");
-			customerInfo.setImageUrl(filePath);
 			customerInfoService.update(customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
@@ -173,12 +180,7 @@ public class CustomerInfoController extends BaseController {
 		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
 			query.addQueryData("phone", phoneStr);
 		}
-		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
-		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
-		model.addAttribute("countryMap", AreaConstants.countryMap);
-		model.addAttribute("provinceMap", AreaConstants.provinceMap);
-		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/customerInfo/list";
 	}
 
@@ -202,6 +204,44 @@ public class CustomerInfoController extends BaseController {
 		map.put("countryMap", AreaConstants.countryMap);
 		map.put("provinceMap", AreaConstants.provinceMap);
 		map.put("cityMap", AreaConstants.cityMap);
+		map.put("areaMap", AreaConstants.AreaJsonStr);
+		return map;
+	}
+
+	@RequestMapping("/vipList")
+	public String vipList(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr) throws Exception {
+		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
+			query.addQueryData("phone", phoneStr);
+		}
+		model.addAttribute("query", query.getQueryData());
+		return "/page/customerInfo/vipList";
+	}
+
+	@RequestMapping("/vipListJson")
+	@ResponseBody
+	public Map<String, Object> vipListJson(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		query.addQueryData("isVip", "1");
+		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
+			query.addQueryData("phone", phoneStr);
+		}
+		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		map.put("countryMap", AreaConstants.countryMap);
+		map.put("provinceMap", AreaConstants.provinceMap);
+		map.put("cityMap", AreaConstants.cityMap);
+		map.put("areaMap", AreaConstants.AreaJsonStr);
 		return map;
 	}
 

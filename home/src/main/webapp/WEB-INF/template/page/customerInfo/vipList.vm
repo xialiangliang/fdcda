@@ -1,4 +1,4 @@
-#set($JS = ["/js/page/customerInfo/list.js"])
+#set($JS = ["/js/page/customerInfo/vipList.js"])
 <div class="yw_buyerContainer">
     <div class="yw_breadcrumb">
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
@@ -19,7 +19,7 @@
                     </div>
                     <div class="yw_formGroups ml-30">
                         <button type="submit" class="layui-btn layui-btn-normal ml-20"> 查 询</button>
-                        <button type="button" class="layui-btn layui-btn-primary ml-10 btn-add j_new-btn">添 加</button>
+##                        <button type="button" class="layui-btn layui-btn-primary ml-10 btn-add j_new-btn">添 加</button>
                     </div>
                 </div>
             </form>
@@ -29,7 +29,7 @@
 ##            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
 ##            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="add">添加</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+##            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 {{# if(d.isBlack == 0) {}}
             <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="black">添加黑名单</a>
 {{#}}}

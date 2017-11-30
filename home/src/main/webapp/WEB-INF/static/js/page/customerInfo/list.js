@@ -23,7 +23,7 @@ $(function(){
                 ,{field:'phone', title: '手机', width:160}
                 ,{field:'gender', title: '性别', width:80, templet: '#genderId'}
                 // ,{field:'nationalityStr', title: '国籍', align: 'center', width:120}
-                ,{field:'provinceStr', title: '籍贯', width:120, templet: '#addrId'}
+                ,{field:'province', title: '籍贯', width:120, templet: '#addrId'}
                 ,{field:'companyName', title: '单位', width:220}
                 ,{field:'createTimeStr', title: '创建时间', width:220}
                 ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'20%'}

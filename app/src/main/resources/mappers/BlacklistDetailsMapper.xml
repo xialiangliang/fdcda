@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.BlacklistDetailsMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.BlacklistDetails">
+		<result property="customerRowId" jdbcType="DECIMAL" column="CUSTOMER_ROW_ID"/>
+		<result property="name" jdbcType="VARCHAR" column="NAME"/>
+		<result property="accent" jdbcType="VARCHAR" column="ACCENT"/>
+		<result property="sex" jdbcType="VARCHAR" column="SEX"/>
+		<result property="birthday" jdbcType="VARCHAR" column="BIRTHDAY"/>
+		<result property="height" jdbcType="DECIMAL" column="HEIGHT"/>
+		<result property="exname" jdbcType="VARCHAR" column="EXNAME"/>
+		<result property="body" jdbcType="VARCHAR" column="BODY"/>
+		<result property="face" jdbcType="VARCHAR" column="FACE"/>
+		<result property="bodymark" jdbcType="VARCHAR" column="BODYMARK"/>
+		<result property="idp" jdbcType="VARCHAR" column="IDP"/>
+		<result property="lv" jdbcType="VARCHAR" column="LV"/>
+		<result property="publishtime" jdbcType="VARCHAR" column="PUBLISHTIME"/>
+		<result property="address" jdbcType="VARCHAR" column="ADDRESS"/>
+		<result property="reporttel" jdbcType="VARCHAR" column="REPORTTEL"/>
+		<result property="wantedid" jdbcType="VARCHAR" column="WANTEDID"/>
+		<result property="reward" jdbcType="VARCHAR" column="REWARD"/>
+		<result property="cases" jdbcType="VARCHAR" column="CASES"/>
+		<result property="createtime" jdbcType="VARCHAR" column="CREATETIME"/>
+		<result property="creator" jdbcType="VARCHAR" column="CREATOR"/>
+		<result property="views" jdbcType="DECIMAL" column="VIEWS"/>
+		<result property="headimg" jdbcType="VARCHAR" column="HEADIMG"/>
+		<!--<result property="avatarPictures" jdbcType="BLOB" column="AVATAR_PICTURES"/>-->
+		<result property="blacklistType" jdbcType="VARCHAR" column="BLACKLIST_TYPE"/>
+		<result property="noticetitle" jdbcType="VARCHAR" column="NOTICETITLE"/>
+		<result property="companyname" jdbcType="VARCHAR" column="COMPANYNAME"/>
+		<result property="companyaddress" jdbcType="VARCHAR" column="COMPANYADDRESS"/>
+		<result property="escapedate" jdbcType="VARCHAR" column="ESCAPEDATE"/>
+		<result property="amount" jdbcType="VARCHAR" column="AMOUNT"/>
+		<result property="victims" jdbcType="DECIMAL" column="VICTIMS"/>
+		<result property="noticecontent" jdbcType="VARCHAR" column="NOTICECONTENT"/>
+		<result property="bak" jdbcType="VARCHAR" column="BAK"/>
+		<result property="escapetype" jdbcType="VARCHAR" column="ESCAPETYPE"/>
+		<result property="regtype" jdbcType="VARCHAR" column="REGTYPE"/>
+		<result property="regid" jdbcType="VARCHAR" column="REGID"/>
+		<result property="updatetime" jdbcType="VARCHAR" column="UPDATETIME"/>
+		<result property="entitytype" jdbcType="VARCHAR" column="ENTITYTYPE"/>
+		<result property="updateMark" jdbcType="VARCHAR" column="UPDATE_MARK"/>
+		<result property="fileExises" jdbcType="VARCHAR" column="FILE_EXISES"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        CUSTOMER_ROW_ID ,NAME ,ACCENT ,SEX ,BIRTHDAY ,HEIGHT ,EXNAME ,BODY ,FACE ,BODYMARK ,IDP ,LV ,PUBLISHTIME ,ADDRESS ,REPORTTEL ,WANTEDID ,REWARD ,CASES ,CREATETIME ,CREATOR ,VIEWS ,HEADIMG ,BLACKLIST_TYPE ,NOTICETITLE ,COMPANYNAME ,COMPANYADDRESS ,ESCAPEDATE ,AMOUNT ,VICTIMS ,NOTICECONTENT ,BAK ,ESCAPETYPE ,REGTYPE ,REGID ,UPDATETIME ,ENTITYTYPE ,UPDATE_MARK ,FILE_EXISES 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.BlacklistDetails" useGeneratedKeys="true" keyProperty="id">
+		<!--<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >-->
+	      <!--SELECT SEQ_BLACKLIST_DETAILS.nextval AS id from dual-->
+	    <!--</selectKey>-->
+	<![CDATA[
+		INSERT INTO BLACKLIST_DETAILS (
+        	CUSTOMER_ROW_ID ,
+        	NAME ,
+        	ACCENT ,
+        	SEX ,
+        	BIRTHDAY ,
+        	HEIGHT ,
+        	EXNAME ,
+        	BODY ,
+        	FACE ,
+        	BODYMARK ,
+        	IDP ,
+        	LV ,
+        	PUBLISHTIME ,
+        	ADDRESS ,
+        	REPORTTEL ,
+        	WANTEDID ,
+        	REWARD ,
+        	CASES ,
+        	CREATETIME ,
+        	CREATOR ,
+        	VIEWS ,
+        	HEADIMG ,
+        	BLACKLIST_TYPE ,
+        	NOTICETITLE ,
+        	COMPANYNAME ,
+        	COMPANYADDRESS ,
+        	ESCAPEDATE ,
+        	AMOUNT ,
+        	VICTIMS ,
+        	NOTICECONTENT ,
+        	BAK ,
+        	ESCAPETYPE ,
+        	REGTYPE ,
+        	REGID ,
+        	UPDATETIME ,
+        	ENTITYTYPE ,
+        	UPDATE_MARK ,
+        	FILE_EXISES 
+		) VALUES (
+        	#{customerRowId,jdbcType=DECIMAL} ,
+        	#{name,jdbcType=VARCHAR} ,
+        	#{accent,jdbcType=VARCHAR} ,
+        	#{sex,jdbcType=VARCHAR} ,
+        	#{birthday,jdbcType=VARCHAR} ,
+        	#{height,jdbcType=DECIMAL} ,
+        	#{exname,jdbcType=VARCHAR} ,
+        	#{body,jdbcType=VARCHAR} ,
+        	#{face,jdbcType=VARCHAR} ,
+        	#{bodymark,jdbcType=VARCHAR} ,
+        	#{idp,jdbcType=VARCHAR} ,
+        	#{lv,jdbcType=VARCHAR} ,
+        	#{publishtime,jdbcType=VARCHAR} ,
+        	#{address,jdbcType=VARCHAR} ,
+        	#{reporttel,jdbcType=VARCHAR} ,
+        	#{wantedid,jdbcType=VARCHAR} ,
+        	#{reward,jdbcType=VARCHAR} ,
+        	#{cases,jdbcType=VARCHAR} ,
+        	#{createtime,jdbcType=VARCHAR} ,
+        	#{creator,jdbcType=VARCHAR} ,
+        	#{views,jdbcType=DECIMAL} ,
+        	#{headimg,jdbcType=VARCHAR} ,
+        	#{blacklistType,jdbcType=VARCHAR} ,
+        	#{noticetitle,jdbcType=VARCHAR} ,
+        	#{companyname,jdbcType=VARCHAR} ,
+        	#{companyaddress,jdbcType=VARCHAR} ,
+        	#{escapedate,jdbcType=VARCHAR} ,
+        	#{amount,jdbcType=VARCHAR} ,
+        	#{victims,jdbcType=DECIMAL} ,
+        	#{noticecontent,jdbcType=VARCHAR} ,
+        	#{bak,jdbcType=VARCHAR} ,
+        	#{escapetype,jdbcType=VARCHAR} ,
+        	#{regtype,jdbcType=VARCHAR} ,
+        	#{regid,jdbcType=VARCHAR} ,
+        	#{updatetime,jdbcType=VARCHAR} ,
+        	#{entitytype,jdbcType=VARCHAR} ,
+        	#{updateMark,jdbcType=VARCHAR} ,
+        	#{fileExises,jdbcType=VARCHAR} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.BlacklistDetails">
+		UPDATE BLACKLIST_DETAILS
+		<set>
+			<if test="name != null">
+	        NAME = #{name,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="accent != null">
+	        ACCENT = #{accent,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="sex != null">
+	        SEX = #{sex,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="birthday != null">
+	        BIRTHDAY = #{birthday,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="height != null">
+	        HEIGHT = #{height,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="exname != null">
+	        EXNAME = #{exname,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="body != null">
+	        BODY = #{body,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="face != null">
+	        FACE = #{face,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="bodymark != null">
+	        BODYMARK = #{bodymark,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="idp != null">
+	        IDP = #{idp,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="lv != null">
+	        LV = #{lv,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="publishtime != null">
+	        PUBLISHTIME = #{publishtime,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="address != null">
+	        ADDRESS = #{address,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="reporttel != null">
+	        REPORTTEL = #{reporttel,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="wantedid != null">
+	        WANTEDID = #{wantedid,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="reward != null">
+	        REWARD = #{reward,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="cases != null">
+	        CASES = #{cases,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="createtime != null">
+	        CREATETIME = #{createtime,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="creator != null">
+	        CREATOR = #{creator,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="views != null">
+	        VIEWS = #{views,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="headimg != null">
+	        HEADIMG = #{headimg,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="blacklistType != null">
+	        BLACKLIST_TYPE = #{blacklistType,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="noticetitle != null">
+	        NOTICETITLE = #{noticetitle,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="companyname != null">
+	        COMPANYNAME = #{companyname,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="companyaddress != null">
+	        COMPANYADDRESS = #{companyaddress,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="escapedate != null">
+	        ESCAPEDATE = #{escapedate,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="amount != null">
+	        AMOUNT = #{amount,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="victims != null">
+	        VICTIMS = #{victims,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="noticecontent != null">
+	        NOTICECONTENT = #{noticecontent,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="bak != null">
+	        BAK = #{bak,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="escapetype != null">
+	        ESCAPETYPE = #{escapetype,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="regtype != null">
+	        REGTYPE = #{regtype,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="regid != null">
+	        REGID = #{regid,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="updatetime != null">
+	        UPDATETIME = #{updatetime,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="entitytype != null">
+	        ENTITYTYPE = #{entitytype,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="updateMark != null">
+	        UPDATE_MARK = #{updateMark,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="fileExises != null">
+	        FILE_EXISES = #{fileExises,jdbcType=VARCHAR} 
+	        </if>
+	    </set>
+		WHERE CUSTOMER_ROW_ID = #{customerRowId,jdbcType=DECIMAL}
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM BLACKLIST_DETAILS WHERE CUSTOMER_ROW_ID = #{customerRowId,jdbcType=DECIMAL}
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM BLACKLIST_DETAILS 
+		WHERE CUSTOMER_ROW_ID = #{customerRowId,jdbcType=DECIMAL}
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from BLACKLIST_DETAILS where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from (
+				select <include refid="columns"/> from BLACKLIST_DETAILS ORDER BY CUSTOMER_ROW_ID DESC
+			) where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from BLACKLIST_DETAILS where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY CUSTOMER_ROW_ID DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="customerRowId != null and customerRowId.trim() != ''">
+		and CUSTOMER_ROW_ID = #{customerRowId}
+		</if>
+		<if test="name != null and name.trim() != ''">
+		and NAME = #{name}
+		</if>
+		<if test="accent != null and accent.trim() != ''">
+		and ACCENT = #{accent}
+		</if>
+		<if test="sex != null and sex.trim() != ''">
+		and SEX = #{sex}
+		</if>
+		<if test="birthday != null and birthday.trim() != ''">
+		and BIRTHDAY = #{birthday}
+		</if>
+		<if test="height != null and height.trim() != ''">
+		and HEIGHT = #{height}
+		</if>
+		<if test="exname != null and exname.trim() != ''">
+		and EXNAME = #{exname}
+		</if>
+		<if test="body != null and body.trim() != ''">
+		and BODY = #{body}
+		</if>
+		<if test="face != null and face.trim() != ''">
+		and FACE = #{face}
+		</if>
+		<if test="bodymark != null and bodymark.trim() != ''">
+		and BODYMARK = #{bodymark}
+		</if>
+		<if test="idp != null and idp.trim() != ''">
+		and IDP = #{idp}
+		</if>
+		<if test="lv != null and lv.trim() != ''">
+		and LV = #{lv}
+		</if>
+		<if test="publishtime != null and publishtime.trim() != ''">
+		and PUBLISHTIME = #{publishtime}
+		</if>
+		<if test="address != null and address.trim() != ''">
+		and ADDRESS = #{address}
+		</if>
+		<if test="reporttel != null and reporttel.trim() != ''">
+		and REPORTTEL = #{reporttel}
+		</if>
+		<if test="wantedid != null and wantedid.trim() != ''">
+		and WANTEDID = #{wantedid}
+		</if>
+		<if test="reward != null and reward.trim() != ''">
+		and REWARD = #{reward}
+		</if>
+		<if test="cases != null and cases.trim() != ''">
+		and CASES = #{cases}
+		</if>
+		<if test="createtime != null and createtime.trim() != ''">
+		and CREATETIME = #{createtime}
+		</if>
+		<if test="creator != null and creator.trim() != ''">
+		and CREATOR = #{creator}
+		</if>
+		<if test="views != null and views.trim() != ''">
+		and VIEWS = #{views}
+		</if>
+		<if test="headimg != null and headimg.trim() != ''">
+		and HEADIMG = #{headimg}
+		</if>
+		<if test="blacklistType != null and blacklistType.trim() != ''">
+		and BLACKLIST_TYPE = #{blacklistType}
+		</if>
+		<if test="noticetitle != null and noticetitle.trim() != ''">
+		and NOTICETITLE = #{noticetitle}
+		</if>
+		<if test="companyname != null and companyname.trim() != ''">
+		and COMPANYNAME = #{companyname}
+		</if>
+		<if test="companyaddress != null and companyaddress.trim() != ''">
+		and COMPANYADDRESS = #{companyaddress}
+		</if>
+		<if test="escapedate != null and escapedate.trim() != ''">
+		and ESCAPEDATE = #{escapedate}
+		</if>
+		<if test="amount != null and amount.trim() != ''">
+		and AMOUNT = #{amount}
+		</if>
+		<if test="victims != null and victims.trim() != ''">
+		and VICTIMS = #{victims}
+		</if>
+		<if test="noticecontent != null and noticecontent.trim() != ''">
+		and NOTICECONTENT = #{noticecontent}
+		</if>
+		<if test="bak != null and bak.trim() != ''">
+		and BAK = #{bak}
+		</if>
+		<if test="escapetype != null and escapetype.trim() != ''">
+		and ESCAPETYPE = #{escapetype}
+		</if>
+		<if test="regtype != null and regtype.trim() != ''">
+		and REGTYPE = #{regtype}
+		</if>
+		<if test="regid != null and regid.trim() != ''">
+		and REGID = #{regid}
+		</if>
+		<if test="updatetime != null and updatetime.trim() != ''">
+		and UPDATETIME = #{updatetime}
+		</if>
+		<if test="entitytype != null and entitytype.trim() != ''">
+		and ENTITYTYPE = #{entitytype}
+		</if>
+		<if test="updateMark != null and updateMark.trim() != ''">
+		and UPDATE_MARK = #{updateMark}
+		</if>
+		<if test="fileExises != null and fileExises.trim() != ''">
+		and FILE_EXISES = #{fileExises}
+		</if>
+	</sql>
+</mapper>
+
+

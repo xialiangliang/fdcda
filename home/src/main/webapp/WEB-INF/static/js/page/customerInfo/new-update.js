@@ -20,8 +20,9 @@ $(function(){
         },
         success: function (data) {
             if (data.success) {
-                layer.close(layer.index);
-                tip(data.message, true);
+                // layer.close(layer.index);
+                tip(data.message, false);
+                window.location.href = "/customerInfo";
             } else {
                 tip(data.message, false);
             }
@@ -35,8 +36,9 @@ $(function(){
         },
         success: function (data) {
             if (data.success) {
-                layer.close(layer.index);
-                tip(data.message, true);
+                // layer.close(layer.index);
+                tip(data.message, false);
+                window.location.href = "/customerInfo";
             } else {
                 tip(data.message, false);
             }
