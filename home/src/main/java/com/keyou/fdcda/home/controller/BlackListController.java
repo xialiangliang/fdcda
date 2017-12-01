@@ -54,6 +54,25 @@ public class BlackListController extends BaseController {
 		return "/page/blackList/user/list";
 	}
 
+	@RequestMapping(value="/user/find")
+	public String userFind(Long id, Model model, HttpServletRequest request){
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			Assert.isTrue(!customerInfo.getIsBlack().equals(1), "不在用户黑名单中");
+			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
+				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", "http://60.191.246.29:8880"));
+			}
+			model.addAttribute("param", customerInfo);
+			model.addAttribute(Constants.SUCCESS, true);
+			return "/page/blackList/user/detail";
+		} catch (Exception e) {
+			commonError(logger, e, "异常", model);
+			return "redirect:/blackList/user";
+		}
+	}
+
 	@RequestMapping("/user/listJson")
 	@ResponseBody
 	public Map<String, Object> userListJson(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
@@ -109,6 +128,25 @@ public class BlackListController extends BaseController {
 		model.addAttribute("provinceMap", AreaConstants.provinceMap);
 		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/blackList/system/list";
+	}
+
+	@RequestMapping(value="/system/find")
+	public String systemFind(Long id, Model model, HttpServletRequest request){
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(!customerInfo.getIsBlack().equals(2), "用户不在系统黑名单中");
+			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
+				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", "http://60.191.246.29:8880"));
+			}
+//			Assert.isTrue(customerInfo.getUserRowId() != null
+//					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			model.addAttribute("param", customerInfo);
+			model.addAttribute(Constants.SUCCESS, true);
+			return "/page/blackList/system/detail";
+		} catch (Exception e) {
+			commonError(logger, e, "异常", model);
+			return "redirect:/blackList/system";
+		}
 	}
 
 	@RequestMapping("/system/listJson")

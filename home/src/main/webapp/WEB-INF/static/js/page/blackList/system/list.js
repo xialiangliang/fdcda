@@ -26,7 +26,7 @@ $(function(){
                 ,{field:'provinceStr', title: '籍贯', width:120, templet: '#addrId'}
                 ,{field:'companyName', title: '单位', width:220}
                 ,{field:'modifyTimeStr', title: '拉黑时间', width:220}
-                // ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'20%'}
+                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'10%'}
             ]]
         });
 
@@ -35,7 +35,7 @@ $(function(){
             var data = obj.data;
             if(obj.event === 'detail'){
                 //layer.msg('ID：'+ data.id + ' 的查看操作');
-                window.location.href = "/customerInfo/find?id=" + data.id;
+                window.location.href = "/blackList/system/find?id=" + data.id;
             }
         });
 

@@ -14,7 +14,7 @@ $(function(){
 
         table.render({
             elem: '#test'
-            ,url:'/blackList/user/listJson?nameStr=' + $('#nameStr').val() + '&phoneStr=' + $('#phoneStr').val()
+            ,url:'/customerInfo/vipListJson?nameStr=' + $('#nameStr').val() + '&phoneStr=' + $('#phoneStr').val()
             ,height:500
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , page:true
@@ -23,10 +23,10 @@ $(function(){
                 ,{field:'phone', title: '手机', width:160}
                 ,{field:'gender', title: '性别', width:80, templet: '#genderId'}
                 // ,{field:'nationalityStr', title: '国籍', align: 'center', width:120}
-                ,{field:'provinceStr', title: '籍贯', width:120, templet: '#addrId'}
+                ,{field:'province', title: '籍贯', width:120, templet: '#addrId'}
                 ,{field:'companyName', title: '单位', width:220}
-                ,{field:'modifyTimeStr', title: '拉黑时间', width:220}
-                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'25%'}
+                ,{field:'createTimeStr', title: '创建时间', width:220}
+                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'20%'}
             ]]
         });
 
@@ -35,16 +35,17 @@ $(function(){
             var data = obj.data;
             if(obj.event === 'detail'){
                 //layer.msg('ID：'+ data.id + ' 的查看操作');
-                window.location.href = "/blackList/user/find?id=" + data.id;
-            } else if(obj.event === 'rmblack'){
+                window.location.href = "/customerInfo/find?id=" + data.id;
+            } else if(obj.event === 'del'){
                 layer.confirm('确认删除？', function(index){
+                    obj.del();
                     $.ajax({
-                        url: '/blackList/user/remove',
+                        url: '/customerInfo/delete',
                         data: {'id': data.id},
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, true);
+                                tip(data.message, false);
                             } else {
                                 tip(data.message, false);
                             }
@@ -52,15 +53,15 @@ $(function(){
                     });
                     layer.close(index);
                 });
-            } else if (obj.event === 'sysblack'){
+            } else if (obj.event === 'black'){
                 layer.confirm('确认添加到黑名单？', function(index){
                     $.ajax({
-                        url: '/blackList/user/applySystemBlacklist',
+                        url: '/customerInfo/addToBlackList',
                         data: {'id': data.id},
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, true);
+                                tip(data.message, false);
                             } else {
                                 tip(data.message, false);
                             }
@@ -76,7 +77,6 @@ $(function(){
 
 
     });
-    var dialog = $("#newUpdateDialogFrame");
 
     function tip(msg, reload) {
         layer.msg(msg,{time:1000},function () {
@@ -85,37 +85,30 @@ $(function(){
             }
         });
     }
-
-    $(".j_rmblack-btn").click(function () {
-        var id = $(this).attr("data-id")
-        $( "#dialog-confirm" ).dialog({
-            resizable: false,
-            modal: true,
-            title:'删除',
-            buttons: {
-                '确定': function () {
-                    $.ajax({
-                        url: '/blackList/user/remove',
-                        data: {'id': id},
-                        async: false,
-                        success: function (data) {
-                            if (data.success) {
-                                tip(data.message, true);
-                            } else {
-                                tip(data.message, false);
-                            }
-                        }
-                    });
-                    $(this).dialog("close");
-                },
-                '取消': function () {
-                    $(this).dialog("close");
-                }
-            }
-        }).html("确认移除？");
+    
+    $(".j_update-btn").click(function () {
+        window.location.href = "/customerInfo/find?id=" + $(this).attr("data-id");
+        // $.get('/customerInfo/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
+        //     layer.open({
+        //         type: 1,
+        //         title: "修改",
+        //         content: object.responseText
+        //     });
+        // });
     });
 
-    $(".j_applysysblack-btn").click(function () {
+    $(".j_new-btn").click(function () {
+        window.location.href = "/customerInfo/new";
+        // $.get('/customerInfo/new', {}, function (data, textStatus, object) {
+        //     layer.open({
+        //         type: 1,
+        //         title: "新建",
+        //         content: object.responseText
+        //     });
+        // });
+    });
+
+    $(".j_delete-btn").click(function () {
         var id = $(this).attr("data-id")
         $( "#dialog-confirm" ).dialog({
             resizable: false,
@@ -124,7 +117,7 @@ $(function(){
             buttons: {
                 '确定': function () {
                     $.ajax({
-                        url: '/blackList/user/applySystemBlacklist',
+                        url: '/customerInfo/delete',
                         data: {'id': id},
                         async: false,
                         success: function (data) {
@@ -141,6 +134,35 @@ $(function(){
                     $(this).dialog("close");
                 }
             }
-        }).html("申请系统黑名单？");
+        }).html("确认删除？");
+    });
+
+    $(".j_black-btn").click(function () {
+        var id = $(this).attr("data-id")
+        $( "#dialog-confirm" ).dialog({
+            resizable: false,
+            modal: true,
+            title:'删除',
+            buttons: {
+                '确定': function () {
+                    $.ajax({
+                        url: '/customerInfo/addToBlackList',
+                        data: {'id': id},
+                        async: false,
+                        success: function (data) {
+                            if (data.success) {
+                                tip(data.message, true);
+                            } else {
+                                tip(data.message, false);
+                            }
+                        }
+                    });
+                    $(this).dialog("close");
+                },
+                '取消': function () {
+                    $(this).dialog("close");
+                }
+            }
+        }).html("确认添加到黑名单？");
     });
 });

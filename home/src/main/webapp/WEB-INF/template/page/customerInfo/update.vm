@@ -33,20 +33,13 @@
             <div class="layui-inline">
                 <label class="layui-form-label">国籍</label>
                 <div class="layui-input-inline width-full">
-                    <select name="nationality" id="nationality">
-                        #foreach($k in ${countryMap.keySet()})
-                            <option value="${k}" #if($!{param.nationality}==$k) selected #end>$countryMap.get($k)</option>
-                        #end
+                    <select name="nationality" id="nationality" lay-filter="nationality">
                     </select>
                     <div class="layui-unselect layui-form-select">
                         <div class="layui-select-title">
                             <input type="text" placeholder="请选择" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i>
                         </div>
                         <dl class="layui-anim layui-anim-upbit" style="">
-                            <dd lay-value="" class="layui-select-tips">请选择</dd>
-                            #foreach($k in ${countryMap.keySet()})
-                                <dd lay-value="${k}">$countryMap.get($k)</dd>
-                            #end
                         </dl>
                     </div>
                 </div>
@@ -56,20 +49,13 @@
             <div class="layui-inline">
                 <label class="layui-form-label">省份</label>
                 <div class="layui-input-inline width-full">
-                    <select name="province" id="province">
-                        #foreach($k in ${provinceMap.keySet()})
-                            <option value="${k}" #if($!{param.province}==$k) selected #end>$provinceMap.get($k)</option>
-                        #end
+                    <select name="province" id="province" lay-filter="province">
                     </select>
                     <div class="layui-unselect layui-form-select">
                         <div class="layui-select-title">
                             <input type="text" placeholder="请选择" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i>
                         </div>
                         <dl class="layui-anim layui-anim-upbit" style="">
-                            <dd lay-value="" class="layui-select-tips">请选择</dd>
-                            #foreach($k in ${provinceMap.keySet()})
-                                <dd lay-value="${k}">$provinceMap.get($k)</dd>
-                            #end
                         </dl>
                     </div>
                 </div>
@@ -79,29 +65,22 @@
             <div class="layui-inline">
                 <label class="layui-form-label">地市</label>
                 <div class="layui-input-inline width-full">
-                    <select name="city" id="city">
-                        #foreach($k in ${cityMap.keySet()})
-                            <option value="${k}" #if($!{param.city}==$k) selected #end>$cityMap.get($k)</option>
-                        #end
+                    <select name="city" id="city" lay-filter="city">
                     </select>
                     <div class="layui-unselect layui-form-select">
                         <div class="layui-select-title">
                             <input type="text" placeholder="请选择" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i>
                         </div>
                         <dl class="layui-anim layui-anim-upbit" style="">
-                            <dd lay-value="" class="layui-select-tips">请选择</dd>
-                            #foreach($k in ${cityMap.keySet()})
-                                <dd lay-value="${k}">$cityMap.get($k)</dd>
-                            #end
                         </dl>
                     </div>
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="companyid" class="layui-form-label">单位</label>
+            <label for="companyName" class="layui-form-label">单位</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" id="companyid" name="companyid" value="$!{param.companyid}" size="50">
+                <input type="text" class="layui-input" id="companyName" name="companyName" value="$!{param.companyName}" size="50">
             </div>
         </div>
         <div class="layui-form-item">
@@ -163,3 +142,86 @@
     </form>
 </div>
 </div>
+<script>
+    var map = {};
+    map = JSON.parse('$areaMap');
+    
+    var selectedCountry = '$param.nationality';
+    var selectedProvince = '$param.province';
+    var selectedCity = '$param.city';
+
+    var htmlStr = "";
+    for (var i=0; i<map.countries.length; i++) {
+        var sel = "";
+        if (selectedCountry === map.countries[i].country) {
+            sel = "selected";
+        }
+        htmlStr = htmlStr + "<option value=\"" + map.countries[i].country + "\" " + sel + " >" + map.countries[i].country + "</option>";
+    }
+
+    $('#nationality').html(htmlStr);
+    function changeNationality() {
+        var country = $('#nationality').val();
+        if (country === null) {
+            $('#city').html("");
+            $('#country').html("");
+            return;
+        }
+        for (var i=0; i<map.countries.length; i++) {
+            if (country === map.countries[i].country) {
+                var htmlStr = "";
+                for (var j=0; j<map.countries[i].provinces.length; j++) {
+                    var sel = "";
+                    if (selectedProvince === map.countries[i].provinces[j].province) {
+                        sel = "selected";
+                    }
+                    htmlStr = htmlStr + "<option value=\"" + map.countries[i].provinces[j].province + "\" " + sel + " >" + map.countries[i].provinces[j].province + "</option>";
+                }
+                $('#province').html(htmlStr);
+                break;
+            }
+        }
+        $('#city').html("");
+    }
+    function changeProvince() {
+        var country = $('#nationality').val();
+        var province = $('#province').val();
+        if (country === null || province === null) {
+            $('#city').html("");
+            return;
+        }
+        for (var i=0; i<map.countries.length; i++) {
+            if (country === map.countries[i].country) {
+                for (var j=0; j<map.countries[i].provinces.length; j++) {
+                    console.log(map.countries[i].provinces[j].province);
+                    if (province === map.countries[i].provinces[j].province) {
+                        var htmlStr = "";
+                        for (var k=0; k<map.countries[i].provinces[j].cities.length; k++) {
+                            var sel = "";
+                            if (selectedProvince === map.countries[i].provinces[j].cities[k]) {
+                                sel = "selected";
+                            }
+                            htmlStr = htmlStr + "<option value=\"" + map.countries[i].provinces[j].cities[k] + "\" " + sel + " >" + map.countries[i].provinces[j].cities[k] + "</option>";
+                        }
+                        $('#city').html(htmlStr);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    changeNationality();
+    changeProvince();
+    layui.use('form', function() {
+        var form = layui.form;
+        form.on('select(nationality)', function (data) {
+            changeNationality();
+            form.render('select');
+        });
+        form.on('select(province)', function (data) {
+            changeProvince();
+            form.render('select');
+        });
+    });
+</script>

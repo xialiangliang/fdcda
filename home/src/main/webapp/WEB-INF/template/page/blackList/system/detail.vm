@@ -1,0 +1,75 @@
+###set($layout = "/layout/layout2.vm")
+#set($pageTitle = "title")
+#set($JS = ["/js/jquery.form.min.js", "/js/page/customerInfo/new-update.js"])
+<div class="yw_buyerContainer">
+<div class="yw_breadcrumb">
+    当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+</div>
+<div class="yw_box">
+    <form class="layui-form">
+        <input type="hidden" name="id" value="$!{param.id}" />
+        <div class="layui-form-item">
+            <img src = "$!{param.imageUrl}"/>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">采购商姓名</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label" style="width: 400px;">$!{param.name}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">手机号</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label" style="width: 400px;">$!{param.phone}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="gender" class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label">#if($!{param.gender}==0)男#elseif($!{param.gender}==1)女#end</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="nationality" class="layui-form-label">籍贯</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label" style="width: 400px;">$!{param.province}$!{param.city}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="companyName" class="layui-form-label">单位</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label" style="width: 400px;">$!{param.companyName}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="qq" class="layui-form-label">联系qq</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label" style="width: 400px;">$!{param.qq}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="weixin" class="layui-form-label">微信号</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label" style="width: 400px;">$!{param.weixin}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="isBlack" class="layui-form-label">拉黑时间</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label" style="width: 400px;">$!{param.modifyTimeStr}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="isVip" class="layui-form-label">拉黑原因</label>
+            <div class="layui-input-block">
+                <label class="layui-form-label" style="width: 400px;">未知</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <a href="/blackList/system" class="layui-btn layui-btn-normal">关闭</a>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
