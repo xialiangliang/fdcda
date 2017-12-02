@@ -6,7 +6,7 @@
     当前位置：<a href="javascript:;">$!{currentPosStr}</a>
 </div>
 <div class="yw_box">
-    <form class="layui-form">
+    <form action="/customerInfo/update"  method="post" class="form-horizontal layui-form" id="updateForm_customerInfo">
         <input type="hidden" name="id" value="$!{param.id}" />
         <div class="layui-form-item">
             <label class="layui-form-label">采购商姓名</label>
@@ -62,11 +62,11 @@
                 <label class="layui-form-label" style="width: 400px;">$!{param.modifyTime}</label>
             </div>
         </div>
-    </form>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" onclick="window.location.href='/blackList/user'">关闭</button>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn layui-btn-normal">申请</button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 </div>

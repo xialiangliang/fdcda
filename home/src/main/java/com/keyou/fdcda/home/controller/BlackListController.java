@@ -115,6 +115,42 @@ public class BlackListController extends BaseController {
 		}
 		return map;
 	}
+
+	@RequestMapping(value="/user/applySystemBlacklist/page")
+	public String applySystemPage(Long id, Model model, HttpServletRequest request) throws Exception {
+		CustomerInfo customerInfo = customerInfoService.findById(id);
+		Assert.isTrue(customerInfo.getUserRowId() != null
+				&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+		Assert.isTrue(!customerInfo.getIsBlack().equals(1), "不在用户黑名单中");
+		if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
+			customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", "http://60.191.246.29:8880"));
+		}
+		model.addAttribute("param", customerInfo);
+		model.addAttribute(Constants.SUCCESS, true);
+		return "/page/blackList/user/applySystemPage";
+	}
+
+	@RequestMapping(value="/user/applySystemBlacklist")
+	@ResponseBody
+	public Map<String, Object> applySystemBlacklist(Long id, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			SysBlacklistApply sysBlacklistApply = new SysBlacklistApply();
+			sysBlacklistApply.setCreateTime(new Date());
+			sysBlacklistApply.setCustomerId(customerInfo.getId());
+			sysBlacklistApply.setState(0);
+			sysBlacklistApply.setUserId(getUser(request).getId());
+			sysBlacklistApplyService.save(sysBlacklistApply);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "等待审核");
+		} catch (Exception e) {
+			commonError(logger, e,"申请系统黑名单异常",map);
+		}
+		return map;
+	}
 	
 	@RequestMapping("/system")
 	public String systemList(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr) throws Exception {
@@ -169,28 +205,6 @@ public class BlackListController extends BaseController {
 		map.put("countryMap", AreaConstants.countryMap);
 		map.put("provinceMap", AreaConstants.provinceMap);
 		map.put("cityMap", AreaConstants.cityMap);
-		return map;
-	}
-
-	@RequestMapping(value="/user/applySystemBlacklist")
-	@ResponseBody
-	public Map<String, Object> applySystemBlacklist(Long id, HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			CustomerInfo customerInfo = customerInfoService.findById(id);
-			Assert.isTrue(customerInfo.getUserRowId() != null
-					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
-			SysBlacklistApply sysBlacklistApply = new SysBlacklistApply();
-			sysBlacklistApply.setCreateTime(new Date());
-			sysBlacklistApply.setCustomerId(customerInfo.getId());
-			sysBlacklistApply.setState(0);
-			sysBlacklistApply.setUserId(getUser(request).getId());
-			sysBlacklistApplyService.save(sysBlacklistApply);
-			map.put(Constants.SUCCESS, true);
-			map.put(Constants.MESSAGE, "等待审核");
-		} catch (Exception e) {
-			commonError(logger, e,"申请系统黑名单异常",map);
-		}
 		return map;
 	}
 	

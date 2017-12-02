@@ -39,6 +39,11 @@ public class CustomerInfoController extends BaseController {
 	
 	@Autowired
 	private CustomerInfoService customerInfoService;
+
+	@RequestMapping(value="/manage")
+	public String page(Model model) throws Exception {
+		return "redirect:/customerInfo";
+	}
 	
 	@RequestMapping(value="/new")
 	public String add(Model model) throws Exception {		

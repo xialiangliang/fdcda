@@ -10,8 +10,6 @@ $(function(){
         });
     }
 
-    var dialog = $("#newUpdateDialogFrame");
-
     newForm.ajaxForm({
         beforeSerialize: function () {
             if ($('#file').val() === '') {

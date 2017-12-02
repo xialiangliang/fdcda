@@ -131,4 +131,14 @@ public class IndexController extends BaseController {
     public String customer(Model model) {
         return "/nopermit";
     }
+
+    @RequestMapping("customerManage")
+    public String customerManage(Model model) {
+        return "/nopermit";
+    }
+
+    @RequestMapping("vipManage")
+    public String vipManage(Model model) {
+        return "/nopermit";
+    }
 }
