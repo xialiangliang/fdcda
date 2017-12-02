@@ -18,32 +18,39 @@ import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.constants.ImageInfoConstants;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.VisitRecordInfo;
-import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
+import com.keyou.fdcda.api.service.CustomerInfoService;
 import com.keyou.fdcda.api.service.VisitRecordInfoService;
 import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.home.controller.base.BaseController;
 
 @Controller
-@RequestMapping("/visitRecordInfo")
+@RequestMapping
 public class VisitRecordInfoController extends BaseController {
 	private static Logger log = Logger.getLogger(VisitRecordInfoController.class);
 
 	@Autowired
 	private VisitRecordInfoService visitRecordInfoService;
+	
+	@Autowired
+	private CustomerInfoService customerInfoService;
 
-	@RequestMapping(value = "/new")
+	@RequestMapping(value = "/visitRecord")
+	public String visitRecord() throws Exception {
+		return "redirect:/visitRecordInfo";
+	}
+
+	@RequestMapping(value = "/visitRecordInfo/new")
 	public String add() throws Exception {
 		return "/visitRecordInfo/new";
 	}
 
-	@RequestMapping(value = "/find")
-	public String find(Long id, Model model) {
+	@RequestMapping(value = "/visitRecordInfo/findDistinguish")
+	public String findDistinguish(Long id, Model model) {
 		try {
-			VisitRecordInfo visitRecordInfo = visitRecordInfoService.findById(id);
-			model.addAttribute("param", visitRecordInfo);
+			 
 			model.addAttribute(Constants.SUCCESS, true);
-			return "/visitRecordInfo/update";
+			return "/page/customerInfo/distinguish";
 		} catch (Exception e) {
 			log.error(e);
 			model.addAttribute(Constants.SUCCESS, false);
@@ -52,7 +59,7 @@ public class VisitRecordInfoController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/save")
+	@RequestMapping(value = "/visitRecordInfo/save")
 	public String save(@ModelAttribute("visitRecordInfo") VisitRecordInfo visitRecordInfo, Model model) {
 		try {
 			visitRecordInfoService.save(visitRecordInfo);
@@ -67,7 +74,7 @@ public class VisitRecordInfoController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/update")
+	@RequestMapping(value = "/visitRecordInfo/update")
 	public String update(@ModelAttribute("visitRecordInfo") VisitRecordInfo visitRecordInfo, Model model)
 			throws Exception {
 		try {
@@ -83,7 +90,7 @@ public class VisitRecordInfoController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/delete")
+	@RequestMapping(value = "/visitRecordInfo/delete")
 	public String delete(Long id, Model model) throws Exception {
 		try {
 			visitRecordInfoService.deleteById(id);
@@ -97,29 +104,8 @@ public class VisitRecordInfoController extends BaseController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String list(PaginationQuery query, Model model) throws Exception {
-		PageResult<VisitRecordInfo> pageList = visitRecordInfoService.findPage(query);
-		model.addAttribute("result", pageList);
-		model.addAttribute("query", query.getQueryData());
-		return "/visitRecordInfo/list";
-	}
-	
-	private void dealUrl(List<VisitRecordInfo> list){
-		if (list != null && !list.isEmpty()) {
-			for (VisitRecordInfo info : list) {
-				Integer type = info.getVisitType();
-				if (type != null&&StringUtil.isNotBlank(info.getImageUrl())) {
-					String url = info.getImageUrl();
-					info.setImageUrl(ImageInfoConstants.STATIC_IMAGE_SERVER_URL+url.substring(url.indexOf("deal")));
-					 
-				}
-			}
-		}
-	}
-
-	@RequestMapping(value = "/visitIndex",method = RequestMethod.GET)
-	public String index(HttpServletRequest request, Model model) throws Exception {
+	@RequestMapping(value="/visitRecordInfo", method = RequestMethod.GET)
+	public String list(PaginationQuery query, Model model,HttpServletRequest request) throws Exception {
 		SysUser sysUser = getUser(request);
 		if (sysUser == null) {
 			return "redirect:/login";
@@ -179,7 +165,19 @@ public class VisitRecordInfoController extends BaseController {
 		model.addAttribute("vipList", vipList);
 		model.addAttribute("normalNotList", normalNotList);
 		model.addAttribute("normalNotCount", normalNotCount);
-		
-		return "/page/index";
+		return "/page/visitinfo/list";
 	}
+	   private void dealUrl(List<VisitRecordInfo> list){
+			if (list != null && !list.isEmpty()) {
+				for (VisitRecordInfo info : list) {
+					Integer type = info.getVisitType();
+					if (type != null&&StringUtil.isNotBlank(info.getImageUrl())) {
+						String url = info.getImageUrl();
+						info.setImageUrl(ImageInfoConstants.STATIC_IMAGE_SERVER_URL+url.substring(url.indexOf("deal")));
+						 
+					}
+				}
+			}
+		}
+	
 }

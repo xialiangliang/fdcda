@@ -1,0 +1,91 @@
+#set($page_title = "记录查看")
+#set($JS = ["js/layui/layui.js"])
+#set($JS = ["js/common.js"])
+#set($JS = ["js/custom.js"])
+        <div class="yw_buyerContainer">
+            <!--breadcrumb-->
+           
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+    </div>
+
+            <div class="yw_visitorInfo">
+                <div class="yw_visitorDetails">
+                    <p class="yw_visitorDetails__thumb">
+                        <img src="images/thumb2.jpg" alt="">
+                    </p>
+                    <div class="yw_visitorDetails__content">
+                        <p>采购商名：曾文富</p>
+                        <p>手机号码：18989898989</p>
+                        <p>性别：男</p>
+                        <p>国籍：中国</p>
+                        <p>籍贯：浙江杭州</p>
+                        <p>联系地址：杭州市古墩路1118号中创国际</p>
+                    </div>
+                </div>
+                <!--信用评价-->
+                <div class="yw_evaluate mt-20">
+                    <form  class="yw_evaluate__form">
+                        <span>信用评价：</span>
+                        <label class="radio-inline">
+                            <input type="radio" name="evaluateRadio"  value="0" checked> 全部
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="evaluateRadio"  value="1"> 好评
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="evaluateRadio" value="2"> 中评
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="evaluateRadio" value="3"> 差评
+                        </label>
+                    </form>
+                </div>
+                <ul class="yw_evaluateItem">
+                    <li class="yw_evaluateItem__list">
+                        <div class="yw_evaluateItem__list__bar">
+                            <div class="yw_evaluateMsg">
+                                <p>工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+                                    能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。</p>
+                                <p>
+                                    <img src="images/thumb3.jpg" alt="">
+                                    <img src="images/thumb3.jpg" alt="">
+                                </p>
+                            </div>
+                            <div class="yw_evaluateID">
+                                <p>蔡**</p>
+                                <p>2017.08.21</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yw_evaluateItem__list">
+                        <div class="yw_evaluateItem__list__bar">
+                            <div class="yw_evaluateMsg">
+                                工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+                                能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。
+                            </div>
+                            <div class="yw_evaluateID">
+                                <p>蔡**</p>
+                                <p>2017.08.21</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yw_evaluateItem__list">
+                        <div class="yw_evaluateItem__list__bar">
+                            <div class="yw_evaluateMsg">
+                                工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+                                能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。
+                            </div>
+                            <div class="yw_evaluateID">
+                                <p>蔡**</p>
+                                <p>2017.08.21</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+
+    

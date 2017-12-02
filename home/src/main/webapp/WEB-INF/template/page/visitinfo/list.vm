@@ -1,0 +1,134 @@
+###set($layout = "/templates/layout/layout.vm")
+###set($CSS = ["scripts/css/index.css"])
+###set($JS = ["scripts/js/jquery-1.11.3.js"])
+#set($page_title = "后台管理系统")
+#set($JS = ["js/layui/layui.js"])
+#set($JS = ["js/common.js"])
+#set($JS = ["js/custom.js"])
+        <div class="yw_buyerContainer">
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+    </div>
+         <!--Search-->
+        <div class="yw_searchBar">
+            <form class="form-inline" id="visitorForm">
+                <div class="yw_formGroups">
+                    <div class="form-group">
+                        <label for="mobile">手机号：</label>
+                        <input type="text" class="form-control" id="mobile" name="mobile">
+                    </div>
+                    <div class="form-group ml-10 mr-10">
+                    <label for="visitorName">姓名：</label>
+                    <input type="text" class="form-control" id="visitorName" name="visitorName">
+                </div>
+                </div>
+                <div class="yw_formGroups">
+                    <div class="form-group">
+                        <label >到访日期：</label>
+                        <input type="text" class="form-control" name="startTime" id="startTime" readonly size="16">
+                    </div>
+                   
+                    <button type="submit" class="layui-btn layui-btn-normal ml-20">查 询</button>
+                </div>
+            </form>
+        </div>
+            <section class="yw_visitor">
+                <div class="yw_visitor__header yw_visitor__header-vip">
+                    <i class="yw_visitorIcon yw_visitorIcon-vip"></i>
+                    <span class="fl ml-10">老顾客</span>
+                    <span class="fr mr-10">$!{vipCount}人</span>
+                </div>
+                <div class="yw_visitor__content">
+                    <ul class="yw_visitorItem clearfix">
+                     #foreach($row in $vipList)
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="/visitRecordInfo/findDistinguish"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">$!{row.name}</p>
+                            <p class="text-center mt-5">$!{row.phone}</p>
+                        </li>
+                     #end
+                    </ul>
+                </div>
+            </section>
+            <section class="yw_visitor mt-20">
+                <div class="yw_visitor__header yw_visitor__header-suspect">
+                    <i class="yw_visitorIcon yw_visitorIcon-suspect"></i>
+                    <span class="fl ml-10">可疑人员</span>
+                    <span class="fr mr-10">$!{blackCount}人</span>
+                </div>
+                <div class="yw_visitor__content">
+                    <ul class="yw_visitorItem clearfix">
+                    
+                        #foreach($row in $blackList)
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="/visitRecordInfo/findDistinguish"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">$!{row.name}</p>
+                            <p class="text-center mt-5">$!{row.phone}</p>
+                        </li>
+                    	#end
+                    </ul>
+                </div>
+            </section>
+            <section class="yw_visitor mt-20">
+                <div class="yw_visitor__header yw_visitor__header-primary">
+                    <i class="yw_visitorIcon yw_visitorIcon-primary"></i>
+                    <span class="fl ml-10">已识别访客</span>
+                    <span class="fr mr-10">$!{normalCountt}人</span>
+                </div>
+                <div class="yw_visitor__content">
+                    <ul class="yw_visitorItem clearfix">
+                    
+                       #foreach($row in $normalList)
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">$!{row.name}</p>
+                            <p class="text-center mt-5">$!{row.phone}</p>
+                        </li>
+                       #end
+                        
+                    </ul>
+                </div>
+            </section>
+            
+             <section class="yw_visitor mt-20">
+                <div class="yw_visitor__header yw_visitor__header-primary">
+                    <i class="yw_visitorIcon yw_visitorIcon-primary"></i>
+                    <span class="fl ml-10">未识别访客</span>
+                    <span class="fr mr-10">$!{normalNotCount}人</span>
+                </div>
+                <div class="yw_visitor__content">
+                    <ul class="yw_visitorItem clearfix">
+                    
+                       #foreach($row in $normalNotList)
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="./visitor_infos.html"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">$!{row.name}</p>
+                            <p class="text-center mt-5">$!{row.phone}</p>
+                        </li>
+                       #end
+                        
+                    </ul>
+                </div>
+            </section>
+        </div>
+        <div class="yw_visitorDigital ">
+            <div class="yw_visitorDigitalMain">
+                <p class="yw_visitorDigitalMain__title">今日来访人数</p>
+                <p class="yw_visitorDigitalMain__num c-blue">$!{totalCount}</p>
+
+                <p class="yw_visitorDigitalMain__title mt-30">老顾客人数</p>
+                <p class="yw_visitorDigitalMain__num c-yellow">$!{vipCount}</p>
+
+                <p class="yw_visitorDigitalMain__title mt-30">可疑人员人数</p>
+                <p class="yw_visitorDigitalMain__num c-red">$!{blackCount}</p>
+            </div>
+        </div>
+        </div>
