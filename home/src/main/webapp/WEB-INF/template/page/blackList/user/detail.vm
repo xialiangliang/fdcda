@@ -17,7 +17,7 @@
                 <p>性别：#if($!{param.gender}==0)男#elseif($!{param.gender}==1)女#end</p>
                 <p>国籍：$!{param.nationality}</p>
                 <p>籍贯：$!{param.province}$!{param.city}</p>
-                <p>联系地址：$!{param.addredd}</p>
+                <p>联系地址：$!{param.address}</p>
                 <p>单位：$!{param.companyName}</p>
                 <p>联系qq：$!{param.qq}</p>
                 <p>微信号：$!{param.weixin}</p>

@@ -250,6 +250,25 @@ public class CustomerInfoController extends BaseController {
 		return map;
 	}
 
+	@RequestMapping(value="/rmVip")
+	@ResponseBody
+	public Map<String, Object> rmVip(Long id, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			customerInfo.setIsVip(0);
+			customerInfo.setModifyTime(new Date());
+			customerInfoService.update(customerInfo);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "移除VI成功");
+		} catch (Exception e) {
+			commonError(logger, e,"移除VI异常",map);
+		}
+		return map;
+	}
+
 	@RequestMapping(value="/addToBlackList")
 	@ResponseBody
 	public Map<String, Object> addToBlackList(Long id, HttpServletRequest request) throws Exception {

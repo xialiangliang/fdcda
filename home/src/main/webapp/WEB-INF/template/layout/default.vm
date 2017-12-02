@@ -13,7 +13,7 @@
     <script src="/js/layui/layui.js"></script>
 
     <script src="/js/custom.js"></script>
-    
+
     
 ##    <script src="/js/jquery.min.js" type="application/javascript"></script>
 ##    <script src="/js/jquery.md5.js" type="application/javascript"></script>
@@ -46,7 +46,7 @@
     
     #if($!{CSS})
         #foreach($_css in ${CSS})
-            <link type="text/css" rel="stylesheet" href="{$_css}">
+            <link type="text/css" rel="stylesheet" href="${_css}">
         #end
     #end
 ##    <script>

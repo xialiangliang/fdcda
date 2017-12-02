@@ -54,14 +54,16 @@ $(function(){
                     layer.close(index);
                 });
             } else if (obj.event === 'black'){
-                layer.confirm('确认添加到黑名单？', function(index){
+                layer.confirm('确认添加到黑名单？', { title:'确认添加到黑名单？',
+                    content: '<textarea placeholder="拉黑原因" rows="3" cols="50" class="layui-textarea"></textarea>'
+                }, function(index){
                     $.ajax({
                         url: '/customerInfo/addToBlackList',
                         data: {'id': data.id},
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, false);
+                                tip(data.message, true);
                             } else {
                                 tip(data.message, false);
                             }

@@ -143,10 +143,10 @@ public class BlackListController extends BaseController {
 			Assert.isTrue(customerInfo.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 			SysBlacklistApply sysBlacklistApply = new SysBlacklistApply();
-			sysBlacklistApply.setCreateTime(new Date());
-			sysBlacklistApply.setCustomerId(customerInfo.getId());
-			sysBlacklistApply.setState(0);
-			sysBlacklistApply.setUserId(getUser(request).getId());
+//			sysBlacklistApply.setCreateTime(new Date());
+//			sysBlacklistApply.setCustomerId(customerInfo.getId());
+//			sysBlacklistApply.setState(0);
+//			sysBlacklistApply.setUserId(getUser(request).getId());
 			sysBlacklistApplyService.save(sysBlacklistApply);
 			map.put(Constants.SUCCESS, true);
 			map.put(Constants.MESSAGE, "等待审核");

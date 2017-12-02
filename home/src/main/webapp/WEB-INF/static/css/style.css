@@ -7746,14 +7746,14 @@ a:hover {
   overflow: hidden;
 }
 
-.yw_header__left .logo {
+.yw_header__left img.logo {
   width: 70px;
   height: 70px;
 }
 
 .yw_header__left__caption {
   color: #E2840E;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 /*Menu*/
@@ -7878,6 +7878,10 @@ a:hover {
   background-color: #3899F3;
 }
 
+.yw_visitor__header-normal {
+  background-color: #009688;
+}
+
 .yw_visitorIcon {
   position: absolute;
   left: -40px;
@@ -7899,6 +7903,19 @@ a:hover {
 
 .yw_visitorIcon-primary {
   background-image: url("/upload/img/icon_visitor.png");
+}
+
+.yw_visitorIcon-normal {
+  background-image: url("/upload/img/icon_visitor.png");
+}
+
+.yw_visitor__content {
+  /*@at-root .yw_visitorMoreBox {
+        float: left;
+        width: 140px;
+        margin-right: 30px;
+        margin-top: 20px;
+      }*/
 }
 
 .yw_visitorItem__list {

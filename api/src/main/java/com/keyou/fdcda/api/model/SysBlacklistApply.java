@@ -1,120 +1,167 @@
 package com.keyou.fdcda.api.model; 
 
 import java.io.Serializable;
+import java.util.List;
+
 import com.keyou.fdcda.api.utils.DateUtil;
 
 public class SysBlacklistApply implements Serializable {
 	private static final long serialVersionUID = 1L;
     /**
-     * 主键id
+     * 主键
      */ 	
-	private Long id;
-    /**
-     * 采购商id
-     */ 	
-	private Long customerId;
+	private Long checkRowId;
     /**
      * 用户id
      */ 	
-	private Long userId;
+	private Long userRowId;
     /**
-     * 图片url
+     * 采购商id
      */ 	
-	private String images;
+	private Long customerRowId;
     /**
      * 备注
      */ 	
-	private String memo;
+	private String reason;
     /**
-     * 状态 0-新申请 1-同意 2-不同意
+     * 多个文件以;隔开
      */ 	
-	private Integer state;
+	private String fileUrl;
+    /**
+     * 0新建1审核通过2驳回
+     */ 	
+	private Integer status;
     /**
      * 创建时间
      */ 	
-	private java.util.Date createTime;
-	private String createTimeStr;
+	private java.util.Date createDate;
+	private String createDateStr;
     /**
      * 修改时间
      */ 	
-	private java.util.Date modifyTime;
-	private String modifyTimeStr;
+	private java.util.Date modifyDate;
+	private String modifyDateStr;
+	
+	List<String> fileUrlList;
+
+	/**
+	 * 提交人
+	 */
+	String userName;
+	/**
+	 * 采购商姓名
+	 */
+	String customerName;
+	/**
+	 * 采购商手机号
+	 */
+	String customerPhone;
 
 	
-	public void setId(Long value) {
-		this.id = value;
+	public void setCheckRowId(Long value) {
+		this.checkRowId = value;
 	}
 	
-	public Long getId() {
-		return this.id;
+	public Long getCheckRowId() {
+		return this.checkRowId;
 	}
 	
-	public void setCustomerId(Long value) {
-		this.customerId = value;
+	public void setUserRowId(Long value) {
+		this.userRowId = value;
 	}
 	
-	public Long getCustomerId() {
-		return this.customerId;
+	public Long getUserRowId() {
+		return this.userRowId;
 	}
 	
-	public void setUserId(Long value) {
-		this.userId = value;
+	public void setCustomerRowId(Long value) {
+		this.customerRowId = value;
 	}
 	
-	public Long getUserId() {
-		return this.userId;
+	public Long getCustomerRowId() {
+		return this.customerRowId;
 	}
 	
-	public void setImages(String value) {
-		this.images = value;
+	public void setReason(String value) {
+		this.reason = value;
 	}
 	
-	public String getImages() {
-		return this.images;
+	public String getReason() {
+		return this.reason;
 	}
 	
-	public void setMemo(String value) {
-		this.memo = value;
+	public void setFileUrl(String value) {
+		this.fileUrl = value;
 	}
 	
-	public String getMemo() {
-		return this.memo;
+	public String getFileUrl() {
+		return this.fileUrl;
 	}
 	
-	public void setState(Integer value) {
-		this.state = value;
+	public void setStatus(Integer value) {
+		this.status = value;
 	}
 	
-	public Integer getState() {
-		return this.state;
+	public Integer getStatus() {
+		return this.status;
 	}
 	
-	public void setCreateTime(java.util.Date value) {
-		this.createTimeStr =DateUtil.getDate(value, "yyyy-MM-dd HH:mm:ss");
-		this.createTime = value;
+	public void setCreateDate(java.util.Date value) {
+		this.createDateStr =DateUtil.getDate(value, "yyyy-MM-dd HH:mm:ss");
+		this.createDate = value;
 	}
 	
-	public java.util.Date getCreateTime() {
-		return this.createTime;
+	public java.util.Date getCreateDate() {
+		return this.createDate;
 	}
 	
-	public String getCreateTimeStr() {
-		return this.createTimeStr;
+	public String getCreateDateStr() {
+		return this.createDateStr;
 	}
 	
-	public void setModifyTime(java.util.Date value) {
-		this.modifyTimeStr =DateUtil.getDate(value, "yyyy-MM-dd HH:mm:ss");
-		this.modifyTime = value;
+	public void setModifyDate(java.util.Date value) {
+		this.modifyDateStr =DateUtil.getDate(value, "yyyy-MM-dd HH:mm:ss");
+		this.modifyDate = value;
 	}
 	
-	public java.util.Date getModifyTime() {
-		return this.modifyTime;
+	public java.util.Date getModifyDate() {
+		return this.modifyDate;
 	}
 	
-	public String getModifyTimeStr() {
-		return this.modifyTimeStr;
+	public String getModifyDateStr() {
+		return this.modifyDateStr;
 	}
 
-	
+	public List<String> getFileUrlList() {
+		return fileUrlList;
+	}
+
+	public void setFileUrlList(List<String> fileUrlList) {
+		this.fileUrlList = fileUrlList;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
 }
 

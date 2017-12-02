@@ -50,6 +50,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
+        String ss = request.getRequestURI();
         String uri = request.getRequestURI().replace(request.getContextPath(), "");
         SysUser user = (SysUser) session.getAttribute(Constants.SESSION_USER);
         

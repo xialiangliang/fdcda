@@ -14,18 +14,16 @@ $(function(){
 
         table.render({
             elem: '#test'
-            ,url:'/customerInfo/vipListJson?nameStr=' + $('#nameStr').val() + '&phoneStr=' + $('#phoneStr').val()
+            ,url:'/sysBlackCheck/listJson'
             ,height:500
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , page:true
             ,cols: [[
-                {field:'name', title: '用户名', width:160}
-                ,{field:'phone', title: '手机', width:160}
-                ,{field:'gender', title: '性别', width:80, templet: '#genderId'}
+                {field:'userName', title: '提交人', width:160}
+                ,{field:'createDateStr', title: '提交时间', width:160}
+                ,{field:'customerName', title: '采购商姓名', width:160, templet: '#genderId'}
                 // ,{field:'nationalityStr', title: '国籍', align: 'center', width:120}
-                ,{field:'province', title: '籍贯', width:120, templet: '#addrId'}
-                ,{field:'companyName', title: '单位', width:220}
-                ,{field:'createTimeStr', title: '创建时间', width:220}
+                ,{field:'customerPhone', title: '采购商手机号', width:120, templet: '#addrId'}
                 ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'20%'}
             ]]
         });
@@ -35,43 +33,7 @@ $(function(){
             var data = obj.data;
             if(obj.event === 'detail'){
                 //layer.msg('ID：'+ data.id + ' 的查看操作');
-                window.location.href = "/customerInfo/find?id=" + data.id;
-            } else if(obj.event === 'del'){
-                layer.confirm('确认删除？', function(index){
-                    obj.del();
-                    $.ajax({
-                        url: '/customerInfo/delete',
-                        data: {'id': data.id},
-                        async: false,
-                        success: function (data) {
-                            if (data.success) {
-                                tip(data.message, false);
-                            } else {
-                                tip(data.message, false);
-                            }
-                        }
-                    });
-                    layer.close(index);
-                });
-            } else if (obj.event === 'rmvip'){
-                layer.confirm('确认移除VIP？', function(index){
-                    $.ajax({
-                        url: '/customerInfo/rmVip',
-                        data: {'id': data.id},
-                        async: false,
-                        success: function (data) {
-                            if (data.success) {
-                                tip(data.message, true);
-                            } else {
-                                tip(data.message, false);
-                            }
-                        }
-                    });
-                    layer.close(index);
-                });
-            } else if(obj.event === 'edit'){
-                // layer.alert('编辑行：<br>'+ JSON.stringify(data))
-                window.location.href = "/customerInfo/find?id=" + data.id;
+                window.location.href = "/sysBlackCheck/find?id=" + data.id;
             }
         });
 
