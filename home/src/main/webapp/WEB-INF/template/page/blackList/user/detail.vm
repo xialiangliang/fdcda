@@ -6,66 +6,89 @@
     当前位置：<a href="javascript:;">$!{currentPosStr}</a>
 </div>
 <div class="yw_box">
-    <form class="layui-form">
         <input type="hidden" name="id" value="$!{param.id}" />
-        <div class="layui-form-item">
-            <label class="layui-form-label">采购商姓名</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label" style="width: 400px;">$!{param.name}</label>
+        <div class="yw_visitorDetails">
+            <p class="yw_visitorDetails__thumb">
+                <img src="$!{param.imageUrl}" alt="">
+            </p>
+            <div class="yw_visitorDetails__content">
+                <p>采购商名：$!{param.name}</p>
+                <p>手机号码：$!{param.phone}</p>
+                <p>性别：#if($!{param.gender}==0)男#elseif($!{param.gender}==1)女#end</p>
+                <p>国籍：$!{param.nationality}</p>
+                <p>籍贯：$!{param.province}$!{param.city}</p>
+                <p>联系地址：$!{param.addredd}</p>
+                <p>单位：$!{param.companyName}</p>
+                <p>联系qq：$!{param.qq}</p>
+                <p>微信号：$!{param.weixin}</p>
+                <p>拉黑时间：$!{param.modifyTimeStr}</p>
+                <p>拉黑原因：$!{param.modifyTime}</p>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="phone" class="layui-form-label">手机号</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label" style="width: 400px;">$!{param.phone}</label>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="gender" class="layui-form-label">性别</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label">#if($!{param.gender}==0)男#elseif($!{param.gender}==1)女#end</label>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="nationality" class="layui-form-label">籍贯</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label" style="width: 400px;">$!{param.province}$!{param.city}</label>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="companyName" class="layui-form-label">单位</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label" style="width: 400px;">$!{param.companyName}</label>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="qq" class="layui-form-label">联系qq</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label" style="width: 400px;">$!{param.qq}</label>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="weixin" class="layui-form-label">微信号</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label" style="width: 400px;">$!{param.weixin}</label>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="isBlack" class="layui-form-label">拉黑时间</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label" style="width: 400px;">$!{param.modifyTimeStr}</label>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="isVip" class="layui-form-label">拉黑原因</label>
-            <div class="layui-input-block">
-                <label class="layui-form-label" style="width: 400px;">$!{param.modifyTime}</label>
-            </div>
-        </div>
-    </form>
+##        <!--信用评价-->
+##        <div class="yw_evaluate mt-20">
+##            <form  class="yw_evaluate__form">
+##                <span>信用评价：</span>
+##                <label class="radio-inline">
+##                    <input type="radio" name="evaluateRadio"  value="0" checked> 全部
+##                </label>
+##                <label class="radio-inline">
+##                    <input type="radio" name="evaluateRadio"  value="1"> 好评
+##                </label>
+##                <label class="radio-inline">
+##                    <input type="radio" name="evaluateRadio" value="2"> 中评
+##                </label>
+##                <label class="radio-inline">
+##                    <input type="radio" name="evaluateRadio" value="3"> 差评
+##                </label>
+##            </form>
+##        </div>
+##        <ul class="yw_evaluateItem">
+##            <li class="yw_evaluateItem__list">
+##                <div class="yw_evaluateItem__list__bar">
+##                    <div class="yw_evaluateMsg">
+##                        <p>工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+##                            能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。</p>
+##                        <p>
+##                            <img src="images/thumb3.jpg" alt="">
+##                            <img src="images/thumb3.jpg" alt="">
+##                        </p>
+##                    </div>
+##                    <div class="yw_evaluateID">
+##                        <p>蔡**</p>
+##                        <p>2017.08.21</p>
+##                    </div>
+##                </div>
+##            </li>
+##            <li class="yw_evaluateItem__list">
+##                <div class="yw_evaluateItem__list__bar">
+##                    <div class="yw_evaluateMsg">
+##                        工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+##                        能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。
+##                    </div>
+##                    <div class="yw_evaluateID">
+##                        <p>蔡**</p>
+##                        <p>2017.08.21</p>
+##                    </div>
+##                </div>
+##            </li>
+##            <li class="yw_evaluateItem__list">
+##                <div class="yw_evaluateItem__list__bar">
+##                    <div class="yw_evaluateMsg">
+##                        工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+##                        能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。
+##                    </div>
+##                    <div class="yw_evaluateID">
+##                        <p>蔡**</p>
+##                        <p>2017.08.21</p>
+##                    </div>
+##                </div>
+##            </li>
+##        </ul>
+    
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" onclick="window.location.href='/blackList/user'">关闭</button>
+            <button class="layui-btn layui-btn-normal" onclick="window.location.href='/blackList/user'">返回</button>
         </div>
     </div>
 </div>

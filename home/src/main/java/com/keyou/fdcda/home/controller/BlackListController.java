@@ -2,10 +2,12 @@ package com.keyou.fdcda.home.controller;
 
 import com.keyou.fdcda.api.constants.AreaConstants;
 import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.model.BlacklistDetails;
 import com.keyou.fdcda.api.model.CustomerInfo;
 import com.keyou.fdcda.api.model.SysBlacklistApply;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
+import com.keyou.fdcda.api.service.BlacklistDetailsService;
 import com.keyou.fdcda.api.service.CustomerInfoService;
 import com.keyou.fdcda.api.service.SysBlacklistApplyService;
 import com.keyou.fdcda.api.utils.Assert;
@@ -33,6 +35,8 @@ public class BlackListController extends BaseController {
 	private CustomerInfoService customerInfoService;
 	@Autowired
 	private SysBlacklistApplyService sysBlacklistApplyService;
+	@Autowired
+	private BlacklistDetailsService blacklistDetailsService;
 
 	@RequestMapping
 	public String list() throws Exception {
@@ -169,6 +173,8 @@ public class BlackListController extends BaseController {
 	@RequestMapping(value="/system/find")
 	public String systemFind(Long id, Model model, HttpServletRequest request){
 		try {
+			// TODO zzq
+			id = 6081L;
 			CustomerInfo customerInfo = customerInfoService.findById(id);
 			Assert.isTrue(!customerInfo.getIsBlack().equals(2), "用户不在系统黑名单中");
 			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
@@ -176,7 +182,10 @@ public class BlackListController extends BaseController {
 			}
 //			Assert.isTrue(customerInfo.getUserRowId() != null
 //					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+
+			BlacklistDetails blacklistDetails = blacklistDetailsService.findById(customerInfo.getId());
 			model.addAttribute("param", customerInfo);
+			model.addAttribute("blacklistDetails", blacklistDetails);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/blackList/system/detail";
 		} catch (Exception e) {
