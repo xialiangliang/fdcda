@@ -102,8 +102,8 @@
 ##        </ul>
 
     <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" onclick="window.location.href='/blackList/user'">返回</button>
+        <div class="layui-input-block" align = "right">
+            <button class="layui-btn layui-btn-normal" onclick="history.back(-1)">返回</button>
         </div>
     </div>
 </div>

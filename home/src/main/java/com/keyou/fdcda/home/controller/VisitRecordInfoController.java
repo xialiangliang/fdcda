@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.constants.ImageInfoConstants;
+import com.keyou.fdcda.api.model.ImageInfo;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.VisitRecordInfo;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
+import com.keyou.fdcda.api.service.ImageInfoService;
 import com.keyou.fdcda.api.service.VisitRecordInfoService;
 import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.home.controller.base.BaseController;
@@ -31,9 +33,12 @@ public class VisitRecordInfoController extends BaseController {
 
 	@Autowired
 	private VisitRecordInfoService visitRecordInfoService;
-	
+
 	@Autowired
 	private CustomerInfoService customerInfoService;
+
+	@Autowired
+	private ImageInfoService imageInfoService;
 
 	@RequestMapping(value = "/visitRecord")
 	public String visitRecord() throws Exception {
@@ -48,7 +53,10 @@ public class VisitRecordInfoController extends BaseController {
 	@RequestMapping(value = "/visitRecordInfo/findDistinguish")
 	public String findDistinguish(Long id, Model model) {
 		try {
-			 
+			ImageInfo info = imageInfoService.findById(id);
+			String url = info.getImageUrl();
+			info.setImageUrl(ImageInfoConstants.STATIC_IMAGE_SERVER_URL + url.substring(url.indexOf("deal")));
+			model.addAttribute("info", info);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/customerInfo/distinguish";
 		} catch (Exception e) {
@@ -104,8 +112,8 @@ public class VisitRecordInfoController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value="/visitRecordInfo", method = RequestMethod.GET)
-	public String list(PaginationQuery query, Model model,HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/visitRecordInfo", method = RequestMethod.GET)
+	public String list(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
 		SysUser sysUser = getUser(request);
 		if (sysUser == null) {
 			return "redirect:/login";
@@ -115,23 +123,23 @@ public class VisitRecordInfoController extends BaseController {
 		map.put("userRowId", sysUser.getId());
 		// 总访问量
 		Long totalCount = visitRecordInfoService.findPageCount(map);
-		
+
 		map.put("visitType", ImageInfoConstants.VISIT_TYPE_2);
 		Long vipCount = visitRecordInfoService.findPageCount(map);
-		
+
 		map.put("visitType", ImageInfoConstants.VISIT_TYPE_1);
 		Long normalCount = visitRecordInfoService.findPageCount(map);
-		
+
 		// 未识别普通访客
-	    map.put("visitType", ImageInfoConstants.VISIT_TYPE_0);
-	    Long normalNotCount = visitRecordInfoService.findPageCount(map);
-		
-	    // 可疑人员数
-	    map.remove("visitType");
+		map.put("visitType", ImageInfoConstants.VISIT_TYPE_0);
+		Long normalNotCount = visitRecordInfoService.findPageCount(map);
+
+		// 可疑人员数
+		map.remove("visitType");
 		map.put("visitTypeblack", "1");
 		Long blackCount = visitRecordInfoService.findPageCount(map);
-		 map.remove("visitTypeblack");
-	    
+		map.remove("visitTypeblack");
+
 		map.put("endRecord", 10);
 		map.put("startRecord", 0);
 		// 会员数
@@ -139,23 +147,22 @@ public class VisitRecordInfoController extends BaseController {
 		List<VisitRecordInfo> vipList = visitRecordInfoService.findAllPage(map);
 		// 已识别普通访客
 		map.put("visitType", ImageInfoConstants.VISIT_TYPE_1);
-	    List<VisitRecordInfo> normalList = visitRecordInfoService.findAllPage(map);
-	    
-	    // 未识别普通访客
-	    map.put("visitType", ImageInfoConstants.VISIT_TYPE_0);
-	    List<VisitRecordInfo> normalNotList = visitRecordInfoService.findAllPage(map);
-		
+		List<VisitRecordInfo> normalList = visitRecordInfoService.findAllPage(map);
+
+		// 未识别普通访客
+		map.put("visitType", ImageInfoConstants.VISIT_TYPE_0);
+		List<VisitRecordInfo> normalNotList = visitRecordInfoService.findAllPage(map);
+
 		// 可疑人员数
-	    map.remove("visitType");
+		map.remove("visitType");
 		map.put("visitTypeblack", "1");
 		List<VisitRecordInfo> blackList = visitRecordInfoService.findAllPage(map);
-		
 
 		dealUrl(blackList);
 		dealUrl(vipList);
 		dealUrl(normalList);
 		dealUrl(normalNotList);
-		
+
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("blackCount", blackCount);
 		model.addAttribute("blackList", blackList);
@@ -167,17 +174,20 @@ public class VisitRecordInfoController extends BaseController {
 		model.addAttribute("normalNotCount", normalNotCount);
 		return "/page/visitinfo/list";
 	}
-	   private void dealUrl(List<VisitRecordInfo> list){
-			if (list != null && !list.isEmpty()) {
-				for (VisitRecordInfo info : list) {
-					Integer type = info.getVisitType();
-					if (type != null&&StringUtil.isNotBlank(info.getImageUrl())) {
-						String url = info.getImageUrl();
-						info.setImageUrl(ImageInfoConstants.STATIC_IMAGE_SERVER_URL+url.substring(url.indexOf("deal")));
-						 
-					}
+
+	private void dealUrl(List<VisitRecordInfo> list) {
+		if (list != null && !list.isEmpty()) {
+			for (VisitRecordInfo info : list) {
+				Integer type = info.getVisitType();
+				if (type != null && StringUtil.isNotBlank(info.getImageUrl())) {
+					String url = info.getImageUrl();
+					info.setImageUrl(ImageInfoConstants.STATIC_IMAGE_SERVER_URL + url.substring(url.indexOf("deal")));
+
 				}
 			}
 		}
+	}
 	
+	
+
 }

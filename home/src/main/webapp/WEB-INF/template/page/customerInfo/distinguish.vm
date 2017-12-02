@@ -12,7 +12,7 @@
             <div class="yw_visitorInfo">
                 <div class="yw_visitorDetails">
                     <p class="yw_visitorDetails__thumb">
-                        <img src="images/thumb2.jpg" alt="">
+                        <img src="$!{info.imageUrl}" alt="">
                     </p>
                     <div class="yw_visitorDetails__content">
                         <p>采购商名：曾文富</p>

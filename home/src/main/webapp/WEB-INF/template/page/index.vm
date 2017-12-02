@@ -17,7 +17,7 @@
                      #foreach($row in $vipList)
                         <li class="yw_visitorItem__list">
                             <p class="yw_visitorItem__list__thumb">
-                                <a href="./visitor_infos.html"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                                <a href="/visitRecordInfo/findDistinguish?id=$!{row.imageRowId}"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
                             </p>
                             <p class="text-center mt-5">$!{row.name}</p>
                             <p class="text-center mt-5">$!{row.phone}</p>
@@ -38,7 +38,7 @@
                         #foreach($row in $blackList)
                         <li class="yw_visitorItem__list">
                             <p class="yw_visitorItem__list__thumb">
-                                <a href="./visitor_infos.html"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                                <a href="/blackList/system/find"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
                             </p>
                             <p class="text-center mt-5">$!{row.name}</p>
                             <p class="text-center mt-5">$!{row.phone}</p>
@@ -59,7 +59,7 @@
                        #foreach($row in $normalList)
                         <li class="yw_visitorItem__list">
                             <p class="yw_visitorItem__list__thumb">
-                                <a href="./visitor_infos.html"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                                <a href="/visitRecordInfo/findDistinguish?id=$!{row.imageRowId}"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
                             </p>
                             <p class="text-center mt-5">$!{row.name}</p>
                             <p class="text-center mt-5">$!{row.phone}</p>
@@ -82,7 +82,7 @@
                        #foreach($row in $normalNotList)
                         <li class="yw_visitorItem__list">
                             <p class="yw_visitorItem__list__thumb">
-                                <a href="./visitor_infos.html"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                                <a href="/customerInfo/new"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
                             </p>
                             <p class="text-center mt-5">$!{row.name}</p>
                             <p class="text-center mt-5">$!{row.phone}</p>

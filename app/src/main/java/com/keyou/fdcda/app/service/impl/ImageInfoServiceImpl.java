@@ -24,7 +24,7 @@ public class ImageInfoServiceImpl implements ImageInfoService {
 
 	@Override
 	public ImageInfo findById(Long id) {
-		return null;
+		return imageInfoMapper.findById(id);
 	}
 
 	@Override

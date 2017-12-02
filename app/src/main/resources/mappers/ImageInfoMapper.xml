@@ -88,7 +88,7 @@
 	]]>
 	</delete>
     
-	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
 	    SELECT <include refid="columns"/> 
 	<![CDATA[
 		FROM IMAGE_INFO 
