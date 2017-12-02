@@ -42,7 +42,44 @@ $(function(){
             }
         }
     });
-    $(".btn-close").click(function () {
-        layer.close(layer.index);
+    $(".btn-success").click(function () {
+        layer.confirm('确认通过？', function (index) {
+            $.ajax({
+                url: '/sysBlackCheck/check',
+                data: {'id': $('#id').val(), 'status':1},
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        layer.msg(data.message,{time:1000},function () {
+                            window.location.href = '/sysBlackCheck';
+                        });
+                    } else {
+                        layer.msg(data.message,{time:1000},function () {
+                        });
+                    }
+                }
+            });
+            layer.close(index);
+        });
+    });
+    $(".btn-failed").click(function () {
+        layer.confirm('确认驳回？', function (index) {
+            $.ajax({
+                url: '/sysBlackCheck/check',
+                data: {'id': $('#id').val(), 'status':2},
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        layer.msg(data.message,{time:1000},function () {
+                            window.location.href = '/sysBlackCheck';
+                        });
+                    } else {
+                        layer.msg(data.message,{time:1000},function () {
+                        });
+                    }
+                }
+            });
+            layer.close(index);
+        });
     });
 });

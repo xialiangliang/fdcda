@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keyou.fdcda.app.dao.SysBlacklistApplyMapper">	
 	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysBlacklistApply">
-		<result property="checkRowId" jdbcType="DECIMAL" column="CHECK_ROW_ID"/>
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
 		<result property="userRowId" jdbcType="DECIMAL" column="USER_ROW_ID"/>
 		<result property="customerRowId" jdbcType="DECIMAL" column="CUSTOMER_ROW_ID"/>
 		<result property="reason" jdbcType="VARCHAR" column="REASON"/>
@@ -14,7 +14,7 @@
 	
 	<sql id="columns">
 	    <![CDATA[
-        CHECK_ROW_ID ,USER_ROW_ID ,CUSTOMER_ROW_ID ,REASON ,FILE_URL ,STATUS ,CREATE_DATE ,MODIFY_DATE 
+        ID ,USER_ROW_ID ,CUSTOMER_ROW_ID ,REASON ,FILE_URL ,STATUS ,CREATE_DATE ,MODIFY_DATE 
 	    ]]>
 	</sql>
 	
@@ -24,7 +24,7 @@
 	    </selectKey>
 	<![CDATA[
 		INSERT INTO SYS_BLACKLIST_APPLY (
-        	CHECK_ROW_ID ,
+        	ID ,
         	USER_ROW_ID ,
         	CUSTOMER_ROW_ID ,
         	REASON ,
@@ -33,7 +33,7 @@
         	CREATE_DATE ,
         	MODIFY_DATE 
 		) VALUES (
-        	#{checkRowId,jdbcType=DECIMAL} ,
+        	#{id,jdbcType=DECIMAL} ,
         	#{userRowId,jdbcType=DECIMAL} ,
         	#{customerRowId,jdbcType=DECIMAL} ,
         	#{reason,jdbcType=VARCHAR} ,
@@ -71,13 +71,13 @@
 	        </if>
 	    </set>
 		WHERE 
-	        CHECK_ROW_ID = #{checkRowId,jdbcType=DECIMAL} 
+	        ID = #{id,jdbcType=DECIMAL} 
 	</update>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
 	<![CDATA[
 		DELETE FROM SYS_BLACKLIST_APPLY WHERE
-        CHECK_ROW_ID = #{checkRowId} 
+        ID = #{id} 
 	]]>
 	</delete>
     
@@ -86,7 +86,7 @@
 	<![CDATA[
 		FROM SYS_BLACKLIST_APPLY 
 		WHERE 
-        CHECK_ROW_ID = #{checkRowId} 
+        ID = #{id} 
 	]]>
 	</select>
 	 
@@ -113,8 +113,8 @@
 	</select>
 	
 	<sql id="queryWhere">
-		<if test="checkRowId != null and checkRowId.trim() != ''">
-		and CHECK_ROW_ID = #{checkRowId}
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
 		</if>
 		<if test="userRowId != null and userRowId.trim() != ''">
 		and USER_ROW_ID = #{userRowId}

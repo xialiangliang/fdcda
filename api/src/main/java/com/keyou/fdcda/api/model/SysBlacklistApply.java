@@ -10,7 +10,7 @@ public class SysBlacklistApply implements Serializable {
     /**
      * 主键
      */ 	
-	private Long checkRowId;
+	private Long id;
     /**
      * 用户id
      */ 	
@@ -41,7 +41,7 @@ public class SysBlacklistApply implements Serializable {
      */ 	
 	private java.util.Date modifyDate;
 	private String modifyDateStr;
-	
+
 	List<String> fileUrlList;
 
 	/**
@@ -56,14 +56,13 @@ public class SysBlacklistApply implements Serializable {
 	 * 采购商手机号
 	 */
 	String customerPhone;
-
 	
-	public void setCheckRowId(Long value) {
-		this.checkRowId = value;
+	public void setId(Long value) {
+		this.id = value;
 	}
 	
-	public Long getCheckRowId() {
-		return this.checkRowId;
+	public Long getId() {
+		return this.id;
 	}
 	
 	public void setUserRowId(Long value) {

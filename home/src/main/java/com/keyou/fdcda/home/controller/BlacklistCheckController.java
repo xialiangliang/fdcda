@@ -56,6 +56,16 @@ public class BlacklistCheckController extends BaseController {
 				urlList.addAll(Arrays.asList(urls));
 				sysBlacklistApply.setFileUrlList(urlList);
 			}
+			SysUser user = sysUserService.findById(sysBlacklistApply.getUserRowId());
+			CustomerInfo customerInfo = customerInfoService.findById(sysBlacklistApply.getCustomerRowId());
+			if (user != null) {
+				sysBlacklistApply.setUserName(user.getUsername());
+			}
+			if (customerInfo != null) {
+				sysBlacklistApply.setCustomerName(customerInfo.getName());
+				sysBlacklistApply.setCustomerPhone(customerInfo.getPhone());
+				model.addAttribute("customerInfo", customerInfo);
+			}
 			model.addAttribute("param", sysBlacklistApply);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysBlackCheck/update";
@@ -95,25 +105,28 @@ public class BlacklistCheckController extends BaseController {
 
 	@RequestMapping("/check")
 	@ResponseBody
-	public Map<String, Object> check(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
+	public Map<String, Object> check(PaginationQuery query,Model model, HttpServletRequest request, Long id, Integer status) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		this.formatPageQuery(query, page, limit);
-		query.addQueryData("userRowId", getUser(request).getId().toString());
-		query.addQueryData("isBlack", "1");
-		query.addQueryData("nameStr", nameStr);
-		query.addQueryData("phoneStr", phoneStr);
-		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
-			query.addQueryData("phone", phoneStr);
+		SysBlacklistApply sysBlacklistApply = sysBlacklistApplyService.findById(id);
+		map.put(Constants.SUCCESS, false);
+		if (sysBlacklistApply.getStatus().equals(0)) {
+			if (status != null && status.equals(1)) {
+				sysBlacklistApply.setStatus(1);
+				sysBlacklistApply.setModifyDate(new Date());
+				sysBlacklistApplyService.update(sysBlacklistApply);
+				map.put(Constants.SUCCESS, true);
+				map.put(Constants.MESSAGE, "通过成功");
+			} else if (status != null && status.equals(2)) {
+				sysBlacklistApply.setStatus(2);
+				sysBlacklistApply.setModifyDate(new Date());
+				sysBlacklistApplyService.update(sysBlacklistApply);
+				map.put(Constants.SUCCESS, true);
+				map.put(Constants.MESSAGE, "驳回成功");
+			} else {
+				map.put(Constants.SUCCESS, false);
+				map.put(Constants.MESSAGE, "未知状态");
+			}
 		}
-		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
-		map.put("data", pageList.getRows());
-		map.put("code", 0);
-		map.put("msg", "");
-		map.put("count", pageList.getRowCount());
-		map.put("query", query.getQueryData());
-		map.put("countryMap", AreaConstants.countryMap);
-		map.put("provinceMap", AreaConstants.provinceMap);
-		map.put("cityMap", AreaConstants.cityMap);
 		return map;
 	}
 

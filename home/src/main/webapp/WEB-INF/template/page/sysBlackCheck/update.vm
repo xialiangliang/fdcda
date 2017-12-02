@@ -1,20 +1,34 @@
 ###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($JS = ["/js/jquery.form.min.js", "/js/page/customerInfo/new-update.js"])
+#set($JS = ["/js/jquery.form.min.js", "/js/page/sysBlackCheck/new-update.js"])
 <div class="yw_buyerContainer">
-<div class="yw_breadcrumb">
-    当前位置：<a href="javascript:;">$!{currentPosStr}</a>
-</div>
-<div class="col-sm-12">
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button type="button" class="layui-btn layui-btn-normal">通过</button>
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+    </div>
+    <input type="hidden" name="id" id="id" value="$!{param.id}" />
+    <div class="yw_box">
+        <div class="layui-form-item">
+        <div class="yw_visitorDetails__content">
+            <p>采购商姓名：$!{customerInfo.name}</p>
+            <p>手机号码：$!{customerInfo.phone}</p>
+            <p>性别：#if($!{customerInfo.gender}==0)男#elseif($!{customerInfo.gender}==1)女#end</p>
+            <p>国籍：$!{customerInfo.nationality}</p>
+            <p>籍贯：$!{customerInfo.province}$!{customerInfo.city}</p>
+            <p>联系地址：$!{customerInfo.address}</p>
+            <p>单位：$!{customerInfo.companyName}</p>
+            <p>提交时间：$!{param.createDateStr}</p>
+            <p>拉黑原因：$!{param.reason}</p>
+            <p>图片证据：</p>
+            #foreach($item in ${param.fileUrlList})
+                <img src="$item" alt="">
+            #end
+        </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-normal btn-success">通过</button>
+                <button type="button" class="layui-btn layui-btn-normal btn-failed">驳回</button>
+            </div>
         </div>
     </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button type="button" class="layui-btn layui-btn-normal">驳回</button>
-        </div>
-    </div>
-</div>
 </div>
