@@ -210,4 +210,9 @@ public class IndexController extends BaseController {
     public String customer(Model model) {
         return "/nopermit";
     }
+
+    @RequestMapping("visit")
+    public String visit(Model model) {
+        return "/nopermit";
+    }
 }
