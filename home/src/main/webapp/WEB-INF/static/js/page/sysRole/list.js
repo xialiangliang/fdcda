@@ -4,6 +4,7 @@ $(function(){
     $(".j_update-btn").click(function () {
         $.get('/sysRole/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
             layer.open({
+                area:'800px',
                 type: 1,
                 content: object.responseText
             });
@@ -29,29 +30,20 @@ $(function(){
 
     $(".j_delete-btn").click(function () {
         var id = $(this).attr("data-id");
-        $( "#dialog-confirm" ).dialog({
-            resizable: false,
-            modal: true,
-            buttons: {
-                '确定': function () {
-                    $.ajax({
-                        url: '/sysRole/delete',
-                        data: {'id': id},
-                        async: false,
-                        success: function (data) {
-                            if (data.success) {
-                                tip(data.message, true);
-                            } else {
-                                tip(data.message, false);
-                            }
-                        }
-                    });
-                    $(this).dialog("close");
-                },
-                '取消': function () {
-                    $(this).dialog("close");
+        layer.confirm('确认删除？', function(index){
+            $.ajax({
+                url: '/sysRole/delete',
+                data: {'id': id},
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        tip(data.message, true);
+                    } else {
+                        tip(data.message, false);
+                    }
                 }
-            }
+            });
+            layer.close(index);
         });
     });
 });
