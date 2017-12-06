@@ -70,6 +70,7 @@ public class DealOriginalImagesTasklet implements Tasklet {
 
 		List<ImageInfo> imageInfos = new ArrayList<>();
 		String todayFileName = DateUtil.getDate(DateUtil.DATE_FORMAT);
+		String todayOriginalDataName = DateUtil.getDate("yyyy_MM_dd-yyyy_MM_dd");
 		File file = new File(rootPath + originalPath);
 		if (file.exists() && file.isDirectory()) {
 			File[] files = file.listFiles();
@@ -90,7 +91,7 @@ public class DealOriginalImagesTasklet implements Tasklet {
 									String fileType = getFileType(images[k].getName());
 									if (imageTypeList.contains(fileType.toUpperCase())) {
 										String createFileDate = FileUtil.getFileModifiedTime(images[k]) ;
-										String newPath = images[k].getPath().replace(originalPath, dealPath);
+										String newPath = images[k].getPath().replace(todayOriginalDataName,todayFileName).replace(originalPath, dealPath);
 										// 拷贝 到处理后的目录，并删除原来的文件
 										boolean result = dealFile(images[k], new File(newPath));
 
