@@ -1,7 +1,7 @@
 ###set($layout = "/templates/layout/layout.vm")
 ###set($CSS = ["scripts/css/index.css"])
 ###set($JS = ["scripts/js/jquery-1.11.3.js"])
-#set($page_title = "后台管理系统")
+#set($page_title = "国际商贸城人脸识别大数据平台")
 #set($JS = ["js/layui/layui.js"])
 #set($JS = ["js/common.js"])
 #set($JS = ["js/custom.js"])

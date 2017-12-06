@@ -1,7 +1,7 @@
 ###set($layout = "/templates/layout/layout.vm")
 ###set($CSS = ["scripts/css/index.css"])
 ###set($JS = ["scripts/js/jquery-1.11.3.js"])
-#set($page_title = "义乌商城人脸识别大数据平台")
+#set($page_title = "国际商贸城人脸识别大数据平台")
 ##<script src="https://cdn.bootcss.com/jsencrypt/2.3.1/jsencrypt.min.js"></script>
 <script src="/js/jquery.md5.js"></script>
 <script src="https://cdn.bootcss.com/js-sha512/0.4.0/sha512.min.js"></script>
@@ -12,7 +12,7 @@
 <div class="yw_loginBg">
 
     <div class="yw_login">
-        <h1 class="yw_login__headline">义乌商城人脸识别大数据平台</h1>
+        <h1 class="yw_login__headline">国际商贸城人脸识别大数据平台</h1>
         <h2 class="yw_login__title">商城登录</h2>
         <input type="hidden" id="token" value="${token}">
         <div class="yw_login__content">

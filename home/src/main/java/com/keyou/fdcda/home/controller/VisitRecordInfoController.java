@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,9 @@ public class VisitRecordInfoController extends BaseController {
 
 	@Autowired
 	private ImageInfoService imageInfoService;
+	
+	@Autowired
+	private UrlConfig urlConfig;
 
 	@RequestMapping(value = "/visitRecord")
 	public String visitRecord() throws Exception {
@@ -55,7 +59,7 @@ public class VisitRecordInfoController extends BaseController {
 		try {
 			ImageInfo info = imageInfoService.findById(id);
 			String url = info.getImageUrl();
-			info.setImageUrl(ImageInfoConstants.STATIC_IMAGE_SERVER_URL + url.substring(url.indexOf("deal")));
+			info.setImageUrl(urlConfig.getImgPath() + "/" + url.substring(url.indexOf("deal")));
 			model.addAttribute("info", info);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/customerInfo/distinguish";
@@ -181,7 +185,7 @@ public class VisitRecordInfoController extends BaseController {
 				Integer type = info.getVisitType();
 				if (type != null && StringUtil.isNotBlank(info.getImageUrl())) {
 					String url = info.getImageUrl();
-					info.setImageUrl(ImageInfoConstants.STATIC_IMAGE_SERVER_URL + url.substring(url.indexOf("deal")));
+					info.setImageUrl(urlConfig.getImgPath() + "/" + url.substring(url.indexOf("deal")));
 
 				}
 			}

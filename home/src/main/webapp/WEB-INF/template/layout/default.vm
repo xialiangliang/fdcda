@@ -58,6 +58,8 @@
             <script type="text/javascript" src="${_js}"></script>
         #end
     #end
+    
+    <title>$!{page_title}</title>
 
 </head>
 

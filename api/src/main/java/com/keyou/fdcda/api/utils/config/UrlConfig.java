@@ -13,11 +13,22 @@ public class UrlConfig implements Serializable {
     @Value("#{staticUrlConfig['url.web_address']}")
     private String webPath;
 
+    @Value("#{staticUrlConfig['url.img_address']}")
+    private String imgPath;
+
     public String getWebPath() {
         return webPath;
     }
 
     public void setWebPath(String webPath) {
         this.webPath = webPath;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 }

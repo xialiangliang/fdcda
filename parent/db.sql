@@ -379,7 +379,7 @@ NOCYCLE
 NOCACHE;
 
 
--- 系统黑名单申请表
+-- 经侦黑名单申请表
 create table sys_blacklist_apply
 (
   id NUMBER(11) not null PRIMARY KEY,
@@ -391,7 +391,7 @@ create table sys_blacklist_apply
   create_time DATE,
   modify_time DATE
 );
-comment on table  sys_blacklist_apply is '系统黑名单申请';
+comment on table  sys_blacklist_apply is '经侦黑名单申请';
 comment on column sys_blacklist_apply.id is '主键id';
 comment on column sys_blacklist_apply.customer_id is '采购商id';
 comment on column sys_blacklist_apply.user_id is '用户id';
@@ -436,7 +436,7 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICO
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, ID, 'VIP管理', '/customerInfo/vipManage', 1, 2, 'glyphicon-th', 1, 'VIP管理', sysdate, sysdate from SYS_RESOURCE where URL = '/customer';
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '用户黑名单', '/blackList/user', 1, 3, 'glyphicon-th', 2, '用户黑名单', sysdate, sysdate from SYS_RESOURCE where URL = '/blackList';
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '系统黑名单', '/blackList/system', 1, 3, 'glyphicon-th', 2, '系统黑名单', sysdate, sysdate from SYS_RESOURCE where URL = '/blackList';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '经侦黑名单', '/blackList/system', 1, 3, 'glyphicon-th', 2, '经侦黑名单', sysdate, sysdate from SYS_RESOURCE where URL = '/blackList';
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) select SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customerInfo'), '信息录入', '/customerInfo', 1, 2, 'glyphicon-th', 1, '信息录入', sysdate, sysdate from SYS_RESOURCE where URL = '/customerInfo/manage';
 
@@ -471,19 +471,21 @@ INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICO
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '采购商管理/查看', '/customerInfo/listJson', 2, null, 'glyphicon-th', 1, '查看', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '采购商管理/新增', '/customerInfo/new;/customerInfo/save', 2, null, 'glyphicon-th', 1, '新增', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '采购商管理/导入', '/customerInfo/batchnew;/customerInfo/batchnew/save', 2, null, 'glyphicon-th', 1, '导入', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '采购商管理/修改', '/customerInfo/find;/customerInfo/update', 2, null, 'glyphicon-th', 2, '修改', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '采购商管理/删除', '/customerInfo/delete', 2, null, 'glyphicon-th', 3, '删除', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '采购商管理/添加黑名单', '/customerInfo/addToBlackList', 2, null, 'glyphicon-th', 4, '添加黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo';
 
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '查看我的VIP', '/customerInfo/vipListJson', 2, null, 'glyphicon-th', 4, '查看我的VIP', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo/vipList';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '移除VIP', '/customerInfo/rmVip', 2, null, 'glyphicon-th', 4, '移除VIP', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo/vipList';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '加入VIP', '/customerInfo/addVip', 2, null, 'glyphicon-th', 4, '加入VIP', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/customerInfo/vipList';
 
 -- INSERT INTO SYS_RESOURCE (ID, PARENT_ID, NAME, URL, TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, '黑名单管理/用户黑名单', '/blackList/user', 2, 'glyphicon-th', 1, '用户黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '查看用户黑名单', '/blackList/user/listJson;/blackList/user/find', 2, null, 'glyphicon-th', 2, '查看用户黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/user';
 INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '移除用户黑名单', '/blackList/user/remove', 2, null, 'glyphicon-th', 2, '移除用户黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/user';
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '申请系统黑名单', '/blackList/user/applySystemBlacklist;/blackList/user/applySystemBlacklist/page', 3, null, 'glyphicon-th', 2, '申请系统黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/user';
-INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '查看系统黑名单', '/blackList/system/listJson;/blackList/user/find', 2, null, 'glyphicon-th', 2, '查看系统黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/system';
--- INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '黑名单管理/系统黑名单', '/blackList/system', 2, 'glyphicon-th', 4, '系统黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/user';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '申请经侦黑名单', '/blackList/user/applySystemBlacklist;/blackList/user/applySystemBlacklist/page', 3, null, 'glyphicon-th', 2, '申请经侦黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/user';
+INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '查看经侦黑名单', '/blackList/system/listJson;/blackList/user/find', 2, null, 'glyphicon-th', 2, '查看经侦黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/system';
+-- INSERT INTO SYS_RESOURCE (ID, PARENT_ID, TOP_ID, NAME, URL, TYPE, MENU_TYPE, ICON, SORT, MEMO, CREATE_TIME, MODIFY_TIME) SELECT SEQ_SYS_RESOURCE.nextval, ID, (select ID from SYS_RESOURCE WHERE URL = '/customer'), '黑名单管理/经侦黑名单', '/blackList/system', 2, 'glyphicon-th', 4, '经侦黑名单', sysdate, sysdate FROM SYS_RESOURCE WHERE url = '/blackList/user';
 
 INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 1, null, '注册成功，手机号%s，登录名%s，初始密码%s，请及时修改密码。', 1, sysdate, sysdate);
 INSERT INTO SMS_TEMPLATE (id, type, phones, template, state, create_time, modify_time) VALUES (SEQ_SMS_TEMPLATE.nextval, 2, null, '密码重置成功，手机号%s，登录名%s，密码%s，请及时修改密码。', 1, sysdate, sysdate);

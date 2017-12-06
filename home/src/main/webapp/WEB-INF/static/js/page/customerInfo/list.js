@@ -26,7 +26,7 @@ $(function(){
                 ,{field:'province', title: '籍贯', width:120, templet: '#addrId'}
                 ,{field:'companyName', title: '单位', width:220}
                 ,{field:'createTimeStr', title: '创建时间', width:220}
-                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'20%'}
+                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'15%'}
             ]]
         });
 
@@ -74,6 +74,22 @@ $(function(){
             } else if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data))
                 window.location.href = "/customerInfo/find?id=" + data.id;
+            } else if(obj.event === 'addVip'){
+                layer.confirm('确认添加到VIP？', function(index){
+                    $.ajax({
+                        url: '/customerInfo/addVip',
+                        data: {'id': data.id},
+                        async: false,
+                        success: function (data) {
+                            if (data.success) {
+                                tip(data.message, true);
+                            } else {
+                                tip(data.message, false);
+                            }
+                        }
+                    });
+                    layer.close(index);
+                });
             }
         });
 

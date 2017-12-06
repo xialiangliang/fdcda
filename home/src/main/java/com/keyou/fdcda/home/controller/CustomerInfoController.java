@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class CustomerInfoController extends BaseController {
 	
 	@Autowired
 	private CustomerInfoService customerInfoService;
+	@Autowired
+	private UrlConfig urlConfig;
 
 	@RequestMapping(value="/manage")
 	public String page(Model model) throws Exception {
@@ -53,6 +56,36 @@ public class CustomerInfoController extends BaseController {
 		model.addAttribute("areaMap", AreaConstants.AreaJsonStr);
 		return "/page/customerInfo/new";
 	}
+
+	@RequestMapping(value="/batchnew")
+	public String batchnew(Model model) throws Exception {
+		return "/page/customerInfo/batchnew";
+	}
+
+	@RequestMapping(value="/batchnew/save")
+	@ResponseBody
+	public Map<String, Object> batchSave(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			if (file != null) {
+				String fileName = file.getOriginalFilename();
+				if (!fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+					Assert.isTrue(true, "格式不正确（xlsx，xls）");
+				}
+				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+				// 文件保存路径
+//				String filePath = ImageInfoConstants.UPLOAD_TEMP_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+//				File localFile = new File(filePath);
+//				file.transferTo(localFile);
+			}
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "添加成功");
+
+		} catch (Exception e) {
+			commonError(logger, e, "添加异常",map);
+		}
+		return map;
+	}
 	
 	@RequestMapping(value="/find")	
 	public String find(Long id, Model model, HttpServletRequest request){
@@ -60,6 +93,9 @@ public class CustomerInfoController extends BaseController {
 			CustomerInfo customerInfo = customerInfoService.findById(id);
 			Assert.isTrue(customerInfo.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
+				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
+			}
 			model.addAttribute("param", customerInfo);
 			model.addAttribute("countryMap", AreaConstants.countryMap);
 			model.addAttribute("provinceMap", AreaConstants.provinceMap);
@@ -262,9 +298,28 @@ public class CustomerInfoController extends BaseController {
 			customerInfo.setModifyTime(new Date());
 			customerInfoService.update(customerInfo);
 			map.put(Constants.SUCCESS, true);
-			map.put(Constants.MESSAGE, "移除VI成功");
+			map.put(Constants.MESSAGE, "移除VIP成功");
 		} catch (Exception e) {
-			commonError(logger, e,"移除VI异常",map);
+			commonError(logger, e,"移除VIP异常",map);
+		}
+		return map;
+	}
+
+	@RequestMapping(value="/addVip")
+	@ResponseBody
+	public Map<String, Object> addVip(Long id, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			customerInfo.setIsVip(1);
+			customerInfo.setModifyTime(new Date());
+			customerInfoService.update(customerInfo);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "加入VIP成功");
+		} catch (Exception e) {
+			commonError(logger, e,"加入VIP异常",map);
 		}
 		return map;
 	}

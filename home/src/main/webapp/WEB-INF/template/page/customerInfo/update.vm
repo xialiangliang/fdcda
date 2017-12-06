@@ -8,6 +8,7 @@
 <div class="col-sm-12">
     <form action="/customerInfo/update"  method="post" class="form-horizontal layui-form" id="updateForm_customerInfo" enctype="multipart/form-data">
         <input type="hidden" name="id" value="$!{param.id}" />
+            <img src="$!{param.imageUrl}" alt="">
         <div class="layui-form-item">
             <label for="name" class="layui-form-label">姓名</label>
             <div class="layui-input-block">
