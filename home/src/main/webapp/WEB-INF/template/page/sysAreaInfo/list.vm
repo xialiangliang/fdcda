@@ -21,45 +21,10 @@
                 <a href="#" class="layui-btn layui-btn-primary ml-10 btn-add j_new-btn">添加</a>
             </div>
         </div>
-        <div id="newUpdateDialogFrame" class="tipDialogFrame"></div>
-        <div id="tipDialogFrame" class="tipDialogFrame"></div>
 
-	        <table class="table table-striped table-bordered table-hover dataTable">
-	            <thead>
-	            <tr>
-	                <th>id主键</th>
-	                <th>区域code</th>
-	                <th>区域名</th>
-	                <th>排序</th>
-	                <th>是否有效1有效2无效</th>
-	                <th>父区域code</th>
-	             
-	                <th class="action-cl">操作</th>
-	               
-	            </tr>
-	            </thead>
-	            <tbody>
-	                #foreach($row in $result.rows)
-	                <tr>
-	                	<td> $!{row.id} </td>
-	                	<td> $!{row.code} </td>
-	                	<td> $!{row.areaname} </td>
-	                	<td> $!{row.sort} </td>
-	                	<td> $!{row.vaild} </td>
-	                	<td> $!{row.parentcode} </td>
-		                <td class="action-cl">
-	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
-	                    	<span class="arr">|</span>
-	                    	<a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
-	                    </td>
-	                </tr>
-	                #end
-	            </tbody>
-	       	</table>
-	        <div class="dataTables_wrapper f-mt2">
-	            <ul class="pagination">
-	           		#set($pageRequestURL="$!{www}/sysAreaInfo?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
-	            </ul>
-            </div>
+        <table class="layui-hide" id="test" lay-filter="demo"></table>
+        <script type="text/html" id="barDemo">
+			            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        </script>
     </div><!-- /.page-content -->
 </div><!-- /.main-content -->
