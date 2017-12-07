@@ -2,8 +2,8 @@ package com.keyou.fdcda.api.constants;
 
 public interface ImageInfoConstants {
 	
-	/**Nginx 静态资源目录**/
-	String STATIC_IMAGE_SERVER_URL = "http://60.191.246.29:8880/";
+//	/**Nginx 静态资源目录**/
+//	String STATIC_IMAGE_SERVER_URL = "http://60.191.246.29:8880/"; // 在UrlConfig中配置
 	
 	/**图片状态：未处理*/
 	Integer IMAGE_STATUS_not_deal = 0;

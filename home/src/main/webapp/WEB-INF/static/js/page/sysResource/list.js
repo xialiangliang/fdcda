@@ -58,17 +58,19 @@ $(function(){
     $(".j_new-btn").click(function () {
         $.get('/sysResource/new', {}, function (data, textStatus, object) {
             layer.open({
+                area: '500px',
                 type: 1,
                 content: object.responseText
             });
         });
+        // window.location.href = '/sysResource/new';
     });
 
 
     update_resource = function(id) {
-        var dialog = $("#newUpdateDialogFrame");
         $.get('/sysResource/find', {'id': id}, function (data, textStatus, object) {
             layer.open({
+                area: '500px',
                 type: 1,
                 content: object.responseText
             });

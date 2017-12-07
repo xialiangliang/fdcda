@@ -12,6 +12,7 @@ import com.keyou.fdcda.api.service.CustomerInfoService;
 import com.keyou.fdcda.api.service.SysBlacklistApplyService;
 import com.keyou.fdcda.api.utils.Assert;
 import com.keyou.fdcda.api.utils.StringUtil;
+import com.keyou.fdcda.api.utils.config.UrlConfig;
 import com.keyou.fdcda.home.controller.base.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,8 @@ public class BlackListController extends BaseController {
 	private SysBlacklistApplyService sysBlacklistApplyService;
 	@Autowired
 	private BlacklistDetailsService blacklistDetailsService;
+	@Autowired
+	private UrlConfig urlConfig;
 
 	@RequestMapping
 	public String list() throws Exception {
@@ -66,7 +69,7 @@ public class BlackListController extends BaseController {
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 			Assert.isTrue(!customerInfo.getIsBlack().equals(1), "不在用户黑名单中");
 			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
-				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", "http://60.191.246.29:8880"));
+				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
 			}
 			model.addAttribute("param", customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -127,7 +130,7 @@ public class BlackListController extends BaseController {
 				&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 		Assert.isTrue(!customerInfo.getIsBlack().equals(1), "不在用户黑名单中");
 		if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
-			customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", "http://60.191.246.29:8880"));
+			customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
 		}
 		model.addAttribute("param", customerInfo);
 		model.addAttribute(Constants.SUCCESS, true);
@@ -151,7 +154,7 @@ public class BlackListController extends BaseController {
 			map.put(Constants.SUCCESS, true);
 			map.put(Constants.MESSAGE, "等待审核");
 		} catch (Exception e) {
-			commonError(logger, e,"申请系统黑名单异常",map);
+			commonError(logger, e,"申请经侦黑名单异常",map);
 		}
 		return map;
 	}
@@ -176,9 +179,9 @@ public class BlackListController extends BaseController {
 			// TODO zzq
 			id = 6081L;
 			CustomerInfo customerInfo = customerInfoService.findById(id);
-			Assert.isTrue(!customerInfo.getIsBlack().equals(2), "用户不在系统黑名单中");
+			Assert.isTrue(!customerInfo.getIsBlack().equals(2), "用户不在经侦黑名单中");
 			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
-				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", "http://60.191.246.29:8880"));
+				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
 			}
 //			Assert.isTrue(customerInfo.getUserRowId() != null
 //					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");

@@ -44,7 +44,7 @@
             <label for="name" class="layui-form-label">拉黑时间：</label><div style="padding-top:10px;">$!{param.modifyTimeStr}</div>
         </div>
         <div class="layui-form-item">
-            <label for="name" class="layui-form-label">申请系统黑名单原因：</label><textarea placeholder="请输入内容" rows="3" cols="50" class="layui-textarea"></textarea>
+            <label for="name" class="layui-form-label">申请经侦黑名单原因：</label><textarea placeholder="请输入内容" rows="3" cols="50" class="layui-textarea"></textarea>
         </div>
         <div class="layui-form-item">
             <input id="uploadfile" name="uploadfile" type="file" multiple>

@@ -106,7 +106,7 @@ public class BlacklistCheckController extends BaseController {
 	@RequestMapping("/check")
 	@ResponseBody
 	public Map<String, Object> check(PaginationQuery query,Model model, HttpServletRequest request, Long id, Integer status) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		SysBlacklistApply sysBlacklistApply = sysBlacklistApplyService.findById(id);
 		map.put(Constants.SUCCESS, false);
 		if (sysBlacklistApply.getStatus().equals(0)) {
@@ -114,6 +114,13 @@ public class BlacklistCheckController extends BaseController {
 				sysBlacklistApply.setStatus(1);
 				sysBlacklistApply.setModifyDate(new Date());
 				sysBlacklistApplyService.update(sysBlacklistApply);
+				CustomerInfo customerInfo = customerInfoService.findById(sysBlacklistApply.getCustomerRowId());
+				Assert.isNull(customerInfo, "采购商信息不存在");
+				CustomerInfo vo = new CustomerInfo();
+				vo.setId(customerInfo.getId());
+				vo.setIsBlack(2);
+				vo.setModifyTime(new Date());
+				customerInfoService.update(vo);
 				map.put(Constants.SUCCESS, true);
 				map.put(Constants.MESSAGE, "通过成功");
 			} else if (status != null && status.equals(2)) {

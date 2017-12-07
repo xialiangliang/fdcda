@@ -58,7 +58,7 @@ public class IndexController extends BaseController {
 				Integer type = info.getVisitType();
 				if (type != null&&StringUtil.isNotBlank(info.getImageUrl())) {
 					String url = info.getImageUrl();
-					info.setImageUrl(ImageInfoConstants.STATIC_IMAGE_SERVER_URL+url.substring(url.indexOf("deal")));
+					info.setImageUrl(urlConfig.getImgPath() + "/"+url.substring(url.indexOf("deal")));
 					 
 				}
 			}
