@@ -22,6 +22,7 @@ $(function(){
     $(".j_device-btn").click(function () {
         $.get('/sysOutlets/sysDevice/list', {'outletsId': $(this).attr("data-id")}, function (data, textStatus, object) {
             layer.open({
+                area: '500px',
                 type: 1,
                 content: object.responseText
             });

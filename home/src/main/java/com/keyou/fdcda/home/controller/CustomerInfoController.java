@@ -1,22 +1,27 @@
 package com.keyou.fdcda.home.controller;
 
 import java.io.File;
+import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.keyou.fdcda.api.utils.*;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.keyou.fdcda.api.constants.AreaConstants;
@@ -26,12 +31,8 @@ import com.keyou.fdcda.api.model.CustomerInfo;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
-import com.keyou.fdcda.api.utils.Assert;
-import com.keyou.fdcda.api.utils.EncodeUtil;
-import com.keyou.fdcda.api.utils.ImageUtil;
-import com.keyou.fdcda.api.utils.RandomUtil;
-import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.home.controller.base.BaseController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/customerInfo")
@@ -74,9 +75,46 @@ public class CustomerInfoController extends BaseController {
 				}
 				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 				// 文件保存路径
-//				String filePath = ImageInfoConstants.UPLOAD_TEMP_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
-//				File localFile = new File(filePath);
-//				file.transferTo(localFile);
+				String filePath = ImageInfoConstants.UPLOAD_TEMP_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+				File localFile = new File(filePath);
+				if (!localFile.getParentFile().exists()) {
+					localFile.getParentFile().mkdirs();
+				}
+				file.transferTo(localFile);
+				BigDecimal sum = BigDecimal.ZERO;
+				List<String[]> userList = ExcelUtil.readExcel(filePath, "Sheet1", 1, 11);
+				if (userList == null || userList.isEmpty()) {
+					throw new Exception("上传的文件是空文件，请修改后重新上传!");
+				}
+				userList.remove(0);
+
+				for (String[] userStrs : userList) {
+					CustomerInfo customerInfo = new CustomerInfo();
+					customerInfo.setIsBlack(0);
+					customerInfo.setIsVip(0);
+					customerInfo.setValidFlag(1);
+					customerInfo.setCreateTime(new Date());
+					customerInfo.setSource(0);
+					customerInfo.setUserRowId(getUser(request).getId());
+					customerInfo.setName(userStrs[0]);
+					customerInfo.setPhone(userStrs[1]);
+					Integer gender = null;
+					if (StringUtil.equals(userStrs[2], "男")) {
+						gender = 0;
+					} else if (StringUtil.equals(userStrs[2], "女")) {
+						gender = 1;
+					}
+					customerInfo.setGender(gender);
+					customerInfo.setNationality(userStrs[3]);
+					customerInfo.setProvince(userStrs[4]);
+					customerInfo.setCity(userStrs[5]);
+					customerInfo.setAddress(userStrs[6]);
+					customerInfo.setQq(userStrs[7]);
+					customerInfo.setWeixin(userStrs[8]);
+					customerInfo.setCustomerCard(userStrs[9]);
+					customerInfo.setCompanyName(userStrs[10]);
+					customerInfoService.save(customerInfo);
+				}
 			}
 			map.put(Constants.SUCCESS, true);
 			map.put(Constants.MESSAGE, "添加成功");
@@ -85,6 +123,42 @@ public class CustomerInfoController extends BaseController {
 			commonError(logger, e, "添加异常",map);
 		}
 		return map;
+	}
+
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public String directedredDown(Model model, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			response.reset();
+			response.setHeader("Content-disposition", "attachment; filename=" + new String(("上传模板_" + new Date().getTime() + ".xlsx").getBytes("GB2312"), "ISO8859-1"));
+			response.setContentType("application/x-excel");
+			OutputStream os = response.getOutputStream();
+
+			SXSSFWorkbook wb = new SXSSFWorkbook();
+			Sheet sheet = wb.createSheet("Sheet1");
+			//创建第一个sheet     
+			//生成第一行     
+			Row row = sheet.createRow(0);
+			//给这一行的第一列赋值     
+			row.createCell(0).setCellValue("姓名");
+			row.createCell(1).setCellValue("手机");
+			row.createCell(2).setCellValue("性别");
+			row.createCell(3).setCellValue("国籍");
+			row.createCell(4).setCellValue("省份");
+			row.createCell(5).setCellValue("地市");
+			row.createCell(6).setCellValue("联系地址");
+			row.createCell(7).setCellValue("QQ");
+			row.createCell(8).setCellValue("微信");
+			row.createCell(9).setCellValue("身份证");
+			row.createCell(10).setCellValue("单位");
+			wb.write(os);
+			os.close();
+			wb.close();
+			redirectAttributes.addFlashAttribute(Constants.SUCCESS, true);
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "操作成功！");
+		} catch (Exception e) {
+			logger.error("", e);
+		}
+		return null;
 	}
 	
 	@RequestMapping(value="/find")	

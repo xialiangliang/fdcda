@@ -6,11 +6,16 @@
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>
     <div class="yw_box">
-        <form action="/customerInfo/save"  method="post" class="layui-form" id="newForm_customerInfo" enctype="multipart/form-data">
+        <form action="/customerInfo/batchnew/save"  method="post" class="layui-form" id="newForm_customerInfo" enctype="multipart/form-data">
             <div class="layui-form-item">
-                <label for="imageUrl" class="layui-form-label">Excel文件</label>
                 <div class="layui-input-block">
-                    <input type="file" name="file" id="file" accept="*/*">
+                    <a href="/customerInfo/download" style="color: blue;">Excel模板下载</a>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+##                <label for="imageUrl" class="layui-form-label">Excel文件</label>
+                <input type="file" name="file" id="file" accept="*/*">
                 </div>
             </div>
             <div class="layui-form-item">

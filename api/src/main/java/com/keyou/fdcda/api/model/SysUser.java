@@ -52,6 +52,11 @@ public class SysUser implements Serializable {
 	private java.util.Date modifyTime;
 	private java.lang.String modifyTimeStr;
 
+	/**
+	 * 区域id
+	 */
+	private Long sysAreaId;
+
 	
 	public void setId(java.lang.Long value) {
 		this.id = value;
@@ -149,6 +154,14 @@ public class SysUser implements Serializable {
 	
 	public java.lang.String getModifyTimeStr() {
 		return this.modifyTimeStr;
+	}
+
+	public Long getSysAreaId() {
+		return sysAreaId;
+	}
+
+	public void setSysAreaId(Long sysAreaId) {
+		this.sysAreaId = sysAreaId;
 	}
 }
 

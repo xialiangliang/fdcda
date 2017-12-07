@@ -97,7 +97,7 @@
 	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select <include refid="columns"/>  from SYS_AREA_INFO where 1=1
 		<include refid="queryWhere"/>
-		<![CDATA[ ORDER BY id DESC ]]>
+		<![CDATA[ ORDER BY AREANAME ASC, ID DESC ]]>
 	</select>
 	
 	<sql id="queryWhere">

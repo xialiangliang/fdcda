@@ -87,6 +87,10 @@ $(function(){
         });
     }
 
+    $(".j_new-btn").click(function () {
+        window.location.href = "/blackList/user/new";
+    });
+
     $(".j_rmblack-btn").click(function () {
         var id = $(this).attr("data-id")
         $( "#dialog-confirm" ).dialog({

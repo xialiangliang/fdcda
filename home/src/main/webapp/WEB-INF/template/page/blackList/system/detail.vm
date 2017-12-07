@@ -30,7 +30,7 @@
             <p><b>公司名：</b>$!{blacklistDetails.companyname}</p>
             <p><b>公司地址：</b>$!{blacklistDetails.companyaddress}</p>
             <p><b>逃逸时间：</b>$!{blacklistDetails.escapedate}</p>
-            <p><b>涉及金额：</b>$!{blacklistDetails.amount}</p>
+            <p><b>涉及金额：</b>$!{blacklistDetails.amount}元</p>
             <p><b>受害人数：</b>$!{blacklistDetails.victims}</p>
             <p><b>通告内容：</b>$!{blacklistDetails.noticecontent}</p>
             <p><b>通告类型：</b>#if($!{blacklistDetails.escapetype} == 1)外贸公司#elseif($!{blacklistDetails.escapetype} == 2)采购商#elseif($!{blacklistDetails.escapetype} == 3)供应商#end</p>

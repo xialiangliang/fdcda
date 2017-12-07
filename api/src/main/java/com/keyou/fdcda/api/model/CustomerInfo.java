@@ -89,6 +89,8 @@ public class CustomerInfo implements Serializable {
      * 0信息录入1etl
      */ 	
 	private Integer source;
+	
+	private String customerCard;
 
 	
 	public void setId(Long value) {
@@ -261,5 +263,12 @@ public class CustomerInfo implements Serializable {
 		return this.source;
 	}
 
+	public String getCustomerCard() {
+		return customerCard;
+	}
+
+	public void setCustomerCard(String customerCard) {
+		this.customerCard = customerCard;
+	}
 }
 

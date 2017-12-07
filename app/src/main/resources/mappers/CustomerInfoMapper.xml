@@ -22,11 +22,12 @@
 		<result property="isBlack" jdbcType="DECIMAL" column="IS_BLACK"/>
 		<result property="isVip" jdbcType="DECIMAL" column="IS_VIP"/>
 		<result property="source" jdbcType="DECIMAL" column="SOURCE"/>
+		<result property="customerCard" jdbcType="VARCHAR" column="CUSTOMER_CARD"/>
     </resultMap>
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,NAME ,PHONE ,GENDER ,NATIONALITY ,PROVINCE ,CITY ,COMPANYID ,COMPANY_NAME ,ADDRESS ,IMAGE_URL ,VALID_FLAG ,CREATE_TIME ,QQ ,WEIXIN ,MODIFY_TIME ,USER_ROW_ID ,IS_BLACK ,IS_VIP ,SOURCE 
+        ID ,NAME ,PHONE ,GENDER ,NATIONALITY ,PROVINCE ,CITY ,COMPANYID ,COMPANY_NAME ,ADDRESS ,IMAGE_URL ,VALID_FLAG ,CREATE_TIME ,QQ ,WEIXIN ,MODIFY_TIME ,USER_ROW_ID ,IS_BLACK ,IS_VIP ,SOURCE ,CUSTOMER_CARD 
 	    ]]>
 	</sql>
 	
@@ -55,7 +56,8 @@
         	USER_ROW_ID ,
         	IS_BLACK ,
         	IS_VIP ,
-        	SOURCE 
+        	SOURCE ,
+        	CUSTOMER_CARD
 		) VALUES (
         	#{id,jdbcType=DECIMAL} ,
         	#{name,jdbcType=VARCHAR} ,
@@ -76,7 +78,8 @@
         	#{userRowId,jdbcType=DECIMAL} ,
         	#{isBlack,jdbcType=DECIMAL} ,
         	#{isVip,jdbcType=DECIMAL} ,
-        	#{source,jdbcType=DECIMAL} 
+        	#{source,jdbcType=DECIMAL} ,
+        	#{customerCard,jdbcType=VARCHAR} 
 		)
 	]]>
 	</insert>
@@ -139,8 +142,11 @@
 	        IS_VIP = #{isVip,jdbcType=DECIMAL} ,
 	        </if>
 			<if test="source != null">
-	        SOURCE = #{source,jdbcType=DECIMAL} 
+	        SOURCE = #{source,jdbcType=DECIMAL} ,
 	        </if>
+			<if test="customerCard != null">
+				CUSTOMER_CARD = #{customerCard,jdbcType=VARCHAR}
+			</if>
 	    </set>
 		WHERE 
 	        ID = #{id,jdbcType=DECIMAL} 
@@ -272,6 +278,9 @@
 		</if>
 		<if test="phoneStr != null and phoneStr.trim() != ''">
 			and PHONE like concat(concat('%', #{phoneStr}) , '%')
+		</if>
+		<if test="customerCard != null and customerCard.trim() != ''">
+			and CUSTOMER_CARD = #{customerCard}
 		</if>
 	</sql>
 </mapper>

@@ -1,11 +1,9 @@
 package com.keyou.fdcda.home.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 		
 import com.keyou.fdcda.api.constants.Constants;
@@ -100,6 +97,21 @@ public class SysAreaInfoController extends BaseController {
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
 		return "/page/sysAreaInfo/list";
+	}
+
+
+	@RequestMapping("/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query, Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		PageResult<SysAreaInfo> pageList = sysAreaInfoService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		return map;
 	}
 	
 }

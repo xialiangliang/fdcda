@@ -6,7 +6,7 @@
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>
     <div class="yw_box">
-        <form action="/customerInfo/save"  method="post" class="layui-form" id="newForm_newBlack">
+        <form action="/blackList/user/save"  method="post" class="layui-form" id="newForm_newBlack">
             <div class="layui-form-item">
                 <label for="name" class="layui-form-label">姓名</label>
                 <div class="layui-input-block">

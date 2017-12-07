@@ -13,11 +13,12 @@
 		<result property="valid" jdbcType="DECIMAL" column="VALID"/>
 		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
 		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
+		<result property="sysAreaId" jdbcType="DECIMAL" column="SYS_AREA_ID"/>
     </resultMap>
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,LOGINNAME ,LOGINPWD ,USERNAME ,PHONE ,TELEPHONE ,EMAIL ,ADDRESS ,VALID ,CREATE_TIME ,MODIFY_TIME 
+        ID ,LOGINNAME ,LOGINPWD ,USERNAME ,PHONE ,TELEPHONE ,EMAIL ,ADDRESS ,VALID ,CREATE_TIME ,MODIFY_TIME ,SYS_AREA_ID
 	    ]]>
 	</sql>
 	
@@ -37,7 +38,8 @@
         	ADDRESS ,
         	VALID ,
         	CREATE_TIME ,
-        	MODIFY_TIME 
+        	MODIFY_TIME ,
+        	SYS_AREA_ID
 		) VALUES (
         	#{id,jdbcType=DECIMAL} ,
         	#{loginname,jdbcType=VARCHAR} ,
@@ -49,7 +51,8 @@
         	#{address,jdbcType=VARCHAR} ,
         	#{valid,jdbcType=DECIMAL} ,
         	#{createTime,jdbcType=TIMESTAMP} ,
-        	#{modifyTime,jdbcType=TIMESTAMP} 
+        	#{modifyTime,jdbcType=TIMESTAMP} ,
+        	#{sysAreaId,jdbcType=DECIMAL} 
 		)
 	]]>
 	</insert>
@@ -85,8 +88,11 @@
 	        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP} ,
 	        </if>
 			<if test="modifyTime != null">
-	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} 
+	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} ,
 	        </if>
+			<if test="sysAreaId != null">
+				SYS_AREA_ID = #{sysAreaId,jdbcType=DECIMAL}
+			</if>
 	    </set>
 		WHERE 
 	        ID = #{id,jdbcType=DECIMAL} 
@@ -194,6 +200,9 @@
 			or TELEPHONE like concat(concat('%', #{keyword}) , '%')
 			or EMAIL like concat(concat('%', #{keyword}) , '%')
 			or ADDRESS like concat(concat('%', #{keyword}) , '%'))
+		</if>
+		<if test="sysAreaId != null and sysAreaId.trim() != ''">
+			and SYS_AREA_ID = #{sysAreaId}
 		</if>
 	</sql>
 </mapper>

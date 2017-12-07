@@ -126,6 +126,10 @@ $(function(){
         // });
     });
 
+    $(".j_batchnew-btn").click(function () {
+        window.location.href = "/customerInfo/batchnew";
+    });
+
     $(".j_delete-btn").click(function () {
         var id = $(this).attr("data-id")
         $( "#dialog-confirm" ).dialog({

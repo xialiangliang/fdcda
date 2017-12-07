@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.SysUserAreaMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.SysUserArea">
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
+		<result property="areaName" jdbcType="VARCHAR" column="AREA_NAME"/>
+		<result property="tradeName" jdbcType="VARCHAR" column="TRADE_NAME"/>
+		<result property="createDate" jdbcType="TIMESTAMP" column="CREATE_DATE"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        ID ,AREA_NAME ,TRADE_NAME ,CREATE_DATE 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.SysUserArea" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_SYS_USER_AREA.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO SYS_USER_AREA (
+        	ID ,
+        	AREA_NAME ,
+        	TRADE_NAME ,
+        	CREATE_DATE 
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{areaName,jdbcType=VARCHAR} ,
+        	#{tradeName,jdbcType=VARCHAR} ,
+        	#{createDate,jdbcType=TIMESTAMP} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.SysUserArea">
+		UPDATE SYS_USER_AREA
+		<set>
+			<if test="areaName != null">
+	        AREA_NAME = #{areaName,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="tradeName != null">
+	        TRADE_NAME = #{tradeName,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="createDate != null">
+	        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP} 
+	        </if>
+	    </set>
+		WHERE 
+	        ID = #{id,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM SYS_USER_AREA WHERE
+        ID = #{id} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM SYS_USER_AREA 
+		WHERE 
+        ID = #{id} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from SYS_USER_AREA where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from (
+				select <include refid="columns"/> from SYS_USER_AREA ORDER BY ID DESC
+			) where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from SYS_USER_AREA where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
+		</if>
+		<if test="areaName != null and areaName.trim() != ''">
+		and AREA_NAME = #{areaName}
+		</if>
+		<if test="tradeName != null and tradeName.trim() != ''">
+		and TRADE_NAME = #{tradeName}
+		</if>
+		<if test="createDateBegin != null and createDateBegin.trim() != ''">
+		and CREATE_DATE >= #{createDateBegin}
+		</if>
+		<if test="createDateEnd != null and createDateEnd.trim() != ''">
+		and CREATE_DATE &lt;= #{createDateEnd}
+		</if>
+	</sql>
+</mapper>
+
+

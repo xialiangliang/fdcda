@@ -16,6 +16,9 @@ public interface ImageInfoConstants {
 	
 	/**经营户上传升级黑名单证据根目录*/
 	String  UPLOAD_EVIDENCE_FILE_BASE_PATH = "/mnt/facepics/evidence/";
+
+	/**上传文件缓存目录*/
+	String  UPLOAD_TEMP_FILE_BASE_PATH = "/opt/file/temp/";
 	
 	/**图片根目录*/
 	String rootPath = "/mnt/facepics/";

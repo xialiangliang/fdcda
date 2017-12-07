@@ -1,5 +1,6 @@
 package com.keyou.fdcda.home.controller;
 
+import com.google.common.collect.Maps;
 import com.keyou.fdcda.api.constants.AreaConstants;
 import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.model.BlacklistDetails;
@@ -19,13 +20,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/blackList")
@@ -78,6 +78,84 @@ public class BlackListController extends BaseController {
 			commonError(logger, e, "异常", model);
 			return "redirect:/blackList/user";
 		}
+	}
+
+	@RequestMapping(value="/user/new")
+	public String userNew(Model model, HttpServletRequest request){
+		try {
+			return "/page/blackList/user/new";
+		} catch (Exception e) {
+			commonError(logger, e, "异常", model);
+			return "redirect:/blackList/user";
+		}
+	}
+
+	@RequestMapping(value="/user/save")
+	@ResponseBody
+	public Map<String, Object> userSave(String name, String phone, Model model, HttpServletRequest request){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			Long id = getUser(request).getId();
+			if (StringUtil.isBlank(name) && StringUtil.isBlank(phone)) {
+				map.put(Constants.SUCCESS, false);
+				map.put(Constants.MESSAGE, "输入用户名或手机号");
+				return map;
+			}
+			List<CustomerInfo> ll1 = null;
+			if (StringUtil.isNotBlank(name)) {
+				Map<String, Object> query = Maps.newHashMap();
+				query.put("name", name);
+				query.put("userRowId", id.toString());
+				ll1 = customerInfoService.findAllPage(query);
+				if (ll1.isEmpty()) {
+					map.put(Constants.SUCCESS, false);
+					map.put(Constants.MESSAGE, "用户名不存在");
+					return map;
+				}
+			}
+			List<CustomerInfo> ll2 = null;
+			if (StringUtil.isNotBlank(phone)) {
+				Map<String, Object> query = Maps.newHashMap();
+				query.put("phone", phone);
+				query.put("userRowId", id.toString());
+				ll2 = customerInfoService.findAllPage(query);
+				if (ll2.isEmpty()) {
+					map.put(Constants.SUCCESS, false);
+					map.put(Constants.MESSAGE, "手机号不存在");
+					return map;
+				}
+			}
+			List<CustomerInfo> ll;
+			if (ll1 != null) {
+				ll = ll1;
+				if (ll2 != null) {
+					ll.retainAll(ll2);
+				}
+			} else {
+				ll = ll2;
+			}
+			if (CollectionUtils.isEmpty(ll)) {
+				map.put(Constants.SUCCESS, false);
+				map.put(Constants.MESSAGE, "不存在满足条件的用户");
+				return map;
+			}
+			if (ll.size() > 1) {
+				map.put(Constants.SUCCESS, false);
+				map.put(Constants.MESSAGE, "存在多个满足条件的用户");
+				return map;
+			}
+			CustomerInfo customerInfo = ll.get(0);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			customerInfo.setIsBlack(1);
+			customerInfo.setModifyTime(new Date());
+			customerInfoService.update(customerInfo);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "添加黑名单成功");
+		} catch (Exception e) {
+			commonError(logger, e,"添加黑名单异常",map);
+		}
+		return map;
 	}
 
 	@RequestMapping("/user/listJson")
@@ -177,7 +255,7 @@ public class BlackListController extends BaseController {
 	public String systemFind(Long id, Model model, HttpServletRequest request){
 		try {
 			// TODO zzq
-			id = 6081L;
+//			id = 6081L;
 			CustomerInfo customerInfo = customerInfoService.findById(id);
 			Assert.isTrue(!customerInfo.getIsBlack().equals(2), "用户不在经侦黑名单中");
 			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
