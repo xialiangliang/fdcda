@@ -9,7 +9,7 @@
             <section class="yw_visitor">
                 <div class="yw_visitor__header yw_visitor__header-vip">
                     <i class="yw_visitorIcon yw_visitorIcon-vip"></i>
-                    <span class="fl ml-10">老顾客</span>
+                    <span class="fl ml-10">本店VIP</span>
                     <span class="fr mr-10">$!{vipCount}人</span>
                 </div>
                 <div class="yw_visitor__content">
@@ -47,10 +47,32 @@
                     </ul>
                 </div>
             </section>
+            
+            <section class="yw_visitor mt-20">
+                <div class="yw_visitor__header yw_visitor__header-suspect">
+                    <i class="yw_visitorIcon yw_visitorIcon-suspect"></i>
+                    <span class="fl ml-10">黑名单</span>
+                    <span class="fr mr-10">$!{blackCount}人</span>
+                </div>
+                <div class="yw_visitor__content">
+                    <ul class="yw_visitorItem clearfix">
+                    
+                        #foreach($row in $blackList)
+                        <li class="yw_visitorItem__list">
+                            <p class="yw_visitorItem__list__thumb">
+                                <a href="/blackList/system/find"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
+                            </p>
+                            <p class="text-center mt-5">$!{row.name}</p>
+                            <p class="text-center mt-5">$!{row.phone}</p>
+                        </li>
+                    	#end
+                    </ul>
+                </div>
+            </section>
             <section class="yw_visitor mt-20">
                 <div class="yw_visitor__header yw_visitor__header-primary">
                     <i class="yw_visitorIcon yw_visitorIcon-primary"></i>
-                    <span class="fl ml-10">已识别访客</span>
+                    <span class="fl ml-10">老顾客</span>
                     <span class="fr mr-10">$!{normalCountt}人</span>
                 </div>
                 <div class="yw_visitor__content">
@@ -73,7 +95,7 @@
              <section class="yw_visitor mt-20">
                 <div class="yw_visitor__header yw_visitor__header-primary">
                     <i class="yw_visitorIcon yw_visitorIcon-primary"></i>
-                    <span class="fl ml-10">未识别访客</span>
+                    <span class="fl ml-10">新客</span>
                     <span class="fr mr-10">$!{normalNotCount}人</span>
                 </div>
                 <div class="yw_visitor__content">

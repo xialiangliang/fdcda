@@ -83,30 +83,40 @@ public class IndexController extends BaseController {
 		map.put("visitType", ImageInfoConstants.VISIT_TYPE_1);
 		Long normalCount = visitRecordInfoService.findPageCount(map);
 		
-		// 未识别普通访客
+		// 新客
 	    map.put("visitType", ImageInfoConstants.VISIT_TYPE_0);
 	    Long normalNotCount = visitRecordInfoService.findPageCount(map);
 		
-	    // 可疑人员数
+	    // 黑名单数
 	    map.remove("visitType");
 		map.put("visitTypeblack", "1");
 		Long blackCount = visitRecordInfoService.findPageCount(map);
 		 map.remove("visitTypeblack");
+		 
+	   // 可疑人员数
+	    map.remove("visitTypeblack");
+		map.put("visitType", "6");
+		Long keyiCount = visitRecordInfoService.findPageCount(map);
+		 map.remove("visitType");
 	    
 		map.put("endRecord", 10);
 		map.put("startRecord", 0);
 		// 会员数
 		map.put("visitType", ImageInfoConstants.VISIT_TYPE_2);
 		List<VisitRecordInfo> vipList = visitRecordInfoService.findAllPage(map);
-		// 已识别普通访客
+		// 老顾客
 		map.put("visitType", ImageInfoConstants.VISIT_TYPE_1);
 	    List<VisitRecordInfo> normalList = visitRecordInfoService.findAllPage(map);
 	    
-	    // 未识别普通访客
+	    // 新客
 	    map.put("visitType", ImageInfoConstants.VISIT_TYPE_0);
 	    List<VisitRecordInfo> normalNotList = visitRecordInfoService.findAllPage(map);
+	    
+	    //可疑人员
+	    map.put("visitType", ImageInfoConstants.VISIT_TYPE_6);
+	    List<VisitRecordInfo> keyiList = visitRecordInfoService.findAllPage(map);
 		
-		// 可疑人员数
+		// 黑名单数
 	    map.remove("visitType");
 		map.put("visitTypeblack", "1");
 		List<VisitRecordInfo> blackList = visitRecordInfoService.findAllPage(map);
@@ -116,6 +126,7 @@ public class IndexController extends BaseController {
 		dealUrl(vipList);
 		dealUrl(normalList);
 		dealUrl(normalNotList);
+		dealUrl(keyiList);
 		
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("blackCount", blackCount);
@@ -126,6 +137,9 @@ public class IndexController extends BaseController {
 		model.addAttribute("vipList", vipList);
 		model.addAttribute("normalNotList", normalNotList);
 		model.addAttribute("normalNotCount", normalNotCount);
+		
+		model.addAttribute("keyiList", keyiList);
+		model.addAttribute("keyiCountt", keyiCount);
 		
 		return "/page/index";
 	}

@@ -44,6 +44,9 @@ public interface ImageInfoConstants {
 	/**5系统vip*/
 	int VISIT_TYPE_5 = 5;
 	
+	/**6可疑人员*/
+	int VISIT_TYPE_6 = 5;
+	
 	
 	
 	
