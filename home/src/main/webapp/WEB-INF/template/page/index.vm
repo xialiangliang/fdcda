@@ -30,12 +30,12 @@
                 <div class="yw_visitor__header yw_visitor__header-suspect">
                     <i class="yw_visitorIcon yw_visitorIcon-suspect"></i>
                     <span class="fl ml-10">可疑人员</span>
-                    <span class="fr mr-10">$!{blackCount}人</span>
+                    <span class="fr mr-10">$!{keyiCount}人</span>
                 </div>
                 <div class="yw_visitor__content">
                     <ul class="yw_visitorItem clearfix">
                     
-                        #foreach($row in $blackList)
+                        #foreach($row in $keyiList)
                         <li class="yw_visitorItem__list">
                             <p class="yw_visitorItem__list__thumb">
                                 <a href="/blackList/system/find"><img src="$!{row.imageUrl}" class="yw_thumbnail" alt=""></a>
