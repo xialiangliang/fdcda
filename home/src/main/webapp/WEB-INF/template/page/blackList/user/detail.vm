@@ -22,7 +22,7 @@
                 <p>联系qq：$!{param.qq}</p>
                 <p>微信号：$!{param.weixin}</p>
                 <p>拉黑时间：$!{param.modifyTimeStr}</p>
-                <p>拉黑原因：$!{param.modifyTime}</p>
+                <p>拉黑原因：$!{param.blackReason}</p>
             </div>
         </div>
 ##        <!--信用评价-->

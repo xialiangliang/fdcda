@@ -1,6 +1,7 @@
 package com.keyou.fdcda.api.model; 
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.keyou.fdcda.api.constants.AreaConstants;
 import com.keyou.fdcda.api.utils.DateUtil;
@@ -91,6 +92,17 @@ public class CustomerInfo implements Serializable {
 	private Integer source;
 	
 	private String customerCard;
+
+	/**
+	 * 拉黑原因
+	 */
+	private String blackReason;
+
+	/**
+	 * 拉黑时间
+	 */
+	private java.util.Date blackTime;
+	private String blackTimeStr;
 
 	
 	public void setId(Long value) {
@@ -269,6 +281,27 @@ public class CustomerInfo implements Serializable {
 
 	public void setCustomerCard(String customerCard) {
 		this.customerCard = customerCard;
+	}
+
+	public String getBlackReason() {
+		return blackReason;
+	}
+
+	public void setBlackReason(String blackReason) {
+		this.blackReason = blackReason;
+	}
+
+	public Date getBlackTime() {
+		return blackTime;
+	}
+
+	public void setBlackTime(Date blackTime) {
+		this.blackTimeStr =DateUtil.getDate(blackTime, "yyyy-MM-dd HH:mm:ss");
+		this.blackTime = blackTime;
+	}
+	
+	public String getBlackTimeStr() {
+		return this.blackTimeStr;
 	}
 }
 

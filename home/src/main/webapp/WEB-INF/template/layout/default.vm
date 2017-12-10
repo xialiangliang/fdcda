@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-
+    <link rel="shortcut icon" href="/upload/img/favicon.ico" />
     <!--Layui-->
     <link href="/js/layui/css/layui.css" rel="stylesheet">
 

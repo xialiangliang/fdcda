@@ -1,7 +1,7 @@
 <!--Header-->
 <div class="yw_header clearfix">
     <div class="yw_header__left fl">
-        <img src="/upload/img/logo.png" class="inline-block v-middle logo" alt="">
+            <a href="/"><img src="/upload/img/logo.png" class="inline-block v-middle logo" alt=""></a>
         <span class="yw_header__left__caption inline-block v-middle ml-10">国际商贸城人脸识别大数据平台</span>
     </div>
     <div class="yw_header__right fr">

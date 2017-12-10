@@ -25,7 +25,7 @@ $(function(){
                 // ,{field:'nationalityStr', title: '国籍', align: 'center', width:120}
                 ,{field:'provinceStr', title: '籍贯', width:120, templet: '#addrId'}
                 ,{field:'companyName', title: '单位', width:220}
-                ,{field:'modifyTimeStr', title: '拉黑时间', width:220}
+                ,{field:'blackTimeStr', title: '拉黑时间', width:220}
                 ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'10%'}
             ]]
         });

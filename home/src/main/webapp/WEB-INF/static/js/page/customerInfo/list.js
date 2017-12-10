@@ -59,7 +59,7 @@ $(function(){
                 }, function(index){
                     $.ajax({
                         url: '/customerInfo/addToBlackList',
-                        data: {'id': data.id},
+                        data: {'id': data.id, 'reason':layero.find('textarea')[0].value},
                         async: false,
                         success: function (data) {
                             if (data.success) {
@@ -104,16 +104,16 @@ $(function(){
         });
     }
     
-    $(".j_update-btn").click(function () {
-        window.location.href = "/customerInfo/find?id=" + $(this).attr("data-id");
-        // $.get('/customerInfo/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
-        //     layer.open({
-        //         type: 1,
-        //         title: "修改",
-        //         content: object.responseText
-        //     });
-        // });
-    });
+    // $(".j_update-btn").click(function () {
+    //     window.location.href = "/customerInfo/find?id=" + $(this).attr("data-id");
+    //     // $.get('/customerInfo/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
+    //     //     layer.open({
+    //     //         type: 1,
+    //     //         title: "修改",
+    //     //         content: object.responseText
+    //     //     });
+    //     // });
+    // });
 
     $(".j_new-btn").click(function () {
         window.location.href = "/customerInfo/new";
@@ -130,61 +130,61 @@ $(function(){
         window.location.href = "/customerInfo/batchnew";
     });
 
-    $(".j_delete-btn").click(function () {
-        var id = $(this).attr("data-id")
-        $( "#dialog-confirm" ).dialog({
-            resizable: false,
-            modal: true,
-            title:'删除',
-            buttons: {
-                '确定': function () {
-                    $.ajax({
-                        url: '/customerInfo/delete',
-                        data: {'id': id},
-                        async: false,
-                        success: function (data) {
-                            if (data.success) {
-                                tip(data.message, true);
-                            } else {
-                                tip(data.message, false);
-                            }
-                        }
-                    });
-                    $(this).dialog("close");
-                },
-                '取消': function () {
-                    $(this).dialog("close");
-                }
-            }
-        }).html("确认删除？");
-    });
-
-    $(".j_black-btn").click(function () {
-        var id = $(this).attr("data-id")
-        $( "#dialog-confirm" ).dialog({
-            resizable: false,
-            modal: true,
-            title:'删除',
-            buttons: {
-                '确定': function () {
-                    $.ajax({
-                        url: '/customerInfo/addToBlackList',
-                        data: {'id': id},
-                        async: false,
-                        success: function (data) {
-                            if (data.success) {
-                                tip(data.message, true);
-                            } else {
-                                tip(data.message, false);
-                            }
-                        }
-                    });
-                    $(this).dialog("close");
-                },
-                '取消': function () {
-                    $(this).dialog("close");
-                }
-            }
-        }).html("确认添加到黑名单？");
-    });
+    // $(".j_delete-btn").click(function () {
+    //     var id = $(this).attr("data-id")
+    //     $( "#dialog-confirm" ).dialog({
+    //         resizable: false,
+    //         modal: true,
+    //         title:'删除',
+    //         buttons: {
+    //             '确定': function () {
+    //                 $.ajax({
+    //                     url: '/customerInfo/delete',
+    //                     data: {'id': id},
+    //                     async: false,
+    //                     success: function (data) {
+    //                         if (data.success) {
+    //                             tip(data.message, true);
+    //                         } else {
+    //                             tip(data.message, false);
+    //                         }
+    //                     }
+    //                 });
+    //                 $(this).dialog("close");
+    //             },
+    //             '取消': function () {
+    //                 $(this).dialog("close");
+    //             }
+    //         }
+    //     }).html("确认删除？");
+    // });
+    //
+    // $(".j_black-btn").click(function () {
+    //     var id = $(this).attr("data-id")
+    //     $( "#dialog-confirm" ).dialog({
+    //         resizable: false,
+    //         modal: true,
+    //         title:'提示',
+    //         buttons: {
+    //             '确定': function () {
+    //                 $.ajax({
+    //                     url: '/customerInfo/addToBlackList',
+    //                     data: {'id': id},
+    //                     async: false,
+    //                     success: function (data) {
+    //                         if (data.success) {
+    //                             tip(data.message, true);
+    //                         } else {
+    //                             tip(data.message, false);
+    //                         }
+    //                     }
+    //                 });
+    //                 $(this).dialog("close");
+    //             },
+    //             '取消': function () {
+    //                 $(this).dialog("close");
+    //             }
+    //         }
+    //     }).html("确认添加到黑名单？");
+    // });
 });
