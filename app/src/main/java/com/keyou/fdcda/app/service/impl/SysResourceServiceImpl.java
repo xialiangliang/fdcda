@@ -1,5 +1,6 @@
 package com.keyou.fdcda.app.service.impl;
 
+import com.google.common.collect.Maps;
 import com.keyou.fdcda.api.constants.RedisConstants;
 import com.keyou.fdcda.api.model.SysResource;
 import com.keyou.fdcda.api.model.SysRoleinfo;
@@ -224,6 +225,29 @@ public class SysResourceServiceImpl implements SysResourceService {
             }
             sysResource.setRoleIdsStr(roleIdStr);
             redisService.set(RedisConstants.RESOURCE_ROLE + sysResource.getId(), roleIdStr);
+        });
+        return list;
+    }
+
+    @Override
+    public List<Map> getTopologicalResourceJsonData(Map<String, Object> map) {
+        map.put("sortByParent", "asc");
+        List<SysResource> resourceList;
+        if (map.get("roleId") != null) {
+            resourceList = sysResourceMapper.findAllPageWithAuth(map);
+        } else {
+            resourceList = sysResourceMapper.findAllPage(map);
+        }
+        List<Map> list = new ArrayList<>();
+        resourceList.forEach(resource->{
+            Map<String, Object> m = Maps.newHashMap();
+            m.put("id", resource.getId());
+            m.put("pId", resource.getParentId());
+            m.put("name", resource.getName());
+            m.put("open", false);
+            m.put("dir", resource.getUrl());
+            m.put("sort", resource.getSort());
+            list.add(m);
         });
         return list;
     }
