@@ -83,6 +83,14 @@
                         <img src="/upload/img/icon_setting.png" class="img-responsive inline-block v-middle" width="22" alt="">
                         <span class="inline-block v-middle ml-5">设置</span>
                         <img src="/upload/img/icon_triangle.png" class="img-responsive inline-block v-middle ml-5" width="10" alt="">
+                        <ul class="yw_settings__menu">
+                            <li class="yw_settings__menu__list">
+                                <a href="#" id="modifyPassword">修改密码</a>
+                            </li>
+                            <li class="yw_settings__menu__list">
+                                <a href="javascript:;" class="site_signOut">退出</a>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
             <div class="yw_main">

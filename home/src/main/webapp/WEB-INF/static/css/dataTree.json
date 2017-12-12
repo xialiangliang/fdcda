@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "pId":"0",
+    "name":"首页",
+    "channel_id": "1",
+    "channel_dir": "/index",
+    "channel_order": "1",
+    "channel_comment": "系统管理",
+    "open": true
+  },
+  {
+    "id": "2",
+    "pId":"0",
+    "name":"系统管理",
+    "channel_id": "2",
+    "channel_dir": "/systemManage",
+    "channel_order": "2",
+    "channel_comment": "系统管理",
+    "open": true
+  },
+  {
+    "id": "3",
+    "pId":"2",
+    "name":"资源管理",
+    "channel_id": "3",
+    "channel_dir": "/sysResource",
+    "channel_order": "3",
+    "channel_comment": "资源管理",
+    "open": true
+  },
+  {
+    "id": "4",
+    "pId":"2",
+    "name":"角色管理",
+    "channel_id": "4",
+    "channel_dir": "/sysRole",
+    "channel_order": "4",
+    "channel_comment": "角色管理",
+    "open": true
+  },
+  {
+    "id": "5",
+    "pId":"2",
+    "name":"人员管理",
+    "channel_id": "5",
+    "channel_dir": "/sysUser",
+    "channel_order": "5",
+    "channel_comment": "人员管理",
+    "open": true
+  }
+]
