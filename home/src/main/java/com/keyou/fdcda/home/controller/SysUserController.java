@@ -188,6 +188,24 @@ public class SysUserController extends BaseController {
 		return "/page/sysUser/list";
 	}
 
+	@RequestMapping("/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String keyword = request.getParameter("keyword");
+		this.formatPageQuery(query, page, limit);
+		if (StringUtil.isNotBlank(keyword)) {
+			query.addQueryData("keyword", keyword);
+		}
+		PageResult<SysUser> pageList = sysUserService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		return map;
+	}
+
 
 	@RequestMapping(value="/resetPassword")
 	@ResponseBody

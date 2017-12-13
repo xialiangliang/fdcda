@@ -247,6 +247,7 @@ public class SysResourceServiceImpl implements SysResourceService {
             m.put("open", false);
             m.put("dir", resource.getUrl());
             m.put("sort", resource.getSort());
+            m.put("checked", resource.getAuth() != null && resource.getAuth().equals(1L));
             list.add(m);
         });
         return list;

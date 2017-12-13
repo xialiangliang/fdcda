@@ -1,35 +1,35 @@
-#set($layout = "/layout/layout2.vm")
-#set($pageTitle = "title")
-#set($JS = ["/js/page/sysRole/new-update.js", "/js/jquery.form.min.js"])
-<div class="col-sm-12">
-    <form action="/sysRole/update"  method="post" class="form-horizontal layui-form" id="updateForm_sysRole">
-        <input type="hidden" name="id" id="id" value="$!{param.id}" />
-        <div class="layui-form-item">
-            <label for="id" class="layui-form-label">主键ID</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="name" value="$!{param.id}" readonly>
+###set($layout = "/layout/layout2.vm")
+###set($pageTitle = "title")
+#set($JS = ["/js/page/sysRole/new-update.js", "/js/jquery.form.min.js","/js/ztree/jquery.ztree.all.min.js"])
+#set($CSS = ["/js/ztree/css/metroStyle/metroStyle.css"])
+<div class="yw_buyerContainer">
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+    </div>
+    <div class="page-content">
+        <form action="/sysRole/update"  method="post" class="form-horizontal layui-form" id="updateForm_sysRole">
+            <input type="hidden" name="id" id="id" value="$!{param.id}" />
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label">角色名称</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="name" name="name" value="$!{param.name}" >
+                </div>
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="name" class="layui-form-label">角色名称</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="name" name="name" value="$!{param.name}" >
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限设置</label>
             </div>
-        </div>
-        <div class="layui-form-item" align="left">
-            <label for="treeview" class="layui-form-label">权限设置</label>
-            <div class="layui-input-block">
+            <div class="layui-form-item">
+                <div class="yw_box" style="border:0px;">
+                    <ul id="dataTree" class="ztree"></ul>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <div id="treeview" class="col-sm-12"></div>
-        </div>
-        <input type="hidden" id="updatedData" name="updatedData">
-        <div class="layui-form-item" align="right">
-            <div class="col-sm-12">
-                <button type="button" class="btn btn-default btn-close">关闭</button>
-                <button type="submit" class="btn btn-primary">提交</button>
+            <input type="hidden" id="updatedData" name="updatedData">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" onclick="window.location.href='/sysRole'">返回</button>
+                    <button type="submit" class="layui-btn layui-btn-normal">更新</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>

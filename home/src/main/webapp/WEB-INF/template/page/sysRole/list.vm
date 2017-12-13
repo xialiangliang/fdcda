@@ -21,42 +21,48 @@
                 <a href="#" class="layui-btn layui-btn-primary ml-10 btn-add j_new-btn">添加</a>
             </div>
         </div>
-        <div id="newUpdateDialogFrame" class="tipDialogFrame"></div>
-        <div id="tipDialogFrame" class="tipDialogFrame"></div>
 
-	        <table class="table table-striped table-bordered table-hover dataTable">
-	            <thead>
-	            <tr>
-	                <th>ID</th>
-	                <th>角色名称</th>
-	                <th>创建时间</th>
-	             
-	                <th class="action-cl">操作</th>
-	               
-	            </tr>
-	            </thead>
-	            <tbody>
-	                #foreach($row in $result.rows)
-	                <tr>
-	                	<td> $!{row.id} </td>
-	                	<td> $!{row.name} </td>
-	                	<td> $!{row.createTimeStr} </td>
-		                <td class="action-cl">
-	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
-                            <span class="arr">|</span>
-                            <a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
-	                    </td>
-	                </tr>
-	                #end
-	            </tbody>
-	       	</table>
-			<div id="dialog-confirm" title="删除" class="pop-con-tip" style="display: none;">
-				确认删除？
-			</div>
-	        <div class="dataTables_wrapper f-mt2">
-	            <ul class="pagination">
-	           		#set($pageRequestURL="$!{www}/sysRole?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
-	            </ul>
-            </div>
+        <table class="layui-hide" id="test" lay-filter="demo"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+##        <div id="newUpdateDialogFrame" class="tipDialogFrame"></div>
+##        <div id="tipDialogFrame" class="tipDialogFrame"></div>
+##
+##	        <table class="table table-striped table-bordered table-hover dataTable">
+##	            <thead>
+##	            <tr>
+##	                <th>ID</th>
+##	                <th>角色名称</th>
+##	                <th>创建时间</th>
+##	             
+##	                <th class="action-cl">操作</th>
+##	               
+##	            </tr>
+##	            </thead>
+##	            <tbody>
+##	                #foreach($row in $result.rows)
+##	                <tr>
+##	                	<td> $!{row.id} </td>
+##	                	<td> $!{row.name} </td>
+##	                	<td> $!{row.createTimeStr} </td>
+##		                <td class="action-cl">
+##	                    	<a href="#" class="j_update-btn" data-id="$!{row.id}">修改</a>
+##                            <span class="arr">|</span>
+##                            <a href="#" class="j_delete-btn" data-id="$!{row.id}">删除</a>
+##	                    </td>
+##	                </tr>
+##	                #end
+##	            </tbody>
+##	       	</table>
+##			<div id="dialog-confirm" title="删除" class="pop-con-tip" style="display: none;">
+##				确认删除？
+##			</div>
+##	        <div class="dataTables_wrapper f-mt2">
+##	            <ul class="pagination">
+##	           		#set($pageRequestURL="$!{www}/sysRole?pageIndex=[PAGINATION_PAGE_INDEX]#if($!{result.queryParameters})&$!{result.queryParameters}#end") #paginationHelper($result $pageRequestURL)
+##	            </ul>
+##            </div>
     </div><!-- /.page-content -->
 </div><!-- /.main-content -->
