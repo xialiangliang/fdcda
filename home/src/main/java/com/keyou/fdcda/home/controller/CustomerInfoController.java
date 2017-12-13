@@ -400,13 +400,15 @@ public class CustomerInfoController extends BaseController {
 
 	@RequestMapping(value="/addToBlackList")
 	@ResponseBody
-	public Map<String, Object> addToBlackList(Long id, HttpServletRequest request) throws Exception {
+	public Map<String, Object> addToBlackList(Long id, String reason, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			CustomerInfo customerInfo = customerInfoService.findById(id);
 			Assert.isTrue(customerInfo.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 			customerInfo.setIsBlack(1);
+			customerInfo.setBlackReason(reason);
+			customerInfo.setBlackTime(new Date());
 			customerInfo.setModifyTime(new Date());
 			customerInfoService.update(customerInfo);
 			map.put(Constants.SUCCESS, true);

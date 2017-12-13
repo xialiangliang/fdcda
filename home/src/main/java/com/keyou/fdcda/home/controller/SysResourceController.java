@@ -120,6 +120,15 @@ public class SysResourceController extends BaseController {
 		map.put("result", result.getData());
 		return map;
 	}
+
+	@RequestMapping("/listJson")
+	@ResponseBody
+	public List<Map> listJson() throws Exception {
+		Map<String, Object> query = new HashMap<>();
+		query.put("sortByParent", "asc");
+		List<Map> result = sysResourceService.getTopologicalResourceJsonData(query);
+		return result;
+	}
 	
 }
 

@@ -8,4 +8,6 @@ import com.keyou.fdcda.api.service.base.BaseService;
 
 public interface CustomerInfoService extends BaseService<CustomerInfo, Long> {
     PageResult<CustomerInfo> findSystemBlackPage(PaginationQuery query);
+
+    PageResult<CustomerInfo> findBlackPage(PaginationQuery query);
 }

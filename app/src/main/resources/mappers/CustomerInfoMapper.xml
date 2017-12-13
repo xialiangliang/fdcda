@@ -23,11 +23,13 @@
 		<result property="isVip" jdbcType="DECIMAL" column="IS_VIP"/>
 		<result property="source" jdbcType="DECIMAL" column="SOURCE"/>
 		<result property="customerCard" jdbcType="VARCHAR" column="CUSTOMER_CARD"/>
+		<result property="blackReason" jdbcType="VARCHAR" column="BLACK_REASON"/>
+		<result property="blackTime" jdbcType="TIMESTAMP" column="BLACK_TIME"/>
     </resultMap>
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,NAME ,PHONE ,GENDER ,NATIONALITY ,PROVINCE ,CITY ,COMPANYID ,COMPANY_NAME ,ADDRESS ,IMAGE_URL ,VALID_FLAG ,CREATE_TIME ,QQ ,WEIXIN ,MODIFY_TIME ,USER_ROW_ID ,IS_BLACK ,IS_VIP ,SOURCE ,CUSTOMER_CARD 
+        ID ,NAME ,PHONE ,GENDER ,NATIONALITY ,PROVINCE ,CITY ,COMPANYID ,COMPANY_NAME ,ADDRESS ,IMAGE_URL ,VALID_FLAG ,CREATE_TIME ,QQ ,WEIXIN ,MODIFY_TIME ,USER_ROW_ID ,IS_BLACK ,IS_VIP ,SOURCE ,CUSTOMER_CARD ,BLACK_REASON ,BLACK_TIME  
 	    ]]>
 	</sql>
 	
@@ -57,7 +59,9 @@
         	IS_BLACK ,
         	IS_VIP ,
         	SOURCE ,
-        	CUSTOMER_CARD
+        	CUSTOMER_CARD ,
+        	BLACK_REASON ,
+        	BLACK_TIME
 		) VALUES (
         	#{id,jdbcType=DECIMAL} ,
         	#{name,jdbcType=VARCHAR} ,
@@ -79,7 +83,9 @@
         	#{isBlack,jdbcType=DECIMAL} ,
         	#{isVip,jdbcType=DECIMAL} ,
         	#{source,jdbcType=DECIMAL} ,
-        	#{customerCard,jdbcType=VARCHAR} 
+        	#{customerCard,jdbcType=VARCHAR} ,
+        	#{blackReason,jdbcType=VARCHAR} ,
+        	#{blackTime,jdbcType=TIMESTAMP} 
 		)
 	]]>
 	</insert>
@@ -145,7 +151,13 @@
 	        SOURCE = #{source,jdbcType=DECIMAL} ,
 	        </if>
 			<if test="customerCard != null">
-				CUSTOMER_CARD = #{customerCard,jdbcType=VARCHAR}
+				CUSTOMER_CARD = #{customerCard,jdbcType=VARCHAR} ,
+			</if>
+			<if test="blackReason != null">
+				BLACK_REASON = #{blackReason,jdbcType=VARCHAR} ,
+			</if>
+			<if test="blackTime != null">
+				BLACK_TIME = #{blackTime,jdbcType=TIMESTAMP}
 			</if>
 	    </set>
 		WHERE 
@@ -193,8 +205,24 @@
 		select <include refid="columns"/>, rn from (
 		select <include refid="columns"/>, rownum as rn
 		from (
-		select <include refid="columns"/> from CUSTOMER_INFO ORDER BY ID DESC
+		select <include refid="columns"/> from CUSTOMER_INFO ORDER BY ID DESC nulls last
 		) where USER_ROW_ID is null and IS_BLACK = 2
+		<include refid="queryWhere"/>
+		and rownum &lt;= (${startRecord} + ${endRecord})
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findBlackPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		select count(*) from CUSTOMER_INFO where 1=1
+		<include refid="queryWhere"/>
+	</select>
+
+	<select id="findBlackPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+		select <include refid="columns"/>, rownum as rn
+		from (
+		select <include refid="columns"/> from CUSTOMER_INFO ORDER BY BLACK_TIME DESC nulls last
+		) where 1=1
 		<include refid="queryWhere"/>
 		and rownum &lt;= (${startRecord} + ${endRecord})
 		) where rn > ${startRecord}
@@ -281,6 +309,12 @@
 		</if>
 		<if test="customerCard != null and customerCard.trim() != ''">
 			and CUSTOMER_CARD = #{customerCard}
+		</if>
+		<if test="blackReason != null and blackReason.trim() != ''">
+			and BLACK_REASON = #{blackReason}
+		</if>
+		<if test="blackTime != null and blackTime.trim() != ''">
+			and BLACK_TIME = #{blackTime}
 		</if>
 	</sql>
 </mapper>

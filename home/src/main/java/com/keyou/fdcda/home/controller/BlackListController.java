@@ -170,7 +170,7 @@ public class BlackListController extends BaseController {
 		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
 			query.addQueryData("phone", phoneStr);
 		}
-		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
+		PageResult<CustomerInfo> pageList = customerInfoService.findBlackPage(query);
 		map.put("data", pageList.getRows());
 		map.put("code", 0);
 		map.put("msg", "");
@@ -242,12 +242,9 @@ public class BlackListController extends BaseController {
 		query.addQueryData("nameStr", nameStr);
 		query.addQueryData("phoneStr", phoneStr);
 		query.addQueryData("isBlack", "2");
-		PageResult<CustomerInfo> pageList = customerInfoService.findSystemBlackPage(query);
-		model.addAttribute("result", pageList);
+//		PageResult<CustomerInfo> pageList = customerInfoService.findSystemBlackPage(query);
+//		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
-		model.addAttribute("countryMap", AreaConstants.countryMap);
-		model.addAttribute("provinceMap", AreaConstants.provinceMap);
-		model.addAttribute("cityMap", AreaConstants.cityMap);
 		return "/page/blackList/system/list";
 	}
 
@@ -292,9 +289,43 @@ public class BlackListController extends BaseController {
 		map.put("msg", "");
 		map.put("count", pageList.getRowCount());
 		map.put("query", query.getQueryData());
-		map.put("countryMap", AreaConstants.countryMap);
-		map.put("provinceMap", AreaConstants.provinceMap);
-		map.put("cityMap", AreaConstants.cityMap);
+		return map;
+	}
+
+
+
+	@RequestMapping("/newBlack/list")
+	public String list(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr) throws Exception {
+		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("isBlack", "0");
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
+			query.addQueryData("phone", phoneStr);
+		}
+		model.addAttribute("query", query.getQueryData());
+		return "/page/blackList/new/list";
+	}
+
+	@RequestMapping("/newBlack/list/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("isBlack", "0");
+		query.addQueryData("phoneStr", phoneStr);
+		if (StringUtil.isNotBlank(phoneStr) && phoneStr.length() == 13) {
+			query.addQueryData("phone", phoneStr);
+		}
+		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		map.put("areaMap", AreaConstants.AreaJsonStr);
 		return map;
 	}
 	

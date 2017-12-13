@@ -102,7 +102,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         String uri = request.getRequestURI().replace(request.getContextPath(), "");
         HttpSession session = request.getSession();
         SysUser user = (SysUser) session.getAttribute(Constants.SESSION_USER);
+        
         if (user != null && user.getId() > 0 && mav != null) {
+            // 重定向请求不返回model数据
+            if (mav.getViewName().startsWith("redirect:")) {
+                return;
+            }
             mav.addObject("user", user);
 
             Long current_top_id = 0L;

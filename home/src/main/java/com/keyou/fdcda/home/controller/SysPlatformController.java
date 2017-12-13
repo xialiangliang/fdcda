@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,5 +113,29 @@ public class SysPlatformController extends BaseController {
         model.addAttribute("result", pageList);
         model.addAttribute("query", query.getQueryData());
         return "/page/sysLoginlog/list";
+    }
+
+    @RequestMapping("/listJson")
+    @ResponseBody
+    public Map<String, Object> listJson(HttpServletRequest request, PaginationQuery query, Long userId, Integer page, Integer limit) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        this.formatPageQuery(query, page, limit);
+        if (userId != null) {
+            query.addQueryData("userId", userId.toString());
+        }
+        PageResult<SysLoginlog> pageList = sysLoginlogService.findPage(query);
+        if (pageList.getRowCount() > 0) {
+            pageList.getRows().forEach(sysLoginlog -> {
+                SysUser user = sysUserService.findById(sysLoginlog.getUserId());
+                sysLoginlog.setName(user.getUsername());
+                sysLoginlog.setLoginName(user.getLoginname());
+            });
+        }
+        map.put("data", pageList.getRows());
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", pageList.getRowCount());
+        map.put("query", query.getQueryData());
+        return map;
     }
 }

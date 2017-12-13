@@ -13,4 +13,8 @@ public interface CustomerInfoMapper extends BaseMapper<CustomerInfo, Long> {
     Long findSystemBlackPageCount(Map<String, Object> map);
 
     List<CustomerInfo> findSystemBlackPage(Map<String, Object> map);
+
+    Long findBlackPageCount(Map<String, Object> queryData);
+
+    List<CustomerInfo> findBlackPage(Map<String, Object> queryData);
 }

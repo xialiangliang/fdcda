@@ -7798,6 +7798,52 @@ a:hover {
   color: #fff;
   cursor: pointer;
   position: relative;
+  z-index: 1;
+}
+
+.yw_settings__menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  background-color: #fff;
+  width: 90px;
+  -webkit-box-shadow: 0 0 5px #ccc;
+  box-shadow: 0 0 5px #ccc;
+}
+
+.yw_settings__menu:before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  border-width: 5px;
+  border-color: transparent;
+  border-style: dashed;
+  border-bottom-color: #fff;
+  border-bottom-style: solid;
+  z-index: 2;
+}
+
+.yw_settings__menu__list > a {
+  display: block;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.yw_settings__menu__list > a:hover {
+  background-color: #1884FF;
+  color: #fff;
+}
+
+.yw_settings:hover .yw_settings__menu {
+  display: block;
 }
 
 /*Main*/
@@ -7908,16 +7954,6 @@ a:hover {
 .yw_visitorIcon-normal {
   background-image: url("/upload/img/icon_visitor.png");
 }
-
-.yw_visitor__content {
-  /*@at-root .yw_visitorMoreBox {
-        float: left;
-        width: 140px;
-        margin-right: 30px;
-        margin-top: 20px;
-      }*/
-}
-
 .yw_visitorItem__list {
   float: left;
   width: 140px;
@@ -8132,6 +8168,7 @@ a.yw_visitorMore {
   background: url("/upload/img/icon_arrowUp.png") no-repeat center center;
 }
 
+/*end--ztree表格*/
 /*Buyer Container*/
 .yw_buyerContainer {
   margin-left: 280px;
@@ -8142,6 +8179,66 @@ a.yw_visitorMore {
 .yw_box {
   padding: 30px;
   border: 1px solid #bebebe;
+  /*ztree表格*/
+}
+
+.yw_box .ztree {
+  border: 1px solid #CDD6D5;
+  padding: 0;
+}
+
+.yw_box .ztree li a {
+  display: inline-block;
+  vertical-align: middle;
+  height: 45px;
+  line-height: 45px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.yw_box .ztree li > a {
+  width: 100%;
+}
+
+.yw_box .ztree li > a, .yw_box .ztree li a.curSelectedNode {
+  padding-top: 0;
+  height: 45px;
+  cursor: default;
+  opacity: 1;
+}
+
+.yw_box .ztree li a.curSelectedNode {
+  background-color: #fafafa;
+  border: none;
+}
+
+.yw_box .ztree li ul {
+  padding-left: 0;
+}
+
+.yw_box .ztree .diy {
+  display: inline-block;
+  padding-left: 20px;
+  border-left: 1px solid #f0f0f0;
+}
+
+.yw_box .ztree .diy:first-child {
+  border-left: none;
+}
+
+.yw_box .ztree .head {
+  background: #5787EB;
+  font-size: 0;
+}
+
+.yw_box .ztree .head .diy {
+  border-top: none;
+  border-left: 1px solid #CDD2D4;
+  color: #fff;
+  font-size: 14px;
+}
+
+.yw_box .ztree .head .diy:first-child {
+  border-left: none;
 }
 
 .yw_buyerView__list {

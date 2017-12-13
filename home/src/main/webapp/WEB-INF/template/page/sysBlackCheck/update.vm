@@ -26,6 +26,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
+                <button type="button" class="layui-btn" onclick="window.location.href='/sysBlackCheck'">返回</button>
                 <button type="button" class="layui-btn layui-btn-normal btn-success">通过</button>
                 <button type="button" class="layui-btn layui-btn-normal btn-failed">驳回</button>
             </div>

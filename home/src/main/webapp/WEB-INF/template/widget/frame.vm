@@ -49,28 +49,28 @@
 ##        </div>
 ##        #end
 ##    </div>
-#if(${topResource.size()} > 0 && ${topResource[0].id} == $!{current_top_id})
-<script>
-    $(function () {
-        $('#topTab li:eq(0) a').tab('show');
-    });
-    var width = $(this).width();
-    var height = $(this).height();
-    $(window).init(function () {
-        var cwidth = $('.tab-content-main').width();
-        if (width < 1170) {
-            $('.tab-content-main').css('width', width / 6 - 15);
-        }
-    });
-    $(window).resize(function() {
-        width = $(this).width();
-        height = $(this).height();
-        var cwidth = $('.tab-content-main').width();
-        if (width < 1170) {
-            $('.tab-content-main').css('width', width / 6 - 15);
-        } else {
-            $('.tab-content-main').css('width', 180);
-        }
-    });
-</script>
-#end
+###if(${topResource.size()} > 0 && ${topResource[0].id} == $!{current_top_id})
+##<script>
+##    $(function () {
+##        $('#topTab li:eq(0) a').tab('show');
+##    });
+##    var width = $(this).width();
+##    var height = $(this).height();
+##    $(window).init(function () {
+##        var cwidth = $('.tab-content-main').width();
+##        if (width < 1170) {
+##            $('.tab-content-main').css('width', width / 6 - 15);
+##        }
+##    });
+##    $(window).resize(function() {
+##        width = $(this).width();
+##        height = $(this).height();
+##        var cwidth = $('.tab-content-main').width();
+##        if (width < 1170) {
+##            $('.tab-content-main').css('width', width / 6 - 15);
+##        } else {
+##            $('.tab-content-main').css('width', 180);
+##        }
+##    });
+##</script>
+###end

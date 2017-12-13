@@ -79,4 +79,16 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         }
         return new PageResult<>(list, count.intValue(), query);
     }
+
+    @Override
+    public PageResult<CustomerInfo> findBlackPage(PaginationQuery query) {
+        List<CustomerInfo> list = new ArrayList<>();
+        Long count = customerInfoMapper.findBlackPageCount(query.getQueryData());
+        if (count > 0) {
+            query.addQueryData("startRecord", (query.getPageIndex() - 1) * query.getRowsPerPage());
+            query.addQueryData("endRecord", query.getRowsPerPage());
+            list = customerInfoMapper.findBlackPage(query.getQueryData());
+        }
+        return new PageResult<>(list, count.intValue(), query);
+    }
 }
