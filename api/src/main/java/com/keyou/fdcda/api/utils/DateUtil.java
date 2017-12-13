@@ -78,4 +78,34 @@ public class DateUtil {
         }
         return date;
     }
+    
+    
+    /**
+     * 日期相加
+     * @param date 日期
+     * @param day 天数，可为负数
+     * @return 返回相加后的日期
+     */
+    public static java.util.Date addDate(java.util.Date date, int day)
+    {
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTimeInMillis(getMillis(date) + ((long) day) * 24 * 3600 * 1000);
+        return c.getTime();
+    }
+    
+    /**
+     * 返回毫秒
+     * @param date 日期
+     * @return 返回毫秒
+     */
+    public static long getMillis(java.util.Date date)
+    {
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTime(date);
+        return c.getTimeInMillis();
+    }
+    
+    public static void main(String[] args) {
+		System.out.println(getDate(addDate(new Date(), -7), DATETIME_FORMAT));
+	}
 }

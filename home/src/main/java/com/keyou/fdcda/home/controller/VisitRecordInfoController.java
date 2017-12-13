@@ -1,5 +1,6 @@
 package com.keyou.fdcda.home.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.keyou.fdcda.api.utils.config.UrlConfig;
+import com.keyou.fdcda.home.controller.base.BaseController;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +27,8 @@ import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
 import com.keyou.fdcda.api.service.ImageInfoService;
 import com.keyou.fdcda.api.service.VisitRecordInfoService;
+import com.keyou.fdcda.api.utils.DateUtil;
 import com.keyou.fdcda.api.utils.StringUtil;
-import com.keyou.fdcda.home.controller.base.BaseController;
 
 @Controller
 @RequestMapping
@@ -117,7 +120,29 @@ public class VisitRecordInfoController extends BaseController {
 	}
 
 	@RequestMapping(value = "/visitRecordInfo", method = RequestMethod.GET)
-	public String list(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
+	public String list(PaginationQuery query, Model model, HttpServletRequest request,String begin,String end) throws Exception {
+		SysUser sysUser = getUser(request);
+		if (sysUser == null) {
+			return "redirect:/login";
+		}
+		Map<String, Object> map = new HashMap<>();
+		
+		if (StringUtil.isBlank(begin) && StringUtil.isBlank(end)) {
+			Date now = new Date();
+			begin = DateUtil.getDate(DateUtil.addDate(now, -7), DateUtil.DATETIME_FORMAT);
+			end = DateUtil.getDate(now, DateUtil.DATETIME_FORMAT);
+		}
+		
+		map.put("begin", begin);
+		map.put("end", end);
+		map.put("userRowId", sysUser.getId());
+		 
+		 
+		return "/page/visitinfo/list";
+	}
+	
+	
+	public String list_bak(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
 		SysUser sysUser = getUser(request);
 		if (sysUser == null) {
 			return "redirect:/login";

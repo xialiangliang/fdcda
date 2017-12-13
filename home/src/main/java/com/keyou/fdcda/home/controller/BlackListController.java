@@ -255,7 +255,7 @@ public class BlackListController extends BaseController {
 	public String systemFind(Long id, Model model, HttpServletRequest request){
 		try {
 			// TODO zzq
-//			id = 6081L;
+			id = 6081L;
 			CustomerInfo customerInfo = customerInfoService.findById(id);
 			Assert.isTrue(!customerInfo.getIsBlack().equals(2), "用户不在经侦黑名单中");
 			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
