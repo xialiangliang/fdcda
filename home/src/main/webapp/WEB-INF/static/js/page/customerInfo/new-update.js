@@ -30,7 +30,7 @@ $(function(){
     updateForm.ajaxForm({
         beforeSerialize: function () {
             if ($('#file').val() === '') {
-                tip("请选择图片", false);
+               // tip("请选择图片", false);
             }
         },
         success: function (data) {

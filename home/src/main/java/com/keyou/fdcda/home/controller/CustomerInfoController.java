@@ -229,7 +229,7 @@ public class CustomerInfoController extends BaseController {
 	
 	@RequestMapping(value="/update")
 	@ResponseBody
-	public Map<String, Object> update(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model, HttpServletRequest request, @RequestParam("file") MultipartFile file) throws Exception {		
+	public Map<String, Object> update(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model, HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			CustomerInfo customerInfo1 = customerInfoService.findById(customerInfo.getId());
