@@ -13,11 +13,15 @@
 		<result property="createDate" jdbcType="DATE" column="CREATE_DATE"/>
 		<result property="visitType" jdbcType="DECIMAL" column="VISIT_TYPE"/>
 		<result property="imageUrl" jdbcType="VARCHAR" column="IMAGE_URL"/>
+		<result property="visitYear" jdbcType="VARCHAR" column="VISIT_YEAR"/>
+		<result property="visitMonth" jdbcType="VARCHAR" column="VISIT_MONTH"/>
+		<result property="visitDay" jdbcType="DATE" column="VISIT_DAY"/>
+		<result property="visitCount" jdbcType="INTEGER" column="VISIT_COUNT"/>
     </resultMap>
 	
 	<sql id="columns">
 	    <![CDATA[
-        VISIT_ROW_ID ,IMAGE_ROW_ID ,CAMERA_CODE ,CUSTOMER_ROW_ID ,USER_ROW_ID ,NAME ,PHONE ,SIMILAR_DEGREE ,CREATE_DATE ,IMAGE_URL,VISIT_TYPE 
+        VISIT_ROW_ID ,IMAGE_ROW_ID ,CAMERA_CODE ,CUSTOMER_ROW_ID ,USER_ROW_ID ,NAME ,PHONE ,SIMILAR_DEGREE ,CREATE_DATE ,VISIT_YEAR,VISIT_MONTH,VISIT_Day,IMAGE_URL,VISIT_TYPE 
 	    ]]>
 	</sql>
 	
@@ -35,6 +39,9 @@
         	PHONE ,
         	SIMILAR_DEGREE ,
         	CREATE_DATE ,
+        	VISIT_YEAR,
+        	VISIT_MONTH,
+        	VISIT_Day,
         	IMAGE_URL,
         	VISIT_TYPE 
 		) VALUES (
@@ -46,6 +53,9 @@
         	#{phone,jdbcType=VARCHAR} ,
         	#{similarDegree,jdbcType=DECIMAL} ,
         	#{createDate,jdbcType=DATE} ,
+        	#{visitYear,jdbcType=VARCHAR} ,
+        	#{visitMonth,jdbcType=VARCHAR} ,
+        	#{visitDay,jdbcType=DATE} ,
         	#{imageUrl,jdbcType=VARCHAR} ,
         	#{visitType,jdbcType=DECIMAL} 
 		)
@@ -124,6 +134,26 @@
 	    <![CDATA[ ORDER BY VISIT_ROW_ID DESC ]]>) t where t.rn &lt;= ${endRecord} and t.rn > ${startRecord}
 	</select>
 	
+	<select id="selectDayCountReport" resultMap="BaseResultMap" parameterType="java.util.Map">
+	 select t.visit_type, count(*) visit_count
+	 from visit_record_info t
+	 where t.create_date &lt;= to_date(#{endDate}, 'yyyy-MM-dd HH24:mm:ss')
+	   and t.create_date >= to_date(#{beginDate}, 'yyyy-MM-dd HH24:mm:ss')
+	  <include refid="queryWhere"/> 
+	 group by t.visit_type
+
+	</select>
+	
+	<select id="selectDayDetailReport" resultMap="BaseResultMap" parameterType="java.util.Map">
+	select t.visit_day, count(*) visit_count
+	  from visit_record_info t
+	 where t.visit_day &lt;= to_date(#{endDate}, 'yyyy-MM-dd')
+	   and t.visit_day >= to_date(#{beginDate}, 'yyyy-MM-dd')
+	  <include refid="queryWhere"/> 
+	 group by t.visit_day
+
+	</select>
+	
 	<sql id="queryWhere">
 		<if test="visitRowId != null  ">
 		and VISIT_ROW_ID = #{visitRowId}
@@ -166,6 +196,21 @@
 		<if test="createToday != null and createToday.trim() != ''">
 		 <![CDATA[ and create_date >= TO_DATE(TO_CHAR(SYSDATE, 'yyyy-mm-dd') || ' 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and create_date <= TO_DATE(TO_CHAR(SYSDATE, 'yyyy-mm-dd') || ' 23:59:59', 'yyyy-mm-dd hh24:mi:ss') ]]>
 		</if>
+		
+		<if test="visitYear != null and visitYear.trim() != ''">
+		and VISIT_YEAR = #{visitYear}
+		</if>
+		<if test="visitMonth != null and visitMonth.trim() != ''">
+		and VISIT_MONTH = #{visitMonth}
+		</if>
+		
+		<if test="visitDayBegin != null and visitDayBegin.trim() != ''">
+		and visit_Day >=  to_date(#{visitDayBegin}, 'yyyy-MM-dd')
+		</if>
+		<if test="visitDayEnd != null and visitDayEnd.trim() != ''">
+		and visit_Day &lt;=  to_date(#{visitDayEnd}, 'yyyy-MM-dd')
+		</if>
+		
 	</sql>
 </mapper>
 

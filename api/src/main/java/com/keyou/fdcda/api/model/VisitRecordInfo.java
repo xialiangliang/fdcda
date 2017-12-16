@@ -50,7 +50,13 @@ public class VisitRecordInfo implements Serializable {
      */ 	
 	private Integer visitType;
 
+	private String visitYear;
 	
+	private String visitMonth;
+	
+	private java.util.Date visitDay;
+	
+	private Integer visitCount;
 	 /**
      * 图片url
      */ 	
@@ -147,6 +153,38 @@ public class VisitRecordInfo implements Serializable {
 
 	public void setImageUrl(java.lang.String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public String getVisitYear() {
+		return visitYear;
+	}
+
+	public void setVisitYear(String visitYear) {
+		this.visitYear = visitYear;
+	}
+
+	public String getVisitMonth() {
+		return visitMonth;
+	}
+
+	public void setVisitMonth(String visitMonth) {
+		this.visitMonth = visitMonth;
+	}
+
+	public Integer getVisitCount() {
+		return visitCount;
+	}
+
+	public void setVisitCount(Integer visitCount) {
+		this.visitCount = visitCount;
+	}
+
+	public java.util.Date getVisitDay() {
+		return visitDay;
+	}
+
+	public void setVisitDay(java.util.Date visitDay) {
+		this.visitDay = visitDay;
 	}
 
 	
