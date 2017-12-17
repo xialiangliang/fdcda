@@ -137,8 +137,8 @@
 	<select id="selectDayCountReport" resultMap="BaseResultMap" parameterType="java.util.Map">
 	 select t.visit_type, count(*) visit_count
 	 from visit_record_info t
-	 where t.create_date &lt;= to_date(#{endDate}, 'yyyy-MM-dd HH24:mm:ss')
-	   and t.create_date >= to_date(#{beginDate}, 'yyyy-MM-dd HH24:mm:ss')
+	 where t.create_date &lt;= to_date(#{endDate}, 'yyyy-MM-dd HH24:mi:ss')
+	   and t.create_date >= to_date(#{beginDate}, 'yyyy-MM-dd HH24:mi:ss')
 	  <include refid="queryWhere"/> 
 	 group by t.visit_type
 
@@ -147,8 +147,8 @@
 	<select id="selectDayDetailReport" resultMap="BaseResultMap" parameterType="java.util.Map">
 	select t.visit_day, count(*) visit_count
 	  from visit_record_info t
-	 where t.visit_day &lt;= to_date(#{endDate}, 'yyyy-MM-dd')
-	   and t.visit_day >= to_date(#{beginDate}, 'yyyy-MM-dd')
+	 where t.visit_day &lt;= to_date(substr(#{endDate},1,10), 'yyyy-MM-dd')
+	   and t.visit_day >= to_date(substr(#{beginDate},1,10), 'yyyy-MM-dd')
 	  <include refid="queryWhere"/> 
 	 group by t.visit_day
 
