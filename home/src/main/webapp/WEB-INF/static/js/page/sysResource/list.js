@@ -1,6 +1,14 @@
 $(function(){
-    layui.use(['layer'], function () {
-        var layer = layui.layer;
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer, form = layui.form;
+
+        function tip(msg, reload) {
+            layer.msg(msg,{time:1000},function () {
+                if (reload) {
+                    window.location.reload();
+                }
+            });
+        }
 
         /*树形表格 start*/
         var setting = {
@@ -25,6 +33,7 @@ $(function(){
                 enable: false
             }
         };
+        // ctrl  +shift + f9
         var $dataTree = $("#dataTree");
         function addDiyDom(treeId, treeNode) {
             var spaceWidth = 15;
@@ -104,19 +113,20 @@ $(function(){
                     var _this = $(this);
                     console.log(_this.data('id'));
 
-                    layer.open({
-                        title:'提示',
-                        btn: ['确定', '取消'],
-                        content: '你确定要删除ID为'+_this.data('id')+'的栏目么？',
-                        yes: function(index){
-                            //do something
-                            $thisLi.remove();
-
-                            /*$.post('', function (res) {
-                                $thisLi.remove();
-                            });*/
-                            layer.close(index); //如果设定了yes回调，需进行手工关闭
-                        }
+                    layer.confirm('确认删除？', function(index){
+                        $.ajax({
+                            url: '/sysResource/delete',
+                            data: {'id': _this.data('id')},
+                            async: false,
+                            success: function (data) {
+                                if (data.success) {
+                                    tip(data.message, true);
+                                } else {
+                                    tip(data.message, false);
+                                }
+                            }
+                        });
+                        layer.close(index);
                     });
                     e.stopPropagation ? e.stopPropagation() : e.cancelBubble=true;
                 });
@@ -125,9 +135,21 @@ $(function(){
                 $thisLi.delegate('.dt-edit', 'click',  function (e) {
                     e = event || window.event;
                     var _this = $(this);
-                    console.log(_this.data('id'));
+                    // console.log(_this.data('id'));
 
-                    location.href = './edit.php?id='+_this.data('id');
+                    // location.href = './edit.php?id='+_this.data('id');
+
+                    $.get('/sysResource/find', {'id':_this.data('id')}, function (data, textStatus, object) {
+                        layer.open({
+                            area: '500px',
+                            type: 1,
+                            content: object.responseText,
+                            success: function (index) {
+                                // alert(1);
+                                form.render();
+                            }
+                        });
+                    });
                     e.stopPropagation ? e.stopPropagation() : e.cancelBubble=true;
                 });
             });
@@ -135,6 +157,36 @@ $(function(){
 
         /*树形表格 End*/
 
+
+        $(".j_new-btn").click(function () {
+            $.get('/sysResource/new', {}, function (data, textStatus, object) {
+                layer.open({
+                    area: '500px',
+                    type: 1,
+                    content: object.responseText,
+                    success: function (index) {
+                        // alert(1);
+                        form.render();
+                    }
+                });
+            });
+            // window.location.href = '/sysResource/new';
+        });
+
+        //
+        // update_resource = function(id) {
+        //     $.get('/sysResource/find', {'id': id}, function (data, textStatus, object) {
+        //         /*layer.open({
+        //             area: '500px',
+        //             type: 1,
+        //             content: object.responseText,
+        //             success: function (index) {
+        //                 alert(1);
+        //                 form.render();
+        //             }
+        //         });*/
+        //     });
+        // };
     });
 
 
@@ -194,26 +246,4 @@ $(function(){
     //         selectedBackColor:"white"
     //     });
     // });
-
-    $(".j_new-btn").click(function () {
-        $.get('/sysResource/new', {}, function (data, textStatus, object) {
-            layer.open({
-                area: '500px',
-                type: 1,
-                content: object.responseText
-            });
-        });
-        // window.location.href = '/sysResource/new';
-    });
-
-
-    update_resource = function(id) {
-        $.get('/sysResource/find', {'id': id}, function (data, textStatus, object) {
-            layer.open({
-                area: '500px',
-                type: 1,
-                content: object.responseText
-            });
-        });
-    };
 });

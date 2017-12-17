@@ -106,7 +106,13 @@ $(function () {
             layer.open({
                 type: 1,
                 title: "修改密码",
-                content: object.responseText
+                content: object.responseText,
+                success: function (index) {
+                    $('.btn-close').on('click', function () {
+                        layer.close(layer.index)
+                    })
+
+                }
             });
         });
     });

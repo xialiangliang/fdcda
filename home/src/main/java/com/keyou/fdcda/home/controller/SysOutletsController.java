@@ -112,6 +112,20 @@ public class SysOutletsController extends BaseController {
 		return "/page/sysOutlets/list";
 	}
 
+	@RequestMapping("/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		query.addQueryData("userId", getUser(request).getId().toString());
+		PageResult<SysOutlets> pageList = sysOutletsService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		return map;
+	}
 
 	@RequestMapping("/sysDevice/list")
 	public String deviceList(PaginationQuery query,Model model,Long outletsId, HttpServletRequest request) throws Exception {
@@ -121,6 +135,22 @@ public class SysOutletsController extends BaseController {
 		model.addAttribute("outletsId", outletsId);
 		model.addAttribute("query", query.getQueryData());
 		return "/page/sysOutlets/sysDevice/list";
+	}
+
+	@RequestMapping("/sysDevice/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, Long outletsId, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		query.addQueryData("outletsId", outletsId.toString());
+//		query.addQueryData("userId", getUser(request).getId().toString());
+		PageResult<SysDevice> pageList = sysDeviceService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		return map;
 	}
 
 	@RequestMapping(value="/sysDevice/new")

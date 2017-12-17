@@ -57,9 +57,10 @@ $(function(){
     updateForm.ajaxForm({
         success: function (data) {
             if (data.success) {
-                layer.close(layer.index);
-                tip(data.message, true);
-            } else {
+                // layer.close(layer.index);
+                tip(data.message, false);
+                window.location.href = '/sysUser';
+            } else {    
                 tip(data.message, false);
             }
         }
@@ -76,19 +77,15 @@ $(function(){
                 async: false,
                 success: function (data) {
                     if (data.success) {
-                        if (data.success) {
-                            layer.close(layer.index);
-                            var htmlStr = '手机号：' + data.phone + '<br>'
-                                + '登录名：' + data.loginname + '<br>'
-                                + '密码：' + data.password;
-                            layer.open({
-                                type: 1,
-                                title: "新密码",
-                                content: htmlStr
-                            });
-                        } else {
-                            tip(data.message, false);
-                        }
+                        layer.close(layer.index);
+                        var htmlStr = '手机号：' + data.phone + '<br>'
+                            + '登录名：' + data.loginname + '<br>'
+                            + '密码：' + data.password;
+                        layer.open({
+                            type: 1,
+                            title: "新密码",
+                            content: htmlStr
+                        });
                     } else {
                         tip(data.message, false);
                     }

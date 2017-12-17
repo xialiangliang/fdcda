@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/css/module.css">
 #if($!{CSS})
     #foreach($_css in ${CSS})
-        <link type="text/css" rel="stylesheet" href="/$_css">
+        <link type="text/css" rel="stylesheet" href="${_css}">
     #end
 #end
 #if($!JS)
