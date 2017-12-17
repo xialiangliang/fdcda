@@ -47,6 +47,10 @@ public class SysResourceController extends BaseController {
 			model.addAttribute("param", sysResource);
 			Map<String, Object> query = new HashMap<>();
 			query.put("parentId", "0");
+			List<SysResource> topList = sysResourceService.findAllPage(query);
+			model.addAttribute("topList", topList);
+			query = new HashMap<>();
+			query.put("type", "1");
 			List<SysResource> parentList = sysResourceService.findAllPage(query);
 			model.addAttribute("parentList", parentList);
 			model.addAttribute("iconList", IconConstants.ICON_LIST);

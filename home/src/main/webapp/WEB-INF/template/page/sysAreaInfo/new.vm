@@ -1,54 +1,25 @@
-###set($layout = "/layout/layout2.vm")
+#set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/page/sysAreaInfo/new-update.js", "/js/jquery.form.min.js"])
-<div class="yw_buyerContainer">
-<div class="yw_breadcrumb">
-    当前位置：<a href="javascript:;">$!{currentPosStr}</a>
-</div>
 <div class="col-sm-12">
     <form action="/sysAreaInfo/save"  method="post" class="form-horizontal layui-form" id="newForm_sysAreaInfo">
-        <div class="form-group">
-            <label for="id" class="col-sm-2 control-label">id主键</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="id" name="id" value="$!{param.id}" >
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">区域</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="areaName" name="areaName" value="$!{param.areaName}" >
             </div>
-        </div>    
-        <div class="form-group">
-            <label for="code" class="col-sm-2 control-label">区域code</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="code" name="code" value="$!{param.code}" >
+        </div>
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">行业</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="tradeName" name="tradeName" value="$!{param.tradeName}" >
             </div>
-        </div>    
-        <div class="form-group">
-            <label for="areaname" class="col-sm-2 control-label">区域名</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="areaname" name="areaname" value="$!{param.areaname}" >
-            </div>
-        </div>    
-        <div class="form-group">
-            <label for="sort" class="col-sm-2 control-label">排序</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="sort" name="sort" value="$!{param.sort}" >
-            </div>
-        </div>    
-        <div class="form-group">
-            <label for="vaild" class="col-sm-2 control-label">是否有效1有效2无效</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="vaild" name="vaild" value="$!{param.vaild}" >
-            </div>
-        </div>    
-        <div class="form-group">
-            <label for="parentcode" class="col-sm-2 control-label">父区域code</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="parentcode" name="parentcode" value="$!{param.parentcode}" >
-            </div>
-        </div>    
-        <div class="form-group" align="right">
-            <div class="col-sm-12">
-                <button type="button" class="btn btn-default btn-close">关闭</button>
-                <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+        <div class="layui-form-item" align="right">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-primary btn-close">关闭</button>
+                <button type="submit" class="layui-btn layui-btn-normal">提交</button>
             </div>
         </div>
     </form>
-</div>
 </div>

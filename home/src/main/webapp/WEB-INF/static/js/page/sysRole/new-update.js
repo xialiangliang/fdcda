@@ -1,5 +1,6 @@
 $(function(){
 
+    var tree_updated_data = {};
     layui.use(['layer'], function () {
         var layer = layui.layer;
 
@@ -12,7 +13,8 @@ $(function(){
                 selectedMulti: false
             },
             check: {
-                enable: true
+                enable: true,
+                autoCheckTrigger: true
             },
             data: {
                 simpleData: {
@@ -24,6 +26,16 @@ $(function(){
             },
             edit: {
                 enable: false
+            },
+            callback: {
+                onCheck: zTreeOnCheck
+            }
+        };
+        function zTreeOnCheck(event, treeId, treeNode) {
+            if (treeNode.checked) {
+                tree_updated_data[treeNode.id] = '1';
+            } else {
+                tree_updated_data[treeNode.id] = '0';
             }
         };
         var $dataTree = $("#dataTree");
@@ -55,7 +67,7 @@ $(function(){
             var editStr = '';
             //宽度需要和表头保持一致
             editStr += '<div class="diy" style="width:15%;">' + treeNode.id + '</div>';
-            editStr += '<div class="diy" style="width:20%">' + treeNode.dir + '</div>';
+            editStr += '<div class="diy" style="width:50%">' + treeNode.dir + '</div>';
             editStr += '<div class="diy" style="width:10%;">' + treeNode.sort + '</div>';
             // editStr += '<div class="diy" style="width:15%;">' + treeNode.channel_comment + '</div>';
             editStr += '<div class="diy" style="width:15%; text-align: center">' + formatHandle(treeNode) + '</div>';
@@ -71,10 +83,10 @@ $(function(){
                 '    <a>\n' +
                 '        <div class="diy" style="width:25%; ">名称</div>\n' +
                 '        <div class="diy" style="width:15%;">ID</div>\n' +
-                '        <div class="diy" style="width:20%">资源路径</div>\n' +
+                '        <div class="diy" style="width:50%">资源路径</div>\n' +
                 '        <div class="diy" style="width:10%;">排序</div>\n' +
                 // '        <div class="diy" style="width:15%; ">备注</div>\n' +
-                '        <div class="diy" style="width:15%; text-align: center;">操作</div>\n' +
+                // '        <div class="diy" style="width:15%; text-align: center;">操作</div>\n' +
                 '    </a>\n' +
                 '</li>';
             var rows = $dataTree.find('li');
@@ -89,8 +101,8 @@ $(function(){
         function formatHandle(treeNode) {
             var html = '';
             //html += '<button class="layui-btn layui-btn-primary layui-btn-xs v-middle dt-view" data-id="'+treeNode.id+'" >查看</button>';
-            html += '<button class="layui-btn layui-btn-normal layui-btn-xs v-middle dt-edit" data-id="'+treeNode.id+'">修改</button>';
-            html += '<button class="layui-btn layui-btn-danger layui-btn-xs v-middle dt-del" data-id="'+treeNode.id+'">删除</button>';
+            // html += '<button class="layui-btn layui-btn-normal layui-btn-xs v-middle dt-edit" data-id="'+treeNode.id+'">修改</button>';
+            // html += '<button class="layui-btn layui-btn-danger layui-btn-xs v-middle dt-del" data-id="'+treeNode.id+'">删除</button>';
             return html;
         }
 
@@ -236,5 +248,5 @@ $(function(){
     });
     $(".btn-close").click(function () {
         layer.close(layer.index);
-    })
+    });
 });
