@@ -133,10 +133,14 @@ public class VisitRecordInfoController extends BaseController {
 			end = DateUtil.getDate(now, DateUtil.DATETIME_FORMAT);
 		}
 		
-		map.put("begin", begin);
-		map.put("end", end);
+		map.put("beginDate", begin);
+		map.put("endDate", end);
 		map.put("userRowId", sysUser.getId());
 		 
+		List<VisitRecordInfo> dayCountReport = visitRecordInfoService.selectDayCountReport(map);
+		
+		List<VisitRecordInfo> dayDetailReport = visitRecordInfoService.selectDayDetailReport(map);
+		
 		 
 		return "/page/visitinfo/list";
 	}
