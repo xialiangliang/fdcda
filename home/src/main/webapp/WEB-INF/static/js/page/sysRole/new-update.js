@@ -248,5 +248,5 @@ $(function(){
     });
     $(".btn-close").click(function () {
         layer.close(layer.index);
-    })
+    });
 });

@@ -69,37 +69,64 @@ $(function(){
     });
     
     $(".btn-resetpwd").click(function () {
-        $( "#dialog-confirm" ).dialog({
-            resizable: false,
-            modal: true,
-            buttons: {
-                '确定': function () {
-                    $.ajax({
-                        url: '/sysUser/resetPassword',
-                        data: {'userId': $('#id').val()},
-                        async: false,
-                        success: function (data) {
-                            if (data.success) {
-                                layer.close(layer.index);
-                                var htmlStr = '手机号：' + data.phone + '<br>'
-                                    + '登录名：' + data.loginname + '<br>'
-                                    + '密码：' + data.password;
-                                layer.open({
-                                    type: 1,
-                                    title: "新密码",
-                                    content: htmlStr
-                                });
-                            } else {
-                                tip(data.message, false);
-                            }
+        layer.confirm('确认重置密码？', function(index){
+            $.ajax({
+                url: '/sysUser/resetPassword',
+                data: {'userId': $('#id').val()},
+                async: false,
+                success: function (data) {
+                    if (data.success) {
+                        if (data.success) {
+                            layer.close(layer.index);
+                            var htmlStr = '手机号：' + data.phone + '<br>'
+                                + '登录名：' + data.loginname + '<br>'
+                                + '密码：' + data.password;
+                            layer.open({
+                                type: 1,
+                                title: "新密码",
+                                content: htmlStr
+                            });
+                        } else {
+                            tip(data.message, false);
                         }
-                    });
-                    $(this).dialog("close");
-                },
-                '取消': function () {
-                    $(this).dialog("close");
+                    } else {
+                        tip(data.message, false);
+                    }
                 }
-            }
+            });
+            layer.close(index);
         });
+        // $( "#dialog-confirm" ).dialog({
+        //     resizable: false,
+        //     modal: true,
+        //     buttons: {
+        //         '确定': function () {
+        //             $.ajax({
+        //                 url: '/sysUser/resetPassword',
+        //                 data: {'userId': $('#id').val()},
+        //                 async: false,
+        //                 success: function (data) {
+        //                     if (data.success) {
+        //                         layer.close(layer.index);
+        //                         var htmlStr = '手机号：' + data.phone + '<br>'
+        //                             + '登录名：' + data.loginname + '<br>'
+        //                             + '密码：' + data.password;
+        //                         layer.open({
+        //                             type: 1,
+        //                             title: "新密码",
+        //                             content: htmlStr
+        //                         });
+        //                     } else {
+        //                         tip(data.message, false);
+        //                     }
+        //                 }
+        //             });
+        //             $(this).dialog("close");
+        //         },
+        //         '取消': function () {
+        //             $(this).dialog("close");
+        //         }
+        //     }
+        // });
     });
 });

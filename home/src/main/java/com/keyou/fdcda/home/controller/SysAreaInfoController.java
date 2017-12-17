@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.keyou.fdcda.api.model.SysUserArea;
+import com.keyou.fdcda.api.service.SysUserAreaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,7 @@ public class SysAreaInfoController extends BaseController {
 	private static Logger logger = LoggerFactory.getLogger(SysAreaInfoController.class);
 	
 	@Autowired
-	private SysAreaInfoService sysAreaInfoService;
+	private SysUserAreaService sysUserAreaService;
 	
 	@RequestMapping(value="/new")
 	public String add() throws Exception {		
@@ -36,7 +39,7 @@ public class SysAreaInfoController extends BaseController {
 	@RequestMapping(value="/find")	
 	public String find(Long id, Model model){
 		try {	
-			SysAreaInfo sysAreaInfo = sysAreaInfoService.findById(id);
+			SysUserArea sysAreaInfo = sysUserAreaService.findById(id);
 			model.addAttribute("param", sysAreaInfo);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysAreaInfo/update";
@@ -48,10 +51,10 @@ public class SysAreaInfoController extends BaseController {
 	
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, Object> save(@ModelAttribute("sysAreaInfo") SysAreaInfo sysAreaInfo,Model model) throws Exception {		
+	public Map<String, Object> save(@ModelAttribute("sysAreaInfo") SysUserArea sysAreaInfo,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			sysAreaInfoService.save(sysAreaInfo);
+			sysUserAreaService.save(sysAreaInfo);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "添加成功");
@@ -64,10 +67,10 @@ public class SysAreaInfoController extends BaseController {
 	
 	@RequestMapping(value="/update")
 	@ResponseBody
-	public Map<String, Object> update(@ModelAttribute("sysAreaInfo") SysAreaInfo sysAreaInfo,Model model) throws Exception {		
+	public Map<String, Object> update(@ModelAttribute("sysAreaInfo") SysUserArea sysAreaInfo,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			sysAreaInfoService.update(sysAreaInfo);
+			sysUserAreaService.update(sysAreaInfo);
 			model.addAttribute(Constants.SUCCESS, true);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "修改成功");
@@ -82,7 +85,7 @@ public class SysAreaInfoController extends BaseController {
 	public Map<String, Object> delete(Long id,Model model) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			sysAreaInfoService.deleteById(id);
+			sysUserAreaService.deleteById(id);
 			map.put(Constants.SUCCESS, true);
             map.put(Constants.MESSAGE, "删除成功");
 		} catch (Exception e) {
@@ -93,7 +96,7 @@ public class SysAreaInfoController extends BaseController {
 	
 	@RequestMapping
 	public String list(PaginationQuery query,Model model) throws Exception {		
-		PageResult<SysAreaInfo> pageList = sysAreaInfoService.findPage(query);
+		PageResult<SysUserArea> pageList = sysUserAreaService.findPage(query);
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
 		return "/page/sysAreaInfo/list";
@@ -105,7 +108,7 @@ public class SysAreaInfoController extends BaseController {
 	public Map<String, Object> listJson(PaginationQuery query, Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		this.formatPageQuery(query, page, limit);
-		PageResult<SysAreaInfo> pageList = sysAreaInfoService.findPage(query);
+		PageResult<SysUserArea> pageList = sysUserAreaService.findPage(query);
 		map.put("data", pageList.getRows());
 		map.put("code", 0);
 		map.put("msg", "");

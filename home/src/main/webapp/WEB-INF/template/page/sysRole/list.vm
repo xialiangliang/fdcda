@@ -6,7 +6,7 @@
 	<div class="page-content">
 
         <div class="yw_searchBar yw_searchBar-buyer">
-            <form class="form-inline ml-20 mr-20 text-right" id="buyerForm">
+            <form class="form-inline ml-20 mr-20" id="buyerForm">
                 <div>
                     <div class="yw_formGroups ml-30">
                         <button type="button" class="layui-btn layui-btn-primary ml-10 btn-add j_new-btn">添 加</button>
