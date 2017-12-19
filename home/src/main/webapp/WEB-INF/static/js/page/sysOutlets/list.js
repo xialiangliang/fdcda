@@ -22,7 +22,7 @@ $(function(){
                 {field:'userId', title: '用户id', width:160}
                 ,{field:'name', title: '门店名', width:160}
                 ,{field:'address', title: '地址', width:160}
-                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'15%'}
+                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'25%'}
             ]]
         });
 
@@ -31,7 +31,16 @@ $(function(){
             var data = obj.data;
             if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data))
-                // window.location.href = "/sysUser/find?id=" + data.id;
+                // window.location.href = "/sysOutlets/find?id=" + data.id;
+                $.get('/sysOutlets/find', {'id':data.id}, function (data, textStatus, object) {
+                    layer.open({
+                        type: 1,
+                        content: object.responseText
+                    });
+                });
+            } else if(obj.event === 'detail'){
+                // layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                window.location.href = "/sysOutlets/sysDevice/list?outletsId=" + data.id;
             }
         });
 
@@ -40,14 +49,14 @@ $(function(){
     
     var dialog = $("#newUpdateDialogFrame");
 
-    $(".j_update-btn").click(function () {
-        $.get('/sysOutlets/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
-            layer.open({
-                type: 1,
-                content: object.responseText
-            });
-        });
-    });
+    // $(".j_update-btn").click(function () {
+    //     $.get('/sysOutlets/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
+    //         layer.open({
+    //             type: 1,
+    //             content: object.responseText
+    //         });
+    //     });
+    // });
 
     $(".j_new-btn").click(function () {
         $.get('/sysOutlets/new', {}, function (data, textStatus, object) {
@@ -58,15 +67,15 @@ $(function(){
         });
     });
 
-    $(".j_device-btn").click(function () {
-        $.get('/sysOutlets/sysDevice/list', {'outletsId': $(this).attr("data-id")}, function (data, textStatus, object) {
-            layer.open({
-                area: '500px',
-                type: 1,
-                content: object.responseText
-            });
-        });
-    });
+    // $(".j_device-btn").click(function () {
+    //     $.get('/sysOutlets/sysDevice/list', {'outletsId': $(this).attr("data-id")}, function (data, textStatus, object) {
+    //         layer.open({
+    //             area: '500px',
+    //             type: 1,
+    //             content: object.responseText
+    //         });
+    //     });
+    // });
 
     function tip(msg, reload) {
         layer.msg(msg,{time:1000},function () {

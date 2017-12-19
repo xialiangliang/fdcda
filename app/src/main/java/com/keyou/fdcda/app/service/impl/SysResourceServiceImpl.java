@@ -121,7 +121,7 @@ public class SysResourceServiceImpl implements SysResourceService {
         String finalIdStrs = idStrs;
         Map<String, Object> query1 = new HashMap<>();
         query1.put("parentId", "0");
-        query1.put("ids", finalIdStrs);
+        query1.put("ids", idList);
         query1.put("type", "1");
         List<SysResource> topResourceList = sysResourceMapper.findAllPage(query1);
 
@@ -144,7 +144,7 @@ public class SysResourceServiceImpl implements SysResourceService {
         String finalIdStrs = idStrs;
         Map<String, Object> query1 = new HashMap<>();
         query1.put("parentId", topResource.getId().toString());
-        query1.put("ids", finalIdStrs);
+        query1.put("ids", idList);
         query1.put("type", "1");
         List<SysResource> subResource = sysResourceMapper.findAllPage(query1);
         if (subResource.size() > 0) {
@@ -153,7 +153,7 @@ public class SysResourceServiceImpl implements SysResourceService {
             subResource.forEach(sysResource -> {
                 Map<String, Object> query2 = new HashMap<>();
                 query2.put("parentId", sysResource.getId().toString());
-                query2.put("ids", finalIdStrs);
+                query2.put("ids", idList);
                 query2.put("type", "1");
                 List<SysResource> subResource2 = sysResourceMapper.findAllPage(query2);
                 if (subResource2.size() > 0) {
