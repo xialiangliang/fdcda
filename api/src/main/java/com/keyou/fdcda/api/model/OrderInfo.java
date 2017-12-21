@@ -10,7 +10,7 @@ public class OrderInfo implements Serializable {
     /**
      * 主键
      */ 	
-	private Long orderRowId;
+	private Long id;
     /**
      * 经营户id
      */ 	
@@ -51,12 +51,12 @@ public class OrderInfo implements Serializable {
 	private String createDateStr;
 
 	
-	public void setOrderRowId(Long value) {
-		this.orderRowId = value;
+	public void setId(Long value) {
+		this.id = value;
 	}
 	
-	public Long getOrderRowId() {
-		return this.orderRowId;
+	public Long getId() {
+		return this.id;
 	}
 	
 	public void setUserRowId(Long value) {

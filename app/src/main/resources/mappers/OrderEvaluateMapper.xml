@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keyou.fdcda.app.dao.OrderEvaluateMapper">	
 	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.OrderEvaluate">
-		<result property="evaluateRowId" jdbcType="DECIMAL" column="EVALUATE_ROW_ID"/>
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
 		<result property="orderRowId" jdbcType="DECIMAL" column="ORDER_ROW_ID"/>
 		<result property="content" jdbcType="VARCHAR" column="CONTENT"/>
 		<result property="evaType" jdbcType="DECIMAL" column="EVA_TYPE"/>
@@ -12,7 +12,7 @@
 	
 	<sql id="columns">
 	    <![CDATA[
-        EVALUATE_ROW_ID ,ORDER_ROW_ID ,CONTENT ,EVA_TYPE ,IMAGES_URL ,CREATE_DATE 
+        ID ,ORDER_ROW_ID ,CONTENT ,EVA_TYPE ,IMAGES_URL ,CREATE_DATE 
 	    ]]>
 	</sql>
 	
@@ -22,14 +22,14 @@
 	    </selectKey>
 	<![CDATA[
 		INSERT INTO ORDER_EVALUATE (
-        	EVALUATE_ROW_ID ,
+        	ID ,
         	ORDER_ROW_ID ,
         	CONTENT ,
         	EVA_TYPE ,
         	IMAGES_URL ,
         	CREATE_DATE 
 		) VALUES (
-        	#{evaluateRowId,jdbcType=DECIMAL} ,
+        	#{id,jdbcType=DECIMAL} ,
         	#{orderRowId,jdbcType=DECIMAL} ,
         	#{content,jdbcType=VARCHAR} ,
         	#{evaType,jdbcType=DECIMAL} ,
@@ -59,13 +59,13 @@
 	        </if>
 	    </set>
 		WHERE 
-	        EVALUATE_ROW_ID = #{evaluateRowId,jdbcType=DECIMAL} 
+	        ID = #{id,jdbcType=DECIMAL} 
 	</update>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
 	<![CDATA[
 		DELETE FROM ORDER_EVALUATE WHERE
-        EVALUATE_ROW_ID = #{evaluateRowId} 
+        ID = #{id} 
 	]]>
 	</delete>
     
@@ -74,7 +74,7 @@
 	<![CDATA[
 		FROM ORDER_EVALUATE 
 		WHERE 
-        EVALUATE_ROW_ID = #{evaluateRowId} 
+        ID = #{id} 
 	]]>
 	</select>
 	 
@@ -101,8 +101,8 @@
 	</select>
 	
 	<sql id="queryWhere">
-		<if test="evaluateRowId != null and evaluateRowId.trim() != ''">
-		and EVALUATE_ROW_ID = #{evaluateRowId}
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
 		</if>
 		<if test="orderRowId != null and orderRowId.trim() != ''">
 		and ORDER_ROW_ID = #{orderRowId}

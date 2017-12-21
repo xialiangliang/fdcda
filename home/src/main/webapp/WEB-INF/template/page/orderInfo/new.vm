@@ -63,7 +63,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="button" class="layui-btn layui-btn-normal" onclick="window.location.href='/order'">返回</button>
+                <button type="button" class="layui-btn layui-btn-primary" onclick="window.location.href='/order'">返回</button>
                 <button type="submit" class="layui-btn layui-btn-normal">提交</button>
             </div>
         </div>

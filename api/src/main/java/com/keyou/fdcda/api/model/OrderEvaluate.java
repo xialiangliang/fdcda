@@ -8,7 +8,7 @@ public class OrderEvaluate implements Serializable {
     /**
      * 主键
      */ 	
-	private Long evaluateRowId;
+	private Long id;
     /**
      * 订单id
      */ 	
@@ -32,12 +32,12 @@ public class OrderEvaluate implements Serializable {
 	private String createDateStr;
 
 	
-	public void setEvaluateRowId(Long value) {
-		this.evaluateRowId = value;
+	public void setId(Long value) {
+		this.id = value;
 	}
 	
-	public Long getEvaluateRowId() {
-		return this.evaluateRowId;
+	public Long getId() {
+		return this.id;
 	}
 	
 	public void setOrderRowId(Long value) {

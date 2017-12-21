@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keyou.fdcda.app.dao.OrderInfoMapper">	
 	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.OrderInfo">
-		<result property="orderRowId" jdbcType="DECIMAL" column="ORDER_ROW_ID"/>
+		<result property="id" jdbcType="DECIMAL" column="ID"/>
 		<result property="userRowId" jdbcType="DECIMAL" column="USER_ROW_ID"/>
 		<result property="customerRowId" jdbcType="DECIMAL" column="CUSTOMER_ROW_ID"/>
 		<result property="orderContent" jdbcType="VARCHAR" column="ORDER_CONTENT"/>
@@ -16,7 +16,7 @@
 	
 	<sql id="columns">
 	    <![CDATA[
-        ORDER_ROW_ID ,USER_ROW_ID ,CUSTOMER_ROW_ID ,ORDER_CONTENT ,ORDER_AMT ,PAY_TYPE ,GOOD_DATE ,TOADDRESS ,REMARK ,CREATE_DATE 
+        ID ,USER_ROW_ID ,CUSTOMER_ROW_ID ,ORDER_CONTENT ,ORDER_AMT ,PAY_TYPE ,GOOD_DATE ,TOADDRESS ,REMARK ,CREATE_DATE 
 	    ]]>
 	</sql>
 	
@@ -26,7 +26,7 @@
 	    </selectKey>
 	<![CDATA[
 		INSERT INTO ORDER_INFO (
-        	ORDER_ROW_ID ,
+        	ID ,
         	USER_ROW_ID ,
         	CUSTOMER_ROW_ID ,
         	ORDER_CONTENT ,
@@ -37,7 +37,7 @@
         	REMARK ,
         	CREATE_DATE 
 		) VALUES (
-        	#{orderRowId,jdbcType=DECIMAL} ,
+        	#{id,jdbcType=DECIMAL} ,
         	#{userRowId,jdbcType=DECIMAL} ,
         	#{customerRowId,jdbcType=DECIMAL} ,
         	#{orderContent,jdbcType=VARCHAR} ,
@@ -83,13 +83,13 @@
 	        </if>
 	    </set>
 		WHERE 
-	        ORDER_ROW_ID = #{orderRowId,jdbcType=DECIMAL} 
+	        ID = #{id,jdbcType=DECIMAL} 
 	</update>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
 	<![CDATA[
 		DELETE FROM ORDER_INFO WHERE
-        ORDER_ROW_ID = #{orderRowId} 
+        ID = #{id} 
 	]]>
 	</delete>
     
@@ -98,7 +98,7 @@
 	<![CDATA[
 		FROM ORDER_INFO 
 		WHERE 
-        ORDER_ROW_ID = #{orderRowId} 
+        ID = #{id} 
 	]]>
 	</select>
 	 
@@ -125,8 +125,8 @@
 	</select>
 	
 	<sql id="queryWhere">
-		<if test="orderRowId != null and orderRowId.trim() != ''">
-		and ORDER_ROW_ID = #{orderRowId}
+		<if test="id != null and id.trim() != ''">
+		and ID = #{id}
 		</if>
 		<if test="userRowId != null and userRowId.trim() != ''">
 		and USER_ROW_ID = #{userRowId}
