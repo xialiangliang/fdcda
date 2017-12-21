@@ -131,17 +131,26 @@ public class VisitRecordInfoController extends BaseController {
 		
 		if (StringUtil.isBlank(begin) && StringUtil.isBlank(end)) {
 			Date now = new Date();
-			begin = DateUtil.getDate(DateUtil.addDate(now, -7), DateUtil.DATETIME_FORMAT);
-			end = DateUtil.getDate(now, DateUtil.DATETIME_FORMAT);
+			begin = DateUtil.getDate(DateUtil.addDate(now, -7), DateUtil.DATE_FORMAT);
+			end = DateUtil.getDate(now, DateUtil.DATE_FORMAT);
+			model.addAttribute("bingTitle", "本店最近一周访问总体情况");
+			model.addAttribute("lineText", "本店最近一周访问详细情况");
 		}
-		
+		else{
+			model.addAttribute("bingTitle", begin+"-"+end+"本店访问总体情况");
+			model.addAttribute("lineText", begin+"-"+end+"本店访问详细情况");
+		}
 		map.put("beginDate", begin);
 		map.put("endDate", end);
 		map.put("userRowId", sysUser.getId());
 		 
+		/**按访客类型统计总数,展现饼图*/
 		List<VisitRecordInfo> dayCountReport = visitRecordInfoService.selectDayCountReport(map);
+		model.addAttribute("bingData", dayCountReport);
 		
+		/**按天统计总数*/
 		List<VisitRecordInfo> dayDetailReport = visitRecordInfoService.selectDayDetailReport(map);
+		model.addAttribute("lineData", dayDetailReport);
 		
 		 
 		return "/page/visitinfo/list";
