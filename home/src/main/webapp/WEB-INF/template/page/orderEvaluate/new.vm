@@ -1,0 +1,48 @@
+###set($layout = "/layout/layout2.vm")
+#set($pageTitle = "title")
+#set($JS = ["/js/jquery.form.min.js", "/js/page/orderEvaluate/new-update.js"])
+<div class="yw_buyerContainer">
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+    </div>
+<div class="col-sm-12">
+    <form action="/orderEvaluate/save"  method="post" class="layui-form" id="newForm_orderEvaluate">
+        <div class="layui-form-item">
+            <label for="orderRowId" class="layui-form-label">订单id</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="orderRowId" name="orderRowId" value="$!{param.orderRowId}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="content" class="layui-form-label">评价内容</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="content" name="content" value="$!{param.content}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="evaType" class="layui-form-label">评价类型：0差评1中评2好评</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="evaType" name="evaType" value="$!{param.evaType}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="imagesUrl" class="layui-form-label">附件，多个图片url以英文逗号,隔开 </label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="imagesUrl" name="imagesUrl" value="$!{param.imagesUrl}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="createDate" class="layui-form-label">评价日期</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="createDate" name="createDate" value="$!{param.createDate}" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-normal" onclick="window.location.href='/evaluate'">返回</button>
+                <button type="submit" class="layui-btn layui-btn-normal">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>

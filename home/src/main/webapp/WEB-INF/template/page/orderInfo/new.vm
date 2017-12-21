@@ -1,0 +1,72 @@
+###set($layout = "/layout/layout2.vm")
+#set($pageTitle = "title")
+#set($JS = ["/js/jquery.form.min.js", "/js/page/orderInfo/new-update.js"])
+<div class="yw_buyerContainer">
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+    </div>
+<div class="col-sm-12">
+    <form action="/orderInfo/save"  method="post" class="layui-form" id="newForm_orderInfo">
+        <div class="layui-form-item">
+            <label for="userRowId" class="layui-form-label">经营户id</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="userRowId" name="userRowId" value="$!{param.userRowId}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="customerRowId" class="layui-form-label">采购商id</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="customerRowId" name="customerRowId" value="$!{param.customerRowId}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="orderContent" class="layui-form-label">交易内容</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="orderContent" name="orderContent" value="$!{param.orderContent}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="orderAmt" class="layui-form-label">交易金额</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="orderAmt" name="orderAmt" value="$!{param.orderAmt}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="payType" class="layui-form-label">付款方式：1现金2银行卡3支付宝4微信</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="payType" name="payType" value="$!{param.payType}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="goodDate" class="layui-form-label">交货日期</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="goodDate" name="goodDate" value="$!{param.goodDate}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="toaddress" class="layui-form-label">收货地址</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="toaddress" name="toaddress" value="$!{param.toaddress}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="remark" class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="remark" name="remark" value="$!{param.remark}" >
+            </div>
+        </div>    
+        <div class="layui-form-item">
+            <label for="createDate" class="layui-form-label">创建日期</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="createDate" name="createDate" value="$!{param.createDate}" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-normal" onclick="window.location.href='/order'">返回</button>
+                <button type="submit" class="layui-btn layui-btn-normal">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>

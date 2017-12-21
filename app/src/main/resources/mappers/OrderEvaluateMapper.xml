@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keyou.fdcda.app.dao.OrderEvaluateMapper">	
+	<resultMap id="BaseResultMap" type="com.keyou.fdcda.api.model.OrderEvaluate">
+		<result property="evaluateRowId" jdbcType="DECIMAL" column="EVALUATE_ROW_ID"/>
+		<result property="orderRowId" jdbcType="DECIMAL" column="ORDER_ROW_ID"/>
+		<result property="content" jdbcType="VARCHAR" column="CONTENT"/>
+		<result property="evaType" jdbcType="DECIMAL" column="EVA_TYPE"/>
+		<result property="imagesUrl" jdbcType="VARCHAR" column="IMAGES_URL"/>
+		<result property="createDate" jdbcType="TIMESTAMP" column="CREATE_DATE"/>
+    </resultMap>
+	
+	<sql id="columns">
+	    <![CDATA[
+        EVALUATE_ROW_ID ,ORDER_ROW_ID ,CONTENT ,EVA_TYPE ,IMAGES_URL ,CREATE_DATE 
+	    ]]>
+	</sql>
+	
+	<insert id="save" parameterType="com.keyou.fdcda.api.model.OrderEvaluate" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+	      SELECT SEQ_ORDER_EVALUATE.nextval AS id from dual
+	    </selectKey>
+	<![CDATA[
+		INSERT INTO ORDER_EVALUATE (
+        	EVALUATE_ROW_ID ,
+        	ORDER_ROW_ID ,
+        	CONTENT ,
+        	EVA_TYPE ,
+        	IMAGES_URL ,
+        	CREATE_DATE 
+		) VALUES (
+        	#{evaluateRowId,jdbcType=DECIMAL} ,
+        	#{orderRowId,jdbcType=DECIMAL} ,
+        	#{content,jdbcType=VARCHAR} ,
+        	#{evaType,jdbcType=DECIMAL} ,
+        	#{imagesUrl,jdbcType=VARCHAR} ,
+        	#{createDate,jdbcType=TIMESTAMP} 
+		)
+	]]>
+	</insert>
+
+	<update id="update" parameterType="com.keyou.fdcda.api.model.OrderEvaluate">
+		UPDATE ORDER_EVALUATE
+		<set>
+			<if test="orderRowId != null">
+	        ORDER_ROW_ID = #{orderRowId,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="content != null">
+	        CONTENT = #{content,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="evaType != null">
+	        EVA_TYPE = #{evaType,jdbcType=DECIMAL} ,
+	        </if>
+			<if test="imagesUrl != null">
+	        IMAGES_URL = #{imagesUrl,jdbcType=VARCHAR} ,
+	        </if>
+			<if test="createDate != null">
+	        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP} 
+	        </if>
+	    </set>
+		WHERE 
+	        EVALUATE_ROW_ID = #{evaluateRowId,jdbcType=DECIMAL} 
+	</update>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+	<![CDATA[
+		DELETE FROM ORDER_EVALUATE WHERE
+        EVALUATE_ROW_ID = #{evaluateRowId} 
+	]]>
+	</delete>
+    
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    SELECT <include refid="columns"/> 
+	<![CDATA[
+		FROM ORDER_EVALUATE 
+		WHERE 
+        EVALUATE_ROW_ID = #{evaluateRowId} 
+	]]>
+	</select>
+	 
+	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    	select count(*) from ORDER_EVALUATE where 1=1
+		<include refid="queryWhere"/>
+	</select>
+    
+	<select id="findPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>, rn from (
+			select <include refid="columns"/>, rownum as rn 
+			from (
+				select <include refid="columns"/> from ORDER_EVALUATE ORDER BY ID DESC
+			) where 1=1
+			<include refid="queryWhere"/> 
+			and rownum &lt;= (${startRecord} + ${endRecord})
+		) where rn > ${startRecord}
+	</select>
+
+	<select id="findAllPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select <include refid="columns"/>  from ORDER_EVALUATE where 1=1
+		<include refid="queryWhere"/>
+		<![CDATA[ ORDER BY id DESC ]]>
+	</select>
+	
+	<sql id="queryWhere">
+		<if test="evaluateRowId != null and evaluateRowId.trim() != ''">
+		and EVALUATE_ROW_ID = #{evaluateRowId}
+		</if>
+		<if test="orderRowId != null and orderRowId.trim() != ''">
+		and ORDER_ROW_ID = #{orderRowId}
+		</if>
+		<if test="content != null and content.trim() != ''">
+		and CONTENT = #{content}
+		</if>
+		<if test="evaType != null and evaType.trim() != ''">
+		and EVA_TYPE = #{evaType}
+		</if>
+		<if test="imagesUrl != null and imagesUrl.trim() != ''">
+		and IMAGES_URL = #{imagesUrl}
+		</if>
+		<if test="createDateBegin != null and createDateBegin.trim() != ''">
+		and CREATE_DATE >= #{createDateBegin}
+		</if>
+		<if test="createDateEnd != null and createDateEnd.trim() != ''">
+		and CREATE_DATE &lt;= #{createDateEnd}
+		</if>
+	</sql>
+</mapper>
+
+
