@@ -46,15 +46,20 @@ public class VisitRecordInfo implements Serializable {
 	private java.util.Date createDate;
 	private java.lang.String createDateStr;
     /**
-     * 0未识别出来的普通访客1已识别出来的普通访客2经营户的会员3本店设置的黑名单4系统黑名单
+     * 0未识别出来的普通访客1已识别出来的普通访客2经营户的会员3本店设置的黑名单4系统黑名单5系统vip,6可疑人员
      */ 	
 	private Integer visitType;
+	
+	/**访客类型*/
+	private String visitStr;
 
 	private String visitYear;
 	
 	private String visitMonth;
 	
 	private java.util.Date visitDay;
+	
+	private String visitDayStr;
 	
 	private Integer visitCount;
 	 /**
@@ -140,6 +145,26 @@ public class VisitRecordInfo implements Serializable {
 	}
 	
 	public void setVisitType(Integer value) {
+		if (value !=null) {
+			switch (value) {
+			case 0:
+				visitStr = "新客";
+				break;
+			case 1:
+				visitStr = "老顾客";
+			case 2:
+				visitStr = "VIP";
+			case 3:
+				visitStr = "黑名单";
+			case 4:
+				visitStr = "经侦黑名单";
+			case 6:
+				visitStr = "可疑人员";
+			default:
+				visitStr = "其他";
+				break;
+			}
+		}
 		this.visitType = value;
 	}
 	
@@ -184,7 +209,26 @@ public class VisitRecordInfo implements Serializable {
 	}
 
 	public void setVisitDay(java.util.Date visitDay) {
+		if (visitDay != null) {
+			visitDayStr = DateUtil.getDate(visitDay, DateUtil.DATE_FORMAT);
+		}
 		this.visitDay = visitDay;
+	}
+
+	public String getVisitStr() {
+		return visitStr;
+	}
+
+	public String getVisitDayStr() {
+		return visitDayStr;
+	}
+
+	public void setVisitDayStr(String visitDayStr) {
+		this.visitDayStr = visitDayStr;
+	}
+
+	public void setVisitStr(String visitStr) {
+		this.visitStr = visitStr;
 	}
 
 	
