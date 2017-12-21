@@ -1,7 +1,7 @@
 #set($page_title = "记录查看")
-#set($JS = ["js/layui/layui.js"])
-#set($JS = ["js/common.js"])
-#set($JS = ["js/custom.js"])
+###set($JS = ["js/layui/layui.js"])
+###set($JS = ["js/common.js"])
+###set($JS = ["js/custom.js"])
         <div class="yw_buyerContainer">
             <!--breadcrumb-->
            

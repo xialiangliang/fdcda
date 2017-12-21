@@ -1,5 +1,6 @@
 package com.keyou.fdcda.home.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -63,21 +64,17 @@ public class SysRoleController extends BaseController {
 
 	@RequestMapping(value="/getResourceWithAuth")
 	@ResponseBody
-	public Map<String, Object> getResourceWithAuth(HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(Constants.SUCCESS, false);
+	public List<Map> getResourceWithAuth(HttpServletRequest request) throws Exception {
+		List<Map> result = new ArrayList<>();
 		try {
 			String id = request.getParameter("id");
 			Map<String, Object> query = new HashMap<>();
 			query.put("roleId", id);
-			Result<List<SysResource>> res = sysResourceService.getTopologicalResource(query);
-			map.put("res", res.getData());
-			map.put(Constants.SUCCESS, true);
-
+			result = sysResourceService.getTopologicalResourceJsonData(query);
 		} catch (Exception e) {
-			commonError(logger, e, "异常",map);
+			logger.error("", e);
 		}
-		return map;
+		return result;
 	}
 	
 	@RequestMapping(value="/save")
@@ -135,6 +132,20 @@ public class SysRoleController extends BaseController {
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
 		return "/page/sysRole/list";
+	}
+
+	@RequestMapping("/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query,HttpServletRequest request, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		PageResult<SysRole> pageList = sysRoleService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		return map;
 	}
 	
 }

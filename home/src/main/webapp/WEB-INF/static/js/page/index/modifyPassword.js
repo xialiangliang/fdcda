@@ -63,7 +63,11 @@ $(function(){
         }
     });
     
-    $(".btn-close").click(function () {
+    /*$(".btn-close").click(function () {
+        // var index = parent.layer.getFrameIndex(window.name);
+        // parent.layer.close(index);
         layer.close(layer.index);
-    });
+        console.log('111');
+        // ctrl + shift + f9
+    });*/
 });

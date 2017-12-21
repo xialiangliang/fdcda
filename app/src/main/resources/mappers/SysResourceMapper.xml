@@ -208,9 +208,10 @@
 		<if test="id != null and id.trim() != ''">
 		and ID = #{id}
 		</if>
-		<if test="ids != null and ids.trim() != ''">
+		<if test="ids != null">
+			and ID in
 			<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
-				and ID in #{item}
+				 #{item}
 			</foreach>
 		</if>
 		<if test="parentId != null and parentId.trim() != ''">

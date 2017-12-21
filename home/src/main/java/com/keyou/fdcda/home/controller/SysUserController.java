@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.collect.Maps;
 import com.keyou.fdcda.api.model.SysAreaInfo;
+import com.keyou.fdcda.api.model.SysUserArea;
 import com.keyou.fdcda.api.model.SysUserrole;
 import com.keyou.fdcda.api.service.SysAreaInfoService;
+import com.keyou.fdcda.api.service.SysUserAreaService;
 import com.keyou.fdcda.api.service.SysUserroleService;
 import com.keyou.fdcda.api.utils.EncodeUtil;
 import com.keyou.fdcda.api.utils.Result;
@@ -41,9 +43,11 @@ public class SysUserController extends BaseController {
 	@Autowired
 	private SysUserService sysUserService;
 	@Autowired
-	private SysUserroleService sysUserroleService;;
+	private SysUserroleService sysUserroleService;
 	@Autowired
 	private SysAreaInfoService sysAreaInfoService;
+	@Autowired
+	private SysUserAreaService sysUserAreaService;
 
 
 	@RequestMapping(value="/new")
@@ -53,7 +57,7 @@ public class SysUserController extends BaseController {
 		List<SysUserrole> roleinfoList = sysUserroleService.findAllPageWithRoleName(query);
 		model.addAttribute("roleinfoList", roleinfoList);
 		Map<String, Object> map = Maps.newHashMap();
-		List<SysAreaInfo> areaInfos = sysAreaInfoService.findAllPage(map);
+		List<SysUserArea> areaInfos = sysUserAreaService.findAllPage(map);
 		model.addAttribute("areaInfos", areaInfos);
 		return "/page/sysUser/new";
 	}
@@ -67,6 +71,9 @@ public class SysUserController extends BaseController {
 			query.put("userId", sysUser.getId().toString());
 			List<SysUserrole> roleinfoList = sysUserroleService.findAllPageWithRoleName(query);
 			model.addAttribute("roleinfoList", roleinfoList);
+			Map<String, Object> map = Maps.newHashMap();
+			List<SysUserArea> areaInfos = sysUserAreaService.findAllPage(map);
+			model.addAttribute("areaInfos", areaInfos);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysUser/update";
 		} catch (Exception e) {
@@ -186,6 +193,24 @@ public class SysUserController extends BaseController {
 		model.addAttribute("result", pageList);
 		model.addAttribute("query", query.getQueryData());
 		return "/page/sysUser/list";
+	}
+
+	@RequestMapping("/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String keyword = request.getParameter("keyword");
+		this.formatPageQuery(query, page, limit);
+		if (StringUtil.isNotBlank(keyword)) {
+			query.addQueryData("keyword", keyword);
+		}
+		PageResult<SysUser> pageList = sysUserService.findPage(query);
+		map.put("data", pageList.getRows());
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		return map;
 	}
 
 

@@ -115,13 +115,15 @@ public class SysResourceServiceImpl implements SysResourceService {
         }
         // 查询一级菜单
         String idStrs = null;
+        List<Long> ids = null;
         if (!idList.contains(0L)) {
             idStrs = idList.stream().map(Object::toString).collect(Collectors.toList()).stream().reduce((a, b) -> a + "," + b).get();
+            ids = idList;
         }
         String finalIdStrs = idStrs;
         Map<String, Object> query1 = new HashMap<>();
         query1.put("parentId", "0");
-        query1.put("ids", finalIdStrs);
+        query1.put("ids", ids);
         query1.put("type", "1");
         List<SysResource> topResourceList = sysResourceMapper.findAllPage(query1);
 
@@ -138,13 +140,16 @@ public class SysResourceServiceImpl implements SysResourceService {
         SysResource topResource = sysResourceMapper.findById(topResourceId);
         // 查询一级菜单
         String idStrs = null;
+        List<Long> ids = null;
         if (!idList.contains(0L)) {
             idStrs = idList.stream().map(Object::toString).collect(Collectors.toList()).stream().reduce((a, b) -> a + "," + b).get();
+            ids = idList;
         }
         String finalIdStrs = idStrs;
+        List<Long> finalIds = ids;
         Map<String, Object> query1 = new HashMap<>();
         query1.put("parentId", topResource.getId().toString());
-        query1.put("ids", finalIdStrs);
+        query1.put("ids", ids);
         query1.put("type", "1");
         List<SysResource> subResource = sysResourceMapper.findAllPage(query1);
         if (subResource.size() > 0) {
@@ -153,7 +158,7 @@ public class SysResourceServiceImpl implements SysResourceService {
             subResource.forEach(sysResource -> {
                 Map<String, Object> query2 = new HashMap<>();
                 query2.put("parentId", sysResource.getId().toString());
-                query2.put("ids", finalIdStrs);
+                query2.put("ids", finalIds);
                 query2.put("type", "1");
                 List<SysResource> subResource2 = sysResourceMapper.findAllPage(query2);
                 if (subResource2.size() > 0) {
@@ -247,6 +252,7 @@ public class SysResourceServiceImpl implements SysResourceService {
             m.put("open", false);
             m.put("dir", resource.getUrl());
             m.put("sort", resource.getSort());
+            m.put("checked", resource.getAuth() != null && resource.getAuth().equals(1L));
             list.add(m);
         });
         return list;

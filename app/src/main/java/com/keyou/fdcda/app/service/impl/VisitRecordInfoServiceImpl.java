@@ -73,6 +73,16 @@ public class VisitRecordInfoServiceImpl implements VisitRecordInfoService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<VisitRecordInfo> selectDayCountReport(Map<String, Object> map) {
+		return visitRecordInfoMapper.selectDayCountReport(map);
+	}
+
+	@Override
+	public List<VisitRecordInfo> selectDayDetailReport(Map<String, Object> map) {
+		return   visitRecordInfoMapper.selectDayDetailReport(map);
+	}
 	
 
 	

@@ -11,8 +11,8 @@
         </div>     
         <div class="layui-form-item" align="right">
             <div class="layui-input-block">
-                <button type="button" class="btn btn-default btn-close">关闭</button>
-                <button type="submit" class="btn btn-primary">提交</button>
+                <button type="button" class="layui-btn layui-btn-primary btn-close">关闭</button>
+                <button type="submit" class="layui-btn layui-btn-normal">提交</button>
             </div>
         </div>
     </form>
