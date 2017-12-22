@@ -152,6 +152,8 @@ public class VisitRecordInfoController extends BaseController {
 		List<VisitRecordInfo> dayDetailReport = visitRecordInfoService.selectDayDetailReport(map);
 		model.addAttribute("lineData", dayDetailReport);
 		
+		model.addAttribute("begin", begin);
+		model.addAttribute("end", end);
 		 
 		return "/page/visitinfo/list";
 	}
