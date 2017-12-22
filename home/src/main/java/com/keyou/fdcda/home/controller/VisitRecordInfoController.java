@@ -158,8 +158,8 @@ public class VisitRecordInfoController extends BaseController {
 		return "/page/visitinfo/list";
 	}
 	
-	
-	public String list_bak(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/visitRecordInfo/query", method = RequestMethod.GET)
+	public String queryList(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
 		SysUser sysUser = getUser(request);
 		if (sysUser == null) {
 			return "redirect:/login";
