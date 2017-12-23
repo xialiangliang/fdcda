@@ -234,7 +234,7 @@
 		<![CDATA[ ORDER BY id DESC ]]>
 	</select>
 
-	<select id="findRealCustomerIdBySingleId" resultType="java.util.Long" parameterType="java.lang.Long">
+	<select id="findRealCustomerIdBySingleId" resultType="java.lang.Long" parameterType="java.lang.Long">
 		select t.user_row_id AS ID
 		from image_base_check t
 		where t.yitu_user_code =( select t.yitu_user_code from image_base_check t where t.user_row_id = #{id})
