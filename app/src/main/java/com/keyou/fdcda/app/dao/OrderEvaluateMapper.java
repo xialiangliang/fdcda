@@ -4,7 +4,10 @@ import com.keyou.fdcda.app.dao.base.BaseMapper;
 import com.keyou.fdcda.api.model.OrderEvaluate;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface OrderEvaluateMapper extends BaseMapper<OrderEvaluate, Long> {	
+import java.util.List;
 
+@Repository
+public interface OrderEvaluateMapper extends BaseMapper<OrderEvaluate, Long> {
+
+    List<OrderEvaluate> findListByCustomerIds(List<Long> ids);
 }

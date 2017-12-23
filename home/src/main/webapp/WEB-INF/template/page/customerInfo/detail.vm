@@ -1,0 +1,152 @@
+###set($layout = "/layout/layout2.vm")
+#set($pageTitle = "title")
+#set($JS = ["/js/jquery.form.min.js", "/js/page/customerInfo/new-update.js"])
+<div class="yw_buyerContainer">
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+    </div>
+    <div class="yw_visitorInfo">
+        <div class="yw_visitorDetails">
+            <p class="yw_visitorDetails__thumb">
+                <img src="$!{param.imageUrl}" alt="">
+            </p>
+            <div class="yw_visitorDetails__content">
+                <p>采购商名：$!{param.name}</p>
+                <p>手机号码：$!{param.phone}</p>
+                <p>性别：#if($!{param.gender}==0)男 #elseif($!{param.gender}==1)女#end</p>
+                <p>国籍：$!{param.nationality}</p>
+                <p>籍贯：$!{param.province}$!{param.city}</p>
+                <p>联系地址：$!{param.address}</p>
+            </div>
+        </div>
+        <!--信用评价-->
+        <div class="yw_evaluate mt-20">
+            <form  class="yw_evaluate__form">
+                <span>信用评价：</span>
+                <label class="radio-inline">
+                    <input type="radio" name="evaluateRadio"  value="0" checked> 全部
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="evaluateRadio"  value="1"> 好评
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="evaluateRadio" value="2"> 中评
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="evaluateRadio" value="3"> 差评
+                </label>
+            </form>
+        </div>
+        <ul class="yw_evaluateItem">
+            <li class="yw_evaluateItem__list">
+                <div class="yw_evaluateItem__list__bar">
+                    <div class="yw_evaluateMsg">
+                        <p>工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+                            能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。</p>
+                        <p>
+                            <img src="images/thumb3.jpg" alt="">
+                            <img src="images/thumb3.jpg" alt="">
+                        </p>
+                    </div>
+                    <div class="yw_evaluateID">
+                        <p>蔡**</p>
+                        <p>2017.08.21</p>
+                    </div>
+                </div>
+            </li>
+            <li class="yw_evaluateItem__list">
+                <div class="yw_evaluateItem__list__bar">
+                    <div class="yw_evaluateMsg">
+                        工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+                        能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。
+                    </div>
+                    <div class="yw_evaluateID">
+                        <p>蔡**</p>
+                        <p>2017.08.21</p>
+                    </div>
+                </div>
+            </li>
+            <li class="yw_evaluateItem__list">
+                <div class="yw_evaluateItem__list__bar">
+                    <div class="yw_evaluateMsg">
+                        工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
+                        能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。
+                    </div>
+                    <div class="yw_evaluateID">
+                        <p>蔡**</p>
+                        <p>2017.08.21</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<script>
+    var map = {};
+    map = JSON.parse('$evaluateList');
+##    console.log('$evaluateList');
+    var htmlStr = '\n' +
+            '            <li class="yw_evaluateItem__list">\n' +
+            '                <div class="yw_evaluateItem__list__bar">\n' +
+            '                    <div class="yw_evaluateMsg">\n' +
+            '                        <p>%data1%</p><p>%dataImg%</p>\n' +
+            '                    </div>\n' +
+            '                    <div class="yw_evaluateID">\n' +
+            '                        <p>%data2%</p>\n' +
+            '                        <p>%data3%</p>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </li>';
+    var htmlStrAllList = [];
+    for (var i=0; i<map.length; i++) {
+        var htmlStr1 = htmlStr.replace("%data1%", map[i].content);
+        htmlStr1 = htmlStr1.replace("%data2%", map[i].evaluateName);
+        htmlStr1 = htmlStr1.replace("%data3%", map[i].createDateStr);
+        if (map[i].imagesUrl === '') {
+            htmlStr1 = htmlStr1.replace("%dataImg%", " ");
+        } else {
+            var imgStr = "";
+            for (var j=0; j<map[i].imagesUrlList.length; j++) {
+                imgStr = imgStr + '<img src="' + map[i].imagesUrlList[j] + '" alt="">';
+            }
+            htmlStr1 = htmlStr1.replace("%dataImg%", imgStr);
+        }
+        htmlStrAllList.push({'evaType':map[i].evaType, 'data':htmlStr1});
+    }
+//    console.log(htmlStrAllList);
+    var htmlStrAll = '';
+    for (var i=0; i<htmlStrAllList.length; i++) {
+        htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
+    }
+    $(".yw_evaluateItem").html(htmlStrAll);
+    $(':radio').click(function(){
+        var htmlStrList = [];
+        htmlStrAll = '';
+        if ($(this).val() === '0') {
+            for (var i=0; i<htmlStrAllList.length; i++) {
+                htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
+            }
+        } else if ($(this).val() === '1') {
+            for (var i=0; i<htmlStrAllList.length; i++) {
+                if (htmlStrAllList[i].evaType == 2) {
+                    htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
+                }
+            }
+        } else if ($(this).val() === '2') {
+            for (var i=0; i<htmlStrAllList.length; i++) {
+                if (htmlStrAllList[i].evaType == 1) {
+                    htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
+                }
+            }
+        } else if ($(this).val() === '3') {
+            for (var i=0; i<htmlStrAllList.length; i++) {
+                if (htmlStrAllList[i].evaType == 0) {
+                    htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
+                }
+            }
+        }
+        $(".yw_evaluateItem").html(htmlStrAll);
+    });
+    
+</script>

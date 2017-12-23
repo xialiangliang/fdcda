@@ -9,7 +9,7 @@
             <div class="layui-input-block">
                 <select class="layui-input" name="topId" id="topId" #if ($!{param.parentId} == 0) disabled #end>
                     #foreach($item in $topList)
-                        <option value="${item.id}" #if($!{param.parentId}==$item.id) selected #end>${item.name}</option>
+                        <option value="${item.id}" #if($!{param.topId}==$item.id) selected #end>${item.name}</option>
                     #end
                 </select>
             </div>

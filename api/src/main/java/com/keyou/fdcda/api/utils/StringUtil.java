@@ -44,6 +44,22 @@ public class StringUtil extends StringUtils {
         return src.replace(rmstr, "");
     }
     
+    public static String hideName(String name) {
+        if (StringUtils.isBlank(name)) {
+            return "";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (int i=0; i<name.length(); i++) {
+                if (i == 0) {
+                    sb.append(name.charAt(i));
+                } else {
+                    sb.append("*");
+                }
+            }
+            return sb.toString();
+        }
+    }
+    
     public static void main(String[] args) {
     	String src = "\\mnt\\facepics\\deal\\camera00000000101\\2017-11-24\\20171124100002.jpg";
 		System.out.println(src.substring(src.indexOf("deal") ));

@@ -35,7 +35,7 @@ $(function(){
             var data = obj.data;
             if(obj.event === 'detail'){
                 //layer.msg('ID：'+ data.id + ' 的查看操作');
-                window.location.href = "/customerInfo/find?id=" + data.id;
+                window.location.href = "/customerInfo/detail?id=" + data.id;
             } else if(obj.event === 'del'){
                 layer.confirm('确认删除？', function(index){
                     obj.del();

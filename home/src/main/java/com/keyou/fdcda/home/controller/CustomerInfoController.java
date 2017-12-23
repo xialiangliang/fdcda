@@ -3,6 +3,8 @@ package com.keyou.fdcda.home.controller;
 import java.io.File;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.collect.Maps;
+import com.keyou.fdcda.api.model.OrderEvaluate;
+import com.keyou.fdcda.api.model.OrderInfo;
+import com.keyou.fdcda.api.model.SysUser;
+import com.keyou.fdcda.api.service.OrderEvaluateService;
+import com.keyou.fdcda.api.service.OrderInfoService;
+import com.keyou.fdcda.api.service.SysUserService;
 import com.keyou.fdcda.api.utils.*;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,6 +52,13 @@ public class CustomerInfoController extends BaseController {
 	private CustomerInfoService customerInfoService;
 	@Autowired
 	private UrlConfig urlConfig;
+	@Autowired
+	private OrderEvaluateService orderEvaluateService;
+	@Autowired
+	private OrderInfoService orderInfoService;
+	@Autowired
+	private SysUserService sysUserService;
+
 
 	@RequestMapping(value="/manage")
 	public String page(Model model) throws Exception {
@@ -417,6 +433,40 @@ public class CustomerInfoController extends BaseController {
 			commonError(logger, e,"添加黑名单异常",map);
 		}
 		return map;
+	}
+
+	@RequestMapping(value="/detail")
+	public String detail(Long id, Model model, HttpServletRequest request){
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
+				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
+			}
+			List<Long> customerIds = customerInfoService.findRealCustomerIdBySingleId(id);
+			List<OrderEvaluate> evaluateList = orderEvaluateService.findListByCustomerIds(customerIds);
+			evaluateList.forEach(orderEvaluate -> {
+				if (StringUtil.isNotBlank(orderEvaluate.getImagesUrl())) {
+					String[] urls = orderEvaluate.getImagesUrl().split(",");
+					orderEvaluate.setImagesUrlList(Arrays.asList(urls));
+				}
+				OrderInfo orderInfo = orderInfoService.findById(orderEvaluate.getOrderRowId());
+				if (orderInfo != null) {
+					SysUser user = sysUserService.findById(orderInfo.getUserRowId());
+					if (user != null) {
+						orderEvaluate.setEvaluateName(StringUtil.hideName(user.getUsername()));
+					}
+				}
+			});
+			model.addAttribute("param", customerInfo);
+			model.addAttribute("evaluateList", GsonUtil.serialize(evaluateList));
+			model.addAttribute(Constants.SUCCESS, true);
+			return "/page/customerInfo/detail";
+		} catch (Exception e) {
+			commonError(logger, e, "修改跳转异常", model);
+			return "/page/customerInfo";
+		}
 	}
 	
 }

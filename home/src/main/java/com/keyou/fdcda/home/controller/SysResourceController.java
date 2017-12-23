@@ -37,6 +37,14 @@ public class SysResourceController extends BaseController {
 	@RequestMapping(value="/new")
 	public String add(Model model) throws Exception {
 		model.addAttribute("iconList", IconConstants.ICON_LIST);
+		Map<String, Object> query = new HashMap<>();
+		query.put("parentId", "0");
+		List<SysResource> topList = sysResourceService.findAllPage(query);
+		model.addAttribute("topList", topList);
+		query = new HashMap<>();
+		query.put("type", "1");
+		List<SysResource> parentList = sysResourceService.findAllPage(query);
+		model.addAttribute("parentList", parentList);
 		return "/page/sysResource/new";
 	}
 	

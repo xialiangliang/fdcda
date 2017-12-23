@@ -99,6 +99,17 @@
 		<include refid="queryWhere"/>
 		<![CDATA[ ORDER BY id DESC ]]>
 	</select>
+
+	<select id="findListByCustomerIds" resultMap="BaseResultMap" parameterType="java.util.List">
+		select <include refid="columns"/> from ORDER_EVALUATE
+		where ORDER_ROW_ID in (
+			select ID from ORDER_INFO where CUSTOMER_ROW_ID in
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		)
+		order by ID DESC 
+	</select>
 	
 	<sql id="queryWhere">
 		<if test="id != null and id.trim() != ''">

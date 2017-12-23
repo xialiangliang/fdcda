@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +63,13 @@ public class OrderEvaluateServiceImpl implements OrderEvaluateService {
     @Override
     public List<OrderEvaluate> findAllPage(Map<String, Object> map) {
         return orderEvaluateMapper.findAllPage(map);
+    }
+
+    @Override
+    public List<OrderEvaluate> findListByCustomerIds(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return new ArrayList<>();
+        }
+        return orderEvaluateMapper.findListByCustomerIds(ids);
     }
 }
