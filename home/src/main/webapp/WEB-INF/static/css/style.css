@@ -8297,7 +8297,7 @@ a.yw_visitorMore {
   min-height: 200px;
   border: 1px solid #e0e0e0;
   padding: 5px 0;
-  background: url("../images/icon_avatar.png") no-repeat center center;
+  background: url("/upload/img/icon_avatar.png") no-repeat center center;
 }
 
 /*自定义面板*/
