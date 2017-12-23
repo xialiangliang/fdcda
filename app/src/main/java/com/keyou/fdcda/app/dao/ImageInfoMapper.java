@@ -12,4 +12,9 @@ public interface ImageInfoMapper extends BaseMapper<ImageInfo, Long> {
 	 * 调用存储过程
 	 */
 	void selectCallPro();
+	
+	/**
+	 * 调用存储过程
+	 */
+	void selectCallVisitPro();
 }

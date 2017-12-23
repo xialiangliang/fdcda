@@ -1,5 +1,6 @@
 package com.keyou.fdcda.app.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -58,20 +59,14 @@ public class VisitRecordInfoServiceImpl implements VisitRecordInfoService {
 	
 	@Transactional(readOnly=true)
 	public PageResult<VisitRecordInfo> findPage(PaginationQuery query)  {
-		PageResult<VisitRecordInfo> result = null;
-		try {
-			Long count = visitRecordInfoMapper.findPageCount(query.getQueryData());
-			if (null != count && count.intValue() > 0) {
-				int startRecord = (query.getPageIndex() - 1)* query.getRowsPerPage();
-				query.addQueryData("startRecord", Integer.toString(startRecord));
-				query.addQueryData("endRecord", Integer.toString(query.getRowsPerPage()));
-				List<VisitRecordInfo> list = visitRecordInfoMapper.findPage(query.getQueryData());
-				result = new PageResult<VisitRecordInfo>(list,count.intValue(),query);
-			} 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		List<VisitRecordInfo> list = new ArrayList<>();
+        Long count = visitRecordInfoMapper.findPageCount(query.getQueryData());
+        if (count > 0) {
+            query.addQueryData("startRecord", (query.getPageIndex() - 1) * query.getRowsPerPage());
+            query.addQueryData("endRecord", query.getRowsPerPage());
+            list = visitRecordInfoMapper.findPage(query.getQueryData());
+        }
+        return new PageResult<>(list, count.intValue(), query);
 	}
 
 	@Override

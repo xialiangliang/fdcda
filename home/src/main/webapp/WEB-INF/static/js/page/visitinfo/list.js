@@ -23,8 +23,7 @@ $(function(){
                 ,{field:'name', title: '用户名', width:160}
                 ,{field:'phone', title: '手机', width:160}
                 ,{field:'visitStr', title: '访客类型', width:160}
-                ,{field:'createTimeStr', title: '访问时间', width:220}
-                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'15%'}
+                ,{field:'createDateStr', title: '访问时间', width:220} 
             ]]
         });
 

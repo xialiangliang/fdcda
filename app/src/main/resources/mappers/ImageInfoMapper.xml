@@ -60,6 +60,12 @@
 	    {call prc_send_camera_image () } 
 	      ]]>  
 	</select> 
+	
+	<select id="selectCallVisitPro" statementType="CALLABLE" parameterType="java.util.HashMap" resultType="java.util.Map">  
+	    <![CDATA[ 
+	    {call prc_VISIT_RECORD_INFO () } 
+	      ]]>  
+	</select> 
 
 	<update id="update" parameterType="com.keyou.fdcda.api.model.ImageInfo">
 		UPDATE IMAGE_INFO
