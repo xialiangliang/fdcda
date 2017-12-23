@@ -13,7 +13,7 @@ public class Constants {
 
     public static final List<String> URL_AUTH_ALL_LIST = Arrays.asList(
             "/login/getSalt",
-            "/login/getPublickKey");
+            "/sysUser/getPublicKey");
     
     public static final List<String> URL_NO_AUTH_LIST = Arrays.asList(
             "/login",
