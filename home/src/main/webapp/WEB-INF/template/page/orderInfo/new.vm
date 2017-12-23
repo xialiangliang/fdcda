@@ -1,72 +1,182 @@
 ###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($JS = ["/js/jquery.form.min.js", "/js/page/orderInfo/new-update.js"])
+#set($JS = ["/js/jquery.form.min.js", "/js/page/orderInfo/new-update.js" ,"/js/webuploader/webuploader.min.js"])
 <div class="yw_buyerContainer">
     <div class="yw_breadcrumb">
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>
-<div class="col-sm-12">
-    <form action="/orderInfo/save"  method="post" class="layui-form" id="newForm_orderInfo">
-        <div class="layui-form-item">
-            <label for="userRowId" class="layui-form-label">经营户id</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="userRowId" name="userRowId" value="$!{param.userRowId}" >
+    <div class="yw_box">
+        <form class="layui-form jc-form" action="">
+            <div class="imgUpload">
+                <p id="fileList" class="imgUpload__thumb text-center uploader-list">
+
+                </p>
+                <div class="mt-10 text-center">
+                    <div id="filePicker">选择图片</div>
+                </div>
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="customerRowId" class="layui-form-label">采购商id</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="customerRowId" name="customerRowId" value="$!{param.customerRowId}" >
+            <div class="jc-form-items clearfix">
+                <div class="layui-form-item fl">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text"  name="buyer_name"  class="layui-input" size="25">
+                    </div>
+                </div>
+                <div class="layui-form-item fl ml-30">
+                    <label class="layui-form-label">手机号码</label>
+                    <div class="layui-input-block">
+                        <input type="text"  name="buyer_mobile"  class="layui-input" size="24">
+                    </div>
+                </div>
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="orderContent" class="layui-form-label">交易内容</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="orderContent" name="orderContent" value="$!{param.orderContent}" >
+            <div class="jc-form-items clearfix">
+                <div class="layui-form-item fl">
+                    <label class="layui-form-label">交易金额</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="buyer_money"  class="layui-input" size="25">
+                    </div>
+                </div>
+                <div class="layui-form-item fl ml-30">
+                    <label class="layui-form-label">交易状态</label>
+                    <div class="layui-input-block width-full">
+                        <select name="buyer_state">
+                            <option value="1">待收尾款</option>
+                            <option value="2">待收尾款</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="orderAmt" class="layui-form-label">交易金额</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="orderAmt" name="orderAmt" value="$!{param.orderAmt}" >
+            <div class="jc-form-items clearfix">
+                <div class="layui-form-item fl">
+                    <label class="layui-form-label">交货日期</label>
+                    <div class="layui-input-block">
+                        <input type="text"  name="delivery_date" id="delivery_date"  class="layui-input" size="25">
+                    </div>
+                </div>
+                <div class="layui-form-item fl ml-30">
+                    <label class="layui-form-label">付款方式</label>
+                    <div class="layui-input-block width-full">
+                        <select name="pay_method">
+                            <option value="1">现金</option>
+                            <option value="2">支付宝</option>
+                        </select>
+                    </div>
+                </div>
+
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="payType" class="layui-form-label">付款方式：1现金2银行卡3支付宝4微信</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="payType" name="payType" value="$!{param.payType}" >
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">交易详情</label>
+                    <div class="layui-input-block">
+                        <input type="text"  name="buyer_details"  class="layui-input" size="59">
+                    </div>
+                </div>
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="goodDate" class="layui-form-label">交货日期</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="goodDate" name="goodDate" value="$!{param.goodDate}" >
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属单位</label>
+                    <div class="layui-input-block">
+                        <input type="text"  name="buyer_company"  class="layui-input" size="59">
+                    </div>
+                </div>
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="toaddress" class="layui-form-label">收货地址</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="toaddress" name="toaddress" value="$!{param.toaddress}" >
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">收货地址</label>
+                    <div class="layui-input-block">
+                        <input type="text"  name="buyer_address"  class="layui-input" size="59">
+                    </div>
+                </div>
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="remark" class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="remark" name="remark" value="$!{param.remark}" >
+
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">评价</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="buyer_evaluate" value="0" title="好评" checked>
+                        <input type="radio" name="buyer_evaluate" value="1" title="中评">
+                        <input type="radio" name="buyer_evaluate" value="2" title="差评" >
+                    </div>
+                </div>
             </div>
-        </div>    
-        <div class="layui-form-item">
-            <label for="createDate" class="layui-form-label">创建日期</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="createDate" name="createDate" value="$!{param.createDate}" >
+
+            <div class="jc-form-items">
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" rows="3" cols="57" class="layui-textarea"></textarea>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button type="button" class="layui-btn layui-btn-primary" onclick="window.location.href='/order'">返回</button>
-                <button type="submit" class="layui-btn layui-btn-normal">提交</button>
+
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn layui-btn-normal" >添 加</button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
+
+        </form>
+
+    </div>
 </div>
-</div>
+<script>
+    layui.use(['laydate', 'form'], function(){
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#delivery_date' //指定元素
+            ,value: new Date()
+        });
+
+        // 初始化Web Uploader
+        var uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: false,
+            // swf文件路径
+            swf:  './js/webuploader/Uploader.swf',
+            // 文件接收服务端。
+            server: 'http://webuploader.duapp.com/server/fileupload.php',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: {
+                id: '#filePicker',
+                multiple: false
+            },
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {
+            var $li = $(
+                    '<div id="' + file.id + '" >' +
+                    '<img>' +
+                    // '<div class="info">' + file.name + '</div>' +
+                    '</div>'
+            ),
+                $img = $li.find('img');
+
+            // $list为容器jQuery实例
+            $('#fileList').html( $li );
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            // thumbnailWidth x thumbnailHeight 为 100 x 100
+            var thumbnailWidth = 155, thumbnailHeight=208;
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                        $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+                    $img.attr( 'src', src );
+            }, thumbnailWidth, thumbnailHeight );
+        });
+    });
+
+
+</script>

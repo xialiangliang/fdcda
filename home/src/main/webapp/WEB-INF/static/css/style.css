@@ -7751,6 +7751,11 @@ a:hover {
   height: 70px;
 }
 
+.yw_header__left .logo img {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
 .yw_header__left__caption {
   color: #E2840E;
   font-size: 20px;
@@ -7951,9 +7956,6 @@ a:hover {
   background-image: url("/upload/img/icon_visitor.png");
 }
 
-.yw_visitorIcon-normal {
-  background-image: url("/upload/img/icon_visitor.png");
-}
 .yw_visitorItem__list {
   float: left;
   width: 140px;
@@ -8184,14 +8186,13 @@ a.yw_visitorMore {
 
 .yw_box .ztree {
   border: 1px solid #CDD6D5;
-  padding: 0;
 }
 
 .yw_box .ztree li a {
   display: inline-block;
   vertical-align: middle;
-  height: 45px;
-  line-height: 45px;
+  height: 40px;
+  line-height: 40px;
   border-bottom: 1px solid #f0f0f0;
 }
 
@@ -8201,13 +8202,13 @@ a.yw_visitorMore {
 
 .yw_box .ztree li > a, .yw_box .ztree li a.curSelectedNode {
   padding-top: 0;
-  height: 45px;
+  height: 40px;
   cursor: default;
   opacity: 1;
 }
 
 .yw_box .ztree li a.curSelectedNode {
-  background-color: #fafafa;
+  background-color: #f0f0f0;
   border: none;
 }
 
@@ -8217,11 +8218,11 @@ a.yw_visitorMore {
 
 .yw_box .ztree .diy {
   display: inline-block;
-  padding-left: 20px;
-  border-left: 1px solid #f0f0f0;
+  text-indent: 20px;
 }
 
 .yw_box .ztree .diy:first-child {
+  text-align: left;
   border-left: none;
 }
 
@@ -8232,13 +8233,13 @@ a.yw_visitorMore {
 
 .yw_box .ztree .head .diy {
   border-top: none;
-  border-left: 1px solid #CDD2D4;
+  border-right: 1px solid #CDD2D4;
   color: #fff;
   font-size: 14px;
 }
 
-.yw_box .ztree .head .diy:first-child {
-  border-left: none;
+.yw_box .ztree .head .diy:last-child {
+  border-right: none;
 }
 
 .yw_buyerView__list {
@@ -8266,23 +8267,40 @@ a.yw_visitorMore {
   color: #999;
 }
 
-@media screen and (max-width: 1200px) {
-  .yw_visitorArea-left {
-    margin-right: 25.61%;
-  }
-  .yw_visitorDigital {
-    width: 25.61%;
-  }
-  .yw_formGroups {
-    display: block;
-  }
-  .yw_evaluate {
-    width: 85%;
-  }
-  .yw_evaluateItem {
-    width: 85%;
-  }
-  /*自定义面板*/
+.jc-form {
+  position: relative;
+  margin-left: 190px;
+}
+
+.jc-form-items .layui-form-item {
+  clear: none;
+}
+
+.jc-form-items .layui-form-label {
+  float: none;
+  width: 80px;
+  text-align: left;
+}
+
+.jc-form-items .layui-input-block {
+  margin-left: 15px;
+}
+
+.jc-form .imgUpload {
+  position: absolute;
+  top: 15px;
+  left: -190px;
+}
+
+.jc-form .imgUpload__thumb {
+  width: 165px;
+  min-height: 200px;
+  border: 1px solid #e0e0e0;
+  padding: 5px 0;
+  background: url("../images/icon_avatar.png") no-repeat center center;
+}
+
+/*自定义面板*/
 .jc-panel {
   border: 1px solid #d7d7d7;
   -webkit-border-radius: 4px;
@@ -8301,4 +8319,26 @@ a.yw_visitorMore {
   padding: 15px;
   background-color: #f5f5f5;
 }
+
+@media screen and (max-width: 1200px) {
+  .yw_visitorArea-left {
+    margin-right: 25.61%;
+  }
+  .yw_visitorDigital {
+    width: 25.61%;
+  }
+  .yw_formGroups {
+    display: block;
+  }
+  .yw_evaluate {
+    width: 85%;
+  }
+  .yw_evaluateItem {
+    width: 85%;
+  }
+}
+
+.yw_buyerContainer .layui-table .layui-table-cell {
+  height: auto;
+  min-height: 28px;
 }
