@@ -50,6 +50,8 @@ public class DealOriginalImagesTasklet implements Tasklet {
 			dealImage();
 			// 同步到依图 调用存储过程prc_send_camera_image
 			callYituPro();
+			
+			callVisitPro();
 		} catch (Exception e) {
 			logger.error(" 执行设备图片入库出现异常： ",e);
 		}
@@ -59,6 +61,10 @@ public class DealOriginalImagesTasklet implements Tasklet {
 	
 	private void callYituPro() throws Exception{
 		imageInfoMapper.selectCallPro();
+	}
+	
+	private void callVisitPro() throws Exception{
+		imageInfoMapper.selectCallVisitPro();
 	}
 
 	private void dealImage() throws Exception {

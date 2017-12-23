@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.keyou.fdcda.api.constants.Constants;
-import com.keyou.fdcda.api.constants.ImageInfoConstants;
 import com.keyou.fdcda.api.model.ImageInfo;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.VisitRecordInfo;
+import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
 import com.keyou.fdcda.api.service.ImageInfoService;
@@ -159,83 +159,38 @@ public class VisitRecordInfoController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/visitRecordInfo/query", method = RequestMethod.GET)
-	public String queryList(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
+	public String queryList(PaginationQuery query, Model model, HttpServletRequest request,String nameStr, String phoneStr) throws Exception {
 		SysUser sysUser = getUser(request);
 		if (sysUser == null) {
 			return "redirect:/login";
 		}
-		Map<String, Object> map = new HashMap<>();
-		map.put("createToday", "1");
-		map.put("userRowId", sysUser.getId());
-		// 总访问量
-		Long totalCount = visitRecordInfoService.findPageCount(map);
-		
-		map.put("visitType", ImageInfoConstants.VISIT_TYPE_2);
-		Long vipCount = visitRecordInfoService.findPageCount(map);
-		
-		map.put("visitType", ImageInfoConstants.VISIT_TYPE_1);
-		Long normalCount = visitRecordInfoService.findPageCount(map);
-		
-		// 新客
-	    map.put("visitType", ImageInfoConstants.VISIT_TYPE_0);
-	    Long normalNotCount = visitRecordInfoService.findPageCount(map);
-		
-	    // 黑名单数
-	    map.remove("visitType");
-		map.put("visitTypeblack", "1");
-		Long blackCount = visitRecordInfoService.findPageCount(map);
-		 map.remove("visitTypeblack");
-		 
-	   // 可疑人员数
-	    map.remove("visitTypeblack");
-		map.put("visitType", "6");
-		Long keyiCount = visitRecordInfoService.findPageCount(map);
-		 map.remove("visitType");
-	    
-		map.put("endRecord", 10);
-		map.put("startRecord", 0);
-		// 会员数
-		map.put("visitType", ImageInfoConstants.VISIT_TYPE_2);
-		List<VisitRecordInfo> vipList = visitRecordInfoService.findAllPage(map);
-		// 老顾客
-		map.put("visitType", ImageInfoConstants.VISIT_TYPE_1);
-	    List<VisitRecordInfo> normalList = visitRecordInfoService.findAllPage(map);
-	    
-	    // 新客
-	    map.put("visitType", ImageInfoConstants.VISIT_TYPE_0);
-	    List<VisitRecordInfo> normalNotList = visitRecordInfoService.findAllPage(map);
-	    
-	    //可疑人员
-	    map.put("visitType", ImageInfoConstants.VISIT_TYPE_6);
-	    List<VisitRecordInfo> keyiList = visitRecordInfoService.findAllPage(map);
-		
-		// 黑名单数
-	    map.remove("visitType");
-		map.put("visitTypeblack", "1");
-		List<VisitRecordInfo> blackList = visitRecordInfoService.findAllPage(map);
-		
-
-		dealUrl(blackList);
-		dealUrl(vipList);
-		dealUrl(normalList);
-		dealUrl(normalNotList);
-		dealUrl(keyiList);
-		
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("blackCount", blackCount);
-		model.addAttribute("blackList", blackList);
-		model.addAttribute("vipCount", vipCount);
-		model.addAttribute("normalList", normalList);
-		model.addAttribute("normalCountt", normalCount);
-		model.addAttribute("vipList", vipList);
-		model.addAttribute("normalNotList", normalNotList);
-		model.addAttribute("normalNotCount", normalNotCount);
-		
-		model.addAttribute("keyiList", keyiList);
-		model.addAttribute("keyiCountt", keyiCount);
-		return "/page/visitinfo/list";
+		query.addQueryData("userRowId", sysUser.getId()+""); 
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		model.addAttribute("query", query.getQueryData());
+		return "/page/visitinfo/listquery";
 	}
 
+	@RequestMapping("/visitRecordInfo/listJson")
+	@ResponseBody
+	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("nameStr", nameStr);
+		query.addQueryData("phoneStr", phoneStr);
+		
+		PageResult<VisitRecordInfo> pageList = visitRecordInfoService.findPage(query);
+		List<VisitRecordInfo> list = pageList.getRows();
+		dealUrl(list);
+		map.put("data", list);
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		return map;
+	}
+	
 	private void dealUrl(List<VisitRecordInfo> list) {
 		if (list != null && !list.isEmpty()) {
 			for (VisitRecordInfo info : list) {

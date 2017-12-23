@@ -132,7 +132,7 @@ public class VisitRecordInfo implements Serializable {
 	}
 	
 	public void setCreateDate(java.util.Date value) {
-		this.createDateStr =DateUtil.getDate(value, "yyyy-MM-dd");
+		this.createDateStr =DateUtil.getDate(value, DateUtil.DATETIME_FORMAT);
 		this.createDate = value;
 	}
 	
