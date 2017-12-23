@@ -27,6 +27,11 @@ public class SysDevice implements Serializable {
      */ 	
 	private java.util.Date modifyTime;
 	private String modifyTimeStr;
+	
+	/**
+	 * 门店名
+	 */
+	private String outletsName;
 
 	
 	public void setId(Long value) {
@@ -79,6 +84,12 @@ public class SysDevice implements Serializable {
 		return this.modifyTimeStr;
 	}
 
-	
+	public String getOutletsName() {
+		return outletsName;
+	}
+
+	public void setOutletsName(String outletsName) {
+		this.outletsName = outletsName;
+	}
 }
 

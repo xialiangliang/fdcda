@@ -19,7 +19,7 @@ $(function(){
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , page:true
             ,cols: [[
-                {field:'userId', title: '用户id', width:160}
+                {field:'loginName', title: '用户登录名', width:160}
                 ,{field:'name', title: '门店名', width:160}
                 ,{field:'address', title: '地址', width:160}
                 ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'25%'}
@@ -41,6 +41,23 @@ $(function(){
             } else if(obj.event === 'detail'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data))
                 window.location.href = "/sysOutlets/sysDevice/list?outletsId=" + data.id;
+            } else if(obj.event === 'del'){
+                layer.confirm('确认删除？', function(index){
+                    obj.del();
+                    $.ajax({
+                        url: '/sysOutlets/delete',
+                        data: {'id': data.id},
+                        async: false,
+                        success: function (data) {
+                            if (data.success) {
+                                tip(data.message, false);
+                            } else {
+                                tip(data.message, false);
+                            }
+                        }
+                    });
+                    layer.close(index);
+                });
             }
         });
 

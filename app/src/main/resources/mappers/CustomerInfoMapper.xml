@@ -179,6 +179,15 @@
         ID = #{id} 
 	]]>
 	</select>
+
+	<select id="findByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT <include refid="columns"/>
+		<![CDATA[
+		FROM CUSTOMER_INFO 
+		WHERE 
+        PHONE = #{phone} 
+	]]>
+	</select>
 	 
 	<select id="findPageCount" resultType="java.lang.Long" parameterType="java.util.Map">
     	select count(*) from CUSTOMER_INFO where 1=1
@@ -239,6 +248,34 @@
 		from image_base_check t
 		where t.yitu_user_code =( select t.yitu_user_code from image_base_check t where t.user_row_id = #{id})
 	</select>
+	
+	<insert id="saveImageBaseSend" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+			SELECT SEQ_IMAGE_BASE_SEND.nextval AS id from dual
+		</selectKey>
+		<![CDATA[
+		INSERT INTO IMAGE_BASE_SEND (
+        	ID ,
+        	USER_ROW_ID ,
+        	IMAGE_URL ,
+        	IMAGE_STATUS ,
+        	CREATE_DATE ,
+        	UPDATE_FLAG
+		) VALUES (
+        	#{id,jdbcType=DECIMAL} ,
+        	#{customerId,jdbcType=DECIMAL} ,
+        	#{imageUrl} ,
+        	0 ,
+        	sysdate ,
+        	0
+		)
+	]]>
+	</insert>
+
+	<update id="updateImageBaseSend" parameterType="java.util.Map">
+		UPDATE IMAGE_BASE_SEND set UPDATE_FLAG = (case when IMAGE_STATUS=0 then UPDATE_FLAG else 1 end), IMAGE_STATUS = 0, IMAGE_URL = #{imageUrl}
+		WHERE USER_ROW_ID = #{customerId,jdbcType=DECIMAL}
+	</update>
 	
 	<sql id="queryWhere">
 		<if test="id != null and id.trim() != ''">

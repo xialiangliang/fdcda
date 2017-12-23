@@ -1,31 +1,32 @@
 ###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
 #set($JS = ["/js/jquery.form.min.js", "/js/page/orderInfo/new-update.js" ,"/js/webuploader/webuploader.min.js"])
+#set($CSS = ["/js/webuploader/webuploader.css"])
 <div class="yw_buyerContainer">
     <div class="yw_breadcrumb">
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>
     <div class="yw_box">
-        <form class="layui-form jc-form" action="">
+        <form class="layui-form jc-form" action="/order/save" id="new_tradeForm">
             <div class="imgUpload">
                 <p id="fileList" class="imgUpload__thumb text-center uploader-list">
 
                 </p>
-                <div class="mt-10 text-center">
-                    <div id="filePicker">选择图片</div>
-                </div>
+##                <div class="mt-10 text-center">
+##                    <div id="filePicker">选择图片</div>
+##                </div>
             </div>
             <div class="jc-form-items clearfix">
                 <div class="layui-form-item fl">
-                    <label class="layui-form-label">姓名</label>
+                    <label class="layui-form-label">手机号码</label>
                     <div class="layui-input-block">
-                        <input type="text"  name="buyer_name"  class="layui-input" size="25">
+                        <input id="customerPhone" type="text"  name="customerPhone"  class="layui-input" size="25" placeholder="请输入完整手机号">
                     </div>
                 </div>
                 <div class="layui-form-item fl ml-30">
-                    <label class="layui-form-label">手机号码</label>
+                    <label class="layui-form-label">姓名</label>
                     <div class="layui-input-block">
-                        <input type="text"  name="buyer_mobile"  class="layui-input" size="24">
+                        <input id="customerName" type="text"  name="customerName"  class="layui-input" size="24" readonly>
                     </div>
                 </div>
             </div>
@@ -33,15 +34,16 @@
                 <div class="layui-form-item fl">
                     <label class="layui-form-label">交易金额</label>
                     <div class="layui-input-block">
-                        <input type="text" name="buyer_money"  class="layui-input" size="25">
+                        <input type="text" name="orderAmt"  class="layui-input" size="25">
                     </div>
                 </div>
                 <div class="layui-form-item fl ml-30">
                     <label class="layui-form-label">交易状态</label>
                     <div class="layui-input-block width-full">
-                        <select name="buyer_state">
-                            <option value="1">待收尾款</option>
-                            <option value="2">待收尾款</option>
+                        <select name="status">
+                            <option value="1">未付款</option>
+                            <option value="2">已付款</option>
+                            <option value="3">待收尾款</option>
                         </select>
                     </div>
                 </div>
@@ -50,15 +52,17 @@
                 <div class="layui-form-item fl">
                     <label class="layui-form-label">交货日期</label>
                     <div class="layui-input-block">
-                        <input type="text"  name="delivery_date" id="delivery_date"  class="layui-input" size="25">
+                        <input type="text"  name="goodDateStr" id="delivery_date"  class="layui-input" size="25">
                     </div>
                 </div>
                 <div class="layui-form-item fl ml-30">
                     <label class="layui-form-label">付款方式</label>
                     <div class="layui-input-block width-full">
-                        <select name="pay_method">
+                        <select name="payType">
                             <option value="1">现金</option>
-                            <option value="2">支付宝</option>
+                            <option value="2">银行卡</option>
+                            <option value="3">支付宝</option>
+                            <option value="4">微信</option>
                         </select>
                     </div>
                 </div>
@@ -68,7 +72,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">交易详情</label>
                     <div class="layui-input-block">
-                        <input type="text"  name="buyer_details"  class="layui-input" size="59">
+                        <input type="text"  name="orderContent"  class="layui-input" size="59">
                     </div>
                 </div>
             </div>
@@ -76,7 +80,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属单位</label>
                     <div class="layui-input-block">
-                        <input type="text"  name="buyer_company"  class="layui-input" size="59">
+                        <input id="buyer_company" type="text"  name="buyer_company"  class="layui-input" size="59" readonly>
                     </div>
                 </div>
             </div>
@@ -84,34 +88,34 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">收货地址</label>
                     <div class="layui-input-block">
-                        <input type="text"  name="buyer_address"  class="layui-input" size="59">
+                        <input type="text"  name="toaddress"  class="layui-input" size="59">
                     </div>
                 </div>
             </div>
+##
+##            <div class="jc-form-items">
+##                <div class="layui-form-item">
+##                    <label class="layui-form-label">评价</label>
+##                    <div class="layui-input-block">
+##                        <input type="radio" name="buyer_evaluate" value="0" title="好评" checked>
+##                        <input type="radio" name="buyer_evaluate" value="1" title="中评">
+##                        <input type="radio" name="buyer_evaluate" value="2" title="差评" >
+##                    </div>
+##                </div>
+##            </div>
+##
+##            <div class="jc-form-items">
+##                <div class="layui-form-item layui-form-text">
+##                    <div class="layui-input-block">
+##                        <textarea placeholder="请输入内容" rows="3" cols="57" class="layui-textarea"></textarea>
+##                    </div>
+##                </div>
+##            </div>
 
             <div class="jc-form-items">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">评价</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="buyer_evaluate" value="0" title="好评" checked>
-                        <input type="radio" name="buyer_evaluate" value="1" title="中评">
-                        <input type="radio" name="buyer_evaluate" value="2" title="差评" >
-                    </div>
-                </div>
-            </div>
-
-            <div class="jc-form-items">
-                <div class="layui-form-item layui-form-text">
-                    <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" rows="3" cols="57" class="layui-textarea"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="jc-form-items">
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button type="button" class="layui-btn layui-btn-normal" >添 加</button>
+                        <button type="submit" class="layui-btn layui-btn-normal" >添 加</button>
                     </div>
                 </div>
             </div>
@@ -175,6 +179,60 @@
                 }
                     $img.attr( 'src', src );
             }, thumbnailWidth, thumbnailHeight );
+        });
+
+
+        function tip(msg, reload) {
+            layer.msg(msg,{time:1000},function () {
+                if (reload) {
+                    window.location.reload();
+                }
+            });
+        }
+        
+        $("#customerPhone").on('input',function()
+        {
+            var phone = $("#customerPhone").val();
+            if (phone.length == 11) {
+                $.ajax({
+                    url: '/order/findCustomer',
+                    data: {'phone': phone},
+                    async: false,
+                    success: function (data) {
+                        if (data.success) {
+                            $('#customerName').val(data.data.name);
+                            $('#buyer_company').val(data.data.companyName);
+                            if (data.data.imageUrl != '') {
+                                var img = '<img src="'+data.data.imageUrl+'"  width="155" height="208">';
+                                $('.imgUpload__thumb').html(img);
+                            }
+                        } else {
+                            tip(data.message, false);
+                            $('#customerName').val('');
+                            $('#buyer_company').val('');
+                            var img = '<img src="/upload/img/icon_avatar.png"  width="155" height="208">';
+                            $('.imgUpload__thumb').html(img);
+                        }
+                    }
+                });
+            } else {
+                $('#customerName').val('');
+                $('#buyer_company').val('');
+                var img = '';
+                $('.imgUpload__thumb').html(img);
+            }
+        });
+
+        $("#new_tradeForm").ajaxForm({
+            success: function (data) {
+                if (data.success) {
+                    // layer.close(layer.index);
+                    tip(data.message, false);
+                    window.location.href = "/order";
+                } else {
+                    tip(data.message, false);
+                }
+            }
         });
     });
 

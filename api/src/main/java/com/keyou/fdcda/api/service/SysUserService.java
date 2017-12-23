@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface SysUserService extends BaseService<SysUser, Long> {
     SysUser getUserByPhone(String phone);
 
-    SysUser getUserByLoginname(String phone);
+    SysUser getUserByLoginname(String loginname);
     
     Result<SysUser> validateNewUser(SysUser user) throws Exception;
 

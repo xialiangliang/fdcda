@@ -32,6 +32,11 @@ public class SysOutlets implements Serializable {
 	private java.util.Date modifyTime;
 	private String modifyTimeStr;
 
+	/**
+	 * 用户登录名
+	 */
+	private String loginName;
+
 	
 	public void setId(Long value) {
 		this.id = value;
@@ -91,6 +96,12 @@ public class SysOutlets implements Serializable {
 		return this.modifyTimeStr;
 	}
 
-	
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
 }
 

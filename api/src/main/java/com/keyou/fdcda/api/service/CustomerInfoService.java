@@ -19,4 +19,14 @@ public interface CustomerInfoService extends BaseService<CustomerInfo, Long> {
      * @return
      */
     List<Long> findRealCustomerIdBySingleId(Long id);
+
+    CustomerInfo findByPhone(String phone);
+
+    /**
+     * 新建/更新采购商图片同步信息
+     * @param customerId
+     * @param imageUrl
+     * @param updateFlag 0新增1更新
+     */
+    void updateImageBaseSend(Long customerId, String imageUrl, Integer updateFlag);
 }

@@ -1,9 +1,11 @@
 package com.keyou.fdcda.app.service.impl;
 
+import com.google.common.collect.Maps;
 import com.keyou.fdcda.api.model.CustomerInfo;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.CustomerInfoService;
+import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.app.dao.CustomerBlackVipMapper;
 import com.keyou.fdcda.app.dao.CustomerInfoMapper;
 import org.slf4j.Logger;
@@ -95,5 +97,26 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Override
     public List<Long> findRealCustomerIdBySingleId(Long id) {
         return customerInfoMapper.findRealCustomerIdBySingleId(id);
+    }
+
+    @Override
+    public CustomerInfo findByPhone(String phone) {
+        if (StringUtil.isBlank(phone)) {
+            return null;
+        }
+        return customerInfoMapper.findByPhone(phone);
+    }
+
+    @Override
+    public void updateImageBaseSend(Long customerId, String imageUrl, Integer updateFlag) {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("customerId", customerId);
+        map.put("imageUrl", imageUrl);
+        if (updateFlag.equals(0)) {
+            map.put("customerId", customerId.toString());
+            customerInfoMapper.saveImageBaseSend(map);
+        } else if (updateFlag.equals(1)) {
+            customerInfoMapper.updateImageBaseSend(map);
+        }
     }
 }

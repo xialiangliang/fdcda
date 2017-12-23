@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.keyou.fdcda.api.model.SysDevice;
+import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.service.SysDeviceService;
+import com.keyou.fdcda.api.service.SysUserService;
 import com.keyou.fdcda.api.utils.Assert;
 import com.keyou.fdcda.api.utils.StringUtil;
 import org.slf4j.Logger;
@@ -37,6 +39,8 @@ public class SysOutletsController extends BaseController {
 	private SysOutletsService sysOutletsService;
 	@Autowired
 	private SysDeviceService sysDeviceService;
+	@Autowired
+	private SysUserService sysUserService;
 	
 	@RequestMapping(value="/new")
 	public String add() throws Exception {		
@@ -47,6 +51,10 @@ public class SysOutletsController extends BaseController {
 	public String find(Long id, Model model, HttpServletRequest request){
 		try {	
 			SysOutlets sysOutlets = sysOutletsService.findById(id);
+			SysUser user = sysUserService.findById(sysOutlets.getUserId());
+			if (user != null) {
+				sysOutlets.setLoginName(user.getLoginname());
+			}
 			model.addAttribute("param", sysOutlets);
 			model.addAttribute(Constants.SUCCESS, true);
 			return "/page/sysOutlets/update";
@@ -61,6 +69,10 @@ public class SysOutletsController extends BaseController {
 	public Map<String, Object> save(@ModelAttribute("sysOutlets") SysOutlets sysOutlets,Model model) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			Assert.isBlank(sysOutlets.getLoginName(), "用户登录名不能为空");
+			SysUser user = sysUserService.getUserByLoginname(sysOutlets.getLoginName());
+			Assert.isNull(user, "用户不存在");
+			sysOutlets.setUserId(user.getId());
 			sysOutlets.setCreateTime(new Date());
 			sysOutletsService.save(sysOutlets);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -78,6 +90,10 @@ public class SysOutletsController extends BaseController {
 	public Map<String, Object> update(@ModelAttribute("sysOutlets") SysOutlets sysOutlets,Model model,HttpServletRequest request) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			Assert.isBlank(sysOutlets.getLoginName(), "用户登录名不能为空");
+			SysUser user = sysUserService.getUserByLoginname(sysOutlets.getLoginName());
+			Assert.isNull(user, "用户不存在");
+			sysOutlets.setUserId(user.getId());
 			sysOutlets.setModifyTime(new Date());
 			sysOutletsService.update(sysOutlets);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -119,6 +135,12 @@ public class SysOutletsController extends BaseController {
 		this.formatPageQuery(query, page, limit);
 //		query.addQueryData("userId", getUser(request).getId().toString());
 		PageResult<SysOutlets> pageList = sysOutletsService.findPage(query);
+		pageList.getRows().forEach(sysOutlets -> {
+			SysUser user = sysUserService.findById(sysOutlets.getUserId());
+			if (user != null) {
+				sysOutlets.setLoginName(user.getLoginname());
+			}
+		});
 		map.put("data", pageList.getRows());
 		map.put("code", 0);
 		map.put("msg", "");
@@ -145,6 +167,12 @@ public class SysOutletsController extends BaseController {
 		query.addQueryData("outletsId", outletsId.toString());
 //		query.addQueryData("userId", getUser(request).getId().toString());
 		PageResult<SysDevice> pageList = sysDeviceService.findPage(query);
+		pageList.getRows().forEach(sysDevice -> {
+			SysOutlets sysOutlets = sysOutletsService.findById(sysDevice.getOutletsId());
+			if (sysOutlets != null) {
+				sysDevice.setOutletsName(sysOutlets.getName());
+			}
+		});
 		map.put("data", pageList.getRows());
 		map.put("code", 0);
 		map.put("msg", "");

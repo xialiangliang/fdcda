@@ -19,4 +19,10 @@ public interface CustomerInfoMapper extends BaseMapper<CustomerInfo, Long> {
     List<CustomerInfo> findBlackPage(Map<String, Object> queryData);
 
     List<Long> findRealCustomerIdBySingleId(Long id);
+
+    CustomerInfo findByPhone(String phone);
+
+    Integer saveImageBaseSend(Map<String, Object> map);
+
+    Long updateImageBaseSend(Map<String, Object> map);
 }

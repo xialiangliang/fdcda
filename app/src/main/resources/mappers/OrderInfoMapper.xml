@@ -12,11 +12,12 @@
 		<result property="toaddress" jdbcType="VARCHAR" column="TOADDRESS"/>
 		<result property="remark" jdbcType="VARCHAR" column="REMARK"/>
 		<result property="createDate" jdbcType="TIMESTAMP" column="CREATE_DATE"/>
+		<result property="status" jdbcType="DECIMAL" column="STATUS"/>
     </resultMap>
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,USER_ROW_ID ,CUSTOMER_ROW_ID ,ORDER_CONTENT ,ORDER_AMT ,PAY_TYPE ,GOOD_DATE ,TOADDRESS ,REMARK ,CREATE_DATE 
+        ID ,USER_ROW_ID ,CUSTOMER_ROW_ID ,ORDER_CONTENT ,ORDER_AMT ,PAY_TYPE ,GOOD_DATE ,TOADDRESS ,REMARK ,CREATE_DATE ,STATUS 
 	    ]]>
 	</sql>
 	
@@ -35,7 +36,8 @@
         	GOOD_DATE ,
         	TOADDRESS ,
         	REMARK ,
-        	CREATE_DATE 
+        	CREATE_DATE ,
+        	STATUS
 		) VALUES (
         	#{id,jdbcType=DECIMAL} ,
         	#{userRowId,jdbcType=DECIMAL} ,
@@ -46,7 +48,8 @@
         	#{goodDate,jdbcType=TIMESTAMP} ,
         	#{toaddress,jdbcType=VARCHAR} ,
         	#{remark,jdbcType=VARCHAR} ,
-        	#{createDate,jdbcType=TIMESTAMP} 
+        	#{createDate,jdbcType=TIMESTAMP} ,
+        	#{status,jdbcType=DECIMAL}
 		)
 	]]>
 	</insert>
@@ -79,8 +82,11 @@
 	        REMARK = #{remark,jdbcType=VARCHAR} ,
 	        </if>
 			<if test="createDate != null">
-	        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP} 
+	        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP} ,
 	        </if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=DECIMAL}
+			</if>
 	    </set>
 		WHERE 
 	        ID = #{id,jdbcType=DECIMAL} 
@@ -160,6 +166,9 @@
 		</if>
 		<if test="createDateEnd != null and createDateEnd.trim() != ''">
 		and CREATE_DATE &lt;= #{createDateEnd}
+		</if>
+		<if test="status != null and status.trim() != ''">
+			and STATUS = #{status}
 		</if>
 	</sql>
 </mapper>

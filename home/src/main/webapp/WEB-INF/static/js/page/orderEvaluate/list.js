@@ -14,20 +14,20 @@ $(function(){
 
         table.render({
             elem: '#test'
-            ,url:'/order/listJson'
+            ,url:'/evaluate/listJson'
             ,height:500
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , page:true
             ,cols: [[
-                {field:'userRowId', title: '经营户id', width:160}
-                ,{field:'customerRowId', title: '采购商id', width:160}
+                {field:'customerName', title: '采购商姓名', width:160}
                 ,{field:'orderContent', title: '交易内容', width:160}
                 ,{field:'orderAmt', title: '交易金额', width:160}
-                ,{field:'payType', title: '付款方式', width:160, width:160, templet: '#payType'}
+                ,{field:'payType', title: '付款方式', width:160, templet: '#payType'}
+                ,{field:'status', title: '状态', width:160, templet: '#status'}
                 ,{field:'goodDateStr', title: '交货日期', width:160}
                 ,{field:'toaddress', title: '收货地址', width:160}
                 ,{field:'remark', title: '备注', width:160}
-                ,{field:'createDateStr', title: '创建日期', width:160}
+                ,{field:'createDateStr', title: '创建日期', width:200}
                 ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'15%'}
             ]]
         });

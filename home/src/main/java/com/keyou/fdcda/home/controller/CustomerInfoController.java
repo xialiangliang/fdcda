@@ -231,6 +231,7 @@ public class CustomerInfoController extends BaseController {
 				Assert.isNull(imageInfo, "图片信息获取失败，请重新上传");
 				Assert.isTrue(imageInfo.getWidth() > 700 || imageInfo.getHeight() > 700, "图片长或宽不超过700像素");
 				customerInfo.setImageUrl(filePath);
+				customerInfoService.updateImageBaseSend(customerInfo.getId(), customerInfo.getImageUrl(), 0);
 			}
 			customerInfoService.save(customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -275,6 +276,7 @@ public class CustomerInfoController extends BaseController {
 				Assert.isNull(imageInfo, "图片信息获取失败，请重新上传");
 				Assert.isTrue(imageInfo.getWidth() > 700 || imageInfo.getHeight() > 700, "图片长或宽不超过700像素");
 				customerInfo.setImageUrl(filePath);
+				customerInfoService.updateImageBaseSend(customerInfo.getId(), customerInfo.getImageUrl(), 1);
 			}
 			customerInfoService.update(customerInfo);
 			model.addAttribute(Constants.SUCCESS, true);

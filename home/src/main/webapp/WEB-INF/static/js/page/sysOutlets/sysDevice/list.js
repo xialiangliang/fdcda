@@ -20,7 +20,7 @@ $(function(){
             , page:true
             ,cols: [[
                 {field:'seqno', title: '设备序列号', width:200}
-                ,{field:'outletsId', title: '门店id', width:160}
+                ,{field:'outletsName', title: '门店名', width:160}
                 ,{field:'createTimeStr', title: '创建时间', width:200}
                 ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'25%'}
             ]]

@@ -140,7 +140,15 @@ public class OrderEvaluateController extends BaseController {
         Map<String, Object> map = new HashMap<String, Object>();
         this.formatPageQuery(query, page, limit);
         query.addQueryData("userRowId", getUser(request).getId().toString());
-        PageResult<OrderEvaluate> pageList = orderEvaluateService.findPage(query);
+        PageResult<OrderInfo> pageList = orderInfoService.findPage(query);
+        pageList.getRows().forEach(orderInfo -> {
+            if (orderInfo.getCustomerRowId() != null) {
+                CustomerInfo customerInfo = customerInfoService.findById(orderInfo.getCustomerRowId());
+                if (customerInfo != null) {
+                    orderInfo.setCustomerName(customerInfo.getName());
+                }
+            }
+        });
         map.put("data", pageList.getRows());
         map.put("code", 0);
         map.put("msg", "");
@@ -153,15 +161,14 @@ public class OrderEvaluateController extends BaseController {
     @RequestMapping(value="/detail")
     public String detail(Long id, Model model, HttpServletRequest request){
         try {
-            OrderEvaluate orderEvaluate0 = orderEvaluateService.findById(id);
-            OrderInfo orderInfo0 = orderInfoService.findById(orderEvaluate0.getOrderRowId());
+            OrderInfo orderInfo0 = orderInfoService.findById(id);
             CustomerInfo customerInfo = customerInfoService.findById(orderInfo0.getCustomerRowId());
             Assert.isTrue(customerInfo.getUserRowId() != null
                     && !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
             if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
                 customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
             }
-            List<Long> customerIds = customerInfoService.findRealCustomerIdBySingleId(id);
+            List<Long> customerIds = customerInfoService.findRealCustomerIdBySingleId(customerInfo.getId());
             List<OrderEvaluate> evaluateList = orderEvaluateService.findListByCustomerIds(customerIds);
             evaluateList.forEach(orderEvaluate -> {
                 if (StringUtil.isNotBlank(orderEvaluate.getImagesUrl())) {

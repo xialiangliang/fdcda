@@ -5,9 +5,9 @@
     <form action="/sysOutlets/update"  method="post" class="form-horizontal layui-form" id="updateForm_sysOutlets">
         <input type="hidden" name="id" value="$!{param.id}" />
         <div class="layui-form-item">
-            <label for="userId" class="layui-form-label">用户id</label>
+            <label for="loginName" class="layui-form-label">用户登录名</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" id="userId" name="userId" value="$!{param.userId}" >
+                <input type="text" class="layui-input" id="loginName" name="loginName" value="$!{param.loginName}" >
             </div>
         </div>
         <div class="layui-form-item">

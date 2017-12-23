@@ -50,6 +50,14 @@ public class OrderInfo implements Serializable {
 	private java.util.Date createDate;
 	private String createDateStr;
 
+	/**
+	 * 订单状态 1-未付款 2-已付款 3-待收尾款
+	 */
+	private Integer status;
+	
+	private String customerName;
+	private String customerPhone;
+
 	
 	public void setId(Long value) {
 		this.id = value;
@@ -100,14 +108,18 @@ public class OrderInfo implements Serializable {
 	}
 	
 	public void setGoodDate(java.util.Date value) {
-		this.goodDateStr =DateUtil.getDate(value, "yyyy-MM-dd HH:mm:ss");
+		this.goodDateStr =DateUtil.getDate(value, "yyyy-MM-dd");
 		this.goodDate = value;
 	}
 	
 	public java.util.Date getGoodDate() {
 		return this.goodDate;
 	}
-	
+
+	public void setGoodDateStr(String goodDateStr) {
+		this.goodDateStr = goodDateStr;
+	}
+
 	public String getGoodDateStr() {
 		return this.goodDateStr;
 	}
@@ -141,6 +153,28 @@ public class OrderInfo implements Serializable {
 		return this.createDateStr;
 	}
 
-	
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 }
 

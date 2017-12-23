@@ -38,46 +38,6 @@
             </form>
         </div>
         <ul class="yw_evaluateItem">
-            <li class="yw_evaluateItem__list">
-                <div class="yw_evaluateItem__list__bar">
-                    <div class="yw_evaluateMsg">
-                        <p>工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
-                            能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。</p>
-                        <p>
-                            <img src="images/thumb3.jpg" alt="">
-                            <img src="images/thumb3.jpg" alt="">
-                        </p>
-                    </div>
-                    <div class="yw_evaluateID">
-                        <p>蔡**</p>
-                        <p>2017.08.21</p>
-                    </div>
-                </div>
-            </li>
-            <li class="yw_evaluateItem__list">
-                <div class="yw_evaluateItem__list__bar">
-                    <div class="yw_evaluateMsg">
-                        工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
-                        能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。
-                    </div>
-                    <div class="yw_evaluateID">
-                        <p>蔡**</p>
-                        <p>2017.08.21</p>
-                    </div>
-                </div>
-            </li>
-            <li class="yw_evaluateItem__list">
-                <div class="yw_evaluateItem__list__bar">
-                    <div class="yw_evaluateMsg">
-                        工作热情，人品端正、德行优良、自身修养较高、对待客户诚信;对待工作严谨、处处为公司考虑，
-                        能够虚心接受同事给予的建议并改正;学习进步较快、受到大多数客户的好评。
-                    </div>
-                    <div class="yw_evaluateID">
-                        <p>蔡**</p>
-                        <p>2017.08.21</p>
-                    </div>
-                </div>
-            </li>
         </ul>
 
     </div>

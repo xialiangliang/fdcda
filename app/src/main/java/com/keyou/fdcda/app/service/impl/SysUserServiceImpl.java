@@ -86,8 +86,8 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public SysUser getUserByLoginname(String phone) {
-        return sysUserMapper.getUserByLoginname(phone);
+    public SysUser getUserByLoginname(String loginname) {
+        return sysUserMapper.getUserByLoginname(loginname);
     }
 
     @Override
