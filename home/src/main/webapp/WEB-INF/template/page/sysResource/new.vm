@@ -3,12 +3,33 @@
 #set($JS = ["/js/page/sysResource/new-update.js", "/js/jquery.form.min.js"])
 <div class="col-sm-12">
     <form action="/sysResource/save"  method="post" class="form-horizontal layui-form" id="newForm_sysResource">
+##        <div class="layui-form-item">
+##            <label for="parentId" class="layui-form-label">父资源id</label>
+##            <div class="layui-input-block">
+##                <input type="text" class="layui-input" id="parentId" name="parentId" value="$!{param.parentId}" >
+##            </div>
+##        </div>
         <div class="layui-form-item">
-            <label for="parentId" class="layui-form-label">父资源id</label>
+            <label for="parentId" class="layui-form-label">一级菜单</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" id="parentId" name="parentId" value="$!{param.parentId}" >
+                <select class="layui-input" name="topId" id="topId" #if ($!{param.parentId} == 0) disabled #end>
+                    #foreach($item in $topList)
+                        <option value="${item.id}" #if($!{param.topId}==$item.id) selected #end>${item.name}</option>
+                    #end
+                </select>
             </div>
-        </div>    
+        </div>
+        <div class="layui-form-item">
+            <label for="parentId" class="layui-form-label">父资源</label>
+            <div class="layui-input-block">
+                <select class="layui-input" name="parentId" id="parentId" #if ($!{param.parentId} == 0) disabled #end>
+                    #foreach($item in $parentList)
+                        <option value="${item.id}" #if($!{param.parentId}==$item.id) selected #end>${item.name}</option>
+                    #end
+                </select>
+            </div>
+        </div>
+        
         <div class="layui-form-item">
             <label for="name" class="layui-form-label">资源名称</label>
             <div class="layui-input-block">

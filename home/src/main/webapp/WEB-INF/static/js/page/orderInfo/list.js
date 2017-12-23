@@ -23,11 +23,11 @@ $(function(){
                 ,{field:'customerRowId', title: '采购商id', width:160}
                 ,{field:'orderContent', title: '交易内容', width:160}
                 ,{field:'orderAmt', title: '交易金额', width:160}
-                ,{field:'payType', title: '付款方式：1现金2银行卡3支付宝4微信', width:160}
-                ,{field:'goodDate', title: '交货日期', width:160}
+                ,{field:'payType', title: '付款方式', width:160, templet: '#payType'}
+                ,{field:'goodDateStr', title: '交货日期', width:160}
                 ,{field:'toaddress', title: '收货地址', width:160}
                 ,{field:'remark', title: '备注', width:160}
-                ,{field:'createDate', title: '创建日期', width:160}
+                ,{field:'createDateStr', title: '创建日期', width:160}
                 ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'15%'}
             ]]
         });

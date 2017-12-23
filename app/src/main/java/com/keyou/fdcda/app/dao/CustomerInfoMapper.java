@@ -17,4 +17,6 @@ public interface CustomerInfoMapper extends BaseMapper<CustomerInfo, Long> {
     Long findBlackPageCount(Map<String, Object> queryData);
 
     List<CustomerInfo> findBlackPage(Map<String, Object> queryData);
+
+    List<Long> findRealCustomerIdBySingleId(Long id);
 }

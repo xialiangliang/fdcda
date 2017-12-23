@@ -1,6 +1,8 @@
 package com.keyou.fdcda.api.model; 
 
 import java.io.Serializable;
+import java.util.List;
+
 import com.keyou.fdcda.api.utils.DateUtil;
 
 public class OrderEvaluate implements Serializable {
@@ -30,6 +32,15 @@ public class OrderEvaluate implements Serializable {
      */ 	
 	private java.util.Date createDate;
 	private String createDateStr;
+
+	/**
+	 * 评价人
+	 */
+	private String evaluateName;
+	/**
+	 * 附件，多个图片url以英文逗号,隔开 
+	 */
+	private List<String> imagesUrlList;
 
 	
 	public void setId(Long value) {
@@ -73,7 +84,7 @@ public class OrderEvaluate implements Serializable {
 	}
 	
 	public void setCreateDate(java.util.Date value) {
-		this.createDateStr =DateUtil.getDate(value, "yyyy-MM-dd HH:mm:ss");
+		this.createDateStr =DateUtil.getDate(value, "yyyy.MM.dd");
 		this.createDate = value;
 	}
 	
@@ -85,6 +96,20 @@ public class OrderEvaluate implements Serializable {
 		return this.createDateStr;
 	}
 
-	
+	public String getEvaluateName() {
+		return evaluateName;
+	}
+
+	public void setEvaluateName(String evaluateName) {
+		this.evaluateName = evaluateName;
+	}
+
+	public List<String> getImagesUrlList() {
+		return imagesUrlList;
+	}
+
+	public void setImagesUrlList(List<String> imagesUrlList) {
+		this.imagesUrlList = imagesUrlList;
+	}
 }
 

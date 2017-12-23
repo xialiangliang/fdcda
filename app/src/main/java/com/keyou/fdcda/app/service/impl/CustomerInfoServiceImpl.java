@@ -91,4 +91,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         }
         return new PageResult<>(list, count.intValue(), query);
     }
+
+    @Override
+    public List<Long> findRealCustomerIdBySingleId(Long id) {
+        return customerInfoMapper.findRealCustomerIdBySingleId(id);
+    }
 }
