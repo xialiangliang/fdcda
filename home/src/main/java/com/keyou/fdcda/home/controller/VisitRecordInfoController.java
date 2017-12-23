@@ -152,12 +152,14 @@ public class VisitRecordInfoController extends BaseController {
 		List<VisitRecordInfo> dayDetailReport = visitRecordInfoService.selectDayDetailReport(map);
 		model.addAttribute("lineData", dayDetailReport);
 		
+		model.addAttribute("begin", begin);
+		model.addAttribute("end", end);
 		 
 		return "/page/visitinfo/list";
 	}
 	
-	
-	public String list_bak(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/visitRecordInfo/query", method = RequestMethod.GET)
+	public String queryList(PaginationQuery query, Model model, HttpServletRequest request) throws Exception {
 		SysUser sysUser = getUser(request);
 		if (sysUser == null) {
 			return "redirect:/login";

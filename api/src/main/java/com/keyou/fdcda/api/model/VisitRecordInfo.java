@@ -152,14 +152,19 @@ public class VisitRecordInfo implements Serializable {
 				break;
 			case 1:
 				visitStr = "老顾客";
+				break;
 			case 2:
 				visitStr = "VIP";
+				break;
 			case 3:
 				visitStr = "黑名单";
+				break;
 			case 4:
 				visitStr = "经侦黑名单";
+				break;
 			case 6:
 				visitStr = "可疑人员";
+				break;
 			default:
 				visitStr = "其他";
 				break;
