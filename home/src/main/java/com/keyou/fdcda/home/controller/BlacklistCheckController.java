@@ -80,7 +80,7 @@ public class BlacklistCheckController extends BaseController {
 	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, Integer page, Integer limit) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		this.formatPageQuery(query, page, limit);
-		query.addQueryData("userRowId", getUser(request).getId().toString());
+//		query.addQueryData("userRowId", getUser(request).getId().toString());
 		query.addQueryData("status", "0");
 		PageResult<SysBlacklistApply> pageList = sysBlacklistApplyService.findPage(query);
 		pageList.getRows().forEach(sysBlacklistApply -> {

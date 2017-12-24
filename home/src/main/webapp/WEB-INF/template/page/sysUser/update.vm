@@ -50,16 +50,16 @@
                 <input type="text" class="layui-input" id="address" name="address" value="$!{param.address}" >
             </div>
         </div>    
-        <div class="layui-form-item">
+        <div class="layui-form-item fl">
             <label for="valid" class="layui-form-label">状态</label>
             <div class="layui-input-block">
-                <select class="layui-input" name="valid" id="valid">
+                <select class="layui-input width-full" name="valid" id="valid">
                     <option value="1" #if($!{param.valid}==1) selected #end>有效</option>
                     <option value="2" #if($!{param.valid}==2) selected #end>无效</option>
                 </select>
             </div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item fl">
             <label for="" class="layui-form-label">区域</label>
             <div class="layui-input-block">
                 <select class="layui-input" name="sysAreaId" id="sysAreaId">

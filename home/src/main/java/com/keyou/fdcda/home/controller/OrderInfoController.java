@@ -51,6 +51,14 @@ public class OrderInfoController extends BaseController {
             OrderInfo orderInfo = orderInfoService.findById(id);
             Assert.isTrue(orderInfo.getUserRowId() != null
                     && !getUser(request).getId().equals(orderInfo.getUserRowId()), "非法操作");
+            if (orderInfo.getCustomerRowId() != null) {
+                CustomerInfo customerInfo = customerInfoService.findById(orderInfo.getCustomerRowId());
+                if (customerInfo != null) {
+                    orderInfo.setCustomerName(customerInfo.getName());
+                    orderInfo.setCustomerPhone(customerInfo.getPhone());
+                    model.addAttribute("companyName", customerInfo.getCompanyName());
+                }
+            }
             model.addAttribute("param", orderInfo);
             model.addAttribute(Constants.SUCCESS, true);
             return "/page/orderInfo/update";
@@ -137,6 +145,18 @@ public class OrderInfoController extends BaseController {
             OrderInfo orderInfo2 = orderInfoService.findById(orderInfo.getId());
             Assert.isTrue(orderInfo2.getUserRowId() != null
                     && !getUser(request).getId().equals(orderInfo2.getUserRowId()), "非法操作");
+            PaginationQuery query = new PaginationQuery();
+            query.addQueryData("userRowId", getUser(request).getId().toString());
+            query.addQueryData("phone", orderInfo.getCustomerPhone());
+            PageResult<CustomerInfo> customerInfoPage = customerInfoService.findPage(query);
+            if (customerInfoPage.getRowCount() == 0) {
+                map.put(Constants.SUCCESS, false);
+                map.put(Constants.MESSAGE, "查无此人");
+                map.put("data", null);
+                return map;
+            }
+            CustomerInfo customerInfo = customerInfoPage.getRows().get(0);
+            orderInfo.setCustomerRowId(customerInfo.getId());
             orderInfoService.update(orderInfo);
             model.addAttribute(Constants.SUCCESS, true);
             map.put(Constants.SUCCESS, true);

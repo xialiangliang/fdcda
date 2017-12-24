@@ -19,8 +19,8 @@ $(function(){
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , page:true
             ,cols: [[
-                {field:'id', title: '手机', width:160}
-                ,{field:'name', title: '用户名', width:160}
+                {field:'id', title: 'ID', width:160}
+                ,{field:'name', title: '角色名', width:160}
                 ,{field:'createTimeStr', title: '创建时间', width:220}
                 ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'15%'}
             ]]

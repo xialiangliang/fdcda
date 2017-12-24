@@ -6,68 +6,178 @@
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>
 <div class="col-sm-12">
-    <form action="/orderInfo/update"  method="post" class="layui-form" id="updateForm_orderInfo">
-        <input type="hidden" name="id" value="$!{param.id}" />
-        <div class="layui-form-item">
-            <label for="userRowId" class="layui-form-label">经营户id</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="userRowId" name="userRowId" value="$!{param.userRowId}" >
+    <form class="layui-form jc-form" action="/order/update" id="update_tradeForm">
+        <input type="hidden" name="id" value="$!{param.id}">
+        <div class="imgUpload">
+            <p id="fileList" class="imgUpload__thumb text-center uploader-list">
+
+            </p>
+        ##                <div class="mt-10 text-center">
+        ##                    <div id="filePicker">选择图片</div>
+        ##                </div>
+        </div>
+        <div class="jc-form-items clearfix">
+            <div class="layui-form-item fl">
+                <label class="layui-form-label">手机号码</label>
+                <div class="layui-input-block">
+                    <input id="customerPhone" type="text"  name="customerPhone"  class="layui-input" size="25" placeholder="请输入完整手机号" value="$!{param.customerPhone}">
+                </div>
+            </div>
+            <div class="layui-form-item fl ml-30">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input id="customerName" type="text"  name="customerName"  class="layui-input" size="24" readonly value="$!{param.customerName}">
+                </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="customerRowId" class="layui-form-label">采购商id</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="customerRowId" name="customerRowId" value="$!{param.customerRowId}" >
+        <div class="jc-form-items clearfix">
+            <div class="layui-form-item fl">
+                <label class="layui-form-label">交易金额</label>
+                <div class="layui-input-block">
+                    <input type="text" name="orderAmt"  class="layui-input" size="25" value="$!{param.orderAmt}">
+                </div>
+            </div>
+            <div class="layui-form-item fl ml-30">
+                <label class="layui-form-label">交易状态</label>
+                <div class="layui-input-block width-full">
+                    <select name="status">
+                        <option value="1" #if($!{param.status}==1) selected #end>未付款</option>
+                        <option value="2" #if($!{param.status}==2) selected #end>已付款</option>
+                        <option value="3" #if($!{param.status}==3) selected #end>待收尾款</option>
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="orderContent" class="layui-form-label">交易内容</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="orderContent" name="orderContent" value="$!{param.orderContent}" >
+        <div class="jc-form-items clearfix">
+            <div class="layui-form-item fl">
+                <label class="layui-form-label">交货日期</label>
+                <div class="layui-input-block">
+                    <input type="text"  name="goodDateStr" id="delivery_date"  class="layui-input" size="25" value="$!{param.goodDateStr}">
+                </div>
+            </div>
+            <div class="layui-form-item fl ml-30">
+                <label class="layui-form-label">付款方式</label>
+                <div class="layui-input-block width-full">
+                    <select name="payType">
+                        <option value="1" #if($!{param.payType}==1) selected #end>现金</option>
+                        <option value="2" #if($!{param.payType}==2) selected #end>银行卡</option>
+                        <option value="3" #if($!{param.payType}==3) selected #end>支付宝</option>
+                        <option value="4" #if($!{param.payType}==4) selected #end>微信</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="jc-form-items">
+            <div class="layui-form-item">
+                <label class="layui-form-label">交易详情</label>
+                <div class="layui-input-block">
+                    <input type="text"  name="orderContent"  class="layui-input" size="59" value="$!{param.orderContent}">
+                </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="orderAmt" class="layui-form-label">交易金额</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="orderAmt" name="orderAmt" value="$!{param.orderAmt}" >
+        <div class="jc-form-items">
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属单位</label>
+                <div class="layui-input-block">
+                    <input id="buyer_company" type="text"  name="buyer_company"  class="layui-input" size="59" readonly value="$!{companyName}">
+                </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="payType" class="layui-form-label">付款方式：1现金2银行卡3支付宝4微信</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="payType" name="payType" value="$!{param.payType}" >
+        <div class="jc-form-items">
+            <div class="layui-form-item">
+                <label class="layui-form-label">收货地址</label>
+                <div class="layui-input-block">
+                    <input type="text"  name="toaddress"  class="layui-input" size="59" value="$!{param.toaddress}">
+                </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="goodDate" class="layui-form-label">交货日期</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="goodDate" name="goodDate" value="$!{param.goodDate}" >
+    ##
+    ##            <div class="jc-form-items">
+    ##                <div class="layui-form-item">
+    ##                    <label class="layui-form-label">评价</label>
+    ##                    <div class="layui-input-block">
+    ##                        <input type="radio" name="buyer_evaluate" value="0" title="好评" checked>
+    ##                        <input type="radio" name="buyer_evaluate" value="1" title="中评">
+    ##                        <input type="radio" name="buyer_evaluate" value="2" title="差评" >
+    ##                    </div>
+    ##                </div>
+    ##            </div>
+    ##
+    ##            <div class="jc-form-items">
+    ##                <div class="layui-form-item layui-form-text">
+    ##                    <div class="layui-input-block">
+    ##                        <textarea placeholder="请输入内容" rows="3" cols="57" class="layui-textarea"></textarea>
+    ##                    </div>
+    ##                </div>
+    ##            </div>
+
+        <div class="jc-form-items">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn layui-btn-normal" >更 新</button>
+                </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label for="toaddress" class="layui-form-label">收货地址</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="toaddress" name="toaddress" value="$!{param.toaddress}" >
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="remark" class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="remark" name="remark" value="$!{param.remark}" >
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="createDate" class="layui-form-label">创建日期</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" id="createDate" name="createDate" value="$!{param.createDate}" >
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button type="button" class="layui-btn layui-btn-primary" onclick="window.location.href='/order'">返回</button>
-                <button type="submit" class="layui-btn layui-btn-normal">提交</button>
-            </div>
-        </div>
+
     </form>
 </div>
 </div>
+<script>
+    layui.use(['laydate', 'form'], function(){
+        function tip(msg, reload) {
+            layer.msg(msg,{time:1000},function () {
+                if (reload) {
+                    window.location.reload();
+                }
+            });
+        }
+
+        $("#customerPhone").on('input',function()
+        {
+            var phone = $("#customerPhone").val();
+            if (phone.length == 11) {
+                $.ajax({
+                    url: '/order/findCustomer',
+                    data: {'phone': phone},
+                    async: false,
+                    success: function (data) {
+                        if (data.success) {
+                            $('#customerName').val(data.data.name);
+                            $('#buyer_company').val(data.data.companyName);
+                            if (data.data.imageUrl != '') {
+                                var img = '<img src="'+data.data.imageUrl+'"  width="155" height="208">';
+                                $('.imgUpload__thumb').html(img);
+                            }
+                        } else {
+                            tip(data.message, false);
+                            $('#customerName').val('');
+                            $('#buyer_company').val('');
+                            var img = '<img src="/upload/img/icon_avatar.png"  width="155" height="208">';
+                            $('.imgUpload__thumb').html(img);
+                        }
+                    }
+                });
+            } else {
+                $('#customerName').val('');
+                $('#buyer_company').val('');
+                var img = '';
+                $('.imgUpload__thumb').html(img);
+            }
+        });
+
+        $("#update_tradeForm").ajaxForm({
+            success: function (data) {
+                if (data.success) {
+                    // layer.close(layer.index);
+                    tip(data.message, false);
+                    window.location.href = "/order";
+                } else {
+                    tip(data.message, false);
+                }
+            }
+        });
+    });
+
+
+</script>

@@ -21,20 +21,16 @@
         </div>
         <!--信用评价-->
         <div class="yw_evaluate mt-20">
-            <form  class="yw_evaluate__form">
-                <span>信用评价：</span>
-                <label class="radio-inline">
-                    <input type="radio" name="evaluateRadio"  value="0" checked> 全部
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="evaluateRadio"  value="1"> 好评
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="evaluateRadio" value="2"> 中评
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="evaluateRadio" value="3"> 差评
-                </label>
+            <form  class="yw_evaluate__form layui-form">
+                <div >
+                    <label class="layui-form-label">信用评价</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="evaluateRadio" value="0" title="全部" checked>
+                        <input type="radio" name="evaluateRadio" value="1" title="好评">
+                        <input type="radio" name="evaluateRadio" value="2" title="中评" >
+                        <input type="radio" name="evaluateRadio" value="3" title="差评" >
+                    </div>
+                </div>
             </form>
         </div>
         <ul class="yw_evaluateItem">

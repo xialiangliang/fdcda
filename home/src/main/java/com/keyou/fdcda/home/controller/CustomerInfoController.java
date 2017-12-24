@@ -217,6 +217,16 @@ public class CustomerInfoController extends BaseController {
 			customerInfo.setUserRowId(getUser(request).getId());
 			customerInfo.setCreateTime(new Date());
 //			Assert.isNull(file, "请上传图片");
+			// 防止号码重复
+			PaginationQuery query = new PaginationQuery();
+			query.addQueryData("userRowId", getUser(request).getId().toString());
+			query.addQueryData("phone", customerInfo.getPhone());
+			PageResult<CustomerInfo> customerInfoPage = customerInfoService.findPage(query);
+			if (customerInfoPage.getRowCount() > 0) {
+				map.put(Constants.SUCCESS, false);
+				map.put(Constants.MESSAGE, "号码已存在");
+				return map;
+			}
 			if (file != null) {
 				String fileName = file.getOriginalFilename();
 				if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {
@@ -262,6 +272,18 @@ public class CustomerInfoController extends BaseController {
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setModifyTime(new Date());
 //			Assert.isNull(file, "请上传图片");
+
+			// 防止号码重复
+			PaginationQuery query = new PaginationQuery();
+			query.addQueryData("userRowId", getUser(request).getId().toString());
+			query.addQueryData("phone", customerInfo.getPhone());
+			PageResult<CustomerInfo> customerInfoPage = customerInfoService.findPage(query);
+			if (customerInfoPage.getRowCount() > 0 && !customerInfo.getId().equals(customerInfoPage.getRows().get(0).getId())) {
+				map.put(Constants.SUCCESS, false);
+				map.put(Constants.MESSAGE, "号码已存在");
+				return map;
+			}
+			
 			if (file != null) {
 				String fileName = file.getOriginalFilename();
 				if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png")) {

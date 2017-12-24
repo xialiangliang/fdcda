@@ -28,7 +28,7 @@ $(function(){
                 ,{field:'toaddress', title: '收货地址', width:160}
                 ,{field:'remark', title: '备注', width:160}
                 ,{field:'createDateStr', title: '创建日期', width:200}
-                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'15%'}
+                ,{fixed:'right',  align:'center', toolbar: '#barDemo', title:'操作', width:'10%'}
             ]]
         });
 
