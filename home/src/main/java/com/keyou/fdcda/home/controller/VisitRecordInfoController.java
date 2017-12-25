@@ -1,5 +1,7 @@
 package com.keyou.fdcda.home.controller;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.keyou.fdcda.api.constants.Constants;
+import com.keyou.fdcda.api.constants.ImageInfoConstants;
 import com.keyou.fdcda.api.model.ImageInfo;
 import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.VisitRecordInfo;
@@ -31,6 +36,10 @@ import com.keyou.fdcda.api.utils.DateUtil;
 import com.keyou.fdcda.api.utils.StringUtil;
 import com.keyou.fdcda.api.utils.config.UrlConfig;
 import com.keyou.fdcda.home.controller.base.BaseController;
+import com.keyou.fdcda.home.face.faceManager;
+import com.keyou.fdcda.home.face.imageUpLoader;
+import com.keyou.fdcda.home.face.resourceManager;
+
 
 @Controller
 @RequestMapping
@@ -208,8 +217,110 @@ public class VisitRecordInfoController extends BaseController {
     @ResponseBody
     public Map<String, Object> findImages(  @RequestParam("uploadfile") MultipartFile file, Model model) {
         Map<String, Object> map = new HashMap<String, Object>();
-        
+        if (file !=null) {
+        	JSONObject responseJson = null;
+    		JSONObject requestJson = null;
+    		String sessionId = "";
+    		String faceImageId = "";
+    		// 登陆
+    		resourceManager testResource = new resourceManager(ImageInfoConstants.YITU_HOST);
+    		try {
+    			//String loginData = getFileStr("接口requestData\\登陆.txt");
+    			testResource.setRequestData(ImageInfoConstants.YITU_API_LOGIN);// 写入文件的json格式data
+    			testResource.userLogin();// 登陆
+    			sessionId = testResource.sessionId;// 保存sessionId
+    			responseJson = new JSONObject(testResource.response);// 保存返回结果
+    		} catch (Exception e) {
+    			System.out.println("登陆接口出现问题：" + e);
+    		}
+    		if (testResource.responseCode == 200) {
+    			System.out.println("登陆接口可用。");
+    			testResource.responseCode = 0;
+    		} else {
+    		}
+    		// 导图同步
+    		imageUpLoader testImageUploader = new imageUpLoader(ImageInfoConstants.YITU_HOST);
+    		try {
+    			testImageUploader.setSessionId(sessionId);
+    			requestJson = new JSONObject(ImageInfoConstants.YITU_API_UPLOAD_IMAGE);
+    			requestJson.put("picture_image_content_base64", Base64.getEncoder().encodeToString(file.getBytes()));
+    			// requestJson.put("repository_id", repositoryId1);
+    			testImageUploader.setRequestData(requestJson.toString());
+    			testImageUploader.upLoadSyn();
+    			responseJson = new JSONObject(testImageUploader.response);
+    			if (testImageUploader.responseCode == 200) {
+    				faceImageId = responseJson.getJSONArray("results").getJSONObject(0).getString("face_image_id");
+    				//String pictureUri = responseJson.getString("picture_uri");
+    				System.out.println("同步导图接口可用。");
+    				testImageUploader.responseCode = 0;
+    			} else {
+    			}
+    		} catch (Exception e) {
+    			System.out.println("同步导图接口出现问题：" + e);
+    		}
+    		// 人脸检索
+    		faceManager testFaceManager = new faceManager(ImageInfoConstants.YITU_HOST);
+    		try {
+    			testFaceManager.setSessionId(sessionId);
+    			requestJson = new JSONObject(ImageInfoConstants.YITU_API_SEARCH);
+    			JSONObject faceRetrieval = new JSONObject(requestJson.getJSONObject("retrieval").toString());
+    			JSONArray repositoryIds = new JSONArray(
+    					requestJson.getJSONObject("retrieval").getJSONArray("repository_id").toString());
+    			faceRetrieval.put("face_image_id", faceImageId);
+    			// repositoryIds.put(1);
+    			faceRetrieval.put("repository_ids", repositoryIds);
+    			requestJson.put("retrieval", faceRetrieval);
+    			requestJson.put("extra_fields", new String[]{"image_row_id"} );
+    			System.out.println(requestJson.toString());
+    			testFaceManager.setRequestData(requestJson.toString());
+    			testFaceManager.showFaceRetrieval();
+    			//responseJson = new JSONObject(testFaceManager.response);
+    		} catch (Exception e) {
+    			System.out.println("人脸检索接口出现问题：" + e);
+    		}
+    		if (testFaceManager.responseCode == 200) {
+    			System.out.println("人脸检索接口可用。");
+    			//testFaceManager.responseCode = 0;
+    			List<Long> ids = getIdFromResult(testFaceManager.response);
+    			//执行查询
+    		}
+		}
         return map;
     }
-
+	
+	private List<Long> getIdFromResult(String result ){
+		List<Long> ids = null;
+		try {
+			
+			JSONObject resultjson = new JSONObject("{\"message\":\"OK\",\"results\":[{\"annotation\":0,\"born_year\":0,\"face_image_id\":\"1407374883553280@DEFAULT\",\"face_image_id_str\":\"1407374883553280@DEFAULT\",\"face_image_uri\":\"normal://repository-builder/20171226/pVTcHSxn0AFoAgzsNUj8PA==@1@DEFAULT\",\"face_rect\":{\"h\":85,\"w\":85,\"x\":38,\"y\":30},\"gender\":0,\"image_row_id\":1245,\"is_writable\":true,\"name\":\"\",\"nation\":0,\"permission_map\":{\"0\":2,\"1\":2,\"101\":2,\"102\":2,\"400\":2,\"452\":2,\"501\":2,\"502\":2,\"503\":2,\"504\":2,\"505\":2,\"553\":2,\"554\":2,\"601\":2,\"602\":2,\"603\":2,\"604\":2,\"605\":2},\"person_id\":\"\",\"picture_uri\":\"normal://repository-builder/20171226/EeHAWCKmB9iePfMo1RsEJQ==@1@DEFAULT\",\"repository_id\":\"5@DEFAULT\",\"similarity\":98.03211583110513,\"timestamp\":1514246123},{\"annotation\":0,\"born_year\":0,\"face_image_id\":\"1407374883553281@DEFAULT\",\"face_image_id_str\":\"1407374883553281@DEFAULT\",\"face_image_uri\":\"normal://repository-builder/20171226/pVTcHSxn0AFoAgzsNUj8PA==@1@DEFAULT\",\"face_rect\":{\"h\":85,\"w\":85,\"x\":38,\"y\":30},\"gender\":0,\"image_row_id\":1246,\"is_writable\":true,\"name\":\"\",\"nation\":0,\"permission_map\":{\"0\":2,\"1\":2,\"101\":2,\"102\":2,\"400\":2,\"452\":2,\"501\":2,\"502\":2,\"503\":2,\"504\":2,\"505\":2,\"553\":2,\"554\":2,\"601\":2,\"602\":2,\"603\":2,\"604\":2,\"605\":2},\"person_id\":\"\",\"picture_uri\":\"normal://repository-builder/20171226/EeHAWCKmB9iePfMo1RsEJQ==@1@DEFAULT\",\"repository_id\":\"5@DEFAULT\",\"similarity\":98.03211583110513,\"timestamp\":1514246125}],\"retrieval_query_id\":\"805@DEFAULT\",\"rtn\":0,\"total\":2}");
+		
+			JSONArray repositoryIds =  resultjson. getJSONArray("results");
+			ids = new ArrayList<>();
+			for(int i = 0 ;i<repositoryIds.length();i++){
+				String id =    repositoryIds.getJSONObject(i) .getString("image_row_id") ;
+				ids.add(Long.parseLong(id));
+			}
+		} catch (Exception e) {
+			log.error("搜图时error：" ,e);
+		}
+		
+		return ids;
+	}
+	
+	public static void main(String[] args) {
+		try {
+			
+			JSONObject resultjson = new JSONObject("{\"message\":\"OK\",\"results\":[{\"annotation\":0,\"born_year\":0,\"face_image_id\":\"1407374883553280@DEFAULT\",\"face_image_id_str\":\"1407374883553280@DEFAULT\",\"face_image_uri\":\"normal://repository-builder/20171226/pVTcHSxn0AFoAgzsNUj8PA==@1@DEFAULT\",\"face_rect\":{\"h\":85,\"w\":85,\"x\":38,\"y\":30},\"gender\":0,\"image_row_id\":1245,\"is_writable\":true,\"name\":\"\",\"nation\":0,\"permission_map\":{\"0\":2,\"1\":2,\"101\":2,\"102\":2,\"400\":2,\"452\":2,\"501\":2,\"502\":2,\"503\":2,\"504\":2,\"505\":2,\"553\":2,\"554\":2,\"601\":2,\"602\":2,\"603\":2,\"604\":2,\"605\":2},\"person_id\":\"\",\"picture_uri\":\"normal://repository-builder/20171226/EeHAWCKmB9iePfMo1RsEJQ==@1@DEFAULT\",\"repository_id\":\"5@DEFAULT\",\"similarity\":98.03211583110513,\"timestamp\":1514246123},{\"annotation\":0,\"born_year\":0,\"face_image_id\":\"1407374883553281@DEFAULT\",\"face_image_id_str\":\"1407374883553281@DEFAULT\",\"face_image_uri\":\"normal://repository-builder/20171226/pVTcHSxn0AFoAgzsNUj8PA==@1@DEFAULT\",\"face_rect\":{\"h\":85,\"w\":85,\"x\":38,\"y\":30},\"gender\":0,\"image_row_id\":1246,\"is_writable\":true,\"name\":\"\",\"nation\":0,\"permission_map\":{\"0\":2,\"1\":2,\"101\":2,\"102\":2,\"400\":2,\"452\":2,\"501\":2,\"502\":2,\"503\":2,\"504\":2,\"505\":2,\"553\":2,\"554\":2,\"601\":2,\"602\":2,\"603\":2,\"604\":2,\"605\":2},\"person_id\":\"\",\"picture_uri\":\"normal://repository-builder/20171226/EeHAWCKmB9iePfMo1RsEJQ==@1@DEFAULT\",\"repository_id\":\"5@DEFAULT\",\"similarity\":98.03211583110513,\"timestamp\":1514246125}],\"retrieval_query_id\":\"805@DEFAULT\",\"rtn\":0,\"total\":2}");
+		
+			JSONArray repositoryIds =  resultjson. getJSONArray("results");
+			for(int i = 0 ;i<repositoryIds.length();i++){
+				System.out.println(repositoryIds.get(i).toString());
+				String id =    repositoryIds.getJSONObject(i) .getString("image_row_id") ;
+				System.out.println(id);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

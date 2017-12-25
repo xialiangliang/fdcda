@@ -15,12 +15,12 @@ import org.json.*;
 import sun.misc.BASE64Encoder;
 
 public class httpRequest{
-	public int responseCode;
-	public String response;
-	public String url;
-	public String requestData;
-	public JSONObject header=new JSONObject();
-	HttpURLConnection httpUrl = null;
+	private int responseCode;
+	private String response;
+	private String url;
+	private String requestData;
+	private JSONObject header=new JSONObject();
+	private HttpURLConnection httpUrl = null;
 	//设置url
 	public void setUrl(String toUrl){
 		url=toUrl;
@@ -263,4 +263,18 @@ public class httpRequest{
 		BASE64Encoder encoder = new BASE64Encoder();
 		return encoder.encode(data);// 返回Base64编码过的字节数组字符串
 	}
+	public int getResponseCode() {
+		return responseCode;
+	}
+	public void setResponseCode(int responseCode) {
+		this.responseCode = responseCode;
+	}
+	public String getResponse() {
+		return response;
+	}
+	public void setResponse(String response) {
+		this.response = response;
+	}
+	
+	
 }

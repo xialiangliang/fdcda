@@ -37,7 +37,7 @@ public class resourceManager{
 		header=new JSONObject(setHeader);
 	}
 	//登陆
-	void userLogin() throws Exception{
+	public void userLogin() throws Exception{
 		String loginUrl=url+"/business/api/login";
 		httpRequest loginAPI=new httpRequest();
 		loginAPI.setUrl(loginUrl);

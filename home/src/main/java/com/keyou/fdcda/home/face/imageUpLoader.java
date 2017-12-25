@@ -37,14 +37,14 @@ public class imageUpLoader{
 	public void setHeader(String setHeader) throws Exception{
 		header=new JSONObject(setHeader);
 	}
-	void upLoadSyn() throws Exception{
+	public void upLoadSyn() throws Exception{
 		String synUrl=url+"/business/api/repository/picture/synchronized";
 		httpRequest upLoad = new httpRequest();
 		upLoad.setUrl(synUrl);
 		upLoad.setReqdata(requestData);
 		upLoad.setHeader(header);
 		upLoad.post();
-		responseCode=upLoad.responseCode;
-		response=upLoad.response;
+		responseCode=upLoad.getResponseCode();
+		response=upLoad.getResponse();
 	}
 }

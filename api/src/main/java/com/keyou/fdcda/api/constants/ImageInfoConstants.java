@@ -50,9 +50,11 @@ public interface ImageInfoConstants {
 	/**6可疑人员*/
 	int VISIT_TYPE_6 = 5;
 	
+	String YITU_API_SEARCH = "{\"condition\":{},\"retrieval\":{\"threshold\":10,\"face_image_id\":\"\",\"repository_id\":[\"5@DEFAULT\"]},\"order\":{\"similarity\":-1},\"start\":0,\"limit\":15}";
 	
+	String YITU_API_UPLOAD_IMAGE = "{\"picture_image_content_base64\":\"\"}";
 	
-	
-	
+	String YITU_API_LOGIN = "{\"name\":\"admin\",\"password\":\"21232f297a57a5a743894a0e4a801fc3\"}";
 	 
+	String YITU_HOST = "60.191.246.29";
 }
