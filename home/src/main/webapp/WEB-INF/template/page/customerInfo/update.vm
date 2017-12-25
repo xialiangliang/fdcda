@@ -304,7 +304,6 @@
         for (var i=0; i<map.countries.length; i++) {
             if (country === map.countries[i].country) {
                 for (var j=0; j<map.countries[i].provinces.length; j++) {
-                    console.log(map.countries[i].provinces[j].province);
                     if (province === map.countries[i].provinces[j].province) {
                         var htmlStr = "";
                         for (var k=0; k<map.countries[i].provinces[j].cities.length; k++) {
@@ -349,7 +348,7 @@
             // 选完文件后，是否自动上传。
             auto: false,
             // swf文件路径
-            swf:  './js/webuploader/Uploader.swf',
+            swf:  '/js/webuploader/Uploader.swf',
             // 文件接收服务端。
             server: 'http://webuploader.duapp.com/server/fileupload.php',
             // 选择文件的按钮。可选。
@@ -390,5 +389,7 @@
                     $img.attr( 'src', src );
             }, thumbnailWidth, thumbnailHeight );
         });
+        var img = '<img src="$!{param.imageUrl}"  width="155" height="208">';
+        $('.imgUpload__thumb').html(img);
     });
 </script>

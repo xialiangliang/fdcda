@@ -162,8 +162,8 @@ public class CustomerInfoController extends BaseController {
 			row.createCell(4).setCellValue("省份");
 			row.createCell(5).setCellValue("地市");
 			row.createCell(6).setCellValue("联系地址");
-			row.createCell(7).setCellValue("QQ");
-			row.createCell(8).setCellValue("微信");
+			row.createCell(7).setCellValue("QQ(暂时不用)");
+			row.createCell(8).setCellValue("微信(暂时不用)");
 			row.createCell(9).setCellValue("身份证");
 			row.createCell(10).setCellValue("单位");
 			wb.write(os);
@@ -201,7 +201,7 @@ public class CustomerInfoController extends BaseController {
 	
 	@RequestMapping(value="/save")
 	@ResponseBody
-	public Map<String, Object> save(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model, HttpServletRequest request, @RequestParam("file") MultipartFile file) throws Exception {		
+	public Map<String, Object> save(@ModelAttribute("customerInfo") CustomerInfo customerInfo,Model model, HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			customerInfo.setValidFlag(1);
@@ -211,9 +211,13 @@ public class CustomerInfoController extends BaseController {
 			Assert.isNull(customerInfo.getCity(), "城市不能为空");
 			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
 			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
-			Assert.isBlank(customerInfo.getCompanyName(), "公司不能为空");
+			Assert.isBlank(customerInfo.getCompanyName(), "单位不能为空");
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
+			customerInfo.setIsBlack(0);
+			customerInfo.setIsVip(0);
+			customerInfo.setValidFlag(1);
 			customerInfo.setSource(0);
+			customerInfo.setImageUrl("");
 			customerInfo.setUserRowId(getUser(request).getId());
 			customerInfo.setCreateTime(new Date());
 //			Assert.isNull(file, "请上传图片");
@@ -268,7 +272,7 @@ public class CustomerInfoController extends BaseController {
 			Assert.isNull(customerInfo.getCity(), "城市不能为空");
 			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
 			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
-			Assert.isNull(customerInfo.getCompanyName(), "公司不能为空");
+			Assert.isNull(customerInfo.getCompanyName(), "单位不能为空");
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setModifyTime(new Date());
 //			Assert.isNull(file, "请上传图片");
@@ -469,12 +473,15 @@ public class CustomerInfoController extends BaseController {
 				customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
 			}
 			List<Long> customerIds = customerInfoService.findRealCustomerIdBySingleId(id);
+			customerIds.add(customerInfo.getId());
 			List<OrderEvaluate> evaluateList = orderEvaluateService.findListByCustomerIds(customerIds);
 			evaluateList.forEach(orderEvaluate -> {
+				List<String> urlList = new ArrayList<>();
 				if (StringUtil.isNotBlank(orderEvaluate.getImagesUrl())) {
 					String[] urls = orderEvaluate.getImagesUrl().split(",");
-					orderEvaluate.setImagesUrlList(Arrays.asList(urls));
+					urlList = Arrays.asList(urls);
 				}
+				orderEvaluate.setImagesUrlList(urlList);
 				OrderInfo orderInfo = orderInfoService.findById(orderEvaluate.getOrderRowId());
 				if (orderInfo != null) {
 					SysUser user = sysUserService.findById(orderInfo.getUserRowId());

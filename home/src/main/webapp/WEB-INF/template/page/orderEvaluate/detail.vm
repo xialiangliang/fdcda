@@ -19,90 +19,62 @@
                 <p>联系地址：$!{param.address}</p>
             </div>
         </div>
-        <!--信用评价-->
-        <div class="yw_evaluate mt-20">
-            <form  class="yw_evaluate__form layui-form">
-                <div >
-                    <label class="layui-form-label">信用评价</label>
+        <form class="layui-form" action="/evaluate/save" id="evaluateForm">
+            <input type="hidden" value="$!{orderRowId}" name="orderRowId">
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">评价</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="evaluateRadio" value="0" title="全部" checked>
-                        <input type="radio" name="evaluateRadio" value="1" title="好评">
-                        <input type="radio" name="evaluateRadio" value="2" title="中评" >
-                        <input type="radio" name="evaluateRadio" value="3" title="差评" >
+                        <input type="radio" name="evaType" value="2" title="好评" checked>
+                        <input type="radio" name="evaType" value="1" title="中评">
+                        <input type="radio" name="evaType" value="0" title="差评" >
                     </div>
                 </div>
-            </form>
-        </div>
-        <ul class="yw_evaluateItem">
-        </ul>
+            </div>
+    
+            <div class="jc-form-items">
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" name="content" rows="3" cols="57" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" class="layui-btn layui-btn-normal" >评 价</button>
+                    </div>
+                </div>
+            </div>
+        </form>
 
     </div>
 </div>
 <script>
-    var map = {};
-    map = JSON.parse('$evaluateList');
-##    console.log('$evaluateList');
-    var htmlStr = '\n' +
-            '            <li class="yw_evaluateItem__list">\n' +
-            '                <div class="yw_evaluateItem__list__bar">\n' +
-            '                    <div class="yw_evaluateMsg">\n' +
-            '                        <p>%data1%</p><p>%dataImg%</p>\n' +
-            '                    </div>\n' +
-            '                    <div class="yw_evaluateID">\n' +
-            '                        <p>%data2%</p>\n' +
-            '                        <p>%data3%</p>\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </li>';
-    var htmlStrAllList = [];
-    for (var i=0; i<map.length; i++) {
-        var htmlStr1 = htmlStr.replace("%data1%", map[i].content);
-        htmlStr1 = htmlStr1.replace("%data2%", map[i].evaluateName);
-        htmlStr1 = htmlStr1.replace("%data3%", map[i].createDateStr);
-        if (map[i].imagesUrl === '') {
-            htmlStr1 = htmlStr1.replace("%dataImg%", " ");
-        } else {
-            var imgStr = "";
-            for (var j=0; j<map[i].imagesUrlList.length; j++) {
-                imgStr = imgStr + '<img src="' + map[i].imagesUrlList[j] + '" alt="">';
-            }
-            htmlStr1 = htmlStr1.replace("%dataImg%", imgStr);
-        }
-        htmlStrAllList.push({'evaType':map[i].evaType, 'data':htmlStr1});
-    }
-//    console.log(htmlStrAllList);
-    var htmlStrAll = '';
-    for (var i=0; i<htmlStrAllList.length; i++) {
-        htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
-    }
-    $(".yw_evaluateItem").html(htmlStrAll);
-    $(':radio').click(function(){
-        var htmlStrList = [];
-        htmlStrAll = '';
-        if ($(this).val() === '0') {
-            for (var i=0; i<htmlStrAllList.length; i++) {
-                htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
-            }
-        } else if ($(this).val() === '1') {
-            for (var i=0; i<htmlStrAllList.length; i++) {
-                if (htmlStrAllList[i].evaType == 2) {
-                    htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
-                }
-            }
-        } else if ($(this).val() === '2') {
-            for (var i=0; i<htmlStrAllList.length; i++) {
-                if (htmlStrAllList[i].evaType == 1) {
-                    htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
-                }
-            }
-        } else if ($(this).val() === '3') {
-            for (var i=0; i<htmlStrAllList.length; i++) {
-                if (htmlStrAllList[i].evaType == 0) {
-                    htmlStrAll = htmlStrAll + htmlStrAllList[i].data;
-                }
-            }
-        }
-        $(".yw_evaluateItem").html(htmlStrAll);
+    layui.use(['laydate', 'form'], function(){
+        var laydate = layui.laydate;
     });
-    
+    $(function(){
+        function tip(msg, reload) {
+            layer.msg(msg,{time:1000},function () {
+                if (reload) {
+                    window.location.reload();
+                }
+            });
+        }
+        jQuery("#evaluateForm").ajaxForm({
+            beforeSerialize: function () {
+            },
+            success: function (data) {
+                if (data.success) {
+                    // layer.close(layer.index);
+                    tip(data.message, false);
+                    window.location.href = "/evaluate";
+                } else {
+                    tip(data.message, false);
+                }
+            }
+        });
+    });
 </script>

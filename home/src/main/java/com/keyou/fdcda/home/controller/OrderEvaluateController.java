@@ -76,14 +76,15 @@ public class OrderEvaluateController extends BaseController {
     public Map<String, Object> save(@ModelAttribute("orderEvaluate") OrderEvaluate orderEvaluate,Model model, HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
+            orderEvaluate.setImagesUrl("");
             orderEvaluate.setCreateDate(new Date());
             orderEvaluateService.save(orderEvaluate);
             model.addAttribute(Constants.SUCCESS, true);
             map.put(Constants.SUCCESS, true);
-            map.put(Constants.MESSAGE, "添加成功");
+            map.put(Constants.MESSAGE, "评价成功");
 
         } catch (Exception e) {
-            commonError(logger, e, "添加异常",map);
+            commonError(logger, e, "评价异常",map);
         }
         return map;
     }
@@ -168,23 +169,8 @@ public class OrderEvaluateController extends BaseController {
             if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
                 customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
             }
-            List<Long> customerIds = customerInfoService.findRealCustomerIdBySingleId(customerInfo.getId());
-            List<OrderEvaluate> evaluateList = orderEvaluateService.findListByCustomerIds(customerIds);
-            evaluateList.forEach(orderEvaluate -> {
-                if (StringUtil.isNotBlank(orderEvaluate.getImagesUrl())) {
-                    String[] urls = orderEvaluate.getImagesUrl().split(",");
-                    orderEvaluate.setImagesUrlList(Arrays.asList(urls));
-                }
-                OrderInfo orderInfo = orderInfoService.findById(orderEvaluate.getOrderRowId());
-                if (orderInfo != null) {
-                    SysUser user = sysUserService.findById(orderInfo.getUserRowId());
-                    if (user != null) {
-                        orderEvaluate.setEvaluateName(StringUtil.hideName(user.getUsername()));
-                    }
-                }
-            });
             model.addAttribute("param", customerInfo);
-            model.addAttribute("evaluateList", GsonUtil.serialize(evaluateList));
+            model.addAttribute("orderRowId", id);
             model.addAttribute(Constants.SUCCESS, true);
             return "/page/orderEvaluate/detail";
         } catch (Exception e) {
