@@ -43,8 +43,8 @@ public class resourceManager{
 		loginAPI.setUrl(loginUrl);
 		loginAPI.setReqdata(requestData);
 		loginAPI.post();
-		responseCode = loginAPI.responseCode;
-		response=loginAPI.response;
+		responseCode = loginAPI.getResponseCode();
+		response=loginAPI.getResponse();
 		JSONObject ans=new JSONObject(response);
 		sessionId=ans.getString("session_id");
 	}
