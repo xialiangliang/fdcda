@@ -36,14 +36,14 @@ public class faceManager{
 		header=new JSONObject(setHeader);
 	}
 	//人脸检索
-	void showFaceRetrieval() throws Exception{
+	public void showFaceRetrieval() throws Exception{
 		String retrievalUrl=url+"/business/api/retrieval";
 		httpRequest showFace = new httpRequest();
 		showFace.setUrl(retrievalUrl);
 		showFace.setReqdata(requestData);
 		showFace.setHeader(header);
 		showFace.post();
-		responseCode=showFace.responseCode;
-		response=showFace.response;
+		responseCode=showFace.getResponseCode();
+		response=showFace.getResponse() ;
 	}
 }

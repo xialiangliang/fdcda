@@ -37,14 +37,14 @@ public class resourceManager{
 		header=new JSONObject(setHeader);
 	}
 	//登陆
-	void userLogin() throws Exception{
+	public void userLogin() throws Exception{
 		String loginUrl=url+"/business/api/login";
 		httpRequest loginAPI=new httpRequest();
 		loginAPI.setUrl(loginUrl);
 		loginAPI.setReqdata(requestData);
 		loginAPI.post();
-		responseCode = loginAPI.responseCode;
-		response=loginAPI.response;
+		responseCode = loginAPI.getResponseCode();
+		response=loginAPI.getResponse();
 		JSONObject ans=new JSONObject(response);
 		sessionId=ans.getString("session_id");
 	}
