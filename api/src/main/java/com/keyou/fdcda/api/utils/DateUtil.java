@@ -1,6 +1,7 @@
 package com.keyou.fdcda.api.utils;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DurationFormatUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -103,6 +104,22 @@ public class DateUtil {
         java.util.Calendar c = java.util.Calendar.getInstance();
         c.setTime(date);
         return c.getTimeInMillis();
+    }
+
+    public static Integer compareDay(Date startDate, Date endDate) {
+        return Integer.valueOf(formatPeriod(startDate, endDate, "d"));
+    }
+
+    public static String formatPeriod(Date startDate, Date endDate, String format) {
+        return formatPeriod(startDate.getTime(), endDate.getTime(), format);
+    }
+    
+    public static String formatPeriod(long startMillis, long endMillis, String format) {
+        return DurationFormatUtils.formatDuration(endMillis - startMillis, format);
+    }
+
+    public static int compareYear(Date startDate, Date endDate) {
+        return compareDay(startDate, endDate).intValue() / 365;
     }
     
     public static void main(String[] args) {

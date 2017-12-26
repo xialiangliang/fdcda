@@ -221,6 +221,10 @@ public class CustomerInfoController extends BaseController {
 			customerInfo.setUserRowId(getUser(request).getId());
 			customerInfo.setCreateTime(new Date());
 //			Assert.isNull(file, "请上传图片");
+			if (StringUtil.isNotBlank(customerInfo.getCustomerCard())) {
+				String str = IdCardUtil.IDCardValidate(customerInfo.getCustomerCard());
+				Assert.isTrue(!str.equals("true"), str);
+			}
 			// 防止号码重复
 			PaginationQuery query = new PaginationQuery();
 			query.addQueryData("userRowId", getUser(request).getId().toString());
@@ -277,6 +281,10 @@ public class CustomerInfoController extends BaseController {
 			customerInfo.setModifyTime(new Date());
 //			Assert.isNull(file, "请上传图片");
 
+			if (StringUtil.isNotBlank(customerInfo.getCustomerCard())) {
+				String str = IdCardUtil.IDCardValidate(customerInfo.getCustomerCard());
+				Assert.isTrue(!str.equals("true"), str);
+			}
 			// 防止号码重复
 			PaginationQuery query = new PaginationQuery();
 			query.addQueryData("userRowId", getUser(request).getId().toString());
