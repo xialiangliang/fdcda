@@ -19,10 +19,10 @@
                 
             <div class="imgUpload">
                 <p id="fileList" class="imgUpload__thumb text-center uploader-list">
-                    <img id="preview" style="height:208px;width:155px;border-width:0px;"/>
+                    <img id="preview" style="height:100%;width:100%;border-width:0px;"/>
                 </p>
                 <div class="mt-10 text-center">
-                    <div id=""><input type="file" name="file" id="file_upload"/></div>
+                    <div id=""><input type="file" name="file" id="file_upload" style="display: none;"/><button type="button" class="layui-btn layui-btn-normal" onclick="imgselect()" >选择照片</button></div>
                 </div>
             </div>
             <div class="jc-form-items clearfix">
@@ -360,4 +360,8 @@
 
         }
     });
+    
+    function imgselect(){
+    	$("#file_upload").click();
+    }
 </script>

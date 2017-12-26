@@ -88,16 +88,16 @@ public class DealOriginalImagesTasklet implements Tasklet {
 					// 日期文件夹
 					File[] dateFiles = comoraFile.listFiles();
 					for (int j = 0; j < dateFiles.length; j++) {
-						if (dateFiles[j].isDirectory() && todayFileName.equals(dateFiles[j].getName())) {
+						if (dateFiles[j].isDirectory() && todayOriginalDataName.equals(dateFiles[j].getName())) {
 							File[] images = dateFiles[j].listFiles();
 							int length = images.length ;
-							logger.info(todayFileName + " 此次任务需要处理： "+length + " 张图片.");
+							logger.info(todayOriginalDataName + " 此次任务需要处理： "+length + " 张图片.");
 							for (int k = 0; k < length; k++) {
 								if (images[k].isFile()) {
 									String fileType = getFileType(images[k].getName());
 									if (imageTypeList.contains(fileType.toUpperCase())) {
 										String createFileDate = FileUtil.getFileModifiedTime(images[k]) ;
-										String newPath = images[k].getPath().replace(todayOriginalDataName,todayFileName).replace(originalPath, dealPath);
+										String newPath = images[k].getPath().replace(originalPath, dealPath);
 										// 拷贝 到处理后的目录，并删除原来的文件
 										boolean result = dealFile(images[k], new File(newPath));
 
