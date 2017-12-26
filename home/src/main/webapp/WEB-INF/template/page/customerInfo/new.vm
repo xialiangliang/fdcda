@@ -7,14 +7,22 @@
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>
     <div class="yw_box">
-        <form class="layui-form jc-form" action="/customerInfo/save" id="updateForm_customerInfo">
-##            <input type="hidden" name="file" id="file" />
+        <form class="layui-form jc-form" action="/customerInfo/save" id="updateForm_customerInfo" enctype="multipart/form-data">
+
+##            <div class="image_container">
+##                <img id="preview" style="height:130px;width:117px;border-width:0px;"/>
+##            ##                </div>
+##                <div class="mt-10 text-center">
+##                    <input type="file" name="file" id="file_upload"/>
+##                </div>
+
+                
             <div class="imgUpload">
                 <p id="fileList" class="imgUpload__thumb text-center uploader-list">
-
+                    <img id="preview" style="height:208px;width:155px;border-width:0px;"/>
                 </p>
                 <div class="mt-10 text-center">
-                    <div id="filePicker">选择图片</div>
+                    <div id=""><input type="file" name="file" id="file_upload"/></div>
                 </div>
             </div>
             <div class="jc-form-items clearfix">
@@ -84,6 +92,14 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">身份证号码</label>
+                    <div class="layui-input-block">
+                        <input type="text"  name="customerCard"  class="layui-input" size="59" value="$!{param.customerCard}">
+                    </div>
+                </div>
             </div>
             <div class="jc-form-items">
                 <div class="layui-form-item">
@@ -322,5 +338,25 @@
             form.render('select');
         });
     });
+    $("#file_upload").change(function () {
+        var $file = $(this);
+        var fileObj = $file[0];
+        var windowURL = window.URL || window.webkitURL;
+        var dataURL;
+        var $img = $("#preview");
 
+        if (fileObj && fileObj.files && fileObj.files[0]) {
+            dataURL = windowURL.createObjectURL(fileObj.files[0]);
+                $img.attr('src', dataURL);
+        } else {
+            dataURL = $file.val();
+            var imgObj = document.getElementById("preview");
+            // 两个坑:
+            // 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+            // 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+            imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+            imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+        }
+    });
 </script>

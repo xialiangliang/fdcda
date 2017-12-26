@@ -7,14 +7,14 @@
     当前位置：<a href="javascript:;">$!{currentPosStr}</a>
 </div>
     <div class="yw_box">
-        <form class="layui-form jc-form" action="/customerInfo/update" id="updateForm_customerInfo">
+        <form class="layui-form jc-form" action="/customerInfo/update" id="updateForm_customerInfo" enctype="multipart/form-data">
             <input type="hidden" name="id" value="$!{param.id}" />
             <div class="imgUpload">
                 <p id="fileList" class="imgUpload__thumb text-center uploader-list">
-                    
+                    <img id="preview" style="height:208px;width:155px;border-width:0px;"/>
                 </p>
                 <div class="mt-10 text-center">
-                    <div id="filePicker">选择图片</div>
+                    <div id=""><input type="file" name="file" id="file_upload"/></div>
                 </div>
             </div>
             <div class="jc-form-items clearfix">
@@ -84,6 +84,14 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="jc-form-items">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">身份证号码</label>
+                    <div class="layui-input-block">
+                        <input type="text"  name="customerCard"  class="layui-input" size="59" value="$!{param.customerCard}">
+                    </div>
+                </div>
             </div>
             <div class="jc-form-items">
                 <div class="layui-form-item">

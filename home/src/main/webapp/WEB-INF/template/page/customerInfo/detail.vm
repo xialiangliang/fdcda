@@ -41,6 +41,10 @@
                 </div>
             </div>
             <div class="passport-item">
+                <p>身份证号码</p>
+                <p class="fw-bold">$!{param.customerCard}</p>
+            </div>
+            <div class="passport-item">
                 <p>单位</p>
                 <p class="fw-bold">$!{param.companyName}</p>
             </div>
