@@ -1,0 +1,32 @@
+#set($JS = ["/js/jquery.form.min.js","/js/page/visitinfo/yitulist.js"])
+<div class="yw_buyerContainer">
+    <div class="yw_breadcrumb">
+        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+    </div>
+	<div class="page-content">
+        <div class="yw_searchBar yw_searchBar-buyer">
+            <form class="form-inline ml-20 mr-20" id="buyerForm" enctype="multipart/form-data" method = "post" action = "/visitRecordInfo/yitusoutu">
+                <div>
+                    <div class="yw_formGroups">
+                        <div class="form-group ">
+                            <label for="visitorName">请选择头像：</label>
+                            <input type="file" class="form-control"  name="file"  >
+                            <input type="hidden"    name="idstr" value = "$!{query.idstr}"  >
+                        </div>
+                        
+                    </div>
+                    <div class="yw_formGroups ml-30">
+                        <button type="submit" class="layui-btn layui-btn-normal ml-20"> 查 询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table class="layui-hide" id="test" lay-filter="demo"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        </script>
+        <script type="text/html" id="imageShow">
+		  <img src="{{d.imageUrl}}" class="yw_thumbnail" alt="">
+		</script>
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->

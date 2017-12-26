@@ -67,6 +67,8 @@ public class VisitRecordInfo implements Serializable {
      */ 	
 	private java.lang.String imageUrl;
 	
+	private String userName;
+	
 	public void setVisitRowId(java.lang.Long value) {
 		this.visitRowId = value;
 	}
@@ -234,6 +236,14 @@ public class VisitRecordInfo implements Serializable {
 
 	public void setVisitStr(String visitStr) {
 		this.visitStr = visitStr;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	

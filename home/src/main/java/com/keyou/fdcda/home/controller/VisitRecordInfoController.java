@@ -213,11 +213,16 @@ public class VisitRecordInfoController extends BaseController {
 		}
 	}
 	
-	@RequestMapping(value = "/yitusoutu", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> findImages(  @RequestParam("uploadfile") MultipartFile file, Model model) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (file !=null) {
+	@RequestMapping(value = "/visitRecordInfo/toyitusoutu")
+    public String toyitusoutu( Model model,PaginationQuery query) {
+        return "/page/visitinfo/yituquery";
+    }
+	
+	@RequestMapping(value = "/visitRecordInfo/yitusoutu" , method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, Object> findImages(@RequestParam(value = "file", required = false) MultipartFile file, Model model,PaginationQuery query) {
+		Map<String, Object> map = new HashMap<>();
+		if (file !=null) {
         	JSONObject responseJson = null;
     		JSONObject requestJson = null;
     		String sessionId = "";
@@ -281,30 +286,65 @@ public class VisitRecordInfoController extends BaseController {
     		if (testFaceManager.responseCode == 200) {
     			System.out.println("人脸检索接口可用。");
     			//testFaceManager.responseCode = 0;
-    			List<Long> ids = getIdFromResult(testFaceManager.response);
+    			String ids = getIdFromResult(testFaceManager.response);
     			//执行查询
+    			query.addQueryData("idstr", ids);
+    			//model.addAttribute("query", query.getQueryData());
+    			map.put("query", query.getQueryData());
     		}
 		}
         return map;
     }
 	
-	private List<Long> getIdFromResult(String result ){
-		List<Long> ids = null;
+	@RequestMapping("/visitRecordInfo/listJsonYItu")
+	@ResponseBody
+	public Map<String, Object> listJsonYItu(PaginationQuery query,Model model, HttpServletRequest request, String idstr, Integer page, Integer limit) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		this.formatPageQuery(query, page, limit);
+		List<Long> idList = new ArrayList<>();
+		if (StringUtil.isNotEmpty(idstr)) {
+			if (idstr.endsWith(",")) {
+				idstr = idstr.substring(0, idstr.length() - 1);
+			}
+			String [] idsarry = idstr.split(",");
+			for (int i = 0; i < idsarry.length; i++) {
+				try {
+					idList.add(Long.parseLong(idsarry[i]));
+				} catch (Exception e) {
+					log.error(e);
+					continue;
+				}
+			}
+ 		}
+		query.addQueryData("ids", idList);
+		
+		PageResult<VisitRecordInfo> pageList = visitRecordInfoService.findPage(query);
+		List<VisitRecordInfo> list = pageList.getRows();
+		dealUrl(list);
+		map.put("data", list);
+		map.put("code", 0);
+		map.put("msg", "");
+		map.put("count", pageList.getRowCount());
+		map.put("query", query.getQueryData());
+		return map;
+	}
+	
+	private String getIdFromResult(String result ){
+		StringBuffer ids = new StringBuffer();
 		try {
 			
 			JSONObject resultjson = new JSONObject("{\"message\":\"OK\",\"results\":[{\"annotation\":0,\"born_year\":0,\"face_image_id\":\"1407374883553280@DEFAULT\",\"face_image_id_str\":\"1407374883553280@DEFAULT\",\"face_image_uri\":\"normal://repository-builder/20171226/pVTcHSxn0AFoAgzsNUj8PA==@1@DEFAULT\",\"face_rect\":{\"h\":85,\"w\":85,\"x\":38,\"y\":30},\"gender\":0,\"image_row_id\":1245,\"is_writable\":true,\"name\":\"\",\"nation\":0,\"permission_map\":{\"0\":2,\"1\":2,\"101\":2,\"102\":2,\"400\":2,\"452\":2,\"501\":2,\"502\":2,\"503\":2,\"504\":2,\"505\":2,\"553\":2,\"554\":2,\"601\":2,\"602\":2,\"603\":2,\"604\":2,\"605\":2},\"person_id\":\"\",\"picture_uri\":\"normal://repository-builder/20171226/EeHAWCKmB9iePfMo1RsEJQ==@1@DEFAULT\",\"repository_id\":\"5@DEFAULT\",\"similarity\":98.03211583110513,\"timestamp\":1514246123},{\"annotation\":0,\"born_year\":0,\"face_image_id\":\"1407374883553281@DEFAULT\",\"face_image_id_str\":\"1407374883553281@DEFAULT\",\"face_image_uri\":\"normal://repository-builder/20171226/pVTcHSxn0AFoAgzsNUj8PA==@1@DEFAULT\",\"face_rect\":{\"h\":85,\"w\":85,\"x\":38,\"y\":30},\"gender\":0,\"image_row_id\":1246,\"is_writable\":true,\"name\":\"\",\"nation\":0,\"permission_map\":{\"0\":2,\"1\":2,\"101\":2,\"102\":2,\"400\":2,\"452\":2,\"501\":2,\"502\":2,\"503\":2,\"504\":2,\"505\":2,\"553\":2,\"554\":2,\"601\":2,\"602\":2,\"603\":2,\"604\":2,\"605\":2},\"person_id\":\"\",\"picture_uri\":\"normal://repository-builder/20171226/EeHAWCKmB9iePfMo1RsEJQ==@1@DEFAULT\",\"repository_id\":\"5@DEFAULT\",\"similarity\":98.03211583110513,\"timestamp\":1514246125}],\"retrieval_query_id\":\"805@DEFAULT\",\"rtn\":0,\"total\":2}");
 		
 			JSONArray repositoryIds =  resultjson. getJSONArray("results");
-			ids = new ArrayList<>();
 			for(int i = 0 ;i<repositoryIds.length();i++){
 				String id =    repositoryIds.getJSONObject(i) .getString("image_row_id") ;
-				ids.add(Long.parseLong(id));
+				ids.append(id).append(",");
 			}
 		} catch (Exception e) {
 			log.error("搜图时error：" ,e);
 		}
 		
-		return ids;
+		return ids.toString();
 	}
 	
 	public static void main(String[] args) {

@@ -8,6 +8,7 @@
 		<result property="customerRowId" jdbcType="DECIMAL" column="CUSTOMER_ROW_ID"/>
 		<result property="userRowId" jdbcType="DECIMAL" column="USER_ROW_ID"/>
 		<result property="name" jdbcType="VARCHAR" column="NAME"/>
+		<result property="userName" jdbcType="VARCHAR" column="USER_NAME"/>
 		<result property="phone" jdbcType="VARCHAR" column="PHONE"/>
 		<result property="similarDegree" jdbcType="DECIMAL" column="SIMILAR_DEGREE"/>
 		<result property="createDate" jdbcType="TIMESTAMP" column="CREATE_DATE"/>
@@ -21,7 +22,7 @@
 	
 	<sql id="columns">
 	    <![CDATA[
-        VISIT_ROW_ID ,IMAGE_ROW_ID ,CAMERA_CODE ,CUSTOMER_ROW_ID ,USER_ROW_ID ,NAME ,PHONE ,SIMILAR_DEGREE ,CREATE_DATE ,VISIT_YEAR,VISIT_MONTH,VISIT_Day,IMAGE_URL,VISIT_TYPE 
+        VISIT_ROW_ID ,IMAGE_ROW_ID ,CAMERA_CODE ,CUSTOMER_ROW_ID ,USER_ROW_ID ,NAME ,USER_NAME,PHONE ,SIMILAR_DEGREE ,CREATE_DATE ,VISIT_YEAR,VISIT_MONTH,VISIT_Day,IMAGE_URL,VISIT_TYPE 
 	    ]]>
 	</sql>
 	
@@ -36,6 +37,7 @@
         	CUSTOMER_ROW_ID ,
         	USER_ROW_ID ,
         	NAME ,
+        	user_Name,
         	PHONE ,
         	SIMILAR_DEGREE ,
         	CREATE_DATE ,
@@ -50,6 +52,7 @@
         	#{customerRowId,jdbcType=DECIMAL} ,
         	#{userRowId,jdbcType=DECIMAL} ,
         	#{name,jdbcType=VARCHAR} ,
+        	#{userName,jdbcType=VARCHAR} ,
         	#{phone,jdbcType=VARCHAR} ,
         	#{similarDegree,jdbcType=DECIMAL} ,
         	#{createDate,jdbcType=DATE} ,
@@ -171,6 +174,12 @@
 		</if>
 		<if test="name != null and name.trim() != ''">
 		and NAME = #{name}
+		</if>
+	    <if test="ids != null  ">
+	    and IMAGE_ROW_ID in 
+		 <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+		  #{item}  
+		 </foreach> 
 		</if>
 		<if test="phone != null and phone.trim() != ''">
 		and PHONE = #{phone}
