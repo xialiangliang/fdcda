@@ -46,7 +46,7 @@ public class Constants {
     /**
      * 正则表达式：验证手机号
      */
-    public static final String REGEX_PHONE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+    public static final String REGEX_PHONE = "^1((3[(0-3)(5-9)]|49|5[0-35-9]|66|7[35-8]|8[0-9]|9[89])[0-9]|34[0-8])[0-9]{7}$";
     /**
      * 正则表达式：验证身份证
      */

@@ -269,7 +269,7 @@
     var selectedProvince = '$param.province';
     var selectedCity = '$param.city';
 
-    var htmlStr = "";
+    var htmlStr = "<option value=\"\">请选择</option>";
     for (var i=0; i<map.countries.length; i++) {
         var sel = "";
         if (selectedCountry === map.countries[i].country) {
@@ -279,19 +279,19 @@
     }
 
     $('#nationality').html(htmlStr);
-    function changeNationality() {
+    function changeNationality(bsel) {
         var country = $('#nationality').val();
-        if (country === null) {
-            $('#city').html("");
-            $('#country').html("");
+        if (country === null || country==="") {
+            $('#city').html("<option value=\"\">请选择</option>");
+            $('#province').html("<option value=\"\">请选择</option>");
             return;
         }
         for (var i=0; i<map.countries.length; i++) {
             if (country === map.countries[i].country) {
-                var htmlStr = "";
+                var htmlStr = "<option value=\"\">请选择</option>";
                 for (var j=0; j<map.countries[i].provinces.length; j++) {
                     var sel = "";
-                    if (selectedProvince === map.countries[i].provinces[j].province) {
+                    if (bsel && selectedProvince === map.countries[i].provinces[j].province) {
                         sel = "selected";
                     }
                     htmlStr = htmlStr + "<option value=\"" + map.countries[i].provinces[j].province + "\" " + sel + " >" + map.countries[i].provinces[j].province + "</option>";
@@ -302,21 +302,23 @@
         }
         $('#city').html("");
     }
-    function changeProvince() {
+    function changeProvince(bsel) {
         var country = $('#nationality').val();
         var province = $('#province').val();
-        if (country === null || province === null) {
-            $('#city').html("");
+        console.log(country);
+        console.log(province);
+        if (country === null || province === null || country==="" || province==="") {
+            $('#city').html("<option value=\"\">请选择</option>");
             return;
         }
         for (var i=0; i<map.countries.length; i++) {
             if (country === map.countries[i].country) {
                 for (var j=0; j<map.countries[i].provinces.length; j++) {
                     if (province === map.countries[i].provinces[j].province) {
-                        var htmlStr = "";
+                        var htmlStr = "<option value=\"\">请选择</option>";
                         for (var k=0; k<map.countries[i].provinces[j].cities.length; k++) {
                             var sel = "";
-                            if (selectedProvince === map.countries[i].provinces[j].cities[k]) {
+                            if (bsel && selectedProvince === map.countries[i].provinces[j].cities[k]) {
                                 sel = "selected";
                             }
                             htmlStr = htmlStr + "<option value=\"" + map.countries[i].provinces[j].cities[k] + "\" " + sel + " >" + map.countries[i].provinces[j].cities[k] + "</option>";
@@ -329,16 +331,16 @@
             }
         }
     }
-    changeNationality();
-    changeProvince();
+    changeNationality(true);
+    changeProvince(true);
     layui.use('form', function() {
         var form = layui.form;
         form.on('select(nationality)', function (data) {
-            changeNationality();
+            changeNationality(false);
             form.render('select');
         });
         form.on('select(province)', function (data) {
-            changeProvince();
+            changeProvince(false);
             form.render('select');
         });
     });

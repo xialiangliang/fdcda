@@ -104,6 +104,7 @@ public class CustomerInfoController extends BaseController {
 				}
 				userList.remove(0);
 
+				List<CustomerInfo> customerInfoList = new ArrayList<>();
 				for (String[] userStrs : userList) {
 					CustomerInfo customerInfo = new CustomerInfo();
 					customerInfo.setIsBlack(0);
@@ -129,6 +130,14 @@ public class CustomerInfoController extends BaseController {
 					customerInfo.setWeixin(userStrs[8]);
 					customerInfo.setCustomerCard(userStrs[9]);
 					customerInfo.setCompanyName(userStrs[10]);
+					Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
+					if (StringUtil.isNotBlank(customerInfo.getCustomerCard())) {
+						String str = IdCardUtil.IDCardValidate(customerInfo.getCustomerCard());
+						Assert.isTrue(!str.equals("true"), customerInfo.getCustomerCard() + ":" + str);
+					}
+					customerInfoList.add(customerInfo);
+				}
+				for (CustomerInfo customerInfo : customerInfoList) {
 					customerInfoService.save(customerInfo);
 				}
 			}
@@ -207,11 +216,11 @@ public class CustomerInfoController extends BaseController {
 			customerInfo.setValidFlag(1);
 			Assert.isBlank(customerInfo.getName(), "姓名不能为空");
 			Assert.isNull(customerInfo.getGender(), "性别不能为空");
-			Assert.isBlank(customerInfo.getAddress(), "地址不能为空");
-			Assert.isNull(customerInfo.getCity(), "城市不能为空");
-			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
-			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
-			Assert.isBlank(customerInfo.getCompanyName(), "单位不能为空");
+//			Assert.isBlank(customerInfo.getAddress(), "地址不能为空");
+//			Assert.isNull(customerInfo.getCity(), "城市不能为空");
+//			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
+//			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
+//			Assert.isBlank(customerInfo.getCompanyName(), "单位不能为空");
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setIsBlack(0);
 			customerInfo.setIsVip(0);
@@ -221,6 +230,10 @@ public class CustomerInfoController extends BaseController {
 			customerInfo.setUserRowId(getUser(request).getId());
 			customerInfo.setCreateTime(new Date());
 //			Assert.isNull(file, "请上传图片");
+			if (StringUtil.isNotBlank(customerInfo.getCustomerCard())) {
+				String str = IdCardUtil.IDCardValidate(customerInfo.getCustomerCard());
+				Assert.isTrue(!str.equals("true"), str);
+			}
 			// 防止号码重复
 			PaginationQuery query = new PaginationQuery();
 			query.addQueryData("userRowId", getUser(request).getId().toString());
@@ -268,15 +281,19 @@ public class CustomerInfoController extends BaseController {
 					&& !getUser(request).getId().equals(customerInfo1.getUserRowId()), "非法操作");
 			Assert.isBlank(customerInfo.getName(), "姓名不能为空");
 			Assert.isNull(customerInfo.getGender(), "性别不能为空");
-			Assert.isBlank(customerInfo.getAddress(), "地址不能为空");
-			Assert.isNull(customerInfo.getCity(), "城市不能为空");
-			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
-			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
-			Assert.isNull(customerInfo.getCompanyName(), "单位不能为空");
+//			Assert.isBlank(customerInfo.getAddress(), "地址不能为空");
+//			Assert.isNull(customerInfo.getCity(), "城市不能为空");
+//			Assert.isNull(customerInfo.getNationality(), "国家不能为空");
+//			Assert.isNull(customerInfo.getProvince(), "省份不能为空");
+//			Assert.isNull(customerInfo.getCompanyName(), "单位不能为空");
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setModifyTime(new Date());
 //			Assert.isNull(file, "请上传图片");
 
+			if (StringUtil.isNotBlank(customerInfo.getCustomerCard())) {
+				String str = IdCardUtil.IDCardValidate(customerInfo.getCustomerCard());
+				Assert.isTrue(!str.equals("true"), str);
+			}
 			// 防止号码重复
 			PaginationQuery query = new PaginationQuery();
 			query.addQueryData("userRowId", getUser(request).getId().toString());
