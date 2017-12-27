@@ -1,0 +1,152 @@
+ 
+ 
+#set($JS = ["/js/echarts.js","/js/my97DatePicker/WdatePicker.js"])
+#set($page_title = "国际商贸城人脸识别大数据平台")
+ 
+      <div class="yw_buyerContainer">
+	    <div class="yw_breadcrumb">
+		        当前位置：<a href="javascript:;">$!{currentPosStr}</a>
+	    </div>
+	    <div class="yw_box">
+         <!--Search-->
+        <div class="yw_searchBar" >
+            <form class="form-inline ml-20 mr-20" id="buyerForm">
+                <div class="form-group">
+                    <label >到访日期：</label>
+                    <input type="text" class="form-control" value="$!{begin}" name="begin" id="begin" onFocus="WdatePicker({lang:'zh-cn'})" />
+                </div>
+                <div class="form-group"> - </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" value="$!{end}" name="end" id="end"onFocus="WdatePicker({lang:'zh-cn'})" />
+                </div>
+                <button type="submit" class="layui-btn layui-btn-normal ml-20"> 查 询</button>
+            </form>
+        </div>
+         <div class="container-fluid mt-20">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="jc-panel mt-20">
+                            <div class="jc-panel__head">折线图</div>
+                            <div class="jc-panel__body">
+                                <p class="c-grey">按天展示</p>
+                                <div id="detail" style="width: 100%;height:600px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="jc-panel mt-20">
+                            <div class="jc-panel__head">饼状图</div>
+                            <div class="jc-panel__body">
+                                <p class="c-grey">按分类展示</p>
+                                <div id="main" style="width: 100%;height:600px;"></div>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+          </div>
+        </div>
+        <script>
+        var myChart = echarts.init(document.getElementById('detail'));
+        var xAxisArr = new Array();
+        var seriesArr = new Array();
+        #foreach($row in $lineData)
+           xAxisArr.push('$!{row.visitDayStr}');
+           seriesArr.push('$!{row.visitCount}');
+        #end
+        
+        
+        var option = {
+		    title: {
+		        text: '$!{lineText}'
+		    },
+		    tooltip: {
+		        trigger: 'axis'
+		    },
+		    legend: {
+		        data:['当日访问']
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: xAxisArr
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'当日访问数',
+		            type:'line',
+		            stack: '总量',
+		            data:seriesArr
+		        } 
+		    ]
+		};
+		
+	    var myChart2 = echarts.init(document.getElementById('main'));
+		
+	    var legendArr1 = new Array();
+        var seriesArr2 = new Array();
+        #foreach($row in $bingData)
+           legendArr1.push('$!{row.name}');
+           var obj = new Object();
+           obj.value = '$!{row.visitCount}';
+           obj.name = '$!{row.name}';
+           seriesArr2.push(obj);
+        #end
+		
+		var option2 = {
+		    title : {
+		        text: '$!{bingTitle}',
+		        subtext: '',
+		        x:'center'
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+		    legend: {
+		        orient: 'vertical',
+		        left: 'left',
+		        data: legendArr1
+		    },
+		    series : [
+		        {
+		            name: '$!{bingTitle}',
+		            type: 'pie',
+		            radius : '55%',
+		            center: ['50%', '60%'],
+		            data:seriesArr2,
+		            itemStyle: {
+		                emphasis: {
+		                    shadowBlur: 10,
+		                    shadowOffsetX: 0,
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+		                }
+		            }
+		        }
+		    ]
+		};
+				
+		
+		 // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        myChart2.setOption(option2);
+        </script>
+  </div>

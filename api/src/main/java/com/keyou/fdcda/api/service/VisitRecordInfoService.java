@@ -21,4 +21,12 @@ public interface VisitRecordInfoService extends BaseService<VisitRecordInfo,Long
 	 */
 	
 	List<VisitRecordInfo> selectDayDetailReport(Map<String, Object> map);
+	
+	
+	/**
+	 * 根据日期查询时间段内经营户的总体访问情况--商城管理员看
+	 * @param map
+	 * @return
+	 */
+	List<VisitRecordInfo> selectDayCountMallReport(Map<String, Object> map);
 }

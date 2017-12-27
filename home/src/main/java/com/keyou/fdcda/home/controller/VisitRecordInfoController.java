@@ -347,6 +347,47 @@ public class VisitRecordInfoController extends BaseController {
 		return ids.toString();
 	}
 	
+	
+	@RequestMapping(value = "/visitRecordInfo/mallreport", method = RequestMethod.GET)
+	public String mallreport(PaginationQuery query, Model model, HttpServletRequest request,String begin,String end) throws Exception {
+		SysUser sysUser = getUser(request);
+		if (sysUser == null) {
+			return "redirect:/login";
+		}
+		Map<String, Object> map = new HashMap<>();
+		
+		if (StringUtil.isBlank(begin) && StringUtil.isBlank(end)) {
+			Date now = new Date();
+			begin = DateUtil.getDate(DateUtil.addDate(now, -7), DateUtil.DATE_FORMAT);
+			end = DateUtil.getDate(now, DateUtil.DATE_FORMAT);
+			model.addAttribute("bingTitle", "本店最近一周访问总体情况");
+			model.addAttribute("lineText", "本店最近一周访问详细情况");
+		}
+		else{
+			model.addAttribute("bingTitle", begin+"-"+end+"本店访问总体情况");
+			model.addAttribute("lineText", begin+"-"+end+"本店访问详细情况");
+		}
+		map.put("beginDate", begin);
+		map.put("endDate", end);
+		//map.put("userRowId", sysUser.getId());
+		 
+		/**按访客类型统计总数,展现饼图*/
+		List<VisitRecordInfo> dayCountReport = visitRecordInfoService.selectDayCountMallReport(map);
+		model.addAttribute("bingData", dayCountReport);
+		
+		/**按天统计总数*/
+		List<VisitRecordInfo> dayDetailReport = visitRecordInfoService.selectDayDetailReport(map);
+		model.addAttribute("lineData", dayDetailReport);
+		
+		model.addAttribute("begin", begin);
+		model.addAttribute("end", end);
+		 
+		return "/page/visitinfo/malllist";
+	}
+	
+	
+	
+	
 	public static void main(String[] args) {
 		try {
 			

@@ -146,6 +146,16 @@
 
 	</select>
 	
+	<select id="selectDayCountMallReport" resultMap="BaseResultMap" parameterType="java.util.Map">
+	 select t.area_name name , count(*) visit_count
+	 from visit_record_info t
+	 where t.create_date &lt;= to_date(#{endDate} || ' 23:59:59', 'yyyy-MM-dd HH24:mi:ss')
+	   and t.create_date >= to_date(#{beginDate}|| ' 00:00:00', 'yyyy-MM-dd HH24:mi:ss')
+	  <include refid="queryWhere"/> 
+	 group by t.area_name
+
+	</select>
+	
 	<select id="selectDayDetailReport" resultMap="BaseResultMap" parameterType="java.util.Map">
 	select t.visit_day, count(*) visit_count
 	  from visit_record_info t

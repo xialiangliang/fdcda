@@ -15,4 +15,7 @@ public interface VisitRecordInfoMapper extends BaseMapper<VisitRecordInfo, java.
 	List<VisitRecordInfo> selectDayCountReport(Map<String, Object> map);
 	
 	List<VisitRecordInfo> selectDayDetailReport(Map<String, Object> map);
+	
+	
+	List<VisitRecordInfo> selectDayCountMallReport(Map<String, Object> map);
 }
