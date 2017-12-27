@@ -131,12 +131,17 @@ public class LoginController {
             phone = ((SysUser)request.getSession().getAttribute(Constants.SESSION_USER)).getPhone();
         }
         SysUser sysUser;
+        map.put("salt", "");
         if (StringUtil.isPhone(phone)) {
             sysUser = sysUserService.getUserByPhone(phone);
-            map.put("salt", sysUser.getLoginpwd().split("\\" + Constants.PASSWORD_SALT_SPLIT)[1]);
+            if (sysUser != null) {
+                map.put("salt", sysUser.getLoginpwd().split("\\" + Constants.PASSWORD_SALT_SPLIT)[1]);
+            }
         } else if (StringUtil.isLoginname(phone)) {
             sysUser = sysUserService.getUserByLoginname(phone);
-            map.put("salt", sysUser.getLoginpwd().split("\\" + Constants.PASSWORD_SALT_SPLIT)[1]);
+            if (sysUser != null) {
+                map.put("salt", sysUser.getLoginpwd().split("\\" + Constants.PASSWORD_SALT_SPLIT)[1]);
+            }
         }
         return map;
     }
