@@ -25,4 +25,6 @@ public interface CustomerInfoMapper extends BaseMapper<CustomerInfo, Long> {
     Integer saveImageBaseSend(Map<String, Object> map);
 
     Long updateImageBaseSend(Map<String, Object> map);
+
+    Long findImageBaseSendCount(Long customerId);
 }

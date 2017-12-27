@@ -26,7 +26,6 @@ public interface CustomerInfoService extends BaseService<CustomerInfo, Long> {
      * 新建/更新采购商图片同步信息
      * @param customerId
      * @param imageUrl
-     * @param updateFlag 0新增1更新
      */
-    void updateImageBaseSend(Long customerId, String imageUrl, Integer updateFlag);
+    void updateImageBaseSend(Long customerId, String imageUrl);
 }

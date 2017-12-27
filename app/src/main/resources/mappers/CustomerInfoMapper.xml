@@ -276,6 +276,10 @@
 		UPDATE IMAGE_BASE_SEND set UPDATE_FLAG = (case when IMAGE_STATUS=0 then UPDATE_FLAG else 1 end), IMAGE_STATUS = 0, IMAGE_URL = #{imageUrl}
 		WHERE USER_ROW_ID = #{customerId,jdbcType=DECIMAL}
 	</update>
+
+	<select id="findImageBaseSendCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+		select count(1) from IMAGE_BASE_SEND where USER_ROW_ID = #{customerId,jdbcType=DECIMAL}
+	</select>
 	
 	<sql id="queryWhere">
 		<if test="id != null and id.trim() != ''">

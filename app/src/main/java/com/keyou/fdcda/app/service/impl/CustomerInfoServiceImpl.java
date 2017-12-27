@@ -108,14 +108,21 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     }
 
     @Override
-    public void updateImageBaseSend(Long customerId, String imageUrl, Integer updateFlag) {
+    public void updateImageBaseSend(Long customerId, String imageUrl) {
+        if (StringUtil.isBlank(imageUrl)) {
+            return;
+        }
+        if (customerId == null) {
+            return;
+        }
+        Long cnt = customerInfoMapper.findImageBaseSendCount(customerId);
         Map<String, Object> map = Maps.newHashMap();
         map.put("customerId", customerId);
         map.put("imageUrl", imageUrl);
-        if (updateFlag.equals(0)) {
+        if (cnt.equals(0L)) {
             map.put("customerId", customerId.toString());
             customerInfoMapper.saveImageBaseSend(map);
-        } else if (updateFlag.equals(1)) {
+        } else {
             customerInfoMapper.updateImageBaseSend(map);
         }
     }
