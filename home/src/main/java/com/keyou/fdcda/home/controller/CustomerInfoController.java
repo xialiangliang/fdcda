@@ -290,6 +290,10 @@ public class CustomerInfoController extends BaseController {
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setModifyTime(new Date());
 //			Assert.isNull(file, "请上传图片");
+			if (customerInfo.getIsVip() != null && customerInfo.getIsVip().equals(1)
+					&& customerInfo.getIsBlack() != null && !customerInfo.getIsBlack().equals(0)) {
+				Assert.isTrue(true, "用户不能同时为VIP和黑名单");
+			}
 
 			if (StringUtil.isNotBlank(customerInfo.getCustomerCard())) {
 				String str = IdCardUtil.IDCardValidate(customerInfo.getCustomerCard());
@@ -450,6 +454,7 @@ public class CustomerInfoController extends BaseController {
 			Assert.isTrue(customerInfo.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 			customerInfo.setIsVip(1);
+			customerInfo.setIsBlack(0); // 直接移出黑名单
 			customerInfo.setModifyTime(new Date());
 			customerInfoService.update(customerInfo);
 			map.put(Constants.SUCCESS, true);
@@ -469,6 +474,7 @@ public class CustomerInfoController extends BaseController {
 			Assert.isTrue(customerInfo.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 			customerInfo.setIsBlack(1);
+			customerInfo.setIsVip(0); // 直接移出VIP
 			customerInfo.setBlackReason(reason);
 			customerInfo.setBlackTime(new Date());
 			customerInfo.setModifyTime(new Date());

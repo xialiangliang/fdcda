@@ -148,6 +148,7 @@ public class BlackListController extends BaseController {
 			Assert.isTrue(customerInfo.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
 			customerInfo.setIsBlack(1);
+			customerInfo.setIsVip(0); // 直接移出VIP
 			customerInfo.setModifyTime(new Date());
 			customerInfoService.update(customerInfo);
 			map.put(Constants.SUCCESS, true);

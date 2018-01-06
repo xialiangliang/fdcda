@@ -14,11 +14,12 @@
 		<result property="createTime" jdbcType="TIMESTAMP" column="CREATE_TIME"/>
 		<result property="modifyTime" jdbcType="TIMESTAMP" column="MODIFY_TIME"/>
 		<result property="sysAreaId" jdbcType="DECIMAL" column="SYS_AREA_ID"/>
+		<result property="isvip" jdbcType="DECIMAL" column="ISVIP"/>
     </resultMap>
 	
 	<sql id="columns">
 	    <![CDATA[
-        ID ,LOGINNAME ,LOGINPWD ,USERNAME ,PHONE ,TELEPHONE ,EMAIL ,ADDRESS ,VALID ,CREATE_TIME ,MODIFY_TIME ,SYS_AREA_ID
+        ID ,LOGINNAME ,LOGINPWD ,USERNAME ,PHONE ,TELEPHONE ,EMAIL ,ADDRESS ,VALID ,CREATE_TIME ,MODIFY_TIME ,SYS_AREA_ID ,ISVIP
 	    ]]>
 	</sql>
 	
@@ -39,7 +40,8 @@
         	VALID ,
         	CREATE_TIME ,
         	MODIFY_TIME ,
-        	SYS_AREA_ID
+        	SYS_AREA_ID ,
+        	ISVIP
 		) VALUES (
         	#{id,jdbcType=DECIMAL} ,
         	#{loginname,jdbcType=VARCHAR} ,
@@ -52,7 +54,8 @@
         	#{valid,jdbcType=DECIMAL} ,
         	#{createTime,jdbcType=TIMESTAMP} ,
         	#{modifyTime,jdbcType=TIMESTAMP} ,
-        	#{sysAreaId,jdbcType=DECIMAL} 
+        	#{sysAreaId,jdbcType=DECIMAL} ,
+        	#{isvip,jdbcType=DECIMAL} 
 		)
 	]]>
 	</insert>
@@ -91,7 +94,10 @@
 	        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP} ,
 	        </if>
 			<if test="sysAreaId != null">
-				SYS_AREA_ID = #{sysAreaId,jdbcType=DECIMAL}
+				SYS_AREA_ID = #{sysAreaId,jdbcType=DECIMAL} ,
+			</if>
+			<if test="isvip != null">
+				ISVIP = #{isvip,jdbcType=DECIMAL}
 			</if>
 	    </set>
 		WHERE 
@@ -203,6 +209,9 @@
 		</if>
 		<if test="sysAreaId != null and sysAreaId.trim() != ''">
 			and SYS_AREA_ID = #{sysAreaId}
+		</if>
+		<if test="isvip != null and isvip.trim() != ''">
+			and ISVIP = #{isvip}
 		</if>
 	</sql>
 </mapper>

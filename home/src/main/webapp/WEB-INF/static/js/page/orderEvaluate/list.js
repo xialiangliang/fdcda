@@ -36,6 +36,8 @@ $(function(){
         table.on('tool(demo)', function(obj){
             var data = obj.data;
             if(obj.event === 'evaluate'){
+                window.location.href = "/evaluate/evaluate?id=" + data.id;
+            } else if(obj.event === 'detail'){
                 window.location.href = "/evaluate/detail?id=" + data.id;
             }
         });

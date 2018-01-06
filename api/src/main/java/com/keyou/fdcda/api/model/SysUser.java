@@ -57,6 +57,11 @@ public class SysUser implements Serializable {
 	 */
 	private Long sysAreaId;
 
+	/**
+	 * 是否是VIP 1-否 2-是
+	 */
+	private Integer isvip;
+
 	
 	public void setId(java.lang.Long value) {
 		this.id = value;
@@ -162,6 +167,14 @@ public class SysUser implements Serializable {
 
 	public void setSysAreaId(Long sysAreaId) {
 		this.sysAreaId = sysAreaId;
+	}
+
+	public Integer getIsvip() {
+		return isvip;
+	}
+
+	public void setIsvip(Integer isvip) {
+		this.isvip = isvip;
 	}
 }
 

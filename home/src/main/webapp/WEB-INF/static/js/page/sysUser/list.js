@@ -24,6 +24,7 @@ $(function(){
                 ,{field:'username', title: '姓名', width:160}
                 ,{field:'phone', title: '手机号', width:160}
                 ,{field:'telephone', title: '固定电话', width:160}
+                ,{field:'isvip', title: '商户类型', width:160, templet: '#isvip'}
                 ,{field:'email', title: '邮件地址', width:160}
                 ,{field:'address', title: '地址', width:160}
                 ,{field:'valid', title: '状态', width:160, templet: '#validId'}

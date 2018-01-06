@@ -1,5 +1,6 @@
 package com.keyou.fdcda.home.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -159,6 +160,27 @@ public class OrderEvaluateController extends BaseController {
     }
 
 
+    @RequestMapping(value="/evaluate")
+    public String evaluate(Long id, Model model, HttpServletRequest request){
+        try {
+            OrderInfo orderInfo0 = orderInfoService.findById(id);
+            CustomerInfo customerInfo = customerInfoService.findById(orderInfo0.getCustomerRowId());
+            Assert.isTrue(customerInfo.getUserRowId() != null
+                    && !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+            if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
+                customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
+            }            
+            model.addAttribute("param", customerInfo);
+            model.addAttribute("orderRowId", id);
+            model.addAttribute(Constants.SUCCESS, true);
+            return "/page/orderEvaluate/detail";
+        } catch (Exception e) {
+            commonError(logger, e, "修改跳转异常", model);
+            return "/page/orderEvaluate/list";
+        }
+    }
+
+
     @RequestMapping(value="/detail")
     public String detail(Long id, Model model, HttpServletRequest request){
         try {
@@ -169,10 +191,29 @@ public class OrderEvaluateController extends BaseController {
             if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
                 customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
             }
+            List<Long> customerIds = customerInfoService.findRealCustomerIdBySingleId(id);
+            customerIds.add(customerInfo.getId());
+            List<OrderEvaluate> evaluateList = orderEvaluateService.findListByCustomerIds(customerIds);
+            evaluateList.forEach(orderEvaluate -> {
+                List<String> urlList = new ArrayList<>();
+                if (StringUtil.isNotBlank(orderEvaluate.getImagesUrl())) {
+                    String[] urls = orderEvaluate.getImagesUrl().split(",");
+                    urlList = Arrays.asList(urls);
+                }
+                orderEvaluate.setImagesUrlList(urlList);
+                OrderInfo orderInfo = orderInfoService.findById(orderEvaluate.getOrderRowId());
+                if (orderInfo != null) {
+                    SysUser user = sysUserService.findById(orderInfo.getUserRowId());
+                    if (user != null) {
+                        orderEvaluate.setEvaluateName(StringUtil.hideName(user.getUsername()));
+                    }
+                }
+            });
+            model.addAttribute("evaluateList", GsonUtil.serialize(evaluateList));
             model.addAttribute("param", customerInfo);
             model.addAttribute("orderRowId", id);
             model.addAttribute(Constants.SUCCESS, true);
-            return "/page/orderEvaluate/detail";
+            return "/page/orderEvaluate/evaListDetail";
         } catch (Exception e) {
             commonError(logger, e, "修改跳转异常", model);
             return "/page/orderEvaluate/list";
