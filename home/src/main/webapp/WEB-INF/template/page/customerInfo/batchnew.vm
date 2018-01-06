@@ -1,12 +1,12 @@
 ###set($layout = "/layout/layout2.vm")
 #set($pageTitle = "title")
-#set($JS = ["/js/jquery.form.min.js", "/js/page/customerInfo/new-update.js"])
+#set($JS = ["/js/jquery.form.min.js"])
 <div class="yw_buyerContainer">
     <div class="yw_breadcrumb">
         当前位置：<a href="javascript:;">$!{currentPosStr}</a>
     </div>
     <div class="yw_box">
-        <form action="/customerInfo/batchnew/save"  method="post" class="layui-form" id="newForm_customerInfo" enctype="multipart/form-data">
+        <form action="/customerInfo/batchnew/save"  method="post" class="layui-form" id="batchnewForm_customerInfo" enctype="multipart/form-data">
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <a href="/customerInfo/download" style="color: blue;">Excel模板下载</a>
@@ -26,3 +26,28 @@
         </form>
     </div>
 </div>
+<script>
+    $(function() {
+        function tip(msg, reload) {
+            layer.msg(msg,{time:1000},function () {
+                if (reload) {
+                    window.location.reload();
+                }
+            });
+        }
+
+        $("#batchnewForm_customerInfo").ajaxForm({
+            beforeSerialize: function () {
+            },
+            success: function (data) {
+                if (data.success) {
+                    // layer.close(layer.index);
+                    tip(data.message, false);
+                    // window.location.href = "/customerInfo";
+                } else {
+                    tip(data.message, false);
+                }
+            }
+        });
+    });
+</script>

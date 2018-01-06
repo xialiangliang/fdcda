@@ -81,65 +81,64 @@ public class CustomerInfoController extends BaseController {
 
 	@RequestMapping(value="/batchnew/save")
 	@ResponseBody
-	public Map<String, Object> batchSave(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
+	public Map<String, Object> batchSave(@RequestParam(value = "file", required = false)  MultipartFile file, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			if (file != null) {
-				String fileName = file.getOriginalFilename();
-				if (!fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
-					Assert.isTrue(true, "格式不正确（xlsx，xls）");
-				}
-				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-				// 文件保存路径
-				String filePath = ImageInfoConstants.UPLOAD_TEMP_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
-				File localFile = new File(filePath);
-				if (!localFile.getParentFile().exists()) {
-					localFile.getParentFile().mkdirs();
-				}
-				file.transferTo(localFile);
-				BigDecimal sum = BigDecimal.ZERO;
-				List<String[]> userList = ExcelUtil.readExcel(filePath, "Sheet1", 1, 11);
-				if (userList == null || userList.isEmpty()) {
-					throw new Exception("上传的文件是空文件，请修改后重新上传!");
-				}
-				userList.remove(0);
+			Assert.isNull(file, "请选择文件");
+			String fileName = file.getOriginalFilename();
+			if (!fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+				Assert.isTrue(true, "格式不正确（xlsx，xls）");
+			}
+			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+			// 文件保存路径
+			String filePath = ImageInfoConstants.UPLOAD_TEMP_FILE_BASE_PATH + EncodeUtil.md5(new Date().getTime() + RandomUtil.produceString(6)) + "." + suffix;
+			File localFile = new File(filePath);
+			if (!localFile.getParentFile().exists()) {
+				localFile.getParentFile().mkdirs();
+			}
+			file.transferTo(localFile);
+			BigDecimal sum = BigDecimal.ZERO;
+			List<String[]> userList = ExcelUtil.readExcel(filePath, "Sheet1", 1, 11);
+			if (userList == null || userList.isEmpty()) {
+				throw new Exception("上传的文件是空文件，请修改后重新上传!");
+			}
+			userList.remove(0);
 
-				List<CustomerInfo> customerInfoList = new ArrayList<>();
-				for (String[] userStrs : userList) {
-					CustomerInfo customerInfo = new CustomerInfo();
-					customerInfo.setIsBlack(0);
-					customerInfo.setIsVip(0);
-					customerInfo.setValidFlag(1);
-					customerInfo.setCreateTime(new Date());
-					customerInfo.setSource(0);
-					customerInfo.setUserRowId(getUser(request).getId());
-					customerInfo.setName(userStrs[0]);
-					customerInfo.setPhone(userStrs[1]);
-					Integer gender = null;
-					if (StringUtil.equals(userStrs[2], "男")) {
-						gender = 0;
-					} else if (StringUtil.equals(userStrs[2], "女")) {
-						gender = 1;
-					}
-					customerInfo.setGender(gender);
-					customerInfo.setNationality(userStrs[3]);
-					customerInfo.setProvince(userStrs[4]);
-					customerInfo.setCity(userStrs[5]);
-					customerInfo.setAddress(userStrs[6]);
-					customerInfo.setQq(userStrs[7]);
-					customerInfo.setWeixin(userStrs[8]);
-					customerInfo.setCustomerCard(userStrs[9]);
-					customerInfo.setCompanyName(userStrs[10]);
-					Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
-					if (StringUtil.isNotBlank(customerInfo.getCustomerCard())) {
-						String str = IdCardUtil.IDCardValidate(customerInfo.getCustomerCard());
-						Assert.isTrue(!str.equals("true"), customerInfo.getCustomerCard() + ":" + str);
-					}
-					customerInfoList.add(customerInfo);
+			List<CustomerInfo> customerInfoList = new ArrayList<>();
+			for (String[] userStrs : userList) {
+				CustomerInfo customerInfo = new CustomerInfo();
+				customerInfo.setIsBlack(0);
+				customerInfo.setIsVip(0);
+				customerInfo.setValidFlag(1);
+				customerInfo.setCreateTime(new Date());
+				customerInfo.setSource(0);
+				customerInfo.setUserRowId(getUser(request).getId());
+				customerInfo.setName(userStrs[0]);
+				customerInfo.setPhone(userStrs[1]);
+				Integer gender = null;
+				if (StringUtil.equals(userStrs[2], "男")) {
+					gender = 0;
+				} else if (StringUtil.equals(userStrs[2], "女")) {
+					gender = 1;
 				}
-				for (CustomerInfo customerInfo : customerInfoList) {
-					customerInfoService.save(customerInfo);
+				customerInfo.setGender(gender);
+				customerInfo.setNationality(userStrs[3]);
+				customerInfo.setProvince(userStrs[4]);
+				customerInfo.setCity(userStrs[5]);
+				customerInfo.setAddress(userStrs[6]);
+				customerInfo.setQq(userStrs[7]);
+				customerInfo.setWeixin(userStrs[8]);
+				customerInfo.setCustomerCard(userStrs[9]);
+				customerInfo.setCompanyName(userStrs[10]);
+				Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
+				if (StringUtil.isNotBlank(customerInfo.getCustomerCard())) {
+					String str = IdCardUtil.IDCardValidate(customerInfo.getCustomerCard());
+					Assert.isTrue(!str.equals("true"), customerInfo.getCustomerCard() + ":" + str);
 				}
+				customerInfoList.add(customerInfo);
+			}
+			for (CustomerInfo customerInfo : customerInfoList) {
+				customerInfoService.save(customerInfo);
 			}
 			map.put(Constants.SUCCESS, true);
 			map.put(Constants.MESSAGE, "添加成功");
