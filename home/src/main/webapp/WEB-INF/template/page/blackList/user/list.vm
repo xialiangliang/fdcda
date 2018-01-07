@@ -25,11 +25,15 @@
                 <div class="yw_formGroups">
                     <div class="form-group ">
                         <label for="visitorName">姓名：</label>
-                        <input type="text" class="form-control" id="nameStr" name="nameStr" value="$!{query.nameStr}">
+                        <input type="text" class="form-control" id="nameStr" name="nameStr" value="$!{query.nameStr}" size="10">
                     </div>
                     <div class="form-group ml-10 mr-10">
                         <label for="mobile">手机号：</label>
-                        <input type="text" class="form-control" id="phoneStr" name="phoneStr" value="$!{query.phoneStr}">
+                        <input type="text" class="form-control" id="phoneStr" name="phoneStr" value="$!{query.phoneStr}" size="20">
+                    </div>
+                    <div class="form-group ">
+                        <label for="cardStr">身份证：</label>
+                        <input type="text" class="form-control" id="cardStr" name="cardStr" value="$!{query.cardStr}" size="30">
                     </div>
                 </div>
                 <div class="yw_formGroups ml-30">

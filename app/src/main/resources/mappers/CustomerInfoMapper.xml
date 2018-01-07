@@ -354,6 +354,9 @@
 		<if test="phoneStr != null and phoneStr.trim() != ''">
 			and PHONE like concat(concat('%', #{phoneStr}) , '%')
 		</if>
+		<if test="cardStr != null and cardStr.trim() != ''">
+			and CUSTOMER_CARD like concat(concat('%', #{cardStr}) , '%')
+		</if>
 		<if test="customerCard != null and customerCard.trim() != ''">
 			and CUSTOMER_CARD = #{customerCard}
 		</if>
