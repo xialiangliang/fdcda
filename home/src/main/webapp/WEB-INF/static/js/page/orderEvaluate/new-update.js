@@ -27,9 +27,9 @@ $(function(){
         success: function (data) {
             if (data.success) {
                 dialog.dialog("close");
-                tip(data.message, true);
+                gtip(data.message, true, null);
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
             }
         }
     });
@@ -37,9 +37,9 @@ $(function(){
         success: function (data) {
             if (data.success) {
                 dialog.dialog("close");
-                tip(data.message, true);
+                gtip(data.message, true, null);
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
             }
         }
     });

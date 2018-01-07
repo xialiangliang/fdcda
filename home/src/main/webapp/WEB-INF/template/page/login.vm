@@ -171,7 +171,7 @@
                 if (data.success) {
                     window.location.href = "/";
                 } else {
-                    tip(data.message, true);
+                    gtip(data.message, true, null);
                 }
             }
         });

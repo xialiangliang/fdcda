@@ -3,10 +3,12 @@ $(function(){
     var updateForm = jQuery("#updateForm_customerInfo");
     var newBlackForm = jQuery("#newForm_newBlack");
 
-    function tip(msg, reload) {
+    function tip(msg, reload, relocation) {
         layer.msg(msg,{time:1000},function () {
             if (reload) {
                 window.location.reload();
+            } else if (relocation) {
+                window.location.href = relocation;
             }
         });
     }
@@ -73,10 +75,9 @@ $(function(){
             success: function (data) {
                 if (data.success) {
                     // layer.close(layer.index);
-                    tip(data.message, false);
-                    window.location.href = "/customerInfo";
+                    gtip(data.message, false, '/customerInfo');
                 } else {
-                    tip(data.message, false);
+                    gtip(data.message, false, null);
                 }
             }
         });
@@ -89,10 +90,9 @@ $(function(){
             success: function (data) {
                 if (data.success) {
                     // layer.close(layer.index);
-                    tip(data.message, false);
-                    window.location.href = "/customerInfo";
+                    gtip(data.message, false, '/customerInfo');
                 } else {
-                    tip(data.message, false);
+                    gtip(data.message, false, null);
                 }
             }
         });
@@ -101,10 +101,9 @@ $(function(){
         success: function (data) {
             if (data.success) {
                 // layer.close(layer.index);
-                tip(data.message, false);
-                window.location.href = "/blackList/user";
+                gtip(data.message, false, "/blackList/user");
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
             }
         }
     });

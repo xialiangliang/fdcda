@@ -25,4 +25,13 @@ layui.use(['layer'], function () {
         });
     })
 });
+function gtip(msg, reload, relocation) {
+    layer.msg(msg,{time:1000},function () {
+        if (reload) {
+            window.location.reload();
+        } else if (relocation) {
+            window.location.href = relocation;
+        }
+    });
+}
 

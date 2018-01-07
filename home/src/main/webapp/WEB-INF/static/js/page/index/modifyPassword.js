@@ -56,9 +56,9 @@ $(function(){
         success: function (data) {
             if (data.success) {
                 layer.close(layer.index);
-                tip(data.message, false);
+                gtip(data.message, false, null);
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
             }
         }
     });

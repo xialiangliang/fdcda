@@ -1,5 +1,4 @@
 $(function(){
-    var dialog = $("#newUpdateDialogFrame");
     layui.use(['laydate', 'table'], function(){
         var laydate = layui.laydate, table = layui.table;
 
@@ -47,9 +46,9 @@ $(function(){
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             } else {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             }
                         }
                     });

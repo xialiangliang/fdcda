@@ -42,26 +42,6 @@ $(function(){
 
     });
     
-    var dialog = $("#newUpdateDialogFrame");
-
-    function tip(msg, reload) {
-        layer.msg(msg,{time:1000},function () {
-            if (reload) {
-                window.location.reload();
-            }
-        });
-    }
-    
-    $(".j_update-btn").click(function () {
-        $.get('/blackList/find', {'id': $(this).attr("data-id")}, function (data, textStatus, object) {
-            dialog.html(object.responseText);
-            layer.open({
-                type: 1,
-                title: "修改",
-                content: object.responseText
-            });
-        });
-    });
 
     $(".j_delete-btn").click(function () {
         var id = $(this).attr("data-id")
@@ -77,9 +57,9 @@ $(function(){
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, true);
+                                gtip(data.message, true, null);
                             } else {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             }
                         }
                     });

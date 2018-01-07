@@ -2,16 +2,6 @@ $(function(){
     var newForm = jQuery("#newForm_sysUser");
     var updateForm = jQuery("#updateForm_sysUser");
 
-    function tip(msg, reload) {
-        layer.msg(msg,{time:1000},function () {
-            if (reload) {
-                window.location.reload();
-            }
-        });
-    }
-
-    var dialog = $("#newUpdateDialogFrame");
-
     newForm.ajaxForm({
         beforeSerialize:function () {
             
@@ -49,7 +39,7 @@ $(function(){
                     }
                 });
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
                 $('#loginpwd').val('');
             }
         }
@@ -58,10 +48,9 @@ $(function(){
         success: function (data) {
             if (data.success) {
                 // layer.close(layer.index);
-                tip(data.message, false);
-                window.location.href = '/sysUser';
-            } else {    
-                tip(data.message, false);
+                gtip(data.message, false, '/sysUser');
+            } else {
+                gtip(data.message, false, null);
             }
         }
     });
@@ -87,43 +76,11 @@ $(function(){
                             content: htmlStr
                         });
                     } else {
-                        tip(data.message, false);
+                        gtip(data.message, false, null);
                     }
                 }
             });
             layer.close(index);
         });
-        // $( "#dialog-confirm" ).dialog({
-        //     resizable: false,
-        //     modal: true,
-        //     buttons: {
-        //         '确定': function () {
-        //             $.ajax({
-        //                 url: '/sysUser/resetPassword',
-        //                 data: {'userId': $('#id').val()},
-        //                 async: false,
-        //                 success: function (data) {
-        //                     if (data.success) {
-        //                         layer.close(layer.index);
-        //                         var htmlStr = '手机号：' + data.phone + '<br>'
-        //                             + '登录名：' + data.loginname + '<br>'
-        //                             + '密码：' + data.password;
-        //                         layer.open({
-        //                             type: 1,
-        //                             title: "新密码",
-        //                             content: htmlStr
-        //                         });
-        //                     } else {
-        //                         tip(data.message, false);
-        //                     }
-        //                 }
-        //             });
-        //             $(this).dialog("close");
-        //         },
-        //         '取消': function () {
-        //             $(this).dialog("close");
-        //         }
-        //     }
-        // });
     });
 });
