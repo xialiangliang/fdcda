@@ -125,6 +125,12 @@
 </div>
 <script>
     layui.use(['laydate', 'form'], function(){
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#delivery_date' //指定元素
+        });
+        
         function tip(msg, reload) {
             layer.msg(msg,{time:1000},function () {
                 if (reload) {

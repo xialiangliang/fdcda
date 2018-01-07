@@ -14,7 +14,10 @@
                     <img id="preview" src="$!{param.imageUrl}" style="height:100%;width:100%;border-width:0px;" #if (!$!{param.imageUrl}) hidden #end/>
                 </p>
                 <div class="mt-10 text-center">
-                    <div id=""><input type="file" name="file" id="file_upload" style="display: none;"/><button type="button" class="layui-btn layui-btn-normal" onclick="imgselect()" >选择照片</button></div>
+                    <div id="">
+                        <input type="file" name="file" id="file_upload" style="display: none;" accept="image/jpeg, image/png"/>
+                        <button type="button" class="layui-btn layui-btn-normal" onclick="imgselect()" >选择照片</button>
+                    </div>
                 </div>
             </div>
             <div class="jc-form-items clearfix">

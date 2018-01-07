@@ -64,6 +64,12 @@ public class CustomerInfoController extends BaseController {
 	public String page(Model model) throws Exception {
 		return "redirect:/customerInfo";
 	}
+
+
+	@RequestMapping(value="/vipManage")
+	public String vipManage(Model model) throws Exception {
+		return "redirect:/customerInfo/vipList";
+	}
 	
 	@RequestMapping(value="/new")
 	public String add(Model model) throws Exception {		
