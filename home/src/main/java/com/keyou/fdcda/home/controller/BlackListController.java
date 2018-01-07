@@ -6,6 +6,7 @@ import com.keyou.fdcda.api.constants.Constants;
 import com.keyou.fdcda.api.model.BlacklistDetails;
 import com.keyou.fdcda.api.model.CustomerInfo;
 import com.keyou.fdcda.api.model.SysBlacklistApply;
+import com.keyou.fdcda.api.model.SysUser;
 import com.keyou.fdcda.api.model.base.PageResult;
 import com.keyou.fdcda.api.model.base.PaginationQuery;
 import com.keyou.fdcda.api.service.BlacklistDetailsService;
@@ -226,6 +227,7 @@ public class BlackListController extends BaseController {
 	public Map<String, Object> applySystemBlacklist(Long id, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		try {
+			Assert.isTrue(true, "禁止申请系统黑名单");
 			CustomerInfo customerInfo = customerInfoService.findById(id);
 			Assert.isTrue(customerInfo.getUserRowId() != null
 					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
@@ -320,8 +322,9 @@ public class BlackListController extends BaseController {
 	@ResponseBody
 	public Map<String, Object> listJson(PaginationQuery query,Model model, HttpServletRequest request, String nameStr, String phoneStr, String cardStr, Integer page, Integer limit) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		SysUser sysUser = getUser(request);
 		this.formatPageQuery(query, page, limit);
-		query.addQueryData("userRowId", getUser(request).getId().toString());
+		query.addQueryData("userRowId", sysUser.getId().toString());
 		query.addQueryData("nameStr", nameStr);
 		query.addQueryData("isBlack", "0");
 		query.addQueryData("phoneStr", phoneStr);
@@ -333,12 +336,56 @@ public class BlackListController extends BaseController {
 			query.addQueryData("customerCard", cardStr);
 		}
 		PageResult<CustomerInfo> pageList = customerInfoService.findPage(query);
+		PaginationQuery query1 = new PaginationQuery();
+		pageList.getRows().forEach(customerInfo -> {
+			query1.addQueryData("userRowId", sysUser.getId().toString());
+			query1.addQueryData("status", "0");
+			query1.addQueryData("customerRowId", customerInfo.getId().toString());
+			PageResult<SysBlacklistApply> pageResult = sysBlacklistApplyService.findPage(query1);
+			customerInfo.setApplyStatus(pageResult.getRowCount() > 0 ? 1 : 0);
+		});
 		map.put("data", pageList.getRows());
 		map.put("code", 0);
 		map.put("msg", "");
 		map.put("count", pageList.getRowCount());
 		map.put("query", query.getQueryData());
 		map.put("areaMap", AreaConstants.AreaJsonStr);
+		return map;
+	}
+
+	@RequestMapping(value="/newBlack/applyUserBlacklist/page")
+	public String applyUserPage(Long id, Model model, HttpServletRequest request) throws Exception {
+		CustomerInfo customerInfo = customerInfoService.findById(id);
+		Assert.isTrue(customerInfo.getUserRowId() != null
+				&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+		Assert.isTrue(!customerInfo.getIsBlack().equals(0), "已经在黑名单中");
+		if (StringUtil.isNotBlank(customerInfo.getImageUrl())) {
+			customerInfo.setImageUrl(customerInfo.getImageUrl().replaceAll("/mnt/facepics", urlConfig.getImgPath()));
+		}
+		model.addAttribute("param", customerInfo);
+		model.addAttribute(Constants.SUCCESS, true);
+		return "/page/blackList/user/applyUserPage";
+	}
+
+	@RequestMapping(value="/newBlack/applyUserBlacklist")
+	@ResponseBody
+	public Map<String, Object> applyUserBlacklist(Long id, HttpServletRequest request) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		try {
+			CustomerInfo customerInfo = customerInfoService.findById(id);
+			Assert.isTrue(customerInfo.getUserRowId() != null
+					&& !getUser(request).getId().equals(customerInfo.getUserRowId()), "非法操作");
+			SysBlacklistApply sysBlacklistApply = new SysBlacklistApply();
+			sysBlacklistApply.setCreateDate(new Date());
+			sysBlacklistApply.setCustomerRowId(customerInfo.getId());
+			sysBlacklistApply.setStatus(0);
+			sysBlacklistApply.setUserRowId(getUser(request).getId());
+			sysBlacklistApplyService.save(sysBlacklistApply);
+			map.put(Constants.SUCCESS, true);
+			map.put(Constants.MESSAGE, "等待审核");
+		} catch (Exception e) {
+			commonError(logger, e,"申请用户黑名单异常",map);
+		}
 		return map;
 	}
 	

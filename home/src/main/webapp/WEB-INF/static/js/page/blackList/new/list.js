@@ -37,8 +37,12 @@ $(function(){
                 //layer.msg('ID：'+ data.id + ' 的查看操作');
                 window.location.href = "/customerInfo/find?id=" + data.id;
             } else if (obj.event === 'black'){
+                var str = '';
+                if (data.isVip === 1) {
+                    str = data.name + '已经添加到VIP，确认添加到黑名单？';
+                }
                 layer.confirm('确认添加到黑名单？', { title:'确认添加到黑名单？',
-                    content: '<textarea placeholder="拉黑原因" rows="3" cols="50" class="layui-textarea"></textarea>'
+                    content: '<p>' + str + '</p></p><textarea placeholder="拉黑原因" rows="3" cols="50" class="layui-textarea"></textarea>'
                 }, function(index, layero){
                     $.ajax({
                         url: '/customerInfo/addToBlackList',
@@ -54,6 +58,15 @@ $(function(){
                     });
                     layer.close(index);
                 });
+            } else if (obj.event === 'applyblack'){
+                if (data.isVip === 1) {
+                    layer.confirm('已经添加到VIP，确认添加到黑名单？', function (index) {
+                        layer.close(index);
+                        window.location.href = "/blackList/newBlack/applyUserBlacklist/page?id=" + data.id;
+                    });
+                } else {
+                    window.location.href = "/blackList/newBlack/applyUserBlacklist/page?id=" + data.id;
+                }
             }
         });
 

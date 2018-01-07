@@ -104,6 +104,11 @@ public class CustomerInfo implements Serializable {
 	private java.util.Date blackTime;
 	private String blackTimeStr;
 
+	/**
+	 * 黑名单审核状态 0-正常 1-审核中
+	 */
+	private Integer applyStatus;
+
 	
 	public void setId(Long value) {
 		this.id = value;
@@ -302,6 +307,14 @@ public class CustomerInfo implements Serializable {
 	
 	public String getBlackTimeStr() {
 		return this.blackTimeStr;
+	}
+
+	public Integer getApplyStatus() {
+		return applyStatus;
+	}
+
+	public void setApplyStatus(Integer applyStatus) {
+		this.applyStatus = applyStatus;
 	}
 }
 

@@ -118,7 +118,8 @@ public class BlacklistCheckController extends BaseController {
 				Assert.isNull(customerInfo, "采购商信息不存在");
 				CustomerInfo vo = new CustomerInfo();
 				vo.setId(customerInfo.getId());
-				vo.setIsBlack(2);
+				vo.setIsBlack(1);
+				vo.setIsVip(0); // 移出VIP
 				vo.setModifyTime(new Date());
 				customerInfoService.update(vo);
 				map.put(Constants.SUCCESS, true);

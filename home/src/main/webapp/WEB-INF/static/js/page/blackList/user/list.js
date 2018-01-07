@@ -54,21 +54,6 @@ $(function(){
                 });
             } else if (obj.event === 'sysblack'){
                 window.location.href = "/blackList/user/applySystemBlacklist/page?id=" + data.id;
-                // layer.confirm('确认添加到系统黑名单？', function(index){
-                //     $.ajax({
-                //         url: '/blackList/user/applySystemBlacklist',
-                //         data: {'id': data.id},
-                //         async: false,
-                //         success: function (data) {
-                //             if (data.success) {
-                //                 tip(data.message, true);
-                //             } else {
-                //                 tip(data.message, false);
-                //             }
-                //         }
-                //     });
-                //     layer.close(index);
-                // });
             } else if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data))
                 window.location.href = "/customerInfo/find?id=" + data.id;

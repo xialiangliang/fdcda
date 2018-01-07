@@ -31,8 +31,14 @@
         </div>
         <table class="layui-hide" id="test" lay-filter="demo"></table>
         <script type="text/html" id="barDemo">
-{{# if(d.isBlack == 0) {}}
-            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="black">添加黑名单</a>
+{{# if(d.applyStatus == 0) {}}
+        {{# if(d.isBlack == 0) {}}
+##            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="black">添加黑名单</a>
+<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="applyblack">添加黑名单</a>
+        {{#}}}
+{{#}}}
+{{# if(d.applyStatus == 1) {}}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="black">审核中</a>
 {{#}}}
         </script>
 

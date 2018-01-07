@@ -295,6 +295,7 @@ public class CustomerInfoController extends BaseController {
 //			Assert.isNull(customerInfo.getCompanyName(), "单位不能为空");
 			Assert.isTrue(!StringUtil.isPhone(customerInfo.getPhone()), "手机号不合法");
 			customerInfo.setModifyTime(new Date());
+			customerInfo.setIsBlack(customerInfo1.getIsBlack());
 //			Assert.isNull(file, "请上传图片");
 			if (customerInfo.getIsVip() != null && customerInfo.getIsVip().equals(1)
 					&& customerInfo.getIsBlack() != null && !customerInfo.getIsBlack().equals(0)) {
