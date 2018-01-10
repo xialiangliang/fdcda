@@ -15,7 +15,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block">
 ##                <label for="imageUrl" class="layui-form-label">Excel文件</label>
-                <input type="file" name="file" id="file" accept="*/*">
+                <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -42,7 +42,7 @@
             success: function (data) {
                 if (data.success) {
                     // layer.close(layer.index);
-                    gtip(data.message, false, null);
+                    gtip(data.message, false, "/customerInfo");
                     // window.location.href = "/customerInfo";
                 } else {
                     gtip(data.message, false, null);
