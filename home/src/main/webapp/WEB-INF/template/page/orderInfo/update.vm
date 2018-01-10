@@ -130,14 +130,6 @@
         laydate.render({
             elem: '#delivery_date' //指定元素
         });
-        
-        function tip(msg, reload) {
-            layer.msg(msg,{time:1000},function () {
-                if (reload) {
-                    window.location.reload();
-                }
-            });
-        }
 
         $("#customerPhone").on('input',function()
         {
@@ -156,7 +148,7 @@
                                 $('.imgUpload__thumb').html(img);
                             }
                         } else {
-                            tip(data.message, false);
+                            gtip(data.message, false, null);
                             $('#customerName').val('');
                             $('#buyer_company').val('');
                             var img = '<img src="/upload/img/icon_avatar.png"  width="155" height="208">';
@@ -176,10 +168,9 @@
             success: function (data) {
                 if (data.success) {
                     // layer.close(layer.index);
-                    tip(data.message, false);
-                    window.location.href = "/order";
+                    gtip(data.message, false, "/order");
                 } else {
-                    tip(data.message, false);
+                    gtip(data.message, false, null);
                 }
             }
         });

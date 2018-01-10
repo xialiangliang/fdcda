@@ -154,13 +154,6 @@ $(function(){
     var newForm = jQuery("#newForm_sysRole");
     var updateForm = jQuery("#updateForm_sysRole");
 
-    function tip(msg, reload) {
-        layer.msg(msg,{time:1000},function () {
-            if (reload) {
-                window.location.reload();
-            }
-        });
-    }
 
     // var dialog = $("#newUpdateDialogFrame");
     //
@@ -227,9 +220,9 @@ $(function(){
         success: function (data) {
             if (data.success) {
                 layer.close(layer.index);
-                tip(data.message, true);
+                gtip(data.message, true, null);
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
             }
         }
     });
@@ -240,9 +233,9 @@ $(function(){
         success: function (data) {
             if (data.success) {
                 layer.close(layer.index);
-                tip(data.message, true);
+                gtip(data.message, true, null);
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
             }
         }
     });

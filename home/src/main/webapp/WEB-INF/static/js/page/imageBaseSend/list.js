@@ -43,9 +43,9 @@ $(function(){
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, true);
+                                gtip(data.message, true, null);
                             } else {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             }
                         }
                     });

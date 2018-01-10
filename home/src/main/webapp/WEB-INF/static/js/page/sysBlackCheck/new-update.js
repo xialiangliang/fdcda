@@ -13,32 +13,30 @@ $(function(){
     newForm.ajaxForm({
         beforeSerialize: function () {
             if ($('#file').val() === '') {
-                tip("请选择图片", false);
+                gtip("请选择图片", false, null);
             }
         },
         success: function (data) {
             if (data.success) {
                 // layer.close(layer.index);
-                tip(data.message, false);
-                window.location.href = "/customerInfo";
+                gtip(data.message, false, "/customerInfo");
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
             }
         }
     });
     updateForm.ajaxForm({
         beforeSerialize: function () {
             if ($('#file').val() === '') {
-                tip("请选择图片", false);
+                gtip("请选择图片", false, null);
             }
         },
         success: function (data) {
             if (data.success) {
                 // layer.close(layer.index);
-                tip(data.message, false);
-                window.location.href = "/customerInfo";
+                gtip(data.message, false, "/customerInfo");
             } else {
-                tip(data.message, false);
+                gtip(data.message, false, null);
             }
         }
     });

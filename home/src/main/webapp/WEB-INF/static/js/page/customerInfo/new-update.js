@@ -3,17 +3,6 @@ $(function(){
     var updateForm = jQuery("#updateForm_customerInfo");
     var newBlackForm = jQuery("#newForm_newBlack");
 
-    function tip(msg, reload, relocation) {
-        layer.msg(msg,{time:1000},function () {
-            if (reload) {
-                window.location.reload();
-            } else if (relocation) {
-                window.location.href = relocation;
-            }
-        });
-    }
-
-
     layui.use(['laydate', 'form'], function(){
         var laydate = layui.laydate, form = layui.form;
         //执行一个laydate实例

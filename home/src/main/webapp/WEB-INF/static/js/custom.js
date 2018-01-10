@@ -25,13 +25,16 @@ layui.use(['layer'], function () {
         });
     })
 });
+
+// 提示 参数：msg消息 reload是否重新加载当前页面 relocation重定向页面
 function gtip(msg, reload, relocation) {
-    layer.msg(msg,{time:1000},function () {
+    layer.msg(msg,{time:1500},function () {
         if (reload) {
             window.location.reload();
         } else if (relocation) {
             window.location.href = relocation;
         }
     });
+    layer.index = layer.index - 1;
 }
 

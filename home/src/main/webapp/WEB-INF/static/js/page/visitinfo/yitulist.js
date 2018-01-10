@@ -42,9 +42,9 @@ $(function(){
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             } else {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             }
                         }
                     });
@@ -60,9 +60,9 @@ $(function(){
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, true);
+                                gtip(data.message, true, null);
                             } else {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             }
                         }
                     });
@@ -79,9 +79,9 @@ $(function(){
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, true);
+                                gtip(data.message, true, null);
                             } else {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             }
                         }
                     });
@@ -92,14 +92,6 @@ $(function(){
 
 
     });
-
-    function tip(msg, reload) {
-        layer.msg(msg,{time:1000},function () {
-            if (reload) {
-                window.location.reload();
-            }
-        });
-    }
     
     // $(".j_update-btn").click(function () {
     //     window.location.href = "/customerInfo/find?id=" + $(this).attr("data-id");

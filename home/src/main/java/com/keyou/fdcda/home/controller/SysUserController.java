@@ -159,6 +159,7 @@ public class SysUserController extends BaseController {
 			}
 			try {
 				SysUser vo = new SysUser();
+				vo.setId(sysUser.getId());
 				vo.setLoginname(sysUser.getLoginname());
 				vo.setUsername(sysUser.getUsername());
 				vo.setPhone(sysUser.getPhone());

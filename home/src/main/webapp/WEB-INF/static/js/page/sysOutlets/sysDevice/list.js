@@ -50,9 +50,9 @@ $(function(){
                         success: function (data) {
                             if (data.success) {
                                 obj.del();
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             } else {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             }
                         }
                     });
@@ -86,13 +86,6 @@ $(function(){
     $(".btn-close").click(function () {
         layer.close(layer.index);
     });
-    function tip(msg, reload) {
-        layer.msg(msg,{time:1000},function () {
-            if (reload) {
-                window.location.reload();
-            }
-        });
-    }
     $(".j_delete-dev-btn").click(function () {
         var id = $(this).attr("data-id");
         $( "#dialog-confirm" ).dialog({
@@ -106,9 +99,9 @@ $(function(){
                         async: false,
                         success: function (data) {
                             if (data.success) {
-                                tip(data.message, true);
+                                gtip(data.message, true, null);
                             } else {
-                                tip(data.message, false);
+                                gtip(data.message, false, null);
                             }
                         }
                     });

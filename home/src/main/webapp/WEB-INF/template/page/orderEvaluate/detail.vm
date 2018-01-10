@@ -56,23 +56,15 @@
         var laydate = layui.laydate;
     });
     $(function(){
-        function tip(msg, reload) {
-            layer.msg(msg,{time:1000},function () {
-                if (reload) {
-                    window.location.reload();
-                }
-            });
-        }
         jQuery("#evaluateForm").ajaxForm({
             beforeSerialize: function () {
             },
             success: function (data) {
                 if (data.success) {
                     // layer.close(layer.index);
-                    tip(data.message, false);
-                    window.location.href = "/evaluate";
+                    gtip(data.message, false, "/evaluate");
                 } else {
-                    tip(data.message, false);
+                    gtip(data.message, false, null);
                 }
             }
         });

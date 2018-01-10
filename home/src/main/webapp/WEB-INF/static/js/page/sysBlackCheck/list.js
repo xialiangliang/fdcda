@@ -39,14 +39,6 @@ $(function(){
 
 
     });
-
-    function tip(msg, reload) {
-        layer.msg(msg,{time:1000},function () {
-            if (reload) {
-                window.location.reload();
-            }
-        });
-    }
     
     $(".j_update-btn").click(function () {
         window.location.href = "/customerInfo/find?id=" + $(this).attr("data-id");

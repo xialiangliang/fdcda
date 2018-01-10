@@ -2,16 +2,6 @@ $(function(){
     var newForm = jQuery("#newForm_sysUserrole");
     var updateForm = jQuery("#updateForm_sysUserrole");
 
-    function tip(msg, reload) {
-        layer.msg(msg,{time:1000},function () {
-            if (reload) {
-                window.location.reload();
-            }
-        });
-    }
-
-    var dialog = $("#newUpdateDialogFrame");
-
     newForm.ajaxForm({
         success: function (data) {
             if (data.success) {
