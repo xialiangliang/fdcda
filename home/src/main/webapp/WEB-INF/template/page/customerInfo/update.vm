@@ -182,7 +182,7 @@
                         var htmlStr = "<option value=\"\">请选择</option>";
                         for (var k=0; k<map.countries[i].provinces[j].cities.length; k++) {
                             var sel = "";
-                            if (bsel && selectedProvince === map.countries[i].provinces[j].cities[k]) {
+                            if (bsel && selectedCity === map.countries[i].provinces[j].cities[k]) {
                                 sel = "selected";
                             }
                             htmlStr = htmlStr + "<option value=\"" + map.countries[i].provinces[j].cities[k] + "\" " + sel + " >" + map.countries[i].provinces[j].cities[k] + "</option>";

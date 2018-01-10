@@ -43,13 +43,13 @@ $(function(){
                 window.location.href = "/sysOutlets/sysDevice/list?outletsId=" + data.id;
             } else if(obj.event === 'del'){
                 layer.confirm('确认删除？', function(index){
-                    obj.del();
                     $.ajax({
                         url: '/sysOutlets/sysDevice/delete',
                         data: {'id': data.id},
                         async: false,
                         success: function (data) {
                             if (data.success) {
+                                obj.del();
                                 tip(data.message, false);
                             } else {
                                 tip(data.message, false);

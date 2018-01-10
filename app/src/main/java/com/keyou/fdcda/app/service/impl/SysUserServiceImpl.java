@@ -131,6 +131,39 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    public Result<SysUser> validateOldUser(SysUser user) throws Exception {
+        if (StringUtil.isBlank(user.getPhone())) {
+            user.setPhone(null);
+        }
+        if (StringUtil.isNotBlank(user.getPhone())) {
+            if (!StringUtil.isPhone(user.getPhone())) {
+                return new Result<>(null, "手机号不合法！", -1, false);
+            }
+            SysUser sysUser = sysUserMapper.getUserByPhone(user.getPhone());
+            if (sysUser != null && !sysUser.getId().equals(user.getId())) {
+                return new Result<>(null, "手机号已存在！", -1, false);
+            }
+        }
+        if (StringUtil.isBlank(user.getUsername())) {
+            user.setUsername(null);
+        }
+        if (StringUtil.isBlank(user.getLoginname())) {
+            user.setLoginname(null);
+        }
+        if (!StringUtil.isBlank(user.getLoginname())) {
+            if (!StringUtil.isLoginname(user.getLoginname())) {
+                return new Result<>(null, "登录名不合法！", -1, false);
+            }
+            SysUser sysUser = sysUserMapper.getUserByLoginname(user.getLoginname());
+            if (sysUser != null && !sysUser.getId().equals(user.getId())) {
+                return new Result<>(null, "登录名已存在！", -1, false);
+            }
+        }
+        user.setModifyTime(new Date());
+        return new Result<>(user, "", 0, true);
+    }
+
+    @Override
     public Result<SysUser> register(SysUser sysUser) {
         // Save user info
         int res = sysUserMapper.save(sysUser);

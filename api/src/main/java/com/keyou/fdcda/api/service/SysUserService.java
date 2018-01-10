@@ -14,6 +14,8 @@ public interface SysUserService extends BaseService<SysUser, Long> {
     
     Result<SysUser> validateNewUser(SysUser user) throws Exception;
 
+    Result<SysUser> validateOldUser(SysUser user) throws Exception;
+
     Result<SysUser> register(SysUser sysUser);
 
     Result<SysUser> loginByLoginname(String loginname, String password, String token, HttpServletRequest request);

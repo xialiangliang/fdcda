@@ -23,8 +23,8 @@
                     </div>
                     <div class="yw_formGroups ml-30">
                         <button type="submit" class="layui-btn layui-btn-normal ml-20"> 查 询</button>
-                        <button type="button" class="layui-btn layui-btn-primary ml-10 btn-add j_new-btn">添 加</button>
-                        <button type="button" class="layui-btn layui-btn-primary ml-10 btn-add j_batchnew-btn">批量导入</button>
+##                        <button type="button" class="layui-btn layui-btn-primary ml-10 btn-add j_new-btn">添 加</button>
+##                        <button type="button" class="layui-btn layui-btn-primary ml-10 btn-add j_batchnew-btn">批量导入</button>
                     </div>
                 </div>
             </form>

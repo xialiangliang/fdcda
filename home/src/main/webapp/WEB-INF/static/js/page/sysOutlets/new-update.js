@@ -10,8 +10,6 @@ $(function(){
         });
     }
 
-    var dialog = $("#newUpdateDialogFrame");
-
     newForm.ajaxForm({
         success: function (data) {
             if (data.success) {

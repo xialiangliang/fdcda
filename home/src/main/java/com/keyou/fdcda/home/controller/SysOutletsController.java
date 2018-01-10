@@ -224,9 +224,9 @@ public class SysOutletsController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			Assert.isTrue(StringUtil.isBlank(sysDevice.getSeqno()), "设备序列号不能为空");
-			SysDevice sysDevice1 = sysDeviceService.findById(sysDevice.getId());
-			SysOutlets sysOutlets = sysOutletsService.findById(sysDevice1.getOutletsId());
-			Assert.isTrue(!getUser(request).getId().equals(sysOutlets.getUserId()), "违规操作");
+//			SysDevice sysDevice1 = sysDeviceService.findById(sysDevice.getId());
+//			SysOutlets sysOutlets = sysOutletsService.findById(sysDevice1.getOutletsId());
+//			Assert.isTrue(!getUser(request).getId().equals(sysOutlets.getUserId()), "违规操作");
 			sysDevice.setModifyTime(new Date());
 			sysDeviceService.update(sysDevice);
 			model.addAttribute(Constants.SUCCESS, true);
@@ -243,9 +243,9 @@ public class SysOutletsController extends BaseController {
 	public Map<String, Object> sysDeviceDelete(Long id,Model model,HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			SysDevice sysDevice = sysDeviceService.findById(id);
-			SysOutlets sysOutlets = sysOutletsService.findById(sysDevice.getOutletsId());
-			Assert.isTrue(!getUser(request).getId().equals(sysOutlets.getUserId()), "违规操作");
+//			SysDevice sysDevice = sysDeviceService.findById(id);
+//			SysOutlets sysOutlets = sysOutletsService.findById(sysDevice.getOutletsId());
+//			Assert.isTrue(!getUser(request).getId().equals(sysOutlets.getUserId()), "违规操作");
 			sysDeviceService.deleteById(id);
 			map.put(Constants.SUCCESS, true);
 			map.put(Constants.MESSAGE, "删除成功");

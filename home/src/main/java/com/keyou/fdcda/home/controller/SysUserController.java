@@ -152,8 +152,23 @@ public class SysUserController extends BaseController {
 				map.put(Constants.MESSAGE, "非法登录名");
 				return map;
 			}
+			Result<SysUser> result = sysUserService.validateOldUser(sysUser);
+			if (!result.getSuccess()) {
+				map.put(Constants.MESSAGE, result.getMessage());
+				return map;
+			}
 			try {
-				sysUserService.update(sysUser);
+				SysUser vo = new SysUser();
+				vo.setLoginname(sysUser.getLoginname());
+				vo.setUsername(sysUser.getUsername());
+				vo.setPhone(sysUser.getPhone());
+				vo.setTelephone(sysUser.getTelephone());
+				vo.setEmail(sysUser.getEmail());
+				vo.setAddress(sysUser.getAddress());
+				vo.setValid(sysUser.getValid());
+				vo.setIsvip(sysUser.getIsvip());
+				vo.setSysAreaId(sysUser.getSysAreaId());
+				sysUserService.update(vo);
 			} catch (Exception e) {
 				map.put(Constants.MESSAGE, "修改失败，可能是手机号或登录名已存在");
 				return map;
