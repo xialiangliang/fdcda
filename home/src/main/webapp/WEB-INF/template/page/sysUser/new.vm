@@ -10,7 +10,7 @@
         <div class="layui-form-item">
             <label for="loginname" class="layui-form-label">登录名</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" id="loginname" name="loginname" value="$!{param.loginname}" >
+                <input type="text" class="layui-input" id="loginname" name="loginname" value="$!{param.loginname}" placeholder="字母或数字组合">
             </div>
         </div>    
         <div class="layui-form-item">

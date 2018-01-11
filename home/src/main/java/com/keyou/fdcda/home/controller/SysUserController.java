@@ -144,14 +144,6 @@ public class SysUserController extends BaseController {
 		try {
 			String[] roles = request.getParameterValues("roleId");
 			roles = roles == null ? new String[]{} : roles;
-			if (StringUtil.isNotBlank(sysUser.getPhone()) && !StringUtil.isPhone(sysUser.getPhone())) {
-				map.put(Constants.MESSAGE, "非法手机号");
-				return map;
-			}
-			if (StringUtil.isNotBlank(sysUser.getLoginname()) && !StringUtil.isLoginname(sysUser.getLoginname())) {
-				map.put(Constants.MESSAGE, "非法登录名");
-				return map;
-			}
 			Result<SysUser> result = sysUserService.validateOldUser(sysUser);
 			if (!result.getSuccess()) {
 				map.put(Constants.MESSAGE, result.getMessage());

@@ -193,7 +193,7 @@
                         if (data.success) {
                             $('#customerName').val(data.data.name);
                             $('#buyer_company').val(data.data.companyName);
-                            if (data.data.imageUrl != '') {
+                            if (data.data.imageUrl && data.data.imageUrl != '') {
                                 var img = '<img src="'+data.data.imageUrl+'"  width="155" height="208">';
                                 $('.imgUpload__thumb').html(img);
                             }
@@ -201,8 +201,8 @@
                             gtip(data.message, false, null);
                             $('#customerName').val('');
                             $('#buyer_company').val('');
-                            var img = '<img src="/upload/img/icon_avatar.png"  width="155" height="208">';
-                            $('.imgUpload__thumb').html(img);
+//                            var img = '<img src="/upload/img/icon_avatar.png">';
+//                            $('.imgUpload__thumb').html(img);
                         }
                     }
                 });
